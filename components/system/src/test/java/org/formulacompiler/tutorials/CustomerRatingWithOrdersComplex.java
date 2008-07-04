@@ -41,7 +41,6 @@ import org.formulacompiler.tests.MultiFormatTestFactory;
 
 import junit.framework.Test;
 
-@SuppressWarnings( "unchecked" )
 public class CustomerRatingWithOrdersComplex extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 	private static final Calendar TODAY = today();

@@ -201,6 +201,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #dateFromNum(double,TimeZone,ComputationMode)}
 	 */
+	@Deprecated
 	public static Date dateFromNum( final double _excel, TimeZone _timeZone )
 	{
 		return dateFromNum( _excel, _timeZone, ComputationMode.EXCEL );
@@ -214,6 +215,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #msSinceUTC1970FromNum(double,TimeZone,ComputationMode)}
 	 */
+	@Deprecated
 	public static long msSinceUTC1970FromNum( double _msSinceUTC1970, TimeZone _timeZone )
 	{
 		return msSinceUTC1970FromNum( _msSinceUTC1970, _timeZone, ComputationMode.EXCEL );
@@ -232,6 +234,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #dateToNum(Date,TimeZone,ComputationMode)}
 	 */
+	@Deprecated
 	public static double dateToNum( final Date _date, TimeZone _timeZone )
 	{
 		return dateToNum( _date, _timeZone, ComputationMode.EXCEL );
@@ -245,6 +248,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #msSinceUTC1970ToNum(long,TimeZone,ComputationMode)}
 	 */
+	@Deprecated
 	public static double msSinceUTC1970ToNum( long _msSinceUTC1970, TimeZone _timeZone )
 	{
 		return msSinceUTC1970ToNum( _msSinceUTC1970, _timeZone, ComputationMode.EXCEL );
@@ -263,6 +267,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_DATE(int,int,int,ComputationMode)}
 	 */
+	@Deprecated
 	public static double fun_DATE( final int _year, final int _month, final int _day )
 	{
 		return fun_DATE( _year, _month, _day, ComputationMode.EXCEL );
@@ -297,6 +302,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_WEEKDAY(double,int,ComputationMode)}
 	 */
+	@Deprecated
 	public static int fun_WEEKDAY( final double _date, int _type )
 	{
 		return fun_WEEKDAY( _date, _type, ComputationMode.EXCEL );
@@ -327,6 +333,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_DAY(double,ComputationMode)}
 	 */
+	@Deprecated
 	public static int fun_DAY( final double _date )
 	{
 		return fun_DAY( _date, ComputationMode.EXCEL );
@@ -340,9 +347,10 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_DAYS360(double,double,boolean,ComputationMode)}
 	 */
+	@Deprecated
 	public static double fun_DAYS360( double _start_date, double _end_date, boolean _method )
 	{
-		return fun_DAYS360(_start_date, _end_date, _method, ComputationMode.EXCEL );
+		return fun_DAYS360( _start_date, _end_date, _method, ComputationMode.EXCEL );
 	}
 
 	public static double fun_DAYS360( double _start_date, double _end_date, boolean _method, ComputationMode _mode )
@@ -388,6 +396,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_MONTH(double,ComputationMode)}
 	 */
+	@Deprecated
 	public static int fun_MONTH( final double _date )
 	{
 		return fun_MONTH( _date, ComputationMode.EXCEL );
@@ -401,6 +410,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_YEAR(double,ComputationMode)}
 	 */
+	@Deprecated
 	public static int fun_YEAR( final double _date )
 	{
 		return fun_YEAR( _date, ComputationMode.EXCEL );
@@ -429,6 +439,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_NOW(Environment,ComputationTime,ComputationMode)}
 	 */
+	@Deprecated
 	public static double fun_NOW( final Environment _environment, final ComputationTime _computationTime )
 	{
 		return fun_NOW( _environment, _computationTime, ComputationMode.EXCEL );
@@ -442,6 +453,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_TODAY(Environment,ComputationTime,ComputationMode)}
 	 */
+	@Deprecated
 	public static double fun_TODAY( final Environment _environment, final ComputationTime _computationTime )
 	{
 		return fun_TODAY( _environment, _computationTime, ComputationMode.EXCEL );
@@ -1363,6 +1375,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_VALUE(String,Environment,ComputationMode)}
 	 */
+	@Deprecated
 	public static double fun_VALUE( String _text, final Environment _environment )
 	{
 		return fun_VALUE( _text, _environment, ComputationMode.EXCEL );
@@ -1381,6 +1394,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_DATEVALUE(String,Environment,ComputationMode)}
 	 */
+	@Deprecated
 	public static double fun_DATEVALUE( String _text, final Environment _environment )
 	{
 		return fun_DATEVALUE( _text, _environment, ComputationMode.EXCEL );
@@ -1401,6 +1415,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_TIMEVALUE(String,Environment,ComputationMode)}
 	 */
+	@Deprecated
 	public static double fun_TIMEVALUE( String _text, final Environment _environment )
 	{
 		return fun_TIMEVALUE( _text, _environment, ComputationMode.EXCEL );

@@ -29,7 +29,7 @@ import org.formulacompiler.runtime.internal.Runtime_v2;
 
 public final class ExpressionTemplatesForNumbers
 {
-
+	@SuppressWarnings("unused")
 	private final ComputationMode computationMode;
 	private final Environment environment;
 

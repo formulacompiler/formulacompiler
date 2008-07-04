@@ -680,7 +680,6 @@ public class SpeedTest
 		private final Stack stack = newStack();
 
 
-		@SuppressWarnings( "null" )
 		private Stack newStack()
 		{
 			Stack result = null;

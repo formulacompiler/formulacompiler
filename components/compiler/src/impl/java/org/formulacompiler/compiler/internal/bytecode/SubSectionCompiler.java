@@ -159,7 +159,6 @@ final class SubSectionCompiler extends SectionCompiler
 	}
 
 
-	@SuppressWarnings( "unchecked" )
 	@Override
 	protected boolean callConstructorWithInputs( GeneratorAdapter _mv, int _inputsVar )
 	{
@@ -167,12 +166,8 @@ final class SubSectionCompiler extends SectionCompiler
 
 		// try super( _inputs, _parent );
 		try {
-			outputClass().getConstructor( inputClass(), parentSectionCompiler().model().getOutputClass() ); // ensure
-			// it
-			// is
-			// here
-			// and
-			// accessible
+			// ensure it is here and accessible
+			outputClass().getConstructor( inputClass(), parentSectionCompiler().model().getOutputClass() );
 		}
 		catch (NoSuchMethodException e) {
 			return super.callConstructorWithInputs( _mv, _inputsVar );

@@ -191,6 +191,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #dateFromNum(long,Context,TimeZone,ComputationMode)}
 	 */
+	@Deprecated
 	public static Date dateFromNum( final long _val, Context _cx, final TimeZone _timeZone )
 	{
 		return dateFromNum( _val, _cx, _timeZone, ComputationMode.EXCEL );
@@ -204,6 +205,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #msSinceUTC1970FromNum(long,Context,TimeZone,ComputationMode)}
 	 */
+	@Deprecated
 	public static long msSinceUTC1970FromNum( long _msSinceUTC1970, Context _cx, TimeZone _timeZone )
 	{
 		return msSinceUTC1970FromNum( _msSinceUTC1970, _cx, _timeZone, ComputationMode.EXCEL );
@@ -222,6 +224,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #dateToNum(Date,Context,TimeZone,ComputationMode)}
 	 */
+	@Deprecated
 	public static long dateToNum( final Date _val, Context _cx, final TimeZone _timeZone )
 	{
 		return dateToNum( _val, _cx, _timeZone, ComputationMode.EXCEL );
@@ -235,6 +238,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #msSinceUTC1970ToNum(long,Context,TimeZone,ComputationMode)}
 	 */
+	@Deprecated
 	public static long msSinceUTC1970ToNum( long _msSinceUTC1970, Context _cx, TimeZone _timeZone )
 	{
 		return msSinceUTC1970ToNum( _msSinceUTC1970, _cx, _timeZone, ComputationMode.EXCEL );
@@ -692,6 +696,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_DATE(long,long,long,Context,ComputationMode)}
 	 */
+	@Deprecated
 	public static long fun_DATE( final long _year, final long _month, final long _day, final Context _cx )
 	{
 		return fun_DATE( _year, _month, _day, _cx, ComputationMode.EXCEL );
@@ -746,6 +751,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_WEEKDAY(long,long,Context,ComputationMode)}
 	 */
+	@Deprecated
 	public static long fun_WEEKDAY( final long _date, final long _type, final Context _cx )
 	{
 		return fun_WEEKDAY( _date, _type, _cx, ComputationMode.EXCEL );
@@ -762,6 +768,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_DAY(long,Context,ComputationMode)}
 	 */
+	@Deprecated
 	public static long fun_DAY( long _date, final Context _cx )
 	{
 		return fun_DAY( _date, _cx, ComputationMode.EXCEL );
@@ -777,6 +784,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_DAYS360(long,long,boolean,Context,ComputationMode)}
 	 */
+	@Deprecated
 	public static long fun_DAYS360( long _date_start, long _end_start, boolean _method, final Context _cx )
 	{
 		return fun_DAYS360( _date_start, _end_start, _method, _cx, ComputationMode.EXCEL );
@@ -791,6 +799,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_MONTH(long,Context,ComputationMode)}
 	 */
+	@Deprecated
 	public static long fun_MONTH( long _date, final Context _cx )
 	{
 		return fun_MONTH( _date, _cx, ComputationMode.EXCEL );
@@ -806,6 +815,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_YEAR(long,Context,ComputationMode)}
 	 */
+	@Deprecated
 	public static long fun_YEAR( long _date, final Context _cx )
 	{
 		return fun_YEAR( _date, _cx, ComputationMode.EXCEL );
@@ -821,6 +831,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_NOW(Context,Environment,ComputationTime,ComputationMode)}
 	 */
+	@Deprecated
 	public static long fun_NOW( Context _cx, final Environment _environment, final ComputationTime _computationTime )
 	{
 		return fun_NOW( _cx, _environment, _computationTime, ComputationMode.EXCEL );
@@ -840,6 +851,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_TODAY(Context,Environment,ComputationTime,ComputationMode)}
 	 */
+	@Deprecated
 	public static long fun_TODAY( Context _cx, final Environment _environment, final ComputationTime _computationTime )
 	{
 		return fun_TODAY( _cx, _environment, _computationTime, ComputationMode.EXCEL );
@@ -895,6 +907,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_VALUE(String,Context,Environment,ComputationMode)}
 	 */
+	@Deprecated
 	public static long fun_VALUE( String _text, Context _cx, final Environment _environment )
 	{
 		return fun_VALUE( _text, _cx, _environment, ComputationMode.EXCEL );
@@ -920,6 +933,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_DATEVALUE(String,Context,Environment,ComputationMode)}
 	 */
+	@Deprecated
 	public static long fun_DATEVALUE( String _text, Context _cx, final Environment _environment )
 	{
 		return fun_DATEVALUE( _text, _cx, _environment, ComputationMode.EXCEL );
@@ -933,6 +947,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_TIMEVALUE(String,Context,Environment,ComputationMode)}
 	 */
+	@Deprecated
 	public static long fun_TIMEVALUE( String _text, Context _cx, final Environment _environment )
 	{
 		return fun_TIMEVALUE( _text, _cx, _environment, ComputationMode.EXCEL );

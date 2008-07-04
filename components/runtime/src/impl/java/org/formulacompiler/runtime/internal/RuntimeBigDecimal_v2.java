@@ -118,6 +118,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #dateFromNum(BigDecimal,TimeZone,ComputationMode)}
 	 */
+	@Deprecated
 	public static Date dateFromNum( final BigDecimal _excel, final TimeZone _timeZone )
 	{
 		return dateFromNum( _excel, _timeZone, ComputationMode.EXCEL );
@@ -131,6 +132,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #dateToNum(Date,TimeZone,ComputationMode)}
 	 */
+	@Deprecated
 	public static BigDecimal dateToNum( final Date _date, final TimeZone _timeZone )
 	{
 		return dateToNum( _date, _timeZone, ComputationMode.EXCEL );
@@ -540,6 +542,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_DATE(BigDecimal,BigDecimal,BigDecimal,ComputationMode)}
 	 */
+	@Deprecated
 	public static BigDecimal fun_DATE( BigDecimal _year, BigDecimal _month, BigDecimal _day )
 	{
 		return fun_DATE( _year, _month, _day, ComputationMode.EXCEL );
@@ -557,6 +560,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_WEEKDAY(BigDecimal,BigDecimal,ComputationMode)}
 	 */
+	@Deprecated
 	public static BigDecimal fun_WEEKDAY( BigDecimal _date, BigDecimal _type )
 	{
 		return fun_WEEKDAY( _date, _type, ComputationMode.EXCEL );
@@ -573,6 +577,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_DAY(BigDecimal,ComputationMode)}
 	 */
+	@Deprecated
 	public static BigDecimal fun_DAY( BigDecimal _date )
 	{
 		return fun_DAY( _date, ComputationMode.EXCEL );
@@ -588,6 +593,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_DAYS360(BigDecimal,BigDecimal,boolean,ComputationMode)}
 	 */
+	@Deprecated
 	public static BigDecimal fun_DAYS360( BigDecimal _start_date, BigDecimal _end_date, boolean _method )
 	{
 		return fun_DAYS360( _start_date, _end_date, _method, ComputationMode.EXCEL );
@@ -602,6 +608,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_MONTH(BigDecimal,ComputationMode)}
 	 */
+	@Deprecated
 	public static BigDecimal fun_MONTH( BigDecimal _date )
 	{
 		return fun_MONTH( _date, ComputationMode.EXCEL );
@@ -617,6 +624,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_YEAR(BigDecimal,ComputationMode)}
 	 */
+	@Deprecated
 	public static BigDecimal fun_YEAR( BigDecimal _date )
 	{
 		return fun_YEAR( _date, ComputationMode.EXCEL );
@@ -632,6 +640,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_NOW(Environment,ComputationTime,ComputationMode)}
 	 */
+	@Deprecated
 	public static BigDecimal fun_NOW( final Environment _environment, final ComputationTime _computationTime )
 	{
 		return fun_NOW( _environment, _computationTime, ComputationMode.EXCEL );
@@ -645,6 +654,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_TODAY(Environment,ComputationTime,ComputationMode)}
 	 */
+	@Deprecated
 	public static BigDecimal fun_TODAY( final Environment _environment, final ComputationTime _computationTime )
 	{
 		return fun_TODAY( _environment, _computationTime, ComputationMode.EXCEL );
@@ -917,6 +927,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_VALUE(String,Environment,ComputationMode)}
 	 */
+	@Deprecated
 	public static BigDecimal fun_VALUE( String _text, final Environment _environment )
 	{
 		return fun_VALUE( _text, _environment, ComputationMode.EXCEL );
@@ -945,6 +956,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_DATEVALUE(String,Environment,ComputationMode)}
 	 */
+	@Deprecated
 	public static BigDecimal fun_DATEVALUE( String _text, final Environment _environment )
 	{
 		return fun_DATEVALUE( _text, _environment, ComputationMode.EXCEL );
@@ -958,6 +970,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	/**
 	 * @deprecated replaced by {@link #fun_TIMEVALUE(String,Environment,ComputationMode)}
 	 */
+	@Deprecated
 	public static BigDecimal fun_TIMEVALUE( String _text, final Environment _environment )
 	{
 		return fun_TIMEVALUE( _text, _environment, ComputationMode.EXCEL );
