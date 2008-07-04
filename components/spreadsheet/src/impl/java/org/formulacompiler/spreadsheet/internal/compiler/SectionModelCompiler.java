@@ -232,7 +232,6 @@ public final class SectionModelCompiler
 	}
 
 
-	@SuppressWarnings( "unchecked" )
 	private ExpressionNode buildRawExpressionModel( ExpressionNode _exprDef ) throws CompilerException
 	{
 		if (null == _exprDef) {

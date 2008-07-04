@@ -157,7 +157,6 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	}
 
 
-	@SuppressWarnings( "unqualified-field-access" )
 	public void testBandsAreNotConst() throws Exception
 	{
 		makeConstCellInput();
@@ -172,7 +171,6 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	}
 
 
-	@SuppressWarnings( "unqualified-field-access" )
 	public void testShortCircuitedINDEX_AllConst() throws Exception
 	{
 		CellModel i = new CellModel( root, "i" );

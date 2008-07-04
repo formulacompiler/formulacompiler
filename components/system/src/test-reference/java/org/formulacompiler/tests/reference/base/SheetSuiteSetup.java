@@ -159,7 +159,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 		@Override
 		protected void setup( TestSuite _parent, Context _parentCx ) throws Exception
 		{
-			addSheetRowSequenceTo( _parentCx, _parent, rowTestSetup );
+			addSheetRowSequenceTo( _parentCx, _parent, this.rowTestSetup );
 		}
 
 	}

@@ -256,7 +256,6 @@ abstract class SectionCompiler extends ClassCompiler
 	}
 
 
-	@SuppressWarnings( "unchecked" )
 	protected void callInheritedConstructor( GeneratorAdapter _mv, int _inputsVar ) throws CompilerException
 	{
 		try {
@@ -276,7 +275,6 @@ abstract class SectionCompiler extends ClassCompiler
 		}
 	}
 
-	@SuppressWarnings( "unchecked" )
 	protected boolean callConstructorWithInputs( GeneratorAdapter _mv, int _inputsVar )
 	{
 		try {

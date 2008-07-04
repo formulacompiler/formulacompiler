@@ -61,15 +61,15 @@ class TextWriter extends ElementWriter
 
 		public void flush() throws XMLStreamException
 		{
-			if (sb.length() > 0) {
-				getXmlEventWriter().add( getXmlEventFactory().createCharacters( sb.toString() ) );
-				sb.setLength( 0 );
+			if (this.sb.length() > 0) {
+				getXmlEventWriter().add( getXmlEventFactory().createCharacters( this.sb.toString() ) );
+				this.sb.setLength( 0 );
 			}
 		}
 
 		public void add( char c )
 		{
-			sb.append( c );
+			this.sb.append( c );
 		}
 	}
 
@@ -84,8 +84,8 @@ class TextWriter extends ElementWriter
 			if (this.count > 0) {
 				final Map<QName, String> attributes = this.count == 1 ? null :
 						Collections.singletonMap( XMLConstants.Text.C, Integer.toString( this.count ) );
-				writer.startElement( attributes );
-				writer.endElement();
+				this.writer.startElement( attributes );
+				this.writer.endElement();
 				this.count = 0;
 			}
 		}

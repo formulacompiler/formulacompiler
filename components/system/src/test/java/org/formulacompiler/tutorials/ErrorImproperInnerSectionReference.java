@@ -130,7 +130,6 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 	}
 
 
-	@SuppressWarnings( "unchecked" )
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();

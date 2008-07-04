@@ -66,7 +66,7 @@ public class SameNameRowSequenceTestSuite extends AbstractContextTestSuite
 	{
 		if (_cx.getRowSetup().isTestActive()) {
 			int[] nextIndex = new int[ 1 ];
-			addTest( SheetSuiteSetup.newSameEngineRowSequence( _cx, rowTestSetup, nextIndex ) );
+			addTest( SheetSuiteSetup.newSameEngineRowSequence( _cx, this.rowTestSetup, nextIndex ) );
 			return nextIndex[ 0 ];
 		}
 		else return _cx.getRowIndex() + 1;

@@ -44,7 +44,6 @@ import org.formulacompiler.tests.MultiFormatTestFactory;
 
 import junit.framework.Test;
 
-@SuppressWarnings( "unchecked" )
 public class BonusPerEmployee extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 

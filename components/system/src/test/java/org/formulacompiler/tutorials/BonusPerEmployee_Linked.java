@@ -40,7 +40,6 @@ import org.formulacompiler.tutorials.BonusPerEmployee.EmployeeBonusDataImpl;
 
 import junit.framework.Test;
 
-@SuppressWarnings( "unchecked" )
 public class BonusPerEmployee_Linked extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
