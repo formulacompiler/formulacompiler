@@ -76,13 +76,13 @@ public class OpenDocumentSpreadsheetLoader implements SpreadsheetLoader
 		ZipEntry zipEntry;
 		while ((zipEntry = zipInputStream.getNextEntry()) != null) {
 			if ("content.xml".equals( zipEntry.getName() )) {
-				return readContent( zipInputStream );
+				return readContent( _originalFileName, zipInputStream );
 			}
 		}
 		throw new SpreadsheetException.LoadError( "<content.xml> is missing in <" + _originalFileName + ">" );
 	}
 
-	private Spreadsheet readContent( InputStream _inputStream ) throws SpreadsheetException
+	private Spreadsheet readContent( String _fileName, InputStream _inputStream ) throws SpreadsheetException
 	{
 		final SpreadsheetImpl workbook = new SpreadsheetImpl( ComputationMode.OPEN_OFFICE_CALC );
 
@@ -96,7 +96,7 @@ public class OpenDocumentSpreadsheetLoader implements SpreadsheetLoader
 			if (nestedException != null) {
 				e.initCause( nestedException );
 			}
-			throw new SpreadsheetException.LoadError( e );
+			throw new SpreadsheetException.LoadError( "Error loading " + _fileName, e );
 		}
 
 		return workbook;

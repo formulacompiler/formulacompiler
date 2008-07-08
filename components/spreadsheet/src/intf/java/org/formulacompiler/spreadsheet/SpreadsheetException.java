@@ -143,9 +143,9 @@ public class SpreadsheetException extends CompilerException
 	public static class LoadError extends SpreadsheetException
 	{
 
-		public LoadError( Throwable _cause )
+		public LoadError( String _message, Throwable _cause )
 		{
-			super( _cause.getMessage(), _cause );
+			super( _message + "\n" + _cause.getMessage(), _cause );
 		}
 
 		public LoadError( String _message )

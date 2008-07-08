@@ -122,7 +122,10 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			return workbook;
 		}
 		catch (jxl.read.biff.BiffException e) {
-			throw new SpreadsheetException.LoadError( e );
+			throw new SpreadsheetException.LoadError( "Error parsing " + _originalFileName, e );
+		}
+		catch (SpreadsheetException.LoadError e) {
+			throw new SpreadsheetException.LoadError( "Error parsing " + _originalFileName, e );
 		}
 	}
 
@@ -174,11 +177,15 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			final jxl.FormulaCell xlsFormulaCell = (jxl.FormulaCell) _xlsCell;
 			CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression( _row );
 			try {
+				
+				// FIXME debug
+				if (xlsType == _xlsCell.getType()) throw new jxl.biff.formula.FormulaException(jxl.biff.formula.FormulaException.BIFF8_SUPPORTED,"bla");
+				
 				exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, xlsFormulaCell.getFormula(),
 						CellRefFormat.A1 ) );
 			}
 			catch (jxl.biff.formula.FormulaException e) {
-				throw new SpreadsheetException.LoadError( e );
+				throw new SpreadsheetException.LoadError( "Error parsing cell " + exprCell.getCellIndex(), e );
 			}
 			if (xlsFormulaCell instanceof NumberFormulaCell) {
 				final NumberFormulaCell xlsNumFormulaCell = ((NumberFormulaCell) xlsFormulaCell);
