@@ -117,7 +117,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 			return Workbook.getWorkbook( _stream );
 		}
 		catch (BiffException e) {
-			throw new SpreadsheetException.LoadError( e );
+			throw new SpreadsheetException.LoadError( "Error loading template spreadsheet", e );
 		}
 	}
 
