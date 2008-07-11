@@ -13,7 +13,9 @@ Building the patched version:
 
 	* Open a terminal and cd to this "jexcelapi" folder.
 
-	* Run /path/to/afc/components/spreadsheet.excel.xls/src/patches/jxl-2.6.6-afc-apply.sh
+	* Run /path/to/afc/components/spreadsheet.excel.xls/src/patches/jxl-2.6.8-afc-hg-init.sh
+
+	* Run /path/to/afc/components/spreadsheet.excel.xls/src/patches/jxl-2.6.8-afc-apply.sh
 
 
 Updating the patched version:
@@ -25,7 +27,6 @@ Updating the patched version:
 
 	* Commit the updated patch queue: hg qcommit -m "..."
 
-	* Run /path/to/afc/components/spreadsheet.excel.xls/src/patches/jxl-2.6.6-afc-update.sh
+	* Run /path/to/afc/components/spreadsheet.excel.xls/src/patches/jxl-2.6.8-afc-update.sh
 
 	* This updates the files in afc, but does not add or commit them. Do this manually.
-
