@@ -209,9 +209,9 @@ public class ExpressionParserTest extends TestCase
 		assertParse( "(3.0 ^ ABS( (4.0 + 5.0) ))", "3 ^ ABS(4+5)" );
 		assertParse( "(3.0 ^ ABS( 4.0 ))", "3 ^ @ABS(4)" );
 
-		assertParse( "MATCH( 3.0, \"R<A1>A1:A1>A2>\" )", "MATCH(3, A1:A2)" );
-		assertParse( "MATCH( 3.0, \"R<A1>A1:A1>A2>\" )", "MATCH(3, A1:A2, )" );
-		assertParse( "MATCH( 3.0, \"R<A1>A1:A1>A2>\", 1.0 )", "MATCH(3, A1:A2, 1)" );
+		assertParse( "MATCH( 3.0, \"R<A1>A1:A1>(\"A1>A1\")A2>\" )", "MATCH(3, A1:A2)" );
+		assertParse( "MATCH( 3.0, \"R<A1>A1:A1>(\"A1>A1\")A2>\" )", "MATCH(3, A1:A2, )" );
+		assertParse( "MATCH( 3.0, \"R<A1>A1:A1>(\"A1>A1\")A2>\", 1.0 )", "MATCH(3, A1:A2, 1)" );
 	}
 
 	public void testAgg() throws Exception
@@ -221,7 +221,7 @@ public class ExpressionParserTest extends TestCase
 
 		assertParse( "SUM( 1.0, 2.0, 3.0 )", "SUM(1, 2, 3)" );
 		assertParse( "SUM( 1.0 2.0, 3.0 )", "SUM( 1 2, 3 )" );
-		assertParse( "SUM( \"R<A1>A1:A1>A5>\" )", "SUM( A1:A5 )" );
+		assertParse( "SUM( \"R<A1>A1:A1>(\"A1>A1\")A5>\" )", "SUM( A1:A5 )" );
 		assertParse( "SUM( \"NR>MyRange\", \"NC>MyCell\" )", "SUM( MyRange, MyCell )" );
 
 		assertParse( "SUM( \"NR>MyRange\", SUM( \"NR>MyRange\" ) )", "SUM( MyRange, SUM(MyRange))" );
@@ -251,9 +251,14 @@ public class ExpressionParserTest extends TestCase
 		}
 
 		@Override
-		protected ExpressionNode makeCellA1( Token _cell )
+		protected ExpressionNode makeCellA1( Token _cell, ExpressionNode _node )
 		{
-			return new ExpressionNodeForConstantValue( "A1>" + _cell.image );
+			final StringBuilder sb = new StringBuilder( "A1>" );
+			if (_node != null) {
+				sb.append( "(" ).append( _node ).append( ")" );
+			}
+			sb.append( _cell.image );
+			return new ExpressionNodeForConstantValue( sb.toString() );
 		}
 
 		@Override
@@ -268,7 +273,7 @@ public class ExpressionParserTest extends TestCase
 		}
 
 		@Override
-		protected ExpressionNode makeCellR1C1( Token _cell )
+		protected ExpressionNode makeCellR1C1( Token _cell, ExpressionNode _node )
 		{
 			return new ExpressionNodeForConstantValue( "RC>" + _cell.image );
 		}
