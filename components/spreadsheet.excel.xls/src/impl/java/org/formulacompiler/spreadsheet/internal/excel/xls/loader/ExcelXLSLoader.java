@@ -177,10 +177,6 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			final jxl.FormulaCell xlsFormulaCell = (jxl.FormulaCell) _xlsCell;
 			CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression( _row );
 			try {
-				
-				// FIXME debug
-				if (xlsType == _xlsCell.getType()) throw new jxl.biff.formula.FormulaException(jxl.biff.formula.FormulaException.BIFF8_SUPPORTED,"bla");
-				
 				exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, xlsFormulaCell.getFormula(),
 						CellRefFormat.A1 ) );
 			}
