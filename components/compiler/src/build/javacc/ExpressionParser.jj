@@ -491,15 +491,15 @@ void strConst():
 
 void cellRef(): {}
 	{	LOOKAHEAD(2)
-		cellRefA1()
-	|	cellRefR1C1()
+		cellRefA1( null )
+	|	cellRefR1C1( null )
 	|	<LEFT_BRACKET> cellRefA1ODF( null ) <RIGHT_BRACKET>
 	}
 
-void cellRefA1():
+void cellRefA1(ExpressionNode baseNode):
 	{	Token c = null, s = null; }
 	{	c = <CELLA1>
-			{ pushNode( makeCellA1( c )); }
+			{ pushNode( makeCellA1( c, baseNode )); }
 	}
 
 void cellRefA1ODF(ExpressionNode baseNode):
@@ -508,10 +508,10 @@ void cellRefA1ODF(ExpressionNode baseNode):
 			{ pushNode( makeCellA1ODF( c, baseNode )); }
 	}
 
-void cellRefR1C1():
+void cellRefR1C1(ExpressionNode baseNode):
 	{	Token c = null, s = null; }
 	{	c = <CELLR1C1>
-			{ pushNode( makeCellR1C1( c )); }
+			{ pushNode( makeCellR1C1( c, baseNode )); }
 	}
 
 void namedCellRef():
@@ -926,8 +926,8 @@ void shapedRangeExpr(): {}
 Object range(): {}
 	{
 		(   LOOKAHEAD(2)
-			cellRefA1() <RANGE_SEPARATOR> cellRefA1()
-		|   cellRefR1C1() <RANGE_SEPARATOR> cellRefR1C1()
+			cellRefA1( null ) <RANGE_SEPARATOR> cellRefA1( peekNode() )
+		|   cellRefR1C1( null ) <RANGE_SEPARATOR> cellRefR1C1( peekNode() )
 		|   <LEFT_BRACKET> cellRefA1ODF( null ) <RANGE_SEPARATOR_ODF> cellRefA1ODF( peekNode() ) <RIGHT_BRACKET>
 		)
 			{ return makeCellRange( popNodes( 2 )); }

@@ -85,19 +85,20 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 
 
 	@Override
-	protected final ExpressionNode makeCellA1( Token _cell )
+	protected final ExpressionNode makeCellA1( Token _cell, ExpressionNode _node )
 	{
-		return makeCellA1( _cell.image );
-	}
-
-	private ExpressionNode makeCellA1( String _ref )
-	{
-		final CellRefParser parser = CellRefParser.getInstance( CellRefFormat.A1 );
-		return new ExpressionNodeForCell( parser.getCellIndexForCanonicalName( _ref, this.cellIndex ) );
+		final CellIndex cellIndex = getCellIndex( _node );
+		return makeCell( _cell.image, cellIndex, CellRefFormat.A1 );
 	}
 
 	@Override
 	protected final ExpressionNode makeCellA1ODF( Token _cell, ExpressionNode _node )
+	{
+		final CellIndex cellIndex = getCellIndex( _node );
+		return makeCell( _cell.image, cellIndex, CellRefFormat.A1_ODF );
+	}
+
+	private CellIndex getCellIndex( final ExpressionNode _node )
 	{
 		final CellIndex cellIndex;
 		if (_node != null) {
@@ -107,25 +108,19 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 		else {
 			cellIndex = this.cellIndex;
 		}
-		return makeCellA1ODF( _cell.image, cellIndex );
-	}
-
-	private ExpressionNode makeCellA1ODF( String _ref, CellIndex _cellIndex )
-	{
-		final CellRefParser parser = CellRefParser.getInstance( CellRefFormat.A1_ODF );
-		return new ExpressionNodeForCell( parser.getCellIndexForCanonicalName( _ref, _cellIndex ) );
+		return cellIndex;
 	}
 
 	@Override
-	protected ExpressionNode makeCellR1C1( Token _cell )
+	protected ExpressionNode makeCellR1C1( Token _cell, ExpressionNode _node )
 	{
-		return makeCellR1C1( _cell.image );
+		return makeCell( _cell.image, this.cellIndex, CellRefFormat.R1C1 );
 	}
 
-	private ExpressionNode makeCellR1C1( String _ref )
+	private ExpressionNode makeCell( String _ref, CellIndex _cellIndex, CellRefFormat _cellRefFormat )
 	{
-		final CellRefParser parser = CellRefParser.getInstance( CellRefFormat.R1C1 );
-		return new ExpressionNodeForCell( parser.getCellIndexForCanonicalName( _ref, this.cellIndex ) );
+		final CellRefParser parser = CellRefParser.getInstance( _cellRefFormat );
+		return new ExpressionNodeForCell( parser.getCellIndexForCanonicalName( _ref, _cellIndex ) );
 	}
 
 	protected final SheetImpl getSheetByName( String _sheet )

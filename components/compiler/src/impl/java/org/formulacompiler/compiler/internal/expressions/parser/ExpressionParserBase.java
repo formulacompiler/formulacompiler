@@ -144,7 +144,7 @@ abstract class ExpressionParserBase
 	}
 
 
-	protected ExpressionNode makeCellA1( Token _cell )
+	protected ExpressionNode makeCellA1( Token _cell, ExpressionNode _node )
 	{
 		throw new UnsupportedOperationException( "This parser does not support parsing A1-style cells." );
 	}
@@ -154,7 +154,7 @@ abstract class ExpressionParserBase
 		throw new UnsupportedOperationException( "This parser does not support parsing A1-style cells." );
 	}
 
-	protected ExpressionNode makeCellR1C1( Token _cell )
+	protected ExpressionNode makeCellR1C1( Token _cell, ExpressionNode _node )
 	{
 		throw new UnsupportedOperationException( "This parser does not support parsing R1C1-style cells." );
 	}

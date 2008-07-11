@@ -46,9 +46,9 @@ public class SpreadsheetExpressionParserA1 extends SpreadsheetExpressionParser
 	 */
 
 	@Override
-	protected ExpressionNode makeCellR1C1( Token _cell )
+	protected ExpressionNode makeCellR1C1( Token _cell, ExpressionNode _node )
 	{
-		return super.makeCellA1( _cell );
+		return super.makeCellA1( _cell, _node );
 	}
 
 
