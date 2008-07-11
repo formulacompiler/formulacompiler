@@ -5,7 +5,7 @@ Fix parsing of MIRR, IRR, ATAN2, SYD, DB, COVAR.
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
 --- a/src/jxl/biff/formula/Function.java
 +++ b/src/jxl/biff/formula/Function.java
-@@ -293,8 +293,10 @@ final class Function
+@@ -293,8 +293,10 @@
      new Function(0x3b, "pmt", 0xff);
    public static final Function RATE =
      new Function(0x3c, "rate", 0xff);
@@ -18,7 +18,7 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
    public static final Function RAND =
      new Function(0x3f, "rand", 0);
    public static final Function MATCH =
-@@ -349,7 +351,7 @@ final class Function
+@@ -349,7 +351,7 @@
    //public static final Function SELECTION =  new Function(0x5f,"SELECTION",);
    //public static final Function RESULT =  new Function(0x60, "RESULT",);
    public static final Function ATAN2  =
@@ -27,7 +27,7 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
    public static final Function ASIN =
      new Function(0x62, "asin", 1);
    public static final Function ACOS =
-@@ -425,7 +427,7 @@ final class Function
+@@ -425,7 +427,7 @@
    public static final Function SLN =
      new Function(0x8e, "sln", 3);
    public static final Function SYD =
@@ -36,7 +36,7 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
    public static final Function DDB =
      new Function(0x90, "ddb", 0xff);
    //public static final Function GETDEF =  new Function(0x91, "GETDEF",);
-@@ -545,6 +547,8 @@ final class Function
+@@ -545,6 +547,8 @@
      new Function(0xea, "atanh", 1);
    public static final Function INFO =
      new Function(0xf4, "info", 1);
@@ -45,7 +45,7 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
    public static final Function AVEDEV =
      new Function(0x10d, "avedev", 0XFF);
    public static final Function BETADIST =
-@@ -624,7 +628,7 @@ final class Function
+@@ -624,7 +628,7 @@
    public static final Function CORREL =
      new Function(0x133, "correl", 0xff);
    public static final Function COVAR =
@@ -61,7 +61,7 @@ Add DateCell.getValue(); returns Excel's internal numeric date value.
 diff --git a/src/jxl/DateCell.java b/src/jxl/DateCell.java
 --- a/src/jxl/DateCell.java
 +++ b/src/jxl/DateCell.java
-@@ -35,6 +35,13 @@ public interface DateCell extends Cell
+@@ -35,6 +35,13 @@
    public Date getDate();
  
    /**
@@ -78,7 +78,7 @@ diff --git a/src/jxl/DateCell.java b/src/jxl/DateCell.java
 diff --git a/src/jxl/read/biff/DateFormulaRecord.java b/src/jxl/read/biff/DateFormulaRecord.java
 --- a/src/jxl/read/biff/DateFormulaRecord.java
 +++ b/src/jxl/read/biff/DateFormulaRecord.java
-@@ -130,16 +130,6 @@ class DateFormulaRecord extends DateReco
+@@ -130,16 +130,6 @@
    }
  
    /**
@@ -98,7 +98,7 @@ diff --git a/src/jxl/read/biff/DateFormulaRecord.java b/src/jxl/read/biff/DateFo
 diff --git a/src/jxl/read/biff/DateRecord.java b/src/jxl/read/biff/DateRecord.java
 --- a/src/jxl/read/biff/DateRecord.java
 +++ b/src/jxl/read/biff/DateRecord.java
-@@ -44,6 +44,10 @@ class DateRecord implements DateCell, Ce
+@@ -44,6 +44,10 @@
     */
    private static Logger logger  = Logger.getLogger(DateRecord.class);
  
@@ -109,7 +109,7 @@ diff --git a/src/jxl/read/biff/DateRecord.java b/src/jxl/read/biff/DateRecord.ja
    /**
     * The date represented within this cell
     */
-@@ -143,6 +147,7 @@ class DateRecord implements DateCell, Ce
+@@ -143,6 +147,7 @@
    {
      row = num.getRow();
      column = num.getColumn();
@@ -117,7 +117,7 @@ diff --git a/src/jxl/read/biff/DateRecord.java b/src/jxl/read/biff/DateRecord.ja
      xfIndex = xfi;
      formattingRecords = fr;
      sheet = si;
-@@ -223,6 +228,16 @@ class DateRecord implements DateCell, Ce
+@@ -223,6 +228,16 @@
    public Date getDate()
    {
      return date;
@@ -137,7 +137,7 @@ diff --git a/src/jxl/read/biff/DateRecord.java b/src/jxl/read/biff/DateRecord.ja
 diff --git a/src/jxl/write/biff/DateRecord.java b/src/jxl/write/biff/DateRecord.java
 --- a/src/jxl/write/biff/DateRecord.java
 +++ b/src/jxl/write/biff/DateRecord.java
-@@ -36,7 +36,7 @@ import jxl.write.WritableCellFormat;
+@@ -36,7 +36,7 @@
  /**
   * A date stored in the database
   */
@@ -146,7 +146,7 @@ diff --git a/src/jxl/write/biff/DateRecord.java b/src/jxl/write/biff/DateRecord.
  {
    /**
     * The logger
-@@ -314,6 +314,16 @@ public abstract class DateRecord extends
+@@ -314,6 +314,16 @@
    }
  
    /**
@@ -166,7 +166,7 @@ diff --git a/src/jxl/write/biff/DateRecord.java b/src/jxl/write/biff/DateRecord.
 diff --git a/src/jxl/write/biff/ReadDateFormulaRecord.java b/src/jxl/write/biff/ReadDateFormulaRecord.java
 --- a/src/jxl/write/biff/ReadDateFormulaRecord.java
 +++ b/src/jxl/write/biff/ReadDateFormulaRecord.java
-@@ -52,6 +52,16 @@ class ReadDateFormulaRecord extends Read
+@@ -52,6 +52,16 @@
    }
  
    /**
@@ -185,12 +185,28 @@ diff --git a/src/jxl/write/biff/ReadDateFormulaRecord.java b/src/jxl/write/biff/
     *
 # HG changeset patch
 # User Vladimir Korenev <vkorenev@gmail.com>
+Set target to JDK 1.4.
+
+diff --git a/build/build.xml b/build/build.xml
+--- a/build/build.xml
++++ b/build/build.xml
+@@ -54,6 +54,8 @@
+     <javac destdir="${outputDir}" 
+            classpath=".:${loggerClasspath}" 
+            srcdir="${sourceDir}"
++           source="1.4"
++           target="1.4"
+            debug="true" 
+            deprecation="on">
+       <include name="jxl/**" />
+# HG changeset patch
+# User Vladimir Korenev <vkorenev@gmail.com>
 Fix parsing of TRIMMEAN function.
 
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
 --- a/src/jxl/biff/formula/Function.java
 +++ b/src/jxl/biff/formula/Function.java
-@@ -674,7 +674,7 @@ final class Function
+@@ -674,7 +674,7 @@
    public static final Function MODE =
      new Function(0x14a, "mode", 0xff);
    public static final Function TRIMMEAN =
@@ -206,7 +222,7 @@ Fix parsing of DVARP, DSTDEVP, and DCOUNTA functions.
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
 --- a/src/jxl/biff/formula/Function.java
 +++ b/src/jxl/biff/formula/Function.java
-@@ -492,15 +492,15 @@ final class Function
+@@ -492,15 +492,15 @@
    public static final Function VARP =
      new Function(0xc2, "varp", 0xff);
    public static final Function DSTDEVP =
@@ -232,7 +248,7 @@ Remove unused local var.
 diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.java
 --- a/src/jxl/read/biff/NameRecord.java
 +++ b/src/jxl/read/biff/NameRecord.java
-@@ -422,7 +422,6 @@ public class NameRecord extends RecordDa
+@@ -422,7 +422,6 @@
        else if (data[pos] == subExpression)
        {
          int sheet1 = 0;
@@ -247,7 +263,7 @@ Fix parsing of builtin range names as ordinary ranges.
 diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.java
 --- a/src/jxl/read/biff/NameRecord.java
 +++ b/src/jxl/read/biff/NameRecord.java
-@@ -487,9 +487,19 @@ public class NameRecord extends RecordDa
+@@ -487,9 +487,19 @@
    /**
     * Gets the name
     *
@@ -268,7 +284,7 @@ diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.ja
    {
      return name;
    }
-@@ -497,7 +507,7 @@ public class NameRecord extends RecordDa
+@@ -497,7 +507,7 @@
    /**
     * Gets the built in name
     *
@@ -280,7 +296,7 @@ diff --git a/src/jxl/read/biff/NameRecord.java b/src/jxl/read/biff/NameRecord.ja
 diff --git a/src/jxl/read/biff/WorkbookParser.java b/src/jxl/read/biff/WorkbookParser.java
 --- a/src/jxl/read/biff/WorkbookParser.java
 +++ b/src/jxl/read/biff/WorkbookParser.java
-@@ -1129,7 +1129,7 @@ public class WorkbookParser extends Work
+@@ -1129,7 +1129,7 @@
    {
      NameRecord nr = (NameRecord) namedRecords.get(name);
  
@@ -292,7 +308,7 @@ diff --git a/src/jxl/read/biff/WorkbookParser.java b/src/jxl/read/biff/WorkbookP
 diff --git a/src/jxl/write/biff/NameRecord.java b/src/jxl/write/biff/NameRecord.java
 --- a/src/jxl/write/biff/NameRecord.java
 +++ b/src/jxl/write/biff/NameRecord.java
-@@ -164,7 +164,8 @@ class NameRecord extends WritableRecordD
+@@ -164,7 +164,8 @@
      super(Type.NAME);
  
      data = sr.getData();
@@ -302,7 +318,7 @@ diff --git a/src/jxl/write/biff/NameRecord.java b/src/jxl/write/biff/NameRecord.
      sheetRef = sr.getSheetRef();
      index = ind;
      modified = false;
-@@ -417,7 +418,7 @@ class NameRecord extends WritableRecordD
+@@ -417,7 +418,7 @@
     */
    public String getName()
    {
@@ -318,7 +334,7 @@ Add ROMAN() function.
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
 --- a/src/jxl/biff/formula/Function.java
 +++ b/src/jxl/biff/formula/Function.java
-@@ -693,6 +693,8 @@ final class Function
+@@ -693,6 +693,8 @@
      new Function(0x15a, "countif", 2);
    public static final Function COUNTBLANK =
      new Function(0x15b, "countblank", 1);
@@ -334,7 +350,7 @@ Fix parsing of CHITEST, FTEST, PEARSON, RSQ, and TTEST.
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
 --- a/src/jxl/biff/formula/Function.java
 +++ b/src/jxl/biff/formula/Function.java
-@@ -624,7 +624,7 @@ final class Function
+@@ -624,7 +624,7 @@
    public static final Function SUMX2PY2 =
      new Function(305, "sumx2py2", 0xff);
    public static final Function CHITEST =
@@ -343,7 +359,7 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
    public static final Function CORREL =
      new Function(0x133, "correl", 0xff);
    public static final Function COVAR =
-@@ -632,19 +632,19 @@ final class Function
+@@ -632,19 +632,19 @@
    public static final Function FORECAST =
      new Function(0x135, "forecast", 0xff);
    public static final Function FTEST =
@@ -374,7 +390,7 @@ Fix parsing of: SUMX2MY2, SUMX2PY2, SUMXMY2, CORREL, FORECAST, INTERCEPT, STEYX,
 diff --git a/resources/functions.properties b/resources/functions.properties
 --- a/resources/functions.properties
 +++ b/resources/functions.properties
-@@ -242,7 +242,7 @@ stdev=STDEV
+@@ -242,7 +242,7 @@
  stdev=STDEV
  stdeva=STDDEVA
  stdevp=STDEVP
@@ -386,7 +402,7 @@ diff --git a/resources/functions.properties b/resources/functions.properties
 diff --git a/resources/functions_en.properties b/resources/functions_en.properties
 --- a/resources/functions_en.properties
 +++ b/resources/functions_en.properties
-@@ -242,7 +242,7 @@ stdev=STDEV
+@@ -242,7 +242,7 @@
  stdev=STDEV
  stdeva=STDDEVA
  stdevp=STDEVP
@@ -398,7 +414,7 @@ diff --git a/resources/functions_en.properties b/resources/functions_en.properti
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
 --- a/src/jxl/biff/formula/Function.java
 +++ b/src/jxl/biff/formula/Function.java
-@@ -618,29 +618,29 @@ final class Function
+@@ -618,29 +618,29 @@
    public static final Function WEIBULL =
      new Function(0x12e, "weibull", 4);
    public static final Function SUMXMY2 =
@@ -435,7 +451,7 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
    public static final Function SLOPE =
      new Function(0x13b, "slope", 2);
    public static final Function TTEST =
-@@ -662,13 +662,13 @@ final class Function
+@@ -662,13 +662,13 @@
    public static final Function ZTEST =
      new Function(0x144, "ztest", 0xff);
    public static final Function LARGE =
@@ -460,7 +476,7 @@ Fix parsing of ERROR.TYPE function.
 diff --git a/resources/functions.properties b/resources/functions.properties
 --- a/resources/functions.properties
 +++ b/resources/functions.properties
-@@ -74,6 +74,7 @@ dvarp=DVARP
+@@ -74,6 +74,7 @@
  dvarp=DVARP
  echo=ECHO
  error=ERROR
@@ -471,7 +487,7 @@ diff --git a/resources/functions.properties b/resources/functions.properties
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
 --- a/src/jxl/biff/formula/Function.java
 +++ b/src/jxl/biff/formula/Function.java
-@@ -549,6 +549,8 @@ final class Function
+@@ -549,6 +549,8 @@
      new Function(0xf4, "info", 1);
    public static final Function DB =
      new Function(0xf7, "db", 0xff);
@@ -487,7 +503,7 @@ Fix parsing of DAYS360 function.
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
 --- a/src/jxl/biff/formula/Function.java
 +++ b/src/jxl/biff/formula/Function.java
-@@ -523,7 +523,7 @@ final class Function
+@@ -523,7 +523,7 @@
      new Function(0xd8, "rank", 0xff);
    public static final Function ADDRESS =
      new Function(0xdb, "address", 0xff);
@@ -503,7 +519,7 @@ Fix parsing of DGET.
 diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
 --- a/src/jxl/biff/formula/Function.java
 +++ b/src/jxl/biff/formula/Function.java
-@@ -545,6 +545,8 @@ final class Function
+@@ -545,6 +545,8 @@
      new Function(0xe9, "acosh", 1);
    public static final Function ATANH =
      new Function(0xea, "atanh", 1);
@@ -519,7 +535,7 @@ Fix parsing of overlapping shared formula ranges.
 diff --git a/src/jxl/read/biff/SheetReader.java b/src/jxl/read/biff/SheetReader.java
 --- a/src/jxl/read/biff/SheetReader.java
 +++ b/src/jxl/read/biff/SheetReader.java
-@@ -640,11 +640,6 @@ final class SheetReader
+@@ -641,11 +641,6 @@
  
            // See if it fits in any of the shared formulas
            sharedFormulaAdded = addToSharedFormulas(sharedFormula);
@@ -538,7 +554,7 @@ Speed up parsing of shared formulas.
 diff --git a/src/jxl/read/biff/SheetReader.java b/src/jxl/read/biff/SheetReader.java
 --- a/src/jxl/read/biff/SheetReader.java
 +++ b/src/jxl/read/biff/SheetReader.java
-@@ -1204,7 +1204,7 @@ final class SheetReader
+@@ -1213,7 +1213,7 @@
      boolean added = false;
      SharedFormulaRecord sfr = null;
  
@@ -554,7 +570,7 @@ Display '$' in ranges when column or row is absolute.
 diff --git a/src/jxl/biff/formula/Area.java b/src/jxl/biff/formula/Area.java
 --- a/src/jxl/biff/formula/Area.java
 +++ b/src/jxl/biff/formula/Area.java
-@@ -175,9 +175,9 @@ class Area extends Operand implements Pa
+@@ -175,9 +175,9 @@
     */
    public void getString(StringBuffer buf)
    {
@@ -569,7 +585,7 @@ diff --git a/src/jxl/biff/formula/Area.java b/src/jxl/biff/formula/Area.java
 diff --git a/src/jxl/biff/formula/SharedFormulaArea.java b/src/jxl/biff/formula/SharedFormulaArea.java
 --- a/src/jxl/biff/formula/SharedFormulaArea.java
 +++ b/src/jxl/biff/formula/SharedFormulaArea.java
-@@ -126,9 +126,9 @@ class SharedFormulaArea extends Operand 
+@@ -126,9 +126,9 @@
  
    public void getString(StringBuffer buf)
    {
@@ -581,3 +597,19 @@ diff --git a/src/jxl/biff/formula/SharedFormulaArea.java b/src/jxl/biff/formula/
    }
  
    /**
+# HG changeset patch
+# User Vladimir Korenev <vkorenev@gmail.com>
+Fix parsing of MDETERM.
+
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
+@@ -458,7 +458,7 @@
+   public static final Function CLEAN =
+     new Function(0xa2, "clean", 1);
+   public static final Function MDETERM =
+-    new Function(0xa3, "mdeterm", 0xff);
++    new Function(0xa3, "mdeterm", 1);
+   public static final Function MINVERSE =
+     new Function(0xa4, "minverse", 0xff);
+   public static final Function MMULT =
