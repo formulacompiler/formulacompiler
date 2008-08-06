@@ -33,7 +33,7 @@ abstract class AbstractSuiteSetup
 	protected static Context newXlsSheetContext( String _fileBaseName )
 	{
 		final Context cx = new Context( _fileBaseName, ".xls" );
-		if (odsSpreadsheetExists( _fileBaseName ) && !_fileBaseName.equals( "ErrorCells" )) {
+		if (odsSpreadsheetExists( _fileBaseName ) && !_fileBaseName.equals( "ErrorCells" ) && !_fileBaseName.equals( "CellNames" )) {
 			final Context variant = new Context( _fileBaseName, ".ods" );
 			variant.setRowVerificationTestCaseFactory( ODSRowVerificationTestCase.Factory.INSTANCE );
 			cx.addVariant( variant );
