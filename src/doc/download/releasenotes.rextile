@@ -13,6 +13,7 @@ h2. Release 1.1.1
 h5. Fixed
 
 	* Fixed parsing off-sheet ranges.
+	* Fixed parsing sheet names with hyphens and quotes.
 
 
 h2. Release 1.1
