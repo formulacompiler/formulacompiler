@@ -613,3 +613,23 @@ diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.
    public static final Function MINVERSE =
      new Function(0xa4, "minverse", 0xff);
    public static final Function MMULT =
+# HG changeset patch
+# User Vladimir Korenev <vkorenev@gmail.com>
+Quote sheet names with hyphens.
+
+diff --git a/src/jxl/read/biff/WorkbookParser.java b/src/jxl/read/biff/WorkbookParser.java
+--- a/src/jxl/read/biff/WorkbookParser.java
++++ b/src/jxl/read/biff/WorkbookParser.java
+@@ -409,9 +409,9 @@
+         StringHelper.replace(sheetName, "\'", "\'\'");
+ 
+       
+-      // if the sheet name contains spaces, then enclose in quotes
+-      return sheetName.indexOf(' ') == -1 ? sheetName : 
+-        '\'' + sheetName + '\'';
++      // if the sheet name contains spaces, hyphens, or quotes then enclose in quotes
++      return sheetName.indexOf(' ') == -1 && sheetName.indexOf('\'') == -1 && sheetName.indexOf('-') == -1 ?
++        sheetName : '\'' + sheetName + '\'';
+     }
+     else if (sr.getType() == SupbookRecord.EXTERNAL)
+     {
