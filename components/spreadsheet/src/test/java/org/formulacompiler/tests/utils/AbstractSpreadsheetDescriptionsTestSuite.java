@@ -24,10 +24,8 @@ package org.formulacompiler.tests.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
 
 import org.formulacompiler.compiler.internal.IOUtil;
-import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
@@ -45,21 +43,9 @@ public abstract class AbstractSpreadsheetDescriptionsTestSuite extends AbstractI
 	}
 
 
-	private final Set<File> added = New.set();
-
-	protected final boolean mustStillAdd( File _new )
-	{
-		return !this.added.contains( _new ) && allow( _new );
-	}
-
 	protected boolean allow( File _new )
 	{
 		return true;
-	}
-
-	protected final void haveAdded( File _new )
-	{
-		this.added.add( _new );
 	}
 
 
@@ -80,38 +66,29 @@ public abstract class AbstractSpreadsheetDescriptionsTestSuite extends AbstractI
 
 			public void visit( final File _inputFile, final File _outputFile ) throws IOException
 			{
-				if (mustStillAdd( _inputFile )) {
+				if (allow( _inputFile )) {
 					final String fileName = _inputFile.getName();
 					final String baseName = fileName.substring( 0, fileName.length() - _ext.length() );
 					addTestFor( _inputFile, baseName );
-					addImpliedTestsFor( _inputFile.getParentFile(), baseName, _ext );
 				}
 			}
 
 		} );
 	}
 
-	protected void addImpliedTestsFor( File _path, String _baseName, String _ext )
+	private void addTestFor( final File _file, final String _baseName )
 	{
-		// Can be overridden.
-	}
+		addTest( new AbstractSpreadsheetTestCase( _file.getPath() )
+		{
 
-	protected final void addTestFor( final File _file, final String _baseName )
-	{
-		if (mustStillAdd( _file )) {
-			addTest( new AbstractSpreadsheetTestCase( _file.getPath() )
+			@Override
+			protected void runTest() throws Throwable
 			{
+				final Spreadsheet sheet = SpreadsheetCompiler.loadSpreadsheet( _file );
+				assertYaml( _file.getParentFile(), _baseName, sheet, _file.getName() );
+			}
 
-				@Override
-				protected void runTest() throws Throwable
-				{
-					final Spreadsheet sheet = SpreadsheetCompiler.loadSpreadsheet( _file );
-					assertYaml( _file.getParentFile(), _baseName, sheet, _file.getName() );
-				}
-
-			} );
-			haveAdded( _file );
-		}
+		} );
 	}
 
 }
