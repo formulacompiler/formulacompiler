@@ -38,33 +38,27 @@ abstract class AbstractSuiteSetup
 			variant.setRowVerificationTestCaseFactory( ODSRowVerificationTestCase.Factory.INSTANCE );
 			cx.addVariant( variant );
 		}
-
-		final RowSetup.Builder setup;
-		if (_fileBaseName.contains( "Database" )) {
-			setup = new RowSetupDbAgg.Builder();
-		}
-		else {
-			setup = new RowSetupDefault.Builder();
-		}
-		cx.setRowSetupBuilder( setup );
-
+		setRowSetupBuilder( cx, _fileBaseName );
 		return cx;
 	}
 
 	protected static Context newOdsSheetContext( String _fileBaseName )
 	{
 		final Context cx = new Context( _fileBaseName, ".ods" );
+		setRowSetupBuilder( cx, _fileBaseName );
+		return cx;
+	}
 
+	private static void setRowSetupBuilder( final Context _cx, final String _fileBaseName )
+	{
 		final RowSetup.Builder setup;
-		if (_fileBaseName.contains( "Database" )) {
+		if (_fileBaseName.startsWith( "Database" )) {
 			setup = new RowSetupDbAgg.Builder();
 		}
 		else {
 			setup = new RowSetupDefault.Builder();
 		}
-		cx.setRowSetupBuilder( setup );
-
-		return cx;
+		_cx.setRowSetupBuilder( setup );
 	}
 
 	public static boolean odsSpreadsheetExists( String _fileBaseName )
