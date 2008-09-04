@@ -414,6 +414,16 @@
         <root url="jar://$PROJECT_DIR$/lib/IDE/xmlunit-1.2-src.zip!/" />
       </SOURCES>
     </library>
+    <library name="stax">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/impl/stax-api-1.0.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/impl/stax-1.2.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/IDE/stax-src-1.2.0.zip!/src" />
+      </SOURCES>
+    </library>
   </component>
 </project>
 
