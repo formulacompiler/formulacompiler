@@ -15,18 +15,7 @@
     <orderEntry type="module" module-name="afc-runtime" />
     <orderEntry type="module" module-name="afc-compiler" />
     <orderEntry type="module" module-name="afc-spreadsheet" />
-    <orderEntry type="module-library">
-      <library name="StAX">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/impl/stax-api-1.0.1.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/impl/stax-1.2.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MODULE_DIR$/lib/IDE/stax-src-1.2.0.zip!/src" />
-        </SOURCES>
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="stax" level="project" />
     <orderEntry type="library" name="junit" level="project" />
     <orderEntry type="module-library">
       <library name="isorelax">

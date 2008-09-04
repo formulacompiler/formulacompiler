@@ -66,10 +66,10 @@
 		<path refid="impl.deps.classpath" />
 		<path refid="test-only.deps.classpath" />
 		<fileset dir="../spreadsheet.excel.xls/lib/impl" includes="*.jar" />
-		<fileset dir="../spreadsheet.opendocument/lib/impl" includes="*.jar" />
 		<fileset dir="../compiler/lib/impl" includes="*.jar" />
 		<fileset dir="../decompiler/lib/impl" includes="*.jar" />
 		<fileset dir="../../lib/test" includes="*.jar" />
+		<fileset dir="../../lib/impl" includes="*.jar" />
 	</path>
 
 	<path id="test.runtime.classpath">
