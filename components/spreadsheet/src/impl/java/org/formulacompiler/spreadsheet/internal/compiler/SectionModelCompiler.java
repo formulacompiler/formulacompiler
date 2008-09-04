@@ -197,7 +197,7 @@ public final class SectionModelCompiler
 
 	private void buildCellModel( CellModel _cellModel, CellWithError _cell )
 	{
-		if (_cell.getValue() == CellWithError.NA) {
+		if (CellWithError.NA.equals( _cell.getValue() )) {
 			_cellModel.setExpression( new ExpressionNodeForFunction( Function.NA ) );
 		}
 		else {
