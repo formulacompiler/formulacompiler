@@ -31,7 +31,7 @@ import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 
 final class ODSRowVerificationTestCase extends AbstractVariantRowVerificationTestCase
 {
@@ -96,7 +96,7 @@ final class ODSRowVerificationTestCase extends AbstractVariantRowVerificationTes
 
 
 	@Override
-	protected void assertCellExpressionsSame( CellWithLazilyParsedExpression _want, CellWithLazilyParsedExpression _have )
+	protected void assertCellExpressionsSame( CellWithExpression _want, CellWithExpression _have )
 			throws Exception
 	{
 		final ExpressionNode wantExpr = insertDefaultParamsInto( _want.getExpression() );

@@ -45,7 +45,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
@@ -63,7 +63,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 	protected SpreadsheetImpl workbook;
 	protected SheetImpl sheet;
 	protected RowImpl row;
-	protected CellWithLazilyParsedExpression formula;
+	protected CellWithExpression formula;
 	protected SpreadsheetBinder binder;
 	protected SpreadsheetBinder.Section root;
 
@@ -75,7 +75,7 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 		this.workbook = new SpreadsheetImpl();
 		this.sheet = new SheetImpl( this.workbook );
 		this.row = new RowImpl( this.sheet );
-		this.formula = new CellWithLazilyParsedExpression( this.row );
+		this.formula = new CellWithExpression( this.row );
 		makeBinderFor( Inputs.class, Outputs.class );
 	}
 
@@ -472,11 +472,11 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 		CellInstance a = new CellWithConstant( this.row, 1.0 );
 		CellInstance b = new CellWithConstant( this.row, 2.0 );
 		CellInstance c = new CellWithConstant( this.row, 3.0 );
-		CellInstance d = new CellWithLazilyParsedExpression( this.row, new ExpressionNodeForOperator( Operator.PLUS,
+		CellInstance d = new CellWithExpression( this.row, new ExpressionNodeForOperator( Operator.PLUS,
 				new ExpressionNodeForConstantValue( 1.0 ), new ExpressionNodeForConstantValue( 3.0 ) ) );
-		CellInstance e = new CellWithLazilyParsedExpression( this.row, new ExpressionNodeForOperator( Operator.PLUS,
+		CellInstance e = new CellWithExpression( this.row, new ExpressionNodeForOperator( Operator.PLUS,
 				new ExpressionNodeForCell( c ), new ExpressionNodeForCell( d ) ) );
-		CellInstance f = new CellWithLazilyParsedExpression( this.row,
+		CellInstance f = new CellWithExpression( this.row,
 				new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForOperator( Operator.PLUS,
 						new ExpressionNodeForCell( a ), new ExpressionNodeForCell( b ) ), new ExpressionNodeForCell( e ) ) );
 

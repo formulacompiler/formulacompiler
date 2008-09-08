@@ -28,8 +28,6 @@ import java.util.Set;
 
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.YamlBuilder;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 
 public abstract class CellInstance extends AbstractStyledElement
@@ -98,9 +96,6 @@ public abstract class CellInstance extends AbstractStyledElement
 			return maxFrac;
 		}
 	}
-
-
-	public abstract ExpressionNode getExpression() throws SpreadsheetException;
 
 
 	public Object getValue()

@@ -36,6 +36,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
@@ -165,7 +166,7 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 				final CellInstance[] templateCells = sectionCells[ 0 ];
 				int iCell = 0;
 				for (CellInstance c : templateCells) {
-					if (c.getExpression() == null) {
+					if (!(c instanceof CellWithExpression)) {
 						sb.defineInputCell( c.getCellIndex(), Input.class.getMethod( "value", Integer.TYPE ), iCell );
 					}
 					iCell++;

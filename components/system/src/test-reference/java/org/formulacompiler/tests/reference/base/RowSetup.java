@@ -23,7 +23,7 @@
 package org.formulacompiler.tests.reference.base;
 
 import org.formulacompiler.spreadsheet.internal.CellInstance;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 
 public abstract class RowSetup
 {
@@ -68,7 +68,7 @@ public abstract class RowSetup
 	{
 		final CellInstance outputCell = cx().getRowCell( actualCol() );
 		if (null == outputCell) return false;
-		if (outputCell instanceof CellWithLazilyParsedExpression) return true;
+		if (outputCell instanceof CellWithExpression) return true;
 		if (null == outputCell.getValue()) return false;
 		return true;
 	}

@@ -41,7 +41,7 @@ public class WorkbookTest extends AbstractStandardInputsOutputsTestCase
 		{
 			SheetImpl sheet = new SheetImpl( wb );
 			RowImpl r1 = new RowImpl( sheet );
-			new CellWithLazilyParsedExpression( r1, null );
+			new CellWithExpression( r1, null );
 			new WorksheetBuilderWithBands( sheet );
 		}
 		assertCell( wb, 0, 0, 0, wb.getCellA1( "A1" ) );
@@ -72,7 +72,7 @@ public class WorkbookTest extends AbstractStandardInputsOutputsTestCase
 			{
 				RowImpl r = new RowImpl( s );
 				{
-					CellWithLazilyParsedExpression c = new CellWithLazilyParsedExpression( r, null );
+					CellWithExpression c = new CellWithExpression( r, null );
 					c.setValue( 13.5 );
 					c.setMaxFractionalDigits( 2 );
 					w.defineModelRangeName( "Result", c.getCellIndex() );
@@ -86,7 +86,7 @@ public class WorkbookTest extends AbstractStandardInputsOutputsTestCase
 
 			{
 				RowImpl r = new RowImpl( s );
-				CellInstance c1 = new CellWithLazilyParsedExpression( r, null );
+				CellInstance c1 = new CellWithExpression( r, null );
 				CellInstance c2 = new CellWithConstant( r, null );
 				w.defineModelRangeName( "Range", CellRange.getCellRange( c1.getCellIndex(), c2.getCellIndex() ) );
 
@@ -104,9 +104,9 @@ public class WorkbookTest extends AbstractStandardInputsOutputsTestCase
 				RowImpl r = new RowImpl( s );
 				{
 					CellInstance local = new CellWithConstant( r, 2.0 );
-					new CellWithLazilyParsedExpression( r, fun( Function.SUM, new ExpressionNodeForCell( named ),
+					new CellWithExpression( r, fun( Function.SUM, new ExpressionNodeForCell( named ),
 							new ExpressionNodeForCell( onFirstSheet ), new ExpressionNodeForCell( local ) ) );
-					new CellWithLazilyParsedExpression( r, new ExpressionNodeForCell( onFirstSheet ) );
+					new CellWithExpression( r, new ExpressionNodeForCell( onFirstSheet ) );
 				}
 			}
 		}

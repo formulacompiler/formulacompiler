@@ -40,6 +40,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetSaver;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
@@ -217,8 +218,8 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	private WritableCell createCell( CellInstance _c, WritableWorkbook _xwb, int _col, int _row )
 			throws SpreadsheetException
 	{
-		final ExpressionNode expr = _c.getExpression();
-		if (null != expr) {
+		if (_c instanceof CellWithExpression) {
+			final ExpressionNode expr = ((CellWithExpression) _c).getExpression();
 			return new Formula( _col, _row, this.formatter.format( expr ) );
 		}
 		else {

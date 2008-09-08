@@ -38,7 +38,7 @@ import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
@@ -52,7 +52,7 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestCase
 	protected SpreadsheetImpl workbook;
 	protected SheetImpl sheet;
 	protected RowImpl row;
-	protected CellWithLazilyParsedExpression formula;
+	protected CellWithExpression formula;
 	protected WorksheetBuilderWithBands dyn;
 	protected Section def;
 
@@ -64,7 +64,7 @@ public class SpreadsheetBinderTest extends AbstractSpreadsheetTestCase
 		this.workbook = new SpreadsheetImpl();
 		this.sheet = new SheetImpl( this.workbook );
 		this.row = new RowImpl( this.sheet );
-		this.formula = new CellWithLazilyParsedExpression( this.row );
+		this.formula = new CellWithExpression( this.row );
 		this.dyn = new WorksheetBuilderWithBands( this.sheet );
 
 		Config cfg = new SpreadsheetBinder.Config();

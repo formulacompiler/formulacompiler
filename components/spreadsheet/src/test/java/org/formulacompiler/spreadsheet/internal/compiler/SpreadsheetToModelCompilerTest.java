@@ -44,7 +44,7 @@ import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
@@ -73,9 +73,9 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		CellInstance o1 = new CellWithConstant( r1, 2.0 );
 		CellInstance x1 = new CellWithConstant( r1, 3.0 );
 		CellInstance x2 = new CellWithConstant( r1, 4.0 );
-		CellInstance x3 = new CellWithLazilyParsedExpression( r1, plus( ref( x2 ), ref( x1 ) ) );
+ 		CellWithExpression x3 = new CellWithExpression( r1, plus( ref( x2 ), ref( x1 ) ) );
 		new CellWithConstant( r1, 5.0 ); // unused
-		CellInstance o2 = new CellWithLazilyParsedExpression( r1, plus( plus( plus( ref( i1 ), ref( x1 ) ), ref( x3 ) ),
+		CellInstance o2 = new CellWithExpression( r1, plus( plus( plus( ref( i1 ), ref( x1 ) ), ref( x3 ) ),
 				ix( workbook, 100, 100 ) ) );
 		o2.applyNumberFormat( format );
 		CellInstance io1 = new CellWithConstant( r1, 7.0 );
@@ -165,7 +165,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		SpreadsheetImpl workbook = new SpreadsheetImpl();
 		SheetImpl sheet = new SheetImpl( workbook );
 		RowImpl r1 = new RowImpl( sheet );
-		new CellWithLazilyParsedExpression( r1, null );
+		new CellWithExpression( r1, null );
 		WorksheetBuilderWithBands bld = new WorksheetBuilderWithBands( sheet );
 
 		SpreadsheetBinder def = newBinder( workbook );
@@ -211,7 +211,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		SpreadsheetImpl workbook = new SpreadsheetImpl();
 		SheetImpl sheet = new SheetImpl( workbook );
 		RowImpl r1 = new RowImpl( sheet );
-		new CellWithLazilyParsedExpression( r1, null );
+		new CellWithExpression( r1, null );
 		WorksheetBuilderWithBands bld = new WorksheetBuilderWithBands( sheet );
 
 		SpreadsheetBinder def = newBinder( workbook );
@@ -257,7 +257,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		RowImpl r1 = new RowImpl( sheet );
 
 		CellInstance i1 = new CellWithConstant( r1, 1.0 );
-		CellInstance o1 = new CellWithLazilyParsedExpression( r1, sum( refRange( i1, i1 ) ) );
+		CellInstance o1 = new CellWithExpression( r1, sum( refRange( i1, i1 ) ) );
 
 		SpreadsheetBinder def = newBinder( workbook );
 		Section rootDef = def.getRoot();
@@ -302,9 +302,9 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		RowImpl r2 = new RowImpl( sheet );
 
 		CellInstance i1 = new CellWithConstant( r1, 1.0 );
-		CellInstance x1 = new CellWithLazilyParsedExpression( r2, sum( refRange( i1, i1 ) ) );
-		CellInstance o1 = new CellWithLazilyParsedExpression( r1, sum( refRange( x1, x1 ) ) );
-		CellInstance o2 = new CellWithLazilyParsedExpression( r1, sum( refRange( i1, i1 ) ) );
+		CellInstance x1 = new CellWithExpression( r2, sum( refRange( i1, i1 ) ) );
+		CellInstance o1 = new CellWithExpression( r1, sum( refRange( x1, x1 ) ) );
+		CellInstance o2 = new CellWithExpression( r1, sum( refRange( i1, i1 ) ) );
 
 		SpreadsheetBinder def = newBinder( workbook );
 		Section rootDef = def.getRoot();
@@ -364,10 +364,10 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		CellInstance i1 = new CellWithConstant( r1, 1.0 );
 		CellInstance i2 = new CellWithConstant( r1, 2.0 );
 		CellInstance i3 = new CellWithConstant( r1, 3.0 );
-		CellInstance o1 = new CellWithLazilyParsedExpression( r1, sum( refRange( i1, i1 ) ) );
-		CellInstance o2 = new CellWithLazilyParsedExpression( r1, sum( refRange( i1, i2 ) ) );
-		CellInstance o3 = new CellWithLazilyParsedExpression( r1, sum( refRange( i2, i2 ) ) );
-		CellInstance o4 = new CellWithLazilyParsedExpression( r1, sum( refRange( i2, i3 ) ) );
+		CellInstance o1 = new CellWithExpression( r1, sum( refRange( i1, i1 ) ) );
+		CellInstance o2 = new CellWithExpression( r1, sum( refRange( i1, i2 ) ) );
+		CellInstance o3 = new CellWithExpression( r1, sum( refRange( i2, i2 ) ) );
+		CellInstance o4 = new CellWithExpression( r1, sum( refRange( i2, i3 ) ) );
 
 		CellRange rng = rng( i1, i3 );
 
@@ -407,7 +407,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		RowImpl r21 = new RowImpl( sheet2 );
 
 		CellInstance i1 = new CellWithConstant( r21, 1.0 );
-		CellInstance o1 = new CellWithLazilyParsedExpression( r11, sum( refRange( i1, i1 ) ) );
+		CellInstance o1 = new CellWithExpression( r11, sum( refRange( i1, i1 ) ) );
 
 		SpreadsheetBinder def = newBinder( workbook );
 		Section rootDef = def.getRoot();
@@ -439,7 +439,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		RowImpl r21 = new RowImpl( sheet2 );
 
 		CellInstance i1 = new CellWithConstant( r11, 1.0 );
-		CellInstance o1 = new CellWithLazilyParsedExpression( r21, sum( refRange( i1, i1 ) ) );
+		CellInstance o1 = new CellWithExpression( r21, sum( refRange( i1, i1 ) ) );
 
 		SpreadsheetBinder def = newBinder( workbook );
 		Section rootDef = def.getRoot();

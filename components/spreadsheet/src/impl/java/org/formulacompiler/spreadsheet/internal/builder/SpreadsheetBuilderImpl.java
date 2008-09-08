@@ -36,7 +36,7 @@ import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
@@ -96,7 +96,7 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 
 	public SpreadsheetBuilder newCell( ExprNode _expr )
 	{
-		this.cell = new CellWithLazilyParsedExpression( this.row, nodeOf( _expr ) );
+		this.cell = new CellWithExpression( this.row, nodeOf( _expr ) );
 		return this;
 	}
 

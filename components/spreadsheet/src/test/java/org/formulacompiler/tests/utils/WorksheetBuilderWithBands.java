@@ -37,7 +37,7 @@ import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
@@ -58,7 +58,7 @@ public class WorksheetBuilderWithBands
 {
 	final SheetImpl sheet;
 	final RowImpl r0;
-	final CellWithLazilyParsedExpression formula;
+	final CellWithExpression formula;
 	public RowImpl r1, r2, r3, r4;
 	public CellInstance r1c1, r1c2, r1c3, r1c4;
 	public CellInstance r2c1, r2c2, r2c3, r2c4;
@@ -72,7 +72,7 @@ public class WorksheetBuilderWithBands
 	{
 		this.sheet = _sheet;
 		this.r0 = sheet.getRowList().get( 0 );
-		this.formula = (CellWithLazilyParsedExpression) r0.getCellList().get( 0 );
+		this.formula = (CellWithExpression) r0.getCellList().get( 0 );
 
 		CellInstance factor = new CellWithConstant( r0, 0.5 );
 
@@ -152,7 +152,7 @@ public class WorksheetBuilderWithBands
 
 	CellInstance buildRowSum( CellInstance _r1c1, CellInstance _r1c2, CellInstance _factor )
 	{
-		CellWithLazilyParsedExpression sum = new CellWithLazilyParsedExpression( _r1c1.getRow() );
+		CellWithExpression sum = new CellWithExpression( _r1c1.getRow() );
 		final CellIndex factorRef = _factor.getCellIndex().getAbsoluteIndex( false, true );
 		final ExpressionNode aggregation = new ExpressionNodeForFunction( Function.SUM, new ExpressionNodeForRange(
 				CellRange.getCellRange( _r1c1.getCellIndex(), _r1c2.getCellIndex() ) ) );

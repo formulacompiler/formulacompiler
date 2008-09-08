@@ -34,7 +34,7 @@ import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.decompiler.ByteCodeEngineSource;
 import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 
 
 public class HtmlDocumenter implements Documenter
@@ -247,8 +247,8 @@ public class HtmlDocumenter implements Documenter
 						this.exprSource = "";
 						this.exprPrefix = "";
 					}
-					else if (this.exprCell instanceof CellWithLazilyParsedExpression) {
-						this.exprSource = ((CellWithLazilyParsedExpression) this.exprCell).getExpressionParser().getSource();
+					else if (this.exprCell instanceof CellWithExpression) {
+						this.exprSource = ((CellWithExpression) this.exprCell).getExpressionText();
 						this.exprPrefix = "=";
 					}
 					else {
@@ -296,8 +296,7 @@ public class HtmlDocumenter implements Documenter
 										htmlPrecision( inputCell ) ).append( "</td>" );
 							}
 							else {
-								final String inputExpr = ((CellWithLazilyParsedExpression) inputCell).getExpressionParser()
-										.getSource();
+								final String inputExpr = ((CellWithExpression) inputCell).getExpressionText();
 								h.append( "<td>" ).append( htmlValue( inputExpr ) ).append( htmlPrecision( inputCell ) )
 										.append( "</td>" );
 							}
