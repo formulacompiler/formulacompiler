@@ -203,4 +203,11 @@ public final class MultiCellRange extends CellRange
 		}
 	}
 
+	@Override
+	public CellRange clone( int _colOffset, int _rowOffset )
+	{
+		return new MultiCellRange( (CellIndex) this.from.clone( _colOffset, _rowOffset ),
+				(CellIndex) this.to.clone( _colOffset, _rowOffset ));
+	}
+
 }

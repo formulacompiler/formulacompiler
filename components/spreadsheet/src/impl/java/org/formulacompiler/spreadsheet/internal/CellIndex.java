@@ -409,5 +409,13 @@ public final class CellIndex extends CellRange implements Cell
 		};
 	}
 
+	@Override
+	public CellRange clone( int _colOffset, int _rowOffset )
+	{
+		final int colIndex = this.isColumnIndexAbsolute ? this.columnIndex : (this.columnIndex + _colOffset);
+		final int rowIndex = this.isRowIndexAbsolute ? this.rowIndex : (this.rowIndex + _rowOffset);
+		return new CellIndex( this.spreadsheet, this.sheetIndex,
+				colIndex, this.isColumnIndexAbsolute, rowIndex, this.isRowIndexAbsolute);
+	}
 
 }

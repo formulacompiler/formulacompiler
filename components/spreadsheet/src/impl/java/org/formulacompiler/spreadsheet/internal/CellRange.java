@@ -54,6 +54,9 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 	public abstract CellIndex getTo();
 
 
+	public abstract CellRange clone( int _colOffset, int _rowOffset );
+
+
 	public boolean overlaps( CellRange _other, Orientation _orientation )
 	{
 		int l1 = this.getFrom().getIndex( _orientation );
@@ -256,6 +259,5 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 		}
 
 	}
-
 
 }
