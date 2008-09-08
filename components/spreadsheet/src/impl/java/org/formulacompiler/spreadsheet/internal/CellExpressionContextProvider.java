@@ -44,4 +44,16 @@ final class CellExpressionContextProvider extends ExpressionSourceAsContextProvi
 		_result.append( "\nCell containing expression is " ).append( this.cell.getCanonicalName() ).append( "." );
 	}
 
+	@Override
+	public void setUpContext( DescriptionBuilder _builder )
+	{
+		_builder.pushContext( this.cell.getRow().getSheet() );
+	}
+
+	@Override
+	public void cleanUpContext( DescriptionBuilder _builder )
+	{
+		_builder.popContext();
+	}
+
 }

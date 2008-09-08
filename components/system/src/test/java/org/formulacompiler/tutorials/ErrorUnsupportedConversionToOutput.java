@@ -45,8 +45,8 @@ public class ErrorUnsupportedConversionToOutput extends MultiFormatTestFactory.S
 		catch (/**/CompilerException.UnsupportedDataType e/**/) {
 			String err = /**/"Cannot convert from a string to a int."
 					+ "\nCaused by return type of input 'public abstract int org.formulacompiler.tutorials.ErrorUnsupportedConversionToOutput$MyComputation.result()'."
-					+ "\nCell containing expression is A1."
-					+ "\nReferenced by cell A1."/**/;
+					+ "\nCell containing expression is Sheet1!A1."
+					+ "\nReferenced by cell Sheet1!A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- StringAsInt

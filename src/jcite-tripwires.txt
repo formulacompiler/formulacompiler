@@ -3075,8 +3075,8 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange1"/**/ );
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"C2:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
-					+ "Referenced by cell B11."/**/;
+			String err = /**/"Sheet1!C2:C3 does not fully cover the height of its parent section Sheet1!B2:C4 (which iterates section()).\n"
+					+ "Referenced by cell Sheet1!B11."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
@@ -3088,8 +3088,8 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange2"/**/ );
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"C3:C4 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
-					+ "Referenced by cell B12."/**/;
+			String err = /**/"Sheet1!C3:C4 does not fully cover the height of its parent section Sheet1!B2:C4 (which iterates section()).\n"
+					+ "Referenced by cell Sheet1!B12."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
@@ -3101,8 +3101,8 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange3"/**/ );
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
-					+ "Referenced by cell B13."/**/;
+			String err = /**/"Sheet1!C3 does not fully cover the height of its parent section Sheet1!B2:C4 (which iterates section()).\n"
+					+ "Referenced by cell Sheet1!B13."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
@@ -3114,8 +3114,8 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRange4"/**/ );
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
-					+ "Referenced by cell B14."/**/;
+			String err = /**/"Sheet1!C3 does not fully cover the height of its parent section Sheet1!B2:C4 (which iterates section()).\n"
+					+ "Referenced by cell Sheet1!B14."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
@@ -3127,8 +3127,8 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"BadRef"/**/ );
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"C2 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
-					+ "Referenced by cell B10."/**/;
+			String err = /**/"Sheet1!C2 does not fully cover the height of its parent section Sheet1!B2:C4 (which iterates section()).\n"
+					+ "Referenced by cell Sheet1!B10."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
@@ -3169,7 +3169,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"numOutput"/**/ );
 		catch (/**/CompilerException.UnsupportedDataType e/**/) {
 			String err = /**/"Cannot convert from a java.lang.String to a double."
 					+ "\nCaused by return type of input 'public java.lang.String org.formulacompiler.tutorials.ErrorUnsupportedConversionFromInput$MyInputs.value()'."
-					+ "\nCell containing expression is B2." + "\nReferenced by cell B2."/**/;
+					+ "\nCell containing expression is Sheet1!B2." + "\nReferenced by cell Sheet1!B2."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
@@ -3191,8 +3191,8 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"stringOutput"/**/
 		catch (/**/CompilerException.UnsupportedDataType e/**/) {
 			String err = /**/"Cannot convert from a string to a int."
 					+ "\nCaused by return type of input 'public abstract int org.formulacompiler.tutorials.ErrorUnsupportedConversionToOutput$MyComputation.result()'."
-					+ "\nCell containing expression is A1."
-					+ "\nReferenced by cell A1."/**/;
+					+ "\nCell containing expression is Sheet1!A1."
+					+ "\nReferenced by cell Sheet1!A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
@@ -3214,12 +3214,12 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"Info"/**/ );
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
 			if (getSpreadsheetExtension().equals( ".xls" )) {
 				String err = /**/"Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
-						+ "\nCell containing expression is A1."/**/;
+						+ "\nCell containing expression is Sheet1!A1."/**/;
 				assertEquals( err, e.getMessage() );
 			}
 			else {
 				String err = /**/"Unsupported function INFO encountered in expression 1+INFO( <<? [.B1]); error location indicated by <<?."
-						+ "\nCell containing expression is A1."/**/;
+						+ "\nCell containing expression is Sheet1!A1."/**/;
 				assertEquals( err, e.getMessage() );
 			}
 		}
@@ -3233,9 +3233,9 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"Unsupported"/**/ 
 		}
 		catch (CompilerException.UnsupportedExpression e) {
 			String err = /**/"Function LENB is not supported for double engines."/**/
-					+ /**/"\nIn expression LEN(  >> LENB( B4 ) <<  ); error location indicated by >>..<<."/**/
-					+ "\nCell containing expression is A4."
-					+ "\nReferenced by cell A4.";
+					+ /**/"\nIn expression LEN(  >> LENB( Sheet1!B4 ) <<  ); error location indicated by >>..<<."/**/
+					+ "\nCell containing expression is Sheet1!A4."
+					+ "\nReferenced by cell Sheet1!A4.";
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
@@ -3249,14 +3249,14 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesInfo"/*
 		catch (CompilerException.UnsupportedExpression e) {
 			if (getSpreadsheetExtension().equals( ".xls" )) {
 				String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
-						+ "\nCell containing expression is A1."
-						+ /**/"\nReferenced by cell A2."/**/;
+						+ "\nCell containing expression is Sheet1!A1."
+						+ /**/"\nReferenced by cell Sheet1!A2."/**/;
 				assertEquals( err, e.getMessage() );
 			}
 			else {
 				String err = "Unsupported function INFO encountered in expression 1+INFO( <<? [.B1]); error location indicated by <<?."
-						+ "\nCell containing expression is A1."
-						+ /**/"\nReferenced by cell A2."/**/;
+						+ "\nCell containing expression is Sheet1!A1."
+						+ /**/"\nReferenced by cell Sheet1!A2."/**/;
 				assertEquals( err, e.getMessage() );
 			}
 		}
@@ -3271,8 +3271,8 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"Bad"/**/ );
 		}
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
 			String err = /**/"The last argument to MATCH, the match type, must be constant, but is MyInputs.value()."
-					+ "\nIn expression (1.0 + MATCH( B1, C1:E1,  >> F1 <<  )); error location indicated by >>..<<."
-					+ "\nCell containing expression is A1." + "\nReferenced by cell A1."/**/;
+					+ "\nIn expression (1.0 + MATCH( Sheet1!B1, Sheet1!C1:E1,  >> Sheet1!F1 <<  )); error location indicated by >>..<<."
+					+ "\nCell containing expression is Sheet1!A1." + "\nReferenced by cell Sheet1!A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
@@ -3286,8 +3286,8 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesBad"/**
 		}
 		catch (CompilerException.UnsupportedExpression e) {
 			String err = "The last argument to MATCH, the match type, must be constant, but is MyInputs.value()."
-					+ "\nIn expression (1.0 + MATCH( B1, C1:E1,  >> F1 <<  )); error location indicated by >>..<<."
-					+ "\nCell containing expression is A1." + /**/"\nReferenced by cell A2."/**/;
+					+ "\nIn expression (1.0 + MATCH( Sheet1!B1, Sheet1!C1:E1,  >> Sheet1!F1 <<  )); error location indicated by >>..<<."
+					+ "\nCell containing expression is Sheet1!A1." + /**/"\nReferenced by cell Sheet1!A2."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___

@@ -241,19 +241,11 @@ public final class CellIndex extends CellRange implements Cell
 	{
 		final DescribeR1C1Style r1c1Style = _to.getContext( DescribeR1C1Style.class );
 		if (null == r1c1Style) {
-			if (this.sheetIndex == BROKEN_REF) {
-				_to.append( "#REF!" );
-			}
-			else if (this.sheetIndex > 0) {
-				_to.append( '\'' ).append( getSheet().getName().replace( "'", "''" ) ).append( "'!" );
-			}
-			if (_to.getContext( DescribeShortStyle.class ) != null) {
-				_to.append( SheetImpl.getNameA1ForCellIndex( this.columnIndex, false, this.rowIndex, false ) );
-			}
-			else {
-				_to.append( SheetImpl.getNameA1ForCellIndex( this.columnIndex, this.isColumnIndexAbsolute,
-						this.rowIndex, this.isRowIndexAbsolute ) );
-			}
+			final boolean shortStyle = _to.getContext( DescribeShortStyle.class ) != null;
+			final boolean columnIndexAbsolute = this.isColumnIndexAbsolute && !shortStyle;
+			final boolean rowIndexAbsolute = this.isRowIndexAbsolute && !shortStyle;
+			final SheetImpl contextSheet = _to.getContext( SheetImpl.class );
+			_to.append( getNameA1ForCellIndex( columnIndexAbsolute, rowIndexAbsolute, contextSheet ) );
 		}
 		else {
 			if (isReferenceBroken( this )) {
@@ -281,6 +273,63 @@ public final class CellIndex extends CellRange implements Cell
 			}
 		}
 	}
+
+	String getNameA1ForCellIndex( boolean _columnIndexAbsolute, boolean _rowIndexAbsolute, SheetImpl _contextSheet )
+	{
+		final StringBuilder result = new StringBuilder();
+		if (this.sheetIndex == CellIndex.BROKEN_REF) {
+			result.append( "#REF!" );
+		}
+		else if (_contextSheet == null || this.sheetIndex != _contextSheet.getSheetIndex()) {
+			final SheetImpl sheet = getSheet();
+			final String name = sheet.getName();
+			final boolean quoted = name.contains( " " ) || name.contains( "'" ) || name.contains( "-" );
+			if (quoted) {
+				result.append( '\'' );
+			}
+			result.append( sheet.getName().replace( "'", "''" ) );
+			if (quoted) {
+				result.append( '\'' );
+			}
+			result.append( "!" );
+		}
+		appendNameA1ForCellIndex( result, this.columnIndex, _columnIndexAbsolute, this.rowIndex, _rowIndexAbsolute );
+		return result.toString();
+	}
+
+	public static void appendNameA1ForCellIndex( final StringBuilder _result, final CellIndex _cellIndex )
+	{
+		appendNameA1ForCellIndex( _result, _cellIndex.columnIndex, _cellIndex.isColumnIndexAbsolute, _cellIndex.rowIndex, _cellIndex.isRowIndexAbsolute );
+	}
+
+	public static void appendNameA1ForCellIndex( final StringBuilder _result, final int _columnIndex, final boolean _columnIndexAbsolute, final int _rowIndex, final boolean _rowIndexAbsolute )
+	{
+		if (_columnIndexAbsolute) {
+			_result.append( '$' );
+		}
+		if (_columnIndex == BROKEN_REF) {
+			_result.append( "#REF!" );
+		}
+		else if (_columnIndex <= 25) {
+			_result.append( (char) ('A' + _columnIndex) );
+		}
+		else {
+			int firstLetterIndex = _columnIndex / 26 - 1;
+			int secondLetterIndex = _columnIndex % 26;
+			_result.append( (char) ('A' + firstLetterIndex) );
+			_result.append( (char) ('A' + secondLetterIndex) );
+		}
+		if (_rowIndexAbsolute) {
+			_result.append( '$' );
+		}
+		if (_rowIndex == BROKEN_REF) {
+			_result.append( "#REF!" );
+		}
+		else {
+			_result.append( _rowIndex + 1 );
+		}
+	}
+
 
 	private void describeOffsetTo( DescriptionBuilder _to, char _prefix, int _offset )
 	{

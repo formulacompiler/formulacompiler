@@ -43,4 +43,14 @@ public class ExpressionSourceAsContextProvider implements ExpressionContextProvi
 		_result.append( "; error location indicated by >>..<<." );
 	}
 
+	public void setUpContext( final DescriptionBuilder _builder )
+	{
+		//Do nothing.
+	}
+
+	public void cleanUpContext( final DescriptionBuilder _builder )
+	{
+		//Do nothing.
+	}
+
 }

@@ -193,7 +193,14 @@ public final class MultiCellRange extends CellRange
 	@Override
 	public void describeTo( DescriptionBuilder _to )
 	{
-		_to.append( getFrom() ).append( ":" ).append( getTo() );
+		final CellIndex from = getFrom();
+		_to.append( from );
+		_to.pushContext( from.getSheet() );
+		try {
+			_to.append( ":" ).append( getTo() );
+		} finally {
+			_to.popContext();
+		}
 	}
 
 }

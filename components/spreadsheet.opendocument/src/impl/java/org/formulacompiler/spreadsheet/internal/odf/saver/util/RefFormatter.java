@@ -25,7 +25,6 @@ package org.formulacompiler.spreadsheet.internal.odf.saver.util;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellRange;
-import org.formulacompiler.spreadsheet.internal.SheetImpl;
 
 public class RefFormatter
 {
@@ -59,7 +58,7 @@ public class RefFormatter
 			_stringBuilder.append( "#REF!" );
 		}
 		_stringBuilder.append( '.' );
-		SheetImpl.appendNameA1ForCellIndex( _stringBuilder, _cell );
+		CellIndex.appendNameA1ForCellIndex( _stringBuilder, _cell );
 	}
 
 	private static boolean needsQuotes( String _name )

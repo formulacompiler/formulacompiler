@@ -22,6 +22,7 @@
 
 package org.formulacompiler.spreadsheet.internal;
 
+import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 import junit.framework.TestCase;
@@ -57,7 +58,7 @@ public class CellRangeTest extends TestCase
 		assertIteration( 0, 0, 1, 1, "A1B1A2B2" );
 		assertIteration( 0, 0, 0, 1, "A1A2" );
 		assertIteration( 0, 0, 1, 0, "A1B1" );
-		assertIteration( 8, 8, 10, 10, "I9J9__I10J10________" );
+		assertIteration( 8, 8, 10, 10, "I9J9K9I10J10K10I11J11K11" );
 		assertIteration( 2, 2, 2, 2, "C3" );
 	}
 
@@ -67,8 +68,8 @@ public class CellRangeTest extends TestCase
 		CellIndex start = new CellIndex( this.workbook, 0, 0, true, 0, true );
 		CellIndex end = new CellIndex( this.workbook, 0, 1, true, 1, true );
 		CellRange range = CellRange.getCellRange( start, end );
-		assertEquals( "$A$1:$B$2", range.toString() );
-		assertEquals( "A1:B2", range.getShortName() );
+		assertEquals( "Sheet1!$A$1:$B$2", range.toString() );
+		assertEquals( "Sheet1!A1:B2", range.getShortName() );
 	}
 
 
@@ -77,11 +78,10 @@ public class CellRangeTest extends TestCase
 		CellIndex start = newCellIndex( _fromCol, _fromRow );
 		CellIndex end = newCellIndex( _toCol, _toRow );
 		CellRange range = CellRange.getCellRange( start, end );
-		StringBuilder cells = new StringBuilder();
+		DescriptionBuilder cells = new DescriptionBuilder();
+		cells.pushContext( this.workbook.getSheetList().get( 0 ) );
 		for (CellIndex ix : range) {
-			CellInstance cell = ix.getCell();
-			if (null != cell) cells.append( cell.getCanonicalName() );
-			else cells.append( "__" );
+			ix.describeTo( cells );
 		}
 		assertEquals( _expected, cells.toString() );
 	}
@@ -92,19 +92,19 @@ public class CellRangeTest extends TestCase
 		{
 			final CellRange rng = CellRange.getCellRange( newCellIndex( 3, 3 ), newCellIndex( 3, 5 ) );
 
-			assertEquals( "D4", rng.getCellIndexRelativeTo( newCellIndex( 2, 3 ) ).toString() );
-			assertEquals( "D5", rng.getCellIndexRelativeTo( newCellIndex( 2, 4 ) ).toString() );
-			assertEquals( "D6", rng.getCellIndexRelativeTo( newCellIndex( 2, 5 ) ).toString() );
-			assertEquals( "D6", rng.getCellIndexRelativeTo( newCellIndex( 0, 5 ) ).toString() );
+			assertEquals( "Sheet1!D4", rng.getCellIndexRelativeTo( newCellIndex( 2, 3 ) ).toString() );
+			assertEquals( "Sheet1!D5", rng.getCellIndexRelativeTo( newCellIndex( 2, 4 ) ).toString() );
+			assertEquals( "Sheet1!D6", rng.getCellIndexRelativeTo( newCellIndex( 2, 5 ) ).toString() );
+			assertEquals( "Sheet1!D6", rng.getCellIndexRelativeTo( newCellIndex( 0, 5 ) ).toString() );
 		}
 
 		{
 			final CellRange rng = CellRange.getCellRange( newCellIndex( 3, 3 ), newCellIndex( 5, 3 ) );
 
-			assertEquals( "D4", rng.getCellIndexRelativeTo( newCellIndex( 3, 1 ) ).toString() );
-			assertEquals( "E4", rng.getCellIndexRelativeTo( newCellIndex( 4, 1 ) ).toString() );
-			assertEquals( "F4", rng.getCellIndexRelativeTo( newCellIndex( 5, 1 ) ).toString() );
-			assertEquals( "F4", rng.getCellIndexRelativeTo( newCellIndex( 5, 2 ) ).toString() );
+			assertEquals( "Sheet1!D4", rng.getCellIndexRelativeTo( newCellIndex( 3, 1 ) ).toString() );
+			assertEquals( "Sheet1!E4", rng.getCellIndexRelativeTo( newCellIndex( 4, 1 ) ).toString() );
+			assertEquals( "Sheet1!F4", rng.getCellIndexRelativeTo( newCellIndex( 5, 1 ) ).toString() );
+			assertEquals( "Sheet1!F4", rng.getCellIndexRelativeTo( newCellIndex( 5, 2 ) ).toString() );
 		}
 
 		{

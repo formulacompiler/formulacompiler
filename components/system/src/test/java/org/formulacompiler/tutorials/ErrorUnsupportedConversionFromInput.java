@@ -45,7 +45,7 @@ public class ErrorUnsupportedConversionFromInput extends MultiFormatTestFactory.
 		catch (/**/CompilerException.UnsupportedDataType e/**/) {
 			String err = /**/"Cannot convert from a java.lang.String to a double."
 					+ "\nCaused by return type of input 'public java.lang.String org.formulacompiler.tutorials.ErrorUnsupportedConversionFromInput$MyInputs.value()'."
-					+ "\nCell containing expression is B2." + "\nReferenced by cell B2."/**/;
+					+ "\nCell containing expression is Sheet1!B2." + "\nReferenced by cell Sheet1!B2."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- StringAsInt

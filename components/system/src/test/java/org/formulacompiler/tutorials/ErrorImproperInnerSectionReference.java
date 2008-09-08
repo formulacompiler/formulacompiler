@@ -58,8 +58,8 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"C2 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
-					+ "Referenced by cell B10."/**/;
+			String err = /**/"Sheet1!C2 does not fully cover the height of its parent section Sheet1!B2:C4 (which iterates section()).\n"
+					+ "Referenced by cell Sheet1!B10."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- badRef
@@ -74,8 +74,8 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"C2:C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
-					+ "Referenced by cell B11."/**/;
+			String err = /**/"Sheet1!C2:C3 does not fully cover the height of its parent section Sheet1!B2:C4 (which iterates section()).\n"
+					+ "Referenced by cell Sheet1!B11."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- badRange1
@@ -90,8 +90,8 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"C3:C4 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
-					+ "Referenced by cell B12."/**/;
+			String err = /**/"Sheet1!C3:C4 does not fully cover the height of its parent section Sheet1!B2:C4 (which iterates section()).\n"
+					+ "Referenced by cell Sheet1!B12."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- badRange2
@@ -106,8 +106,8 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
-					+ "Referenced by cell B13."/**/;
+			String err = /**/"Sheet1!C3 does not fully cover the height of its parent section Sheet1!B2:C4 (which iterates section()).\n"
+					+ "Referenced by cell Sheet1!B13."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- badRange3
@@ -122,8 +122,8 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 			fail();
 		}
 		catch (/**/SpreadsheetException.SectionExtentNotCovered e/**/) {
-			String err = /**/"C3 does not fully cover the height of its parent section B2:C4 (which iterates section()).\n"
-					+ "Referenced by cell B14."/**/;
+			String err = /**/"Sheet1!C3 does not fully cover the height of its parent section Sheet1!B2:C4 (which iterates section()).\n"
+					+ "Referenced by cell Sheet1!B14."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- badRange4

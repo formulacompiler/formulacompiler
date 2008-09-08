@@ -165,23 +165,23 @@ public class LoadSaveTest extends AbstractOdsVerifyingTestCase
 		final Map<String, Spreadsheet.Range> definedNames = this.spreadsheet.getRangeNames();
 		assertEquals( 6, definedNames.size() );
 		final Spreadsheet.Range rangeB2 = definedNames.get( "Cell_B2" );
-		assertEquals( "B2", rangeB2.getTopLeft().toString() );
-		assertEquals( "B2", rangeB2.getBottomRight().toString() );
+		assertEquals( "Sheet1!B2", rangeB2.getTopLeft().toString() );
+		assertEquals( "Sheet1!B2", rangeB2.getBottomRight().toString() );
 		final Spreadsheet.Range range_B_2 = definedNames.get( "Cell_$B$2" );
-		assertEquals( "$B$2", range_B_2.getTopLeft().toString() );
-		assertEquals( "$B$2", range_B_2.getBottomRight().toString() );
+		assertEquals( "Sheet1!$B$2", range_B_2.getTopLeft().toString() );
+		assertEquals( "Sheet1!$B$2", range_B_2.getBottomRight().toString() );
 		final Spreadsheet.Range rangeB2C4 = definedNames.get( "Range_B2C4" );
-		assertEquals( "B2", rangeB2C4.getTopLeft().toString() );
-		assertEquals( "C4", rangeB2C4.getBottomRight().toString() );
+		assertEquals( "Sheet1!B2", rangeB2C4.getTopLeft().toString() );
+		assertEquals( "Sheet1!C4", rangeB2C4.getBottomRight().toString() );
 		final Spreadsheet.Range range_B_2_C_4 = definedNames.get( "Range_$B$2$C$4" );
-		assertEquals( "$B$2", range_B_2_C_4.getTopLeft().toString() );
-		assertEquals( "$C$4", range_B_2_C_4.getBottomRight().toString() );
+		assertEquals( "Sheet1!$B$2", range_B_2_C_4.getTopLeft().toString() );
+		assertEquals( "Sheet1!$C$4", range_B_2_C_4.getBottomRight().toString() );
 		final Spreadsheet.Range rangeS1B2S3C4 = definedNames.get( "Range_$Sheet1$B$2$Sheet3$C$4" );
-		assertEquals( "$B$2", rangeS1B2S3C4.getTopLeft().toString() );
-		assertEquals( "'Sheet3'!$C$4", rangeS1B2S3C4.getBottomRight().toString() );
+		assertEquals( "Sheet1!$B$2", rangeS1B2S3C4.getTopLeft().toString() );
+		assertEquals( "Sheet3!$C$4", rangeS1B2S3C4.getBottomRight().toString() );
 		final Spreadsheet.Range range_S1_B_2_S3_C_4 = definedNames.get( "Range_$Sheet1$B$2$Sheet3$C$4" );
-		assertEquals( "$B$2", range_S1_B_2_S3_C_4.getTopLeft().toString() );
-		assertEquals( "'Sheet3'!$C$4", range_S1_B_2_S3_C_4.getBottomRight().toString() );
+		assertEquals( "Sheet1!$B$2", range_S1_B_2_S3_C_4.getTopLeft().toString() );
+		assertEquals( "Sheet3!$C$4", range_S1_B_2_S3_C_4.getBottomRight().toString() );
 	}
 
 	public void testRangeNamesUsage() throws Exception
@@ -189,17 +189,17 @@ public class LoadSaveTest extends AbstractOdsVerifyingTestCase
 		final Map<String, Spreadsheet.Range> definedNames = this.spreadsheet.getRangeNames();
 		assertEquals( 3, definedNames.size() );
 		final Spreadsheet.Range rangeB2 = definedNames.get( "Cell" );
-		assertEquals( "$B$1", rangeB2.getTopLeft().toString() );
-		assertEquals( "$B$1", rangeB2.getBottomRight().toString() );
+		assertEquals( "Sheet1!$B$1", rangeB2.getTopLeft().toString() );
+		assertEquals( "Sheet1!$B$1", rangeB2.getBottomRight().toString() );
 		final Spreadsheet.Range range_B_2 = definedNames.get( "Range2D" );
-		assertEquals( "$B$2", range_B_2.getTopLeft().toString() );
-		assertEquals( "$C$4", range_B_2.getBottomRight().toString() );
+		assertEquals( "Sheet1!$B$2", range_B_2.getTopLeft().toString() );
+		assertEquals( "Sheet1!$C$4", range_B_2.getBottomRight().toString() );
 		final Spreadsheet.Range rangeB2C4 = definedNames.get( "Range3D" );
-		assertEquals( "$B$5", rangeB2C4.getTopLeft().toString() );
-		assertEquals( "'Sheet2'!$D$6", rangeB2C4.getBottomRight().toString() );
+		assertEquals( "Sheet1!$B$5", rangeB2C4.getTopLeft().toString() );
+		assertEquals( "Sheet2!$D$6", rangeB2C4.getBottomRight().toString() );
 
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
-		assertEquals( "SUM( $B$1, $B$2:$C$4, $B$5:'Sheet2'!$D$6 )", sheet.getRows()[ 0 ].getCells()[ 0 ].getExpressionText() );
+		assertEquals( "SUM( $B$1, $B$2:$C$4, $B$5:Sheet2!$D$6 )", sheet.getRows()[ 0 ].getCells()[ 0 ].getExpressionText() );
 		assertEquals( "SUM( Cell, Range2D, Range3D )", sheet.getRows()[ 1 ].getCells()[ 0 ].getExpressionText() );
 		assertEquals( "((SUM( Cell ) + SUM( Range2D )) + SUM( Range3D ))", sheet.getRows()[ 2 ].getCells()[ 0 ].getExpressionText() );
 	}
