@@ -98,4 +98,10 @@ public final class ExpressionNodeForCell extends ExpressionNode
 	}
 
 
+	@Override
+	protected ExpressionNode innerCloneWithOffset( int _colOffset, int _rowOffset )
+	{
+		return new ExpressionNodeForCell( (CellIndex) this.cellIndex.clone( _colOffset, _rowOffset ), this.name );
+	}
+
 }

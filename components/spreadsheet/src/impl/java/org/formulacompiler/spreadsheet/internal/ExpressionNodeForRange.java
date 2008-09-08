@@ -68,6 +68,13 @@ public final class ExpressionNodeForRange extends ExpressionNode
 
 
 	@Override
+	public ExpressionNode innerCloneWithOffset( int _colOffset, int _rowOffset )
+	{
+		return new ExpressionNodeForRange( this.range.clone( _colOffset, _rowOffset ), this.name );
+	}
+
+
+	@Override
 	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
 	{
 		throw new AbstractMethodError();

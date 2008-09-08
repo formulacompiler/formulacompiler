@@ -159,13 +159,37 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 
 	protected abstract ExpressionNode innerCloneWithoutArguments();
 
-
 	@Override
 	public ExpressionNode clone()
 	{
 		final ExpressionNode result = cloneWithoutArguments();
 		for (ExpressionNode arg : arguments()) {
 			final ExpressionNode newArg = (null == arg) ? null : arg.clone();
+			result.arguments().add( newArg );
+		}
+		return result;
+	}
+
+
+	private ExpressionNode cloneWithOffset( int _colOffset, int _rowOffset )
+	{
+		final ExpressionNode result = innerCloneWithOffset( _colOffset, _rowOffset );
+		result.contextProvider = this.contextProvider;
+		result.dataType = this.dataType;
+		result.derivedFrom = this.derivedFrom;
+		return result;
+	}
+
+	protected ExpressionNode innerCloneWithOffset( int _colOffset, int _rowOffset )
+	{
+		return innerCloneWithoutArguments();
+	}
+
+	public ExpressionNode clone( int colOffset, int rowOffset )
+	{
+		final ExpressionNode result = cloneWithOffset( colOffset, rowOffset );
+		for (ExpressionNode arg : arguments()) {
+			final ExpressionNode newArg = (null == arg) ? null : arg.clone( colOffset, rowOffset );
 			result.arguments().add( newArg );
 		}
 		return result;
