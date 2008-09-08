@@ -24,7 +24,7 @@ package org.formulacompiler.tests.reference.base;
 
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 
 abstract class AbstractVariantRowVerificationTestCase extends AbstractContextTestCase
 {
@@ -86,9 +86,9 @@ abstract class AbstractVariantRowVerificationTestCase extends AbstractContextTes
 		if (_want == null) {
 			assertNull( _have );
 		}
-		else if (_want instanceof CellWithLazilyParsedExpression) {
-			CellWithLazilyParsedExpression wantExpr = (CellWithLazilyParsedExpression) _want;
-			CellWithLazilyParsedExpression haveExpr = (CellWithLazilyParsedExpression) _have;
+		else if (_want instanceof CellWithExpression) {
+			CellWithExpression wantExpr = (CellWithExpression) _want;
+			CellWithExpression haveExpr = (CellWithExpression) _have;
 			assertCellExpressionsSame( wantExpr, haveExpr );
 		}
 		else {
@@ -96,7 +96,7 @@ abstract class AbstractVariantRowVerificationTestCase extends AbstractContextTes
 		}
 	}
 
-	protected void assertCellExpressionsSame( CellWithLazilyParsedExpression _want, CellWithLazilyParsedExpression _have )
+	protected void assertCellExpressionsSame( CellWithExpression _want, CellWithExpression _have )
 			throws Exception
 	{
 		final String wantExpr = _want.getExpression().toString();

@@ -23,7 +23,7 @@
 package org.formulacompiler.tests.reference.base;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 
 public class ExpressionVerificationTestCase extends AbstractContextTestCase
 {
@@ -46,11 +46,11 @@ public class ExpressionVerificationTestCase extends AbstractContextTestCase
 	@Override
 	protected void runTest() throws Throwable
 	{
-		final CellInstance cell = cx().getRowCell( this.column );
+		final CellWithExpression cell = (CellWithExpression) cx().getRowCell( this.column );
 		assertCheck( this.wantExpr, cell );
 	}
 
-	private void assertCheck( String _wantExpr, CellInstance _cell ) throws Exception
+	private void assertCheck( String _wantExpr, CellWithExpression _cell ) throws Exception
 	{
 		final ExpressionNode expr = _cell.getExpression();
 		final String exprText = expr.toString();

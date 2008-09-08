@@ -194,8 +194,8 @@ public final class CellIndex extends CellRange implements Cell
 	public String getExpressionText() throws SpreadsheetException
 	{
 		final CellInstance cell = getCell();
-		if (cell instanceof CellWithLazilyParsedExpression) {
-			return ((CellWithLazilyParsedExpression) cell).getExpression().toString();
+		if (cell instanceof CellWithExpression) {
+			return ((CellWithExpression) cell).getExpression().toString();
 		}
 		else {
 			return null;

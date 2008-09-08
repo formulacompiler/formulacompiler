@@ -45,7 +45,7 @@ import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
 import org.formulacompiler.spreadsheet.internal.CellWithError;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeShape;
@@ -179,8 +179,8 @@ public final class SectionModelCompiler
 		if (_cell instanceof CellWithConstant) {
 			buildCellModel( _cellModel, (CellWithConstant) _cell );
 		}
-		else if (_cell instanceof CellWithLazilyParsedExpression) {
-			buildCellModel( _cellModel, (CellWithLazilyParsedExpression) _cell );
+		else if (_cell instanceof CellWithExpression) {
+			buildCellModel( _cellModel, (CellWithExpression) _cell );
 		}
 		else if (_cell instanceof CellWithError) {
 			buildCellModel( _cellModel, (CellWithError) _cell );
@@ -206,7 +206,7 @@ public final class SectionModelCompiler
 	}
 
 
-	private void buildCellModel( CellModel _cellModel, CellWithLazilyParsedExpression _cell ) throws CompilerException
+	private void buildCellModel( CellModel _cellModel, CellWithExpression _cell ) throws CompilerException
 	{
 		try {
 			final ExpressionNode exprModel = buildExpressionModel( _cell.getExpression() );

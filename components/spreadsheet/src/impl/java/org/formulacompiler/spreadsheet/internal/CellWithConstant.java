@@ -23,7 +23,6 @@
 package org.formulacompiler.spreadsheet.internal;
 
 import org.formulacompiler.compiler.internal.YamlBuilder;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
 
 public final class CellWithConstant extends CellInstance
@@ -33,13 +32,6 @@ public final class CellWithConstant extends CellInstance
 	{
 		super( _row );
 		setValue( _value );
-	}
-
-
-	@Override
-	public ExpressionNode getExpression()
-	{
-		return null;
 	}
 
 

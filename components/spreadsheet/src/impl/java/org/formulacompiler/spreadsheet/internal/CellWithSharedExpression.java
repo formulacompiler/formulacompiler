@@ -22,36 +22,34 @@
 
 package org.formulacompiler.spreadsheet.internal;
 
-import org.formulacompiler.compiler.internal.YamlBuilder;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 
-public final class CellWithError extends CellInstance
+public class CellWithSharedExpression extends CellWithExpression
 {
-	public static final String NA = "#N/A";
-	public static final String NUM = "#NUM!";
-	public static final String VALUE = "#VALUE!";
-	public static final String REF = "#REF!";
-	public static final String DIV0 = "#DIV/0!";
+	private final CellWithExpression baseExpression;
 
-	public CellWithError( RowImpl _row, String _text )
+	public CellWithSharedExpression( RowImpl _row, CellWithExpression _expression )
 	{
 		super( _row );
-		setValue( _text );
+		this.baseExpression = _expression;
 	}
-
-
-	public String getError()
-	{
-		return (String) getValue();
-	}
-
 
 	@Override
-	public void yamlTo( YamlBuilder _to )
+	public ExpressionNode getExpression() throws SpreadsheetException
 	{
-		_to.vn( "err" ).v( getError() ).lf();
-		super.yamlTo( _to );
+		final ExpressionNode own = super.getExpression();
+		if (null != own) {
+			return own;
+		}
+		else {
+			final int colOffset = getColumnIndex() - this.baseExpression.getColumnIndex();
+			final int rowOffset = getRow().getRowIndex() - this.baseExpression.getRow().getRowIndex();
+			final ExpressionNode exp = this.baseExpression.getExpression().clone( colOffset, rowOffset );
+			setExpression( exp );
+			return exp;
+		}
 	}
-
 
 }

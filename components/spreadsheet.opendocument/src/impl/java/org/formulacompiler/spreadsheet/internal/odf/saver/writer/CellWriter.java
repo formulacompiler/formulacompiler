@@ -39,6 +39,7 @@ import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.odf.StyleFamilies;
 import org.formulacompiler.spreadsheet.internal.odf.ValueTypes;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
@@ -74,8 +75,8 @@ class CellWriter extends ElementWriter
 			attributes.put( XMLConstants.Table.STYLE_NAME, styleName );
 			this.styles.add( new Style( styleName, StyleFamilies.TABLE_CELL ) );
 
-			final ExpressionNode exp = _cell.getExpression();
-			if (exp != null) {
+			if (_cell instanceof CellWithExpression) {
+				final ExpressionNode exp = ((CellWithExpression) _cell).getExpression();
 				attributes.put( XMLConstants.Table.FORMULA, ExpressionFormatter.format( exp, _cell.getCellIndex() ) );
 			}
 			else {

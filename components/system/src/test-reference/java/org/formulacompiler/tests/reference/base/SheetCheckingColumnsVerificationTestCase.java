@@ -22,8 +22,9 @@
 
 package org.formulacompiler.tests.reference.base;
 
-import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
+import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 
 public class SheetCheckingColumnsVerificationTestCase extends AbstractContextTestCase
 {
@@ -62,8 +63,8 @@ public class SheetCheckingColumnsVerificationTestCase extends AbstractContextTes
 	{
 		final CellInstance cell = _cellIndex.getCell();
 		assertNotNull( _cellIndex + " is empty.", cell );
-		assertNotNull( _cellIndex + " does not contain expression.", cell.getExpression() );
-		assertEquals( "" + _cellIndex, _wantExpr, cell.getExpression().toString() );
+		assertTrue( _cellIndex + " does not contain expression.", cell instanceof CellWithExpression);
+		assertEquals( "" + _cellIndex, _wantExpr, ((CellWithExpression) cell).getExpression().toString() );
 	}
 
 }
