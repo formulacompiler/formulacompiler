@@ -175,7 +175,16 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 	@Override
 	public final void describeTo( DescriptionBuilder _to )
 	{
-		describeToWithConfig( _to, _to.getContext( ExpressionDescriptionConfig.class ) );
+		if (this.contextProvider != null) {
+			this.contextProvider.setUpContext( _to );
+		}
+		try {
+			describeToWithConfig( _to, _to.getContext( ExpressionDescriptionConfig.class ) );
+		} finally {
+			if (this.contextProvider != null) {
+				this.contextProvider.cleanUpContext( _to );
+			}
+		}
 	}
 
 

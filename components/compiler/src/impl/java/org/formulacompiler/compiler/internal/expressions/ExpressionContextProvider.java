@@ -30,4 +30,8 @@ public interface ExpressionContextProvider
 
 	void buildContext( DescriptionBuilder _builder, ExpressionNode _focusedNode );
 
+	void setUpContext( DescriptionBuilder _builder );
+
+	void cleanUpContext( DescriptionBuilder _builder );
+
 }

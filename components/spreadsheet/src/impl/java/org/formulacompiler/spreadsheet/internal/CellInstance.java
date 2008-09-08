@@ -116,7 +116,7 @@ public abstract class CellInstance extends AbstractStyledElement
 
 	public String getCanonicalName()
 	{
-		return SheetImpl.getNameA1ForCellIndex( getColumnIndex(), false, getRow().getRowIndex(), false );
+		return getCellIndex().getNameA1ForCellIndex( false, false, null );
 	}
 
 

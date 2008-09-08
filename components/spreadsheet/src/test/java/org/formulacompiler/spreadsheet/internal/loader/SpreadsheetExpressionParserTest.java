@@ -73,33 +73,33 @@ public class SpreadsheetExpressionParserTest extends TestCase
 
 	public void testRC() throws Exception
 	{
-		assertRefR1C1( "B2", "RC" );
-		assertRefR1C1( "$A$1", "R1C1" );
-		assertRefR1C1( "$A2", "RC1" );
-		assertRefR1C1( "B$1", "R1C" );
-		assertRefR1C1( "C2", "RC[1]" );
-		assertRefR1C1( "A2", "RC[-1]" );
-		assertRefR1C1( "A1", "R[-1]C[-1]" );
-		assertRefR1C1( "B1", "R[-1]C" );
+		assertRefR1C1( "One!B2", "RC" );
+		assertRefR1C1( "One!$A$1", "R1C1" );
+		assertRefR1C1( "One!$A2", "RC1" );
+		assertRefR1C1( "One!B$1", "R1C" );
+		assertRefR1C1( "One!C2", "RC[1]" );
+		assertRefR1C1( "One!A2", "RC[-1]" );
+		assertRefR1C1( "One!A1", "R[-1]C[-1]" );
+		assertRefR1C1( "One!B1", "R[-1]C" );
 	}
 
 
 	public void testA1() throws Exception
 	{
-		assertRefA1( "B2", "B2" );
-		assertRefA1( "D4", "D4" );
-		assertRefA1( "$D$4", "$D$4" );
-		assertRefA1( "$D4", "$D4" );
-		assertRefA1( "D$4", "D$4" );
-		assertRefA1( "AD564", "AD564" );
-		assertRefA1( "$FZ$4", "$FZ$4" );
+		assertRefA1( "One!B2", "B2" );
+		assertRefA1( "One!D4", "D4" );
+		assertRefA1( "One!$D$4", "$D$4" );
+		assertRefA1( "One!$D4", "$D4" );
+		assertRefA1( "One!D$4", "D$4" );
+		assertRefA1( "One!AD564", "AD564" );
+		assertRefA1( "One!$FZ$4", "$FZ$4" );
 		/*
 		 * This tests the special case where an R1C1-style reference is a valid A1-style reference. It
 		 * explains the need for the CellRefFormat parser option.
 		 */
-		assertRefA1( "RC1", "RC1" );
+		assertRefA1( "One!RC1", "RC1" );
 		try {
-			assertRefA1( "R11", "R1C1" );
+			assertRefA1( "One!R11", "R1C1" );
 		} catch (CellRefParseException e) {
 			assertEquals( "Invalid A1-style cell reference: R1C1", e.getMessage() );
 		}
@@ -120,36 +120,36 @@ public class SpreadsheetExpressionParserTest extends TestCase
 
 	public void testA1ODF() throws Exception
 	{
-		assertRefA1ODF( "B2", "[.B2]" );
-		assertRefA1ODF( "D4", "[.D4]" );
-		assertRefA1ODF( "$D$4", "[.$D$4]" );
-		assertRefA1ODF( "$D4", "[.$D4]" );
-		assertRefA1ODF( "D$4", "[.D$4]" );
-		assertRefA1ODF( "AD564", "[.AD564]" );
-		assertRefA1ODF( "$FZ$4", "[.$FZ$4]" );
-		assertRefA1ODF( "RC1", "[.RC1]" );
-		assertRefA1ODF( "#REF!#REF!", "[.#REF!#REF!]" );
-		assertRefA1ODF( "$#REF!$#REF!", "[.$#REF!$#REF!]" );
-		assertRefA1ODF( "A#REF!", "[.A#REF!]" );
-		assertRefA1ODF( "#REF!1", "[.#REF!1]" );
+		assertRefA1ODF( "One!B2", "[.B2]" );
+		assertRefA1ODF( "One!D4", "[.D4]" );
+		assertRefA1ODF( "One!$D$4", "[.$D$4]" );
+		assertRefA1ODF( "One!$D4", "[.$D4]" );
+		assertRefA1ODF( "One!D$4", "[.D$4]" );
+		assertRefA1ODF( "One!AD564", "[.AD564]" );
+		assertRefA1ODF( "One!$FZ$4", "[.$FZ$4]" );
+		assertRefA1ODF( "One!RC1", "[.RC1]" );
+		assertRefA1ODF( "One!#REF!#REF!", "[.#REF!#REF!]" );
+		assertRefA1ODF( "One!$#REF!$#REF!", "[.$#REF!$#REF!]" );
+		assertRefA1ODF( "One!A#REF!", "[.A#REF!]" );
+		assertRefA1ODF( "One!#REF!1", "[.#REF!1]" );
 	}
 
 
 	public void testCellRefs() throws Exception
 	{
-		assertParseableA1( "(((($A$1 + _1_) + _2_) + _A_) + _B_)", "$A$1 + _1_ + _2_ + _A_ + _B_" );
-		assertParseableA1ODF( "(((($A$1 + _1_) + _2_) + _A_) + _B_)", "[.$A$1] + _1_ + _2_ + _A_ + _B_" );
-		assertParseableR1C1( "(((($A$1 + _1_) + _2_) + _A_) + _B_)", "R1C1 + _1_ + _2_ + _A_ + _B_" );
-		assertParseableR1C1( "(((($A$1 + C3) + $A2) + B$1) + A1)", "R1C1 + R[1]C[1] + RC1 + R1C + R[-1]C[-1]" );
+		assertParseableA1( "((((One!$A$1 + _1_) + _2_) + _A_) + _B_)", "$A$1 + _1_ + _2_ + _A_ + _B_" );
+		assertParseableA1ODF( "((((One!$A$1 + _1_) + _2_) + _A_) + _B_)", "[.$A$1] + _1_ + _2_ + _A_ + _B_" );
+		assertParseableR1C1( "((((One!$A$1 + _1_) + _2_) + _A_) + _B_)", "R1C1 + _1_ + _2_ + _A_ + _B_" );
+		assertParseableR1C1( "((((One!$A$1 + One!C3) + One!$A2) + One!B$1) + One!A1)", "R1C1 + R[1]C[1] + RC1 + R1C + R[-1]C[-1]" );
 	}
 
 
 	public void testOperators() throws Exception
 	{
-		assertParseableA1( "((((A1 + (-B1)) + B2) - B3) - (-B4))", "A1 + -B1 + +B2 - +B3 - -B4" );
-		assertParseableA1ODF( "((((A1 + (-B1)) + B2) - B3) - (-B4))", "[.A1] + -[.B1] + +[.B2] - +[.B3] - -[.B4]" );
-		assertParseableA1( "(A1 + (A2 * A3))", "A1 + A2 * A3" );
-		assertParseableA1ODF( "(A1 + (A2 * A3))", "[.A1] + [.A2] * [.A3]" );
+		assertParseableA1( "((((One!A1 + (-One!B1)) + One!B2) - One!B3) - (-One!B4))", "A1 + -B1 + +B2 - +B3 - -B4" );
+		assertParseableA1ODF( "((((One!A1 + (-One!B1)) + One!B2) - One!B3) - (-One!B4))", "[.A1] + -[.B1] + +[.B2] - +[.B3] - -[.B4]" );
+		assertParseableA1( "(One!A1 + (One!A2 * One!A3))", "A1 + A2 * A3" );
+		assertParseableA1ODF( "(One!A1 + (One!A2 * One!A3))", "[.A1] + [.A2] * [.A3]" );
 	}
 
 
@@ -165,7 +165,7 @@ public class SpreadsheetExpressionParserTest extends TestCase
 
 	public void testCellAndRangeMixes() throws Exception
 	{
-		assertParseableA1( "SUM( A1:B2, C5, A1:B5 A2:E8, (A1 + A2) )", "SUM( A1:B2, C5, A1:B5 A2:E8, A1+A2 )" );
+		assertParseableA1( "SUM( One!A1:B2, One!C5, One!A1:B5 One!A2:E8, (One!A1 + One!A2) )", "SUM( A1:B2, C5, A1:B5 A2:E8, A1+A2 )" );
 		assertParseableA1( "(SUM( _1_, _2_ _A_, _B_, _ALL_ ) + _2_)", "SUM( _1_, _2_ _A_, _B_, _ALL_ ) + _2_" );
 
 		// LATER assertParseableA1( "(SUM( A1:A2, A1:A2 A1:A2 ))", "SUM( A1:_A2_, _A1_:A2 _A1_:_A2_ )"
@@ -197,8 +197,8 @@ public class SpreadsheetExpressionParserTest extends TestCase
 
 	public void testOldStyleFunctions() throws Exception
 	{
-		assertParseableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + @ROUND(A1,2) + 2" );
-		assertParseableA1( "((1.0 + ROUND( A1, 2.0 )) + 2.0)", "1 + ROUND(A1,2) + 2" );
+		assertParseableA1( "((1.0 + ROUND( One!A1, 2.0 )) + 2.0)", "1 + @ROUND(A1,2) + 2" );
+		assertParseableA1( "((1.0 + ROUND( One!A1, 2.0 )) + 2.0)", "1 + ROUND(A1,2) + 2" );
 	}
 
 
@@ -219,9 +219,9 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	{
 		new SheetImpl( this.workbook, "Two" );
 		new SheetImpl( this.workbook, "*()__ '123'!\"yes\"" );
-		assertRefA1( "'Two'!A2", "Two!A2" );
-		assertRefA1ODF( "'Two'!A2", "[Two.A2]" );
-		assertRefR1C1( "'Two'!$A$2", "Two!R2C1" );
+		assertRefA1( "Two!A2", "Two!A2" );
+		assertRefA1ODF( "Two!A2", "[Two.A2]" );
+		assertRefR1C1( "Two!$A$2", "Two!R2C1" );
 		assertRefA1( "'*()__ ''123''!\"yes\"'!A1", "'*()__ ''123''!\"yes\"'!A1" );
 		assertRefA1ODF( "'*()__ ''123''!\"yes\"'!A1", "['*()__ ''123''!\"yes\"'.A1]" );
 		assertRefR1C1( "'*()__ ''123''!\"yes\"'!$A$1", "'*()__ ''123''!\"yes\"'!R1C1" );
@@ -234,21 +234,21 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		RowImpl row21 = new RowImpl( sheet2 );
 		CellInstance cell211 = new CellWithConstant( row21, 4711 );
 		this.parseRelativeTo = cell211;
-		assertRefA1( "'Two'!A2", "A2" );
-		assertRefA1( "A2", "One!A2" );
-		assertRefA1ODF( "'Two'!A2", "[.A2]" );
-		assertRefA1ODF( "A2", "[One.A2]" );
-		assertRefR1C1( "'Two'!$A$2", "R2C1" );
-		assertRefR1C1( "$A$2", "One!R2C1" );
+		assertRefA1( "Two!A2", "A2" );
+		assertRefA1( "One!A2", "One!A2" );
+		assertRefA1ODF( "Two!A2", "[.A2]" );
+		assertRefA1ODF( "One!A2", "[One.A2]" );
+		assertRefR1C1( "Two!$A$2", "R2C1" );
+		assertRefR1C1( "One!$A$2", "One!R2C1" );
 	}
 
 
 	public void testReferencesToSecondarySheet() throws Exception
 	{
 		new SheetImpl( this.workbook, "Two" );
-		assertParseableA1( "('Two'!A2 + 'Two'!$B$1)", "Two!A2+Two!$B$1" );
-		assertParseableA1ODF( "('Two'!A2 + 'Two'!$B$1)", "[Two.A2]+[$Two.$B$1]" );
-		assertParseableR1C1( "('Two'!A2 + 'Two'!$B$1)", "Two!RC[-1]+Two!R1C2" );
+		assertParseableA1( "(Two!A2 + Two!$B$1)", "Two!A2+Two!$B$1" );
+		assertParseableA1ODF( "(Two!A2 + Two!$B$1)", "[Two.A2]+[$Two.$B$1]" );
+		assertParseableR1C1( "(Two!A2 + Two!$B$1)", "Two!RC[-1]+Two!R1C2" );
 	}
 
 

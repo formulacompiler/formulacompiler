@@ -45,12 +45,12 @@ public class ErrorUnsupportedFunction extends MultiFormatTestFactory.Spreadsheet
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
 			if (getSpreadsheetExtension().equals( ".xls" )) {
 				String err = /**/"Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
-						+ "\nCell containing expression is A1."/**/;
+						+ "\nCell containing expression is Sheet1!A1."/**/;
 				assertEquals( err, e.getMessage() );
 			}
 			else {
 				String err = /**/"Unsupported function INFO encountered in expression 1+INFO( <<? [.B1]); error location indicated by <<?."
-						+ "\nCell containing expression is A1."/**/;
+						+ "\nCell containing expression is Sheet1!A1."/**/;
 				assertEquals( err, e.getMessage() );
 			}
 		}
@@ -68,14 +68,14 @@ public class ErrorUnsupportedFunction extends MultiFormatTestFactory.Spreadsheet
 		catch (CompilerException.UnsupportedExpression e) {
 			if (getSpreadsheetExtension().equals( ".xls" )) {
 				String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
-						+ "\nCell containing expression is A1."
-						+ /**/"\nReferenced by cell A2."/**/;
+						+ "\nCell containing expression is Sheet1!A1."
+						+ /**/"\nReferenced by cell Sheet1!A2."/**/;
 				assertEquals( err, e.getMessage() );
 			}
 			else {
 				String err = "Unsupported function INFO encountered in expression 1+INFO( <<? [.B1]); error location indicated by <<?."
-						+ "\nCell containing expression is A1."
-						+ /**/"\nReferenced by cell A2."/**/;
+						+ "\nCell containing expression is Sheet1!A1."
+						+ /**/"\nReferenced by cell Sheet1!A2."/**/;
 				assertEquals( err, e.getMessage() );
 			}
 		}
@@ -103,9 +103,9 @@ public class ErrorUnsupportedFunction extends MultiFormatTestFactory.Spreadsheet
 		}
 		catch (CompilerException.UnsupportedExpression e) {
 			String err = /**/"Function LENB is not supported for double engines."/**/
-					+ /**/"\nIn expression LEN(  >> LENB( B4 ) <<  ); error location indicated by >>..<<."/**/
-					+ "\nCell containing expression is A4."
-					+ "\nReferenced by cell A4.";
+					+ /**/"\nIn expression LEN(  >> LENB( Sheet1!B4 ) <<  ); error location indicated by >>..<<."/**/
+					+ "\nCell containing expression is Sheet1!A4."
+					+ "\nReferenced by cell Sheet1!A4.";
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- BindParsedButUnsupported

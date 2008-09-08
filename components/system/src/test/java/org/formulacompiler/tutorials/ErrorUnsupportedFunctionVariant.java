@@ -45,8 +45,8 @@ public class ErrorUnsupportedFunctionVariant extends MultiFormatTestFactory.Spre
 		}
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
 			String err = /**/"The last argument to MATCH, the match type, must be constant, but is MyInputs.value()."
-					+ "\nIn expression (1.0 + MATCH( B1, C1:E1,  >> F1 <<  )); error location indicated by >>..<<."
-					+ "\nCell containing expression is A1." + "\nReferenced by cell A1."/**/;
+					+ "\nIn expression (1.0 + MATCH( Sheet1!B1, Sheet1!C1:E1,  >> Sheet1!F1 <<  )); error location indicated by >>..<<."
+					+ "\nCell containing expression is Sheet1!A1." + "\nReferenced by cell Sheet1!A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- BindBad
@@ -63,8 +63,8 @@ public class ErrorUnsupportedFunctionVariant extends MultiFormatTestFactory.Spre
 		}
 		catch (CompilerException.UnsupportedExpression e) {
 			String err = "The last argument to MATCH, the match type, must be constant, but is MyInputs.value()."
-					+ "\nIn expression (1.0 + MATCH( B1, C1:E1,  >> F1 <<  )); error location indicated by >>..<<."
-					+ "\nCell containing expression is A1." + /**/"\nReferenced by cell A2."/**/;
+					+ "\nIn expression (1.0 + MATCH( Sheet1!B1, Sheet1!C1:E1,  >> Sheet1!F1 <<  )); error location indicated by >>..<<."
+					+ "\nCell containing expression is Sheet1!A1." + /**/"\nReferenced by cell Sheet1!A2."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 		// ---- BindReferencesBad

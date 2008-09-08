@@ -94,48 +94,6 @@ public final class SheetImpl extends AbstractStyledElement implements Spreadshee
 	}
 
 
-	public static String getNameA1ForCellIndex( int _columnIndex, boolean _columnIndexAbsolute,
-			int _rowIndex, boolean _rowIndexAbsolute )
-	{
-		StringBuilder result = new StringBuilder();
-		appendNameA1ForCellIndex( result, _columnIndex, _columnIndexAbsolute, _rowIndex, _rowIndexAbsolute );
-		return result.toString();
-	}
-
-	public static void appendNameA1ForCellIndex( final StringBuilder _result, final CellIndex _cellIndex )
-	{
-		appendNameA1ForCellIndex( _result, _cellIndex.columnIndex, _cellIndex.isColumnIndexAbsolute, _cellIndex.rowIndex, _cellIndex.isRowIndexAbsolute );
-	}
-
-	private static void appendNameA1ForCellIndex( final StringBuilder _result, final int _columnIndex, final boolean _columnIndexAbsolute, final int _rowIndex, final boolean _rowIndexAbsolute )
-	{
-		if (_columnIndexAbsolute) {
-			_result.append( '$' );
-		}
-		if (_columnIndex == CellIndex.BROKEN_REF) {
-			_result.append( "#REF!" );
-		}
-		else if (_columnIndex <= 25) {
-			_result.append( (char) ('A' + _columnIndex) );
-		}
-		else {
-			int firstLetterIndex = _columnIndex / 26 - 1;
-			int secondLetterIndex = _columnIndex % 26;
-			_result.append( (char) ('A' + firstLetterIndex) );
-			_result.append( (char) ('A' + secondLetterIndex) );
-		}
-		if (_rowIndexAbsolute) {
-			_result.append( '$' );
-		}
-		if (_rowIndex == CellIndex.BROKEN_REF) {
-			_result.append( "#REF!" );
-		}
-		else {
-			_result.append( _rowIndex + 1 );
-		}
-	}
-
-
 	public void trim()
 	{
 		boolean canRemove = true;
