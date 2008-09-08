@@ -43,6 +43,11 @@ sheets:
     - const: 2.0
     - const: 1.0
 
+- name: Sheet2
+  rows:
+
+- name: Sheet3
+  rows:
 names:
 - name: LastSales
   ref: R1C2:R5C2

@@ -55,6 +55,11 @@ sheets:
     - const: "Good"
     - const: "Excellent"
 
+- name: Sheet2
+  rows:
+
+- name: Sheet3
+  rows:
 names:
 - name: OrdersForLastThreeMonths
   ref: R3C2:R7C2

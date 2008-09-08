@@ -45,4 +45,9 @@ sheets:
     - expr: =(BasePrice - R[-1]C)
       names: [ Total ]
 
+- name: Sheet2
+  rows:
+
+- name: Sheet3
+  rows:
 names:

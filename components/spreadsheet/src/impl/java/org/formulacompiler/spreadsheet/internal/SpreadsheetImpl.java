@@ -188,16 +188,8 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 
 	public void trim()
 	{
-		boolean canRemove = true;
-		for (int i = getSheetList().size() - 1; i >= 0; i--) {
-			SheetImpl sheet = getSheetList().get( i );
+		for (SheetImpl sheet : getSheetList()) {
 			sheet.trim();
-			if (canRemove) {
-				if (sheet.getRowList().size() == 0) {
-					getSheetList().remove( i );
-				}
-				else canRemove = false;
-			}
 		}
 	}
 
