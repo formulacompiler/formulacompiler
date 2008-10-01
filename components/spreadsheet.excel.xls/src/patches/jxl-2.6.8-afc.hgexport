@@ -633,3 +633,19 @@ diff --git a/src/jxl/read/biff/WorkbookParser.java b/src/jxl/read/biff/WorkbookP
      }
      else if (sr.getType() == SupbookRecord.EXTERNAL)
      {
+# HG changeset patch
+# User Vladimir Korenev <vkorenev@gmail.com>
+Fix parsing of ASC function.
+
+diff --git a/src/jxl/biff/formula/Function.java b/src/jxl/biff/formula/Function.java
+--- a/src/jxl/biff/formula/Function.java
++++ b/src/jxl/biff/formula/Function.java
+@@ -519,6 +519,8 @@
+     new Function(0xd4, "roundup", 2);
+   public static final Function ROUNDDOWN =
+     new Function(0xd5, "rounddown", 2);
++  public static final Function ASC =
++    new Function(0xd6, "asc", 1);
+   public static final Function RANK =
+     new Function(0xd8, "rank", 0xff);
+   public static final Function ADDRESS =
