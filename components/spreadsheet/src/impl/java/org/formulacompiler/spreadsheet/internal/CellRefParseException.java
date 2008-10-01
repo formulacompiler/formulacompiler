@@ -24,8 +24,21 @@ package org.formulacompiler.spreadsheet.internal;
 
 public class CellRefParseException extends RuntimeException
 {
-	public CellRefParseException( final String message )
+	public CellRefParseException( final String _message )
 	{
-		super( message );
+		super( _message );
+	}
+
+	public CellRefParseException( final Throwable cause )
+	{
+		super( cause );
+	}
+
+	public static class InternalParserError extends CellRefParseException
+	{
+		public InternalParserError( final String _cellReference )
+		{
+			super( "Failed to parse " + _cellReference );
+		}
 	}
 }

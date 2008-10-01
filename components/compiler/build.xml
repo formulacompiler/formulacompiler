@@ -80,7 +80,7 @@
 		<echo>build: generating parser...</echo>
 		<mkdir dir="${temp.javacc}" />
 		<javacc javacchome="${lib.dir}/build/javacc-4.1" target="${src.javacc}" outputdirectory="${temp.javacc}" />
-		<echo>6 warnings are expected, one for OUTPUT@DIR, one for "+", and 4 for "(".</echo>
+		<echo>One warning for OUTPUT@DIR is expected.</echo>
 	</target>
 
 	<target name="@compile-base" depends="@init">

@@ -23,8 +23,8 @@
 package org.formulacompiler.tests.reference.base;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
-import org.formulacompiler.spreadsheet.internal.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.excel.xls.saver.ExcelXLSExpressionFormatter;
 import org.formulacompiler.spreadsheet.internal.parser.SpreadsheetExpressionParser;

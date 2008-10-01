@@ -26,8 +26,8 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.AbstractDescribable;
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
-import org.formulacompiler.spreadsheet.internal.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.LazyExpressionParser;
 
 public class LazySpreadsheetExpressionParser extends AbstractDescribable implements LazyExpressionParser

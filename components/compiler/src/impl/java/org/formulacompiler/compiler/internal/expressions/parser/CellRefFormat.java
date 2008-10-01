@@ -20,9 +20,10 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.spreadsheet.internal;
+package org.formulacompiler.compiler.internal.expressions.parser;
 
 
-public enum CellRefFormat {
-	A1, A1_ODF, R1C1
+public enum CellRefFormat
+{
+	A1, A1_ODF, A1_OOXML, R1C1
 }

@@ -30,6 +30,7 @@ import java.util.TimeZone;
 
 import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
+import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.Spreadsheet;
@@ -38,7 +39,6 @@ import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
-import org.formulacompiler.spreadsheet.internal.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
 import org.formulacompiler.spreadsheet.internal.CellWithError;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;

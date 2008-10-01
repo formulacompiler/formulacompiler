@@ -23,9 +23,9 @@
 package org.formulacompiler.spreadsheet.internal.loader;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellRange;
-import org.formulacompiler.spreadsheet.internal.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellRefParseException;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
@@ -45,19 +45,19 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		CellIndex cell11 = new CellIndex( this.workbook, 0, 0, 0 );
-		CellIndex cell12 = new CellIndex( this.workbook, 0, 0, 1 );
-		CellIndex cell21 = new CellIndex( this.workbook, 0, 1, 0 );
-		CellIndex cell22 = new CellIndex( this.workbook, 0, 1, 1 );
-		this.workbook.defineModelRangeName( "_A1_", cell11 );
-		this.workbook.defineModelRangeName( "_B1_", cell12 );
-		this.workbook.defineModelRangeName( "_A2_", cell21 );
-		this.workbook.defineModelRangeName( "_B2_", cell22 );
-		this.workbook.defineModelRangeName( "_A_", CellRange.getCellRange( cell11, cell21 ) );
-		this.workbook.defineModelRangeName( "_B_", CellRange.getCellRange( cell12, cell22 ) );
-		this.workbook.defineModelRangeName( "_1_", CellRange.getCellRange( cell11, cell12 ) );
-		this.workbook.defineModelRangeName( "_2_", CellRange.getCellRange( cell21, cell22 ) );
-		this.workbook.defineModelRangeName( "_ALL_", CellRange.getCellRange( cell11, cell22 ) );
+		CellIndex cellA1 = new CellIndex( this.workbook, 0, 0, 0 );
+		CellIndex cellB1 = new CellIndex( this.workbook, 0, 1, 0 );
+		CellIndex cellA2 = new CellIndex( this.workbook, 0, 0, 1 );
+		CellIndex cellB2 = new CellIndex( this.workbook, 0, 1, 1 );
+		this.workbook.defineModelRangeName( "_A1_", cellA1 );
+		this.workbook.defineModelRangeName( "_B1_", cellB1 );
+		this.workbook.defineModelRangeName( "_A2_", cellA2 );
+		this.workbook.defineModelRangeName( "_B2_", cellB2 );
+		this.workbook.defineModelRangeName( "_A_", CellRange.getCellRange( cellA1, cellA2 ) );
+		this.workbook.defineModelRangeName( "_B_", CellRange.getCellRange( cellB1, cellB2 ) );
+		this.workbook.defineModelRangeName( "_1_", CellRange.getCellRange( cellA1, cellB1 ) );
+		this.workbook.defineModelRangeName( "_2_", CellRange.getCellRange( cellA2, cellB2 ) );
+		this.workbook.defineModelRangeName( "_ALL_", CellRange.getCellRange( cellA1, cellB2 ) );
 	}
 
 
@@ -91,8 +91,54 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		try {
 			assertRefA1( "One!R11", "R1C1" );
 		} catch (CellRefParseException e) {
-			assertEquals( "Invalid A1-style cell reference: R1C1", e.getMessage() );
+			assertEquals( "Invalid A1-style range or cell reference: R1C1", e.getMessage() );
 		}
+	}
+
+	public void testA1OOXML() throws Exception
+	{
+		assertRefA1OOXML( "One!B2", "B2" );
+		assertRefA1OOXML( "One!D4", "D4" );
+		assertRefA1OOXML( "One!$D$4", "$D$4" );
+		assertRefA1OOXML( "One!$D4", "$D4" );
+		assertRefA1OOXML( "One!D$4", "D$4" );
+		assertRefA1OOXML( "One!AD564", "AD564" );
+		assertRefA1OOXML( "One!$FZ$4", "$FZ$4" );
+		/*
+		 * This tests the special case where an R1C1-style reference is a valid A1-style reference. It
+		 * explains the need for the CellRefFormat parser option.
+		 */
+		assertRefA1OOXML( "One!RC1", "RC1" );
+		try {
+			assertRefA1OOXML( "One!R11", "R1C1" );
+		} catch (CellRefParseException e) {
+			assertEquals( "Invalid OOXML A1-style range or cell reference: R1C1", e.getMessage() );
+		}
+	}
+
+	public void testRangesA1OOXML() throws Exception
+	{
+		new SheetImpl( this.workbook, "Two" );
+		assertRangeRef( "Two!A1:B1", "Two!A1:B1", CellRefFormat.A1_OOXML );
+		assertRangeRef( "One!A1:Two!B1", "One:Two!A1:B1", CellRefFormat.A1_OOXML );
+		assertRangeRef( "One!A$1:A$2147483647", "A:A", CellRefFormat.A1_OOXML );
+		assertRangeRef( "One!A$1:B$2147483647", "A:B", CellRefFormat.A1_OOXML );
+		assertRangeRef( "One!$A$1:A$2147483647", "$A:A", CellRefFormat.A1_OOXML );
+		assertRangeRef( "One!A$1:$B$2147483647", "A:$B", CellRefFormat.A1_OOXML );
+		assertRangeRef( "One!$A$1:$B$2147483647", "$A:$B", CellRefFormat.A1_OOXML );
+		assertRangeRef( "One!$A1:$FXSHRXW1", "1:1", CellRefFormat.A1_OOXML );
+		assertRangeRef( "One!$A1:$FXSHRXW2", "1:2", CellRefFormat.A1_OOXML );
+		assertRangeRef( "One!$A$1:$FXSHRXW2", "$1:2", CellRefFormat.A1_OOXML );
+		assertRangeRef( "One!$A1:$FXSHRXW$2", "1:$2", CellRefFormat.A1_OOXML );
+		assertRangeRef( "One!$A$1:$FXSHRXW$2", "$1:$2", CellRefFormat.A1_OOXML );
+	}
+
+	public void testBrokenRefsOOXML() throws Exception
+	{
+		assertRefA1OOXML( "One!#REF!#REF!", "One!#REF!" );
+		assertRefA1OOXML( "#REF!A1", "#REF!A1" );
+		assertRefA1OOXML( "#REF!$A$1", "#REF!$A$1" );
+		assertRefA1OOXML( "#REF!#REF!#REF!", "#REF!#REF!" );
 	}
 
 
@@ -137,8 +183,10 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	public void testOperators() throws Exception
 	{
 		assertParseableA1( "((((One!A1 + (-One!B1)) + One!B2) - One!B3) - (-One!B4))", "A1 + -B1 + +B2 - +B3 - -B4" );
+		assertParseableA1OOXML( "((((One!A1 + (-One!B1)) + One!B2) - One!B3) - (-One!B4))", "A1 + -B1 + +B2 - +B3 - -B4" );
 		assertParseableA1ODF( "((((One!A1 + (-One!B1)) + One!B2) - One!B3) - (-One!B4))", "[.A1] + -[.B1] + +[.B2] - +[.B3] - -[.B4]" );
 		assertParseableA1( "(One!A1 + (One!A2 * One!A3))", "A1 + A2 * A3" );
+		assertParseableA1OOXML( "(One!A1 + (One!A2 * One!A3))", "A1 + A2 * A3" );
 		assertParseableA1ODF( "(One!A1 + (One!A2 * One!A3))", "[.A1] + [.A2] * [.A3]" );
 	}
 
@@ -148,6 +196,7 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		assertParseableAll( "(1.0 & 2.0 & 3.0 & 4.0)", "1 & 2 & 3 & 4" );
 		assertParseableAll( "(1.0 & (2.0 & 3.0) & 4.0)", "1 & (2 & 3) & 4" );
 		assertParseableA1( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1, 2, 3, 4 )" );
+		assertParseableA1OOXML( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1, 2, 3, 4 )" );
 		assertParseableA1ODF( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1; 2; 3; 4 )" );
 		assertParseableR1C1( "(1.0 & 2.0 & 3.0 & 4.0)", "CONCATENATE( 1, 2, 3, 4 )" );
 	}
@@ -236,6 +285,7 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		new SheetImpl( this.workbook, "Two" );
 		assertParseableA1( "(Two!A2 + Two!$B$1)", "Two!A2+Two!$B$1" );
 		assertParseableA1ODF( "(Two!A2 + Two!$B$1)", "[Two.A2]+[$Two.$B$1]" );
+		assertParseableA1OOXML( "(Two!A2 + Two!$B$1)", "Two!A2+Two!$B$1" );
 		assertParseableR1C1( "(Two!A2 + Two!$B$1)", "Two!RC[-1]+Two!R1C2" );
 	}
 
@@ -244,6 +294,7 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	{
 		assertParseableA1( _expected, _string );
 		assertParseableA1ODF( _expected, _string );
+		assertParseableA1OOXML( _expected, _string );
 		assertParseableR1C1( _expected, _string );
 	}
 
@@ -257,6 +308,12 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	private void assertParseableA1ODF( String _expected, String _string ) throws Exception
 	{
 		assertParseable( _expected, _string, CellRefFormat.A1_ODF );
+	}
+
+
+	private void assertParseableA1OOXML( String _expected, String _string ) throws Exception
+	{
+		assertParseable( _expected, _string, CellRefFormat.A1_OOXML );
 	}
 
 
@@ -280,6 +337,12 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	}
 
 
+	private void assertRefA1OOXML( String _canonicalName, String _ref ) throws Exception
+	{
+		assertRef( _canonicalName, _ref, CellRefFormat.A1_OOXML );
+	}
+
+
 	private void assertRefA1ODF( String _canonicalName, String _ref ) throws Exception
 	{
 		assertRef( _canonicalName, _ref, CellRefFormat.A1_ODF );
@@ -300,6 +363,13 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		CellIndex ref = node.getCellIndex();
 		String actual = ref.toString();
 		assertEquals( _canonicalName, actual );
+	}
+
+	private void assertRangeRef( String _canonicalName, String _ref, CellRefFormat _format ) throws Exception
+	{
+		SpreadsheetExpressionParser parser = newParser( _ref, _format );
+		CellRange parsed = (CellRange) parser.rangeOrCellRef();
+		assertEquals( _canonicalName, parsed.toString() );
 	}
 
 	private void assertRef( int _columnIndex, boolean _columnAbsolute, int _rowIndex, boolean _rowAbsolute, String _ref, CellRefFormat _format ) throws Exception

@@ -44,12 +44,14 @@ import org.formulacompiler.runtime.New;
 
 final class RewriteRuleExpressionParser extends ExpressionParser
 {
+	private static final String ERR_NORANGES = "This parser does not support ranges.";
+
 	private final Collection<RuleDef> rules;
 	private final Map<String, FoldDef> folds;
 
 	public RewriteRuleExpressionParser( String _exprText, Collection<RuleDef> _rules, Map<String, FoldDef> _folds )
 	{
-		super( _exprText );
+		super( _exprText, null );
 		this.rules = _rules;
 		this.folds = _folds;
 	}
@@ -103,10 +105,9 @@ final class RewriteRuleExpressionParser extends ExpressionParser
 	}
 
 
-	@Override
-	protected void checkInRewrite()
+	private void checkInRewrite()
 	{
-		if (null == this.currentDef) super.checkInRewrite();
+		if (null == this.currentDef) throw new IllegalStateException();
 	}
 
 	@Override
@@ -172,8 +173,7 @@ final class RewriteRuleExpressionParser extends ExpressionParser
 		this.letDict.unlet( this.currentDef.params.size() );
 	}
 
-	@Override
-	protected ExpressionNode makeLetVar( Token _name )
+	private ExpressionNode makeLetVar( Token _name )
 	{
 		checkInRewrite();
 		final String name = _name.image;
@@ -184,9 +184,57 @@ final class RewriteRuleExpressionParser extends ExpressionParser
 	}
 
 	@Override
-	protected ExpressionNode makeNamedCellRef( Token _name )
+	protected ExpressionNode makeCell( final Token _cell, final Object _baseCell )
+	{
+		throw new UnsupportedOperationException( "This parser does not support parsing cell references." );
+	}
+
+	@Override
+	protected boolean isRangeName( final Token _name )
+	{
+		return this.letDict.find( _name.image ) != null;
+	}
+
+	@Override
+	protected ExpressionNode makeNamedRangeRef( final Token _name )
 	{
 		return makeLetVar( _name );
+	}
+
+	@Override
+	protected Object makeCellRange( Object _from, Object _to )
+	{
+		throw new UnsupportedOperationException( ERR_NORANGES );
+	}
+
+	@Override
+	protected Object makeCellRange( final Token _range )
+	{
+		throw new UnsupportedOperationException( ERR_NORANGES );
+	}
+
+	@Override
+	protected void convertRangesToCells( final boolean _allowRanges )
+	{
+		// Nothing to do here.
+	}
+
+	@Override
+	protected ExpressionNode makeNodeForReference( final Object _reference )
+	{
+		throw new UnsupportedOperationException( ERR_NORANGES );
+	}
+
+	@Override
+	protected ExpressionNode makeRangeIntersection( final Collection<ExpressionNode> _firstTwoElements )
+	{
+		throw new UnsupportedOperationException( ERR_NORANGES );
+	}
+
+	@Override
+	protected ExpressionNode makeRangeUnion( final Collection<ExpressionNode> _firstTwoElements )
+	{
+		throw new UnsupportedOperationException( ERR_NORANGES );
 	}
 
 	@Override
@@ -196,7 +244,9 @@ final class RewriteRuleExpressionParser extends ExpressionParser
 			final ExpressionNodeForLetVar var = (ExpressionNodeForLetVar) _range;
 			return var;
 		}
-		return super.makeShapedRange( _range );
+		else {
+			throw new UnsupportedOperationException( ERR_NORANGES );
+		}
 	}
 
 

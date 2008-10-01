@@ -43,13 +43,11 @@ import org.formulacompiler.runtime.New;
  */
 abstract class ExpressionParserBase
 {
-	private static final String ERR_NORANGES = "This parser does not support ranges.";
-
 	/**
 	 * Use a List instead of a Deque here so {@link #popNodes(int)} does not have to reverse
 	 * elements.
 	 */
-	private List<ExpressionNode> nodes = New.list();
+	private final List<ExpressionNode> nodes = New.list();
 
 	protected final void pushNode( ExpressionNode _node )
 	{
@@ -84,7 +82,7 @@ abstract class ExpressionParserBase
 	}
 
 
-	private Stack<Integer> marks = new Stack<Integer>();
+	private final Stack<Integer> marks = new Stack<Integer>();
 
 	/**
 	 * Remembers the current node stack pointer for {@code popMarkedNodes()}. Calls are nestable.
@@ -144,65 +142,27 @@ abstract class ExpressionParserBase
 	}
 
 
-	protected ExpressionNode makeCellA1( Token _cell, ExpressionNode _node )
-	{
-		throw new UnsupportedOperationException( "This parser does not support parsing A1-style cells." );
-	}
+	protected abstract CellRefFormat getCellRefFormat();
 
-	protected ExpressionNode makeCellA1ODF( Token _cell, ExpressionNode _node )
-	{
-		throw new UnsupportedOperationException( "This parser does not support parsing A1-style cells." );
-	}
+	protected abstract Object makeCell( Token _cell, Object _baseCell );
 
-	protected ExpressionNode makeCellR1C1( Token _cell, ExpressionNode _node )
-	{
-		throw new UnsupportedOperationException( "This parser does not support parsing R1C1-style cells." );
-	}
+	protected abstract boolean isRangeName( Token _name );
 
-	protected ExpressionNode makeNamedCellRef( Token _name )
-	{
-		throw new UnsupportedOperationException( "This parser does not support parsing named references." );
-	}
+	protected abstract ExpressionNode makeNamedRangeRef( Token _name );
 
-	protected boolean isRangeName( Token _name )
-	{
-		return false;
-	}
+	protected abstract Object makeCellRange( Object _from, Object _to );
 
-	protected ExpressionNode makeNamedRangeRef( Token _name )
-	{
-		throw new UnsupportedOperationException( "This parser does not support parsing named references." );
-	}
+	protected abstract Object makeCellRange( Token _range );
 
-	protected Object makeCellRange( Collection<ExpressionNode> _nodes )
-	{
-		throw new UnsupportedOperationException( ERR_NORANGES );
-	}
+	protected abstract void convertRangesToCells( boolean _allowRanges );
 
-	protected Object makeCellIndex( ExpressionNode _node )
-	{
-		throw new UnsupportedOperationException( "This parser does not support cell references." );
-	}
+	protected abstract ExpressionNode makeNodeForReference( Object _reference );
 
-	protected ExpressionNode makeNodeForReference( Object _reference )
-	{
-		throw new UnsupportedOperationException( ERR_NORANGES );
-	}
+	protected abstract ExpressionNode makeRangeIntersection( Collection<ExpressionNode> _firstTwoElements );
 
-	protected ExpressionNode makeRangeIntersection( Collection<ExpressionNode> _firstTwoElements )
-	{
-		throw new UnsupportedOperationException( ERR_NORANGES );
-	}
+	protected abstract ExpressionNode makeRangeUnion( Collection<ExpressionNode> _firstTwoElements );
 
-	protected ExpressionNode makeRangeUnion( Collection<ExpressionNode> _firstTwoElements )
-	{
-		throw new UnsupportedOperationException( ERR_NORANGES );
-	}
-
-	protected ExpressionNode makeShapedRange( ExpressionNode _range )
-	{
-		throw new UnsupportedOperationException( ERR_NORANGES );
-	}
+	protected abstract ExpressionNode makeShapedRange( ExpressionNode _range );
 
 
 	protected void makeNewRuleDef( Token _name )
@@ -225,17 +185,7 @@ abstract class ExpressionParserBase
 		throw new IllegalStateException();
 	}
 
-	protected void checkInRewrite()
-	{
-		throw new IllegalStateException();
-	}
-
 	protected void makeNewParam( Token _name, char _suffix )
-	{
-		throw new IllegalStateException();
-	}
-
-	protected ExpressionNode makeLetVar( Token _name )
 	{
 		throw new IllegalStateException();
 	}

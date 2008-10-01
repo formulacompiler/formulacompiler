@@ -22,7 +22,10 @@
 
 package org.formulacompiler.spreadsheet.internal.parser;
 
+import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
+import org.formulacompiler.compiler.internal.expressions.parser.Token;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
+import org.formulacompiler.spreadsheet.internal.CellRefParser;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public class SpreadsheetExpressionParserA1ODF extends SpreadsheetExpressionParser
@@ -30,12 +33,25 @@ public class SpreadsheetExpressionParserA1ODF extends SpreadsheetExpressionParse
 
 	public SpreadsheetExpressionParserA1ODF( String _exprText, CellIndex _parseRelativeTo )
 	{
-		super( _exprText, _parseRelativeTo );
+		super( _exprText, _parseRelativeTo, CellRefFormat.A1_ODF );
 	}
 
 	public SpreadsheetExpressionParserA1ODF( String _exprText, SpreadsheetImpl _workbook )
 	{
-		super( _exprText, _workbook );
+		super( _exprText, _workbook, CellRefFormat.A1_ODF );
+	}
+
+	@Override
+	protected Object makeCell( final Token _cell, final Object _baseCell )
+	{
+		final CellIndex relativeTo = _baseCell != null ? (CellIndex) _baseCell : this.cellIndex;
+		return CellRefParser.A1.parseCellA1ODF( _cell.image, relativeTo );
+	}
+
+	@Override
+	protected Object makeCellRange( final Token _range )
+	{
+		throw new UnsupportedOperationException();
 	}
 
 }

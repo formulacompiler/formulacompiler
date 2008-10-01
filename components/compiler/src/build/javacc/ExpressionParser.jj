@@ -22,8 +22,7 @@
 
 
 
-// NOTE: A total of 6 warnings about "+" and "(" can be ignored.
-// They are caused by the annoying range intersection syntax.
+// NOTE: One warning about OUTPUT_DIRECTORY can be ignored.
 
 
 options {
@@ -42,7 +41,7 @@ import org.formulacompiler.runtime.*;
 import org.formulacompiler.compiler.*;
 import org.formulacompiler.compiler.internal.expressions.*;
 
-class GeneratedExpressionParser extends ExpressionParserBase
+abstract class GeneratedExpressionParser extends ExpressionParserBase
 {
 }
 PARSER_END( GeneratedExpressionParser )
@@ -378,7 +377,18 @@ void rootExpr(): {}
 	}
 
 void expr(): {}
+	{
+		exprOrRange( false )
+	}
+
+void rangeExpr(): {}
+	{
+		exprOrRange( true )
+	}
+
+void exprOrRange( boolean allowRanges ): {}
 	{	minMaxTerm()
+			{ convertRangesToCells( allowRanges ); }
 	}
 
 void minMaxTerm(): {}
@@ -417,7 +427,6 @@ void concatTerm(): {}
 		]
 	}
 
-// The warning in the following rule about "+" can be ignored. It is caused by the annoying range intersection syntax.
 void addTerm(): {}
 	{	mulTerm()
 		(	"+" mulTerm()
@@ -467,8 +476,7 @@ void value():
 	|	"@" n = <NAME> "(" { unsupportedFunction( n ); }
 	|	fun()
 	|	LOOKAHEAD(2) n = <NAME> "(" { unsupportedFunction( n ); }
-	|	cellRef()
-	|	namedCellRef()
+	|	rangeIntersection()
 	}
 
 void intConst():
@@ -487,37 +495,6 @@ void strConst():
 	{	Token c; }
 	{	c = <STR_CONST>
 			{ pushNode( new ExpressionNodeForConstantValue( parseQuotedString( c.image ))); }
-	}
-
-void cellRef(): {}
-	{	LOOKAHEAD(2)
-		cellRefA1( null )
-	|	cellRefR1C1( null )
-	|	<LEFT_BRACKET> cellRefA1ODF( null ) <RIGHT_BRACKET>
-	}
-
-void cellRefA1(ExpressionNode baseNode):
-	{	Token c; }
-	{	c = <CELLA1>
-			{ pushNode( makeCellA1( c, baseNode )); }
-	}
-
-void cellRefA1ODF(ExpressionNode baseNode):
-	{	Token c; }
-	{	c = <CELLA1_ODF>
-			{ pushNode( makeCellA1ODF( c, baseNode )); }
-	}
-
-void cellRefR1C1(ExpressionNode baseNode):
-	{	Token c; }
-	{	c = <CELLR1C1>
-			{ pushNode( makeCellR1C1( c, baseNode )); }
-	}
-
-void namedCellRef():
-	{	Token n; }
-	{	n = <NAME>
-			{ pushNode( makeNamedCellRef( n )); }
 	}
 
 
@@ -604,7 +581,6 @@ void fun(): {}
 	|	"EVEN" fun1( Function.EVEN )
 	|	"EXP" fun1( Function.EXP )
 	|	"FACT" fun1( Function.FACT )
-	// The warnings on the following two lines about "(" are OK. They are caused by the annoying range intersection syntax.
 	|	"FALSE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( false )); }
 	|	"false" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( false )); }
 	|	"FDIST" fun3( Function.FDIST )
@@ -737,7 +713,6 @@ void fun(): {}
 	|	"TODAY" fun0( Function.TODAY )
 	|	"TRIM" fun1( Function.TRIM )
 	|	"TRIMMEAN" open() shapedRangeExpr() commaExpr() closeFun( Function.TRIMMEAN )	
-	// The warnings on the following two lines about "(" are OK. They are caused by the annoying range intersection syntax.
 	|	"TRUE" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( true )); }
 	|	"true" [ "(" ")" ] { pushNode( new ExpressionNodeForConstantValue( true )); }
 	|	"TRUNC" fun1to2( Function.TRUNC )
@@ -877,7 +852,7 @@ void aggN(Function f): {}
 */
 
 void aggN(Function f): {}
-	{	open() rangeIntersection() ( <SEP> rangeIntersection() )* closeFun( f )
+	{	open() rangeExpr() ( <SEP> rangeExpr() )* closeFun( f )
 	}
 
 void dbAggN(Function f): {}
@@ -899,48 +874,81 @@ void rangeUnion(): {}
 	}
 
 void rangeIntersection(): {}
-	{	rangeExpr()
-		[	["!"] rangeExpr()
+	{	range()
+		[	["!"] range()
 				{ pushNode( makeRangeIntersection( popNodes( 2 ) )); }
-			(	["!"] rangeExpr()
+			(	["!"] range()
 				{ popNodeAndMergeIntoTopNode(); }
 			)*
 		]
 	}
 
-// The warning in the following rule about "<NAME>" can be ignored.
-void rangeExpr():
+void range():
 	{	Object r; }
-	{	LOOKAHEAD(3)
-		r = range()
-			{ pushNode( makeNodeForReference( r )); }
-	|	LOOKAHEAD({ isRangeName( getToken( 1 )) })
+	{	LOOKAHEAD( { isRangeName( getToken( 1 ) ) } )
 		namedRangeRef()
-	|	expr()
+	|	r = rangeOrCellRef()
+			{ pushNode( makeNodeForReference( r ) ); }
 	}
 
 void shapedRangeExpr(): {}
 	{	rangeExpr()
-			{ pushNode( makeShapedRange( popNode() )); }
+			{ pushNode( makeShapedRange( popNode() ) ); }
 	}
 
-Object range(): {}
+Object rangeOrCellRef():
+	{	Object r; }
 	{
-		(	LOOKAHEAD(2)
-			cellRefA1( null ) <RANGE_SEPARATOR> cellRefA1( peekNode() )
-		|	cellRefR1C1( null ) <RANGE_SEPARATOR> cellRefR1C1( peekNode() )
-		|	<LEFT_BRACKET> cellRefA1ODF( null ) <RANGE_SEPARATOR_ODF> cellRefA1ODF( peekNode() ) <RIGHT_BRACKET>
+		(	LOOKAHEAD( { getCellRefFormat() == CellRefFormat.R1C1 } )
+			r = rangeOrCellRefR1C1()
+ 		|	LOOKAHEAD( { getCellRefFormat() == CellRefFormat.A1 || getCellRefFormat() == CellRefFormat.A1_OOXML } )
+			r = rangeOrCellRefA1()
+		|	LOOKAHEAD( { getCellRefFormat() == CellRefFormat.A1_ODF } )
+			<LEFT_BRACKET> r = rangeOrCellRefODF() <RIGHT_BRACKET>
 		)
-			{ return makeCellRange( popNodes( 2 )); }
+			{ return r; }
 	}
 
-Object rangeOrCellRefODF(): {}
+Object rangeOrCellRefR1C1():
+	{	Object from, to; }
 	{
-		cellRefA1ODF( null ) (
-			<RANGE_SEPARATOR_ODF> cellRefA1ODF( peekNode() )
-				{ return makeCellRange( popNodes( 2 ) ); }
+		from = cellRefR1C1( null ) (
+			<RANGE_SEPARATOR> to = cellRefR1C1( from )
+				{ return makeCellRange( from, to ); }
 		)?
-			{ return makeCellIndex( popNode() ); }
+			{ return from; }
+	}
+
+Object cellRefR1C1(Object baseCell):
+	{	Token c; }
+	{	c = <CELLR1C1>
+			{ return makeCell( c, baseCell ); }
+	}
+
+Object rangeOrCellRefODF():
+	{	Object from, to; }
+	{
+		from = cellRefA1ODF( null ) (
+			<RANGE_SEPARATOR_ODF> to = cellRefA1ODF( from )
+				{ return makeCellRange( from, to ); }
+		)?
+			{ return from; }
+	}
+
+Object cellRefA1ODF(Object baseCell):
+	{	Token c; }
+	{	c = <CELLA1_ODF>
+			{ return makeCell( c, baseCell ); }
+	}
+
+Object rangeOrCellRefA1():
+	{	Token c; }
+	{	(	c = <CELLA1>
+		|	c = <CELLR1C1>
+		|	c = <RANGEA1>
+		|	c = <RANGEA1_OOXML>
+		)
+			{ return makeCellRange( c ); }
 	}
 
 void namedRangeRef():
@@ -1129,14 +1137,27 @@ void niceExpr(): {}
 /* It is crucial that the <NAME> and <CELL..> tokens be defined after all of the function and aggregator names. */
 /* Otherwise they would all get lexed as <NAME>. */
 
-TOKEN: /* Cell references */
-	{	<CELLR1C1: (<SHEET>)? <ROW> <COL> >
+TOKEN: /* Common cell reference elements */
+	{	<#SHEET: (<NAME> | "'" ("''"|~["'"])* "'") >
+	|	<#ABS: ("$")? >
+	|	<#BROKEN_REF: "#REF!">
+	}
+
+TOKEN: /* R1C1-style cell references */
+	{	<CELLR1C1: (<SHEET> "!")? <ROW> <COL> >
 	|	<#ROW: "R" (<IDX>)? >
 	|	<#COL: "C" (<IDX>)? >
-	|	<CELLA1: (<SHEET>)? <ABS> <CAPS> <ABS> <DIGITS> >
-	|	<#SHEET: (<NAME> | "'" ("''"|~["'"])* "'") "!" >
 	|	<#IDX: "[" ("-")? <DIGITS> "]" | <DIGITS> >
-	|	<#ABS: ("$")? >
+	}
+
+TOKEN: /* A1-style cell references */
+	{	<#LOCAL_CELLA1: <ABS> <CAPS> <ABS> <DIGITS> | <BROKEN_REF> >
+	|	<CELLA1: (<SHEET> "!" | <BROKEN_REF>)? <LOCAL_CELLA1> >
+	|	<RANGEA1: <CELLA1> <RANGE_SEPARATOR> <CELLA1> >
+	|	<#LOCAL_ROW_RANGEA1_OOXML: <ABS> <DIGITS> <RANGE_SEPARATOR> <ABS> <DIGITS> >
+	|	<#LOCAL_COL_RANGEA1_OOXML: <ABS> <CAPS> <RANGE_SEPARATOR> <ABS> <CAPS> >
+	|	<#LOCAL_CELL_OR_RANGEA1_OOXML: (<LOCAL_CELLA1> (<RANGE_SEPARATOR> <LOCAL_CELLA1>)?) | <LOCAL_ROW_RANGEA1_OOXML> | <LOCAL_COL_RANGEA1_OOXML> >
+	|	<RANGEA1_OOXML: (<SHEET> (<RANGE_SEPARATOR> <SHEET>)? "!" | <BROKEN_REF>)? <LOCAL_CELL_OR_RANGEA1_OOXML> >
 	|	<RANGE_SEPARATOR: ":" >
 	}
 
@@ -1151,7 +1172,6 @@ TOKEN:
 	|	<RANGE_SEPARATOR_ODF: ":" >
 	|	<#SHEET_ODF: <SHEET_NAME_ODF> | "'" ("''"|~["'"])* "'" | <BROKEN_REF> >
 	|	<#SHEET_NAME_ODF: (<LETTER> | "_") (<LETTER> | "_" | ["0"-"9"])* >
-	|	<#BROKEN_REF: "#REF!">
 	|	<RIGHT_BRACKET: "]"> : DEFAULT
 	}
 

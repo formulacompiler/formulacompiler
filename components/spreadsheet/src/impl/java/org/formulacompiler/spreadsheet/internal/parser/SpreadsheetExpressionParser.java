@@ -23,42 +23,39 @@
 package org.formulacompiler.spreadsheet.internal.parser;
 
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.ListIterator;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
+import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.compiler.internal.expressions.parser.ExpressionParser;
 import org.formulacompiler.compiler.internal.expressions.parser.Token;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
-import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
-import org.formulacompiler.spreadsheet.internal.CellRefFormat;
-import org.formulacompiler.spreadsheet.internal.CellRefParser;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeIntersection;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeShape;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeUnion;
-import org.formulacompiler.spreadsheet.internal.MultiCellRange;
-import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public abstract class SpreadsheetExpressionParser extends ExpressionParser
 {
-	protected final SpreadsheetImpl workbook;
+	private final SpreadsheetImpl workbook;
 	protected final CellIndex cellIndex;
 
-	protected SpreadsheetExpressionParser( String _exprText, CellIndex _parseRelativeTo )
+	protected SpreadsheetExpressionParser( String _exprText, CellIndex _parseRelativeTo, CellRefFormat _cellRefFormat )
 	{
-		super( _exprText );
+		super( _exprText, _cellRefFormat );
 		this.cellIndex = _parseRelativeTo;
 		this.workbook = this.cellIndex.spreadsheet;
 	}
 
-	protected SpreadsheetExpressionParser( String _exprText, SpreadsheetImpl _workbook )
+	protected SpreadsheetExpressionParser( String _exprText, SpreadsheetImpl _workbook, CellRefFormat _cellRefFormat )
 	{
-		super( _exprText );
+		super( _exprText, _cellRefFormat );
 		this.workbook = _workbook;
 		this.cellIndex = new CellIndex( _workbook, CellIndex.BROKEN_REF, CellIndex.BROKEN_REF, CellIndex.BROKEN_REF );
 	}
@@ -74,6 +71,9 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 			case A1_ODF:
 				parser = new SpreadsheetExpressionParserA1ODF( _exprText, _parseRelativeTo );
 				break;
+			case A1_OOXML:
+				parser = new SpreadsheetExpressionParserA1OOXML( _exprText, _parseRelativeTo );
+				break;
 			case R1C1:
 				parser = new SpreadsheetExpressionParserR1C1( _exprText, _parseRelativeTo );
 				break;
@@ -81,66 +81,6 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 				throw new IllegalArgumentException( _format + " format is not supported" );
 		}
 		return parser;
-	}
-
-
-	@Override
-	protected final ExpressionNode makeCellA1( Token _cell, ExpressionNode _node )
-	{
-		final CellIndex cellIndex = getCellIndex( _node );
-		return makeCell( _cell.image, cellIndex, CellRefFormat.A1 );
-	}
-
-	@Override
-	protected final ExpressionNode makeCellA1ODF( Token _cell, ExpressionNode _node )
-	{
-		final CellIndex cellIndex = getCellIndex( _node );
-		return makeCell( _cell.image, cellIndex, CellRefFormat.A1_ODF );
-	}
-
-	private CellIndex getCellIndex( final ExpressionNode _node )
-	{
-		final CellIndex cellIndex;
-		if (_node != null) {
-			final ExpressionNodeForCell nodeForCell = (ExpressionNodeForCell) _node;
-			cellIndex = nodeForCell.getCellIndex();
-		}
-		else {
-			cellIndex = this.cellIndex;
-		}
-		return cellIndex;
-	}
-
-	@Override
-	protected ExpressionNode makeCellR1C1( Token _cell, ExpressionNode _node )
-	{
-		return makeCell( _cell.image, this.cellIndex, CellRefFormat.R1C1 );
-	}
-
-	private ExpressionNode makeCell( String _ref, CellIndex _cellIndex, CellRefFormat _cellRefFormat )
-	{
-		final CellRefParser parser = CellRefParser.getInstance( _cellRefFormat );
-		return new ExpressionNodeForCell( parser.getCellIndexForCanonicalName( _ref, _cellIndex ) );
-	}
-
-	protected final SheetImpl getSheetByName( String _sheet )
-	{
-		final String sheetName = stripSheetNameDecorationFrom( _sheet );
-		final SheetImpl namedSheet = this.workbook.getSheet( sheetName );
-		if (null == namedSheet) {
-			throw new CompilerException.NameNotFound( "Sheet '" + sheetName + "' is not defined." );
-		}
-		return namedSheet;
-	}
-
-	private final String stripSheetNameDecorationFrom( String _sheet )
-	{
-		int startPos = 0;
-		int endPos = _sheet.length();
-		if ('\'' == _sheet.charAt( 0 )) startPos++;
-		if ('!' == _sheet.charAt( endPos - 1 )) endPos--;
-		if ('\'' == _sheet.charAt( endPos - 1 )) endPos--;
-		return _sheet.substring( startPos, endPos );
 	}
 
 
@@ -157,21 +97,7 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 	@Override
 	protected final boolean isRangeName( Token _name )
 	{
-		return this.workbook.getModelRangeNames().get( _name.image ) instanceof MultiCellRange;
-	}
-
-	@Override
-	protected final ExpressionNode makeNamedCellRef( Token _name )
-	{
-		final String name = _name.image;
-		final CellRange range = parseNamedRef( name );
-		try {
-			final CellIndex cell = range.getCellIndexRelativeTo( this.cellIndex );
-			return new ExpressionNodeForCell( cell, name );
-		}
-		catch (SpreadsheetException e) {
-			throw new InnerParserException( e );
-		}
+		return this.workbook.getModelRangeNames().get( _name.image ) != null;
 	}
 
 	@Override
@@ -179,7 +105,13 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 	{
 		final String name = _name.image;
 		final CellRange range = parseNamedRef( name );
-		return new ExpressionNodeForRange( range, name );
+		if (range instanceof CellIndex) {
+			final CellIndex cell = (CellIndex) range;
+			return new ExpressionNodeForCell( cell, name );
+		}
+		else {
+			return new ExpressionNodeForRange( range, name );
+		}
 	}
 
 
@@ -197,23 +129,63 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 		throw new IllegalArgumentException( "Reference must be a cell or range" );
 	}
 
-
 	@Override
-	protected final Object makeCellRange( Collection<ExpressionNode> _nodes )
+	protected Object makeCellRange( final Object _from, final Object _to )
 	{
-		final Iterator<ExpressionNode> nodes = _nodes.iterator();
-		final ExpressionNodeForCell a = (ExpressionNodeForCell) nodes.next();
-		final ExpressionNodeForCell b = (ExpressionNodeForCell) nodes.next();
-		return CellRange.getCellRange( a.getCellIndex(), b.getCellIndex() );
+		return CellRange.getCellRange( (CellIndex) _from, (CellIndex) _to );
 	}
 
 	@Override
-	protected final Object makeCellIndex( ExpressionNode _node )
+	protected void convertRangesToCells( final boolean _allowRanges )
 	{
-		final ExpressionNodeForCell nodeForCell = (ExpressionNodeForCell) _node;
-		return nodeForCell.getCellIndex();
+		final ExpressionNode node = peekNode();
+		convertRangesToCells( new ExpressionNodeSource()
+		{
+			public ExpressionNode getExpressionNode()
+			{
+				return node;
+			}
+
+			public void setExpressionNode( final ExpressionNode _node )
+			{
+				popNode();
+				pushNode( _node );
+			}
+		}, _allowRanges );
 	}
 
+	private void convertRangesToCells( final ExpressionNodeSource _nodeSource, final boolean _allowRanges )
+	{
+		final ExpressionNode node = _nodeSource.getExpressionNode();
+		if (node instanceof ExpressionNodeForOperator) {
+			final ListIterator<ExpressionNode> nodeListIterator = node.arguments().listIterator();
+			while (nodeListIterator.hasNext()) {
+				final ExpressionNode argNode = nodeListIterator.next();
+				convertRangesToCells( new ExpressionNodeSource()
+				{
+					public ExpressionNode getExpressionNode()
+					{
+						return argNode;
+					}
+
+					public void setExpressionNode( final ExpressionNode _node )
+					{
+						nodeListIterator.set( _node );
+					}
+				}, false );
+			}
+		}
+		else if (!_allowRanges && node instanceof ExpressionNodeForRange) {
+			try {
+				final ExpressionNodeForRange nodeForRange = (ExpressionNodeForRange) node;
+				final CellRange range = nodeForRange.getRange();
+				final CellIndex cell = range.getCellIndexRelativeTo( this.cellIndex );
+				_nodeSource.setExpressionNode( new ExpressionNodeForCell( cell, nodeForRange.getName() ) );
+			} catch (SpreadsheetException e) {
+				throw new InnerParserException( e );
+			}
+		}
+	}
 
 	@Override
 	protected final ExpressionNode makeRangeIntersection( Collection<ExpressionNode> _firstTwoElements )
@@ -231,6 +203,13 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 	protected final ExpressionNode makeShapedRange( ExpressionNode _range )
 	{
 		return new ExpressionNodeForRangeShape( _range );
+	}
+
+	private static interface ExpressionNodeSource
+	{
+		ExpressionNode getExpressionNode();
+
+		void setExpressionNode( ExpressionNode _node );
 	}
 
 }
