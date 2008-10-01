@@ -35,6 +35,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
 public final class CellIndex extends CellRange implements Cell
 {
 	public static final int BROKEN_REF = -1;
+	static final int MAX_INDEX = Integer.MAX_VALUE - 1;
 
 	public final SpreadsheetImpl spreadsheet;
 	final int sheetIndex;
@@ -47,6 +48,10 @@ public final class CellIndex extends CellRange implements Cell
 	public CellIndex( SpreadsheetImpl _spreadsheet, int _sheetIndex, int _columnIndex, boolean _columnIndexAbsolute,
 			int _rowIndex, boolean _rowIndexAbsolute )
 	{
+		assert _sheetIndex < _spreadsheet.getSheetList().size();
+		assert _sheetIndex >= BROKEN_REF;
+		assert _columnIndex >= BROKEN_REF;
+		assert _rowIndex >= BROKEN_REF;
 		this.spreadsheet = _spreadsheet;
 		this.sheetIndex = _sheetIndex;
 		this.columnIndex = _columnIndex;
@@ -87,7 +92,8 @@ public final class CellIndex extends CellRange implements Cell
 
 	public static final CellIndex getBottomRight( SpreadsheetImpl _spreadsheet )
 	{
-		return new CellIndex( _spreadsheet, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE );
+		final int lastSheetIndex = _spreadsheet.getSheetList().size() - 1;
+		return new CellIndex( _spreadsheet, lastSheetIndex, MAX_INDEX, MAX_INDEX );
 	}
 
 
