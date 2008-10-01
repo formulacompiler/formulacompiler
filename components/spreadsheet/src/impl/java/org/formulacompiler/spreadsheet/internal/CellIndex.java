@@ -316,14 +316,8 @@ public final class CellIndex extends CellRange implements Cell
 		if (_columnIndex == BROKEN_REF) {
 			_result.append( "#REF!" );
 		}
-		else if (_columnIndex <= 25) {
-			_result.append( (char) ('A' + _columnIndex) );
-		}
 		else {
-			int firstLetterIndex = _columnIndex / 26 - 1;
-			int secondLetterIndex = _columnIndex % 26;
-			_result.append( (char) ('A' + firstLetterIndex) );
-			_result.append( (char) ('A' + secondLetterIndex) );
+			appendColumn( _result, _columnIndex );
 		}
 		if (_rowIndexAbsolute) {
 			_result.append( '$' );
@@ -333,6 +327,17 @@ public final class CellIndex extends CellRange implements Cell
 		}
 		else {
 			_result.append( _rowIndex + 1 );
+		}
+	}
+
+	private static void appendColumn( StringBuilder _result, int _columnIndex )
+	{
+		int insPos = _result.length();
+		int col = _columnIndex;
+		while (col >= 0) {
+			int digit = col % 26;
+			_result.insert( insPos, (char) ('A' + digit) );
+			col = col / 26 - 1;
 		}
 	}
 
