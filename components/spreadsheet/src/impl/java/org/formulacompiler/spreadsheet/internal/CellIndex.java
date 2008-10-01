@@ -38,9 +38,9 @@ public final class CellIndex extends CellRange implements Cell
 	static final int MAX_INDEX = Integer.MAX_VALUE - 1;
 
 	public final SpreadsheetImpl spreadsheet;
-	final int sheetIndex;
-	final int columnIndex;
-	final int rowIndex;
+	public final int sheetIndex;
+	public final int columnIndex;
+	public final int rowIndex;
 	public final boolean isColumnIndexAbsolute;
 	public final boolean isRowIndexAbsolute;
 

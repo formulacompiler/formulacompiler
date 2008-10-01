@@ -26,13 +26,19 @@ import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.compiler.internal.expressions.parser.Token;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellRefParser;
+import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
-public class SpreadsheetExpressionParserA1 extends SpreadsheetExpressionParser
+public class SpreadsheetExpressionParserA1OOXML extends SpreadsheetExpressionParser
 {
 
-	public SpreadsheetExpressionParserA1( String _exprText, CellIndex _parseRelativeTo )
+	public SpreadsheetExpressionParserA1OOXML( String _exprText, CellIndex _parseRelativeTo )
 	{
-		super( _exprText, _parseRelativeTo, CellRefFormat.A1 );
+		super( _exprText, _parseRelativeTo, CellRefFormat.A1_OOXML );
+	}
+
+	public SpreadsheetExpressionParserA1OOXML( String _exprText, SpreadsheetImpl _workbook )
+	{
+		super( _exprText, _workbook, CellRefFormat.A1_OOXML );
 	}
 
 	@Override
@@ -44,7 +50,7 @@ public class SpreadsheetExpressionParserA1 extends SpreadsheetExpressionParser
 	@Override
 	protected Object makeCellRange( final Token _range )
 	{
-		return CellRefParser.A1.parseCellRangeA1( _range.image, this.cellIndex );
+		return CellRefParser.A1.parseCellRangeA1OOXML( _range.image, this.cellIndex );
 	}
 
 }

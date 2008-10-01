@@ -22,14 +22,30 @@
 
 package org.formulacompiler.spreadsheet.internal.parser;
 
+import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
+import org.formulacompiler.compiler.internal.expressions.parser.Token;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
+import org.formulacompiler.spreadsheet.internal.CellRefParser;
 
 public class SpreadsheetExpressionParserR1C1 extends SpreadsheetExpressionParser
 {
 
 	public SpreadsheetExpressionParserR1C1( String _exprText, CellIndex _parseRelativeTo )
 	{
-		super( _exprText, _parseRelativeTo );
+		super( _exprText, _parseRelativeTo, CellRefFormat.R1C1 );
+	}
+
+	@Override
+	protected final Object makeCell( Token _cell, Object _baseCell )
+	{
+		final CellIndex relativeTo = _baseCell != null ? (CellIndex) _baseCell : this.cellIndex;
+		return CellRefParser.R1C1.getCellIndexForCanonicalName( _cell.image, relativeTo );
+	}
+
+	@Override
+	protected Object makeCellRange( final Token _range )
+	{
+		throw new UnsupportedOperationException();
 	}
 
 }

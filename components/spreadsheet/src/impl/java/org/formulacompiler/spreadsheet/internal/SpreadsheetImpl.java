@@ -146,12 +146,7 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 		if (0 == getSheetList().size()) {
 			throw new SpreadsheetException.NameNotFound( "The name '" + _a1Name + "' is not defined; workbook is empty." );
 		}
-		final CellRefParser parser = CellRefParser.getInstance( CellRefFormat.A1 );
-		final CellIndex cell = parser.getCellIndexForCanonicalName( _a1Name, new CellIndex( this, 0, 0, 0 ) );
-		if (null == cell) {
-			throw new SpreadsheetException.NameNotFound( "The name '" + _a1Name + "' is not defined in this workbook." );
-		}
-		return cell;
+		return CellRefParser.A1.parseCellA1( _a1Name, new CellIndex( this, 0, 0, 0 ) );
 	}
 
 
@@ -180,7 +175,7 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 				return s;
 			}
 		}
-		return null;
+		throw new IllegalArgumentException( "The sheet '" + _sheetName + "' does not exist in this workbook." );
 	}
 
 	// --------------------------------------- Own stuff

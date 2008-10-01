@@ -26,17 +26,24 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
 
-public class ExpressionParser extends GeneratedExpressionParser
+public abstract class ExpressionParser extends GeneratedExpressionParser
 {
-	protected final String exprText;
+	private final CellRefFormat cellRefFormat;
+	private final String exprText;
 
 
-	public ExpressionParser( String _exprText )
+	protected ExpressionParser( String _exprText, CellRefFormat _cellRefFormat )
 	{
 		super( new StringCharStream( _exprText ) );
+		this.cellRefFormat = _cellRefFormat;
 		this.exprText = _exprText;
 	}
 
+	@Override
+	protected CellRefFormat getCellRefFormat()
+	{
+		return this.cellRefFormat;
+	}
 
 	public ExpressionNode parse() throws CompilerException
 	{

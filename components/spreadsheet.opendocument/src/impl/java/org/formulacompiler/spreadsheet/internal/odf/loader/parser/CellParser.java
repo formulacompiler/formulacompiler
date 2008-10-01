@@ -35,10 +35,10 @@ import javax.xml.stream.events.XMLEvent;
 
 import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
+import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
-import org.formulacompiler.spreadsheet.internal.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
 import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
