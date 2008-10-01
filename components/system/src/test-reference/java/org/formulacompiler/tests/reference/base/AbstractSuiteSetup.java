@@ -38,6 +38,11 @@ abstract class AbstractSuiteSetup
 			variant.setRowVerificationTestCaseFactory( ODSRowVerificationTestCase.Factory.INSTANCE );
 			cx.addVariant( variant );
 		}
+		{
+			final Context variant = new Context( _fileBaseName, ".xlsx" );
+			variant.setRowVerificationTestCaseFactory( XLSXRowVerificationTestCase.Factory.INSTANCE );
+			cx.addVariant( variant );
+		}
 		setRowSetupBuilder( cx, _fileBaseName );
 		return cx;
 	}
@@ -45,6 +50,13 @@ abstract class AbstractSuiteSetup
 	protected static Context newOdsSheetContext( String _fileBaseName )
 	{
 		final Context cx = new Context( _fileBaseName, ".ods" );
+		setRowSetupBuilder( cx, _fileBaseName );
+		return cx;
+	}
+
+	protected static Context newXlsxSheetContext( String _fileBaseName )
+	{
+		final Context cx = new Context( _fileBaseName, ".xlsx" );
 		setRowSetupBuilder( cx, _fileBaseName );
 		return cx;
 	}

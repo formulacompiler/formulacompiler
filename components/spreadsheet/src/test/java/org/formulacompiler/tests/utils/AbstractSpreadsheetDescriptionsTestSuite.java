@@ -53,6 +53,7 @@ public abstract class AbstractSpreadsheetDescriptionsTestSuite extends AbstractI
 	protected void addTests() throws Exception
 	{
 		addTestsFor( ".xls" );
+		addTestsFor( ".xlsx" );
 		addTestsFor( ".ods" );
 	}
 

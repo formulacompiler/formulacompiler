@@ -48,6 +48,11 @@ public class ErrorUnsupportedFunction extends MultiFormatTestFactory.Spreadsheet
 						+ "\nCell containing expression is Sheet1!A1."/**/;
 				assertEquals( err, e.getMessage() );
 			}
+			else if (getSpreadsheetExtension().equals( ".xlsx" )) {
+				String err = /**/"Unsupported function INFO encountered in expression 1+INFO( <<? B1); error location indicated by <<?."
+						+ "\nCell containing expression is Sheet1!A1."/**/;
+				assertEquals( err, e.getMessage() );
+			}
 			else {
 				String err = /**/"Unsupported function INFO encountered in expression 1+INFO( <<? [.B1]); error location indicated by <<?."
 						+ "\nCell containing expression is Sheet1!A1."/**/;
@@ -68,6 +73,12 @@ public class ErrorUnsupportedFunction extends MultiFormatTestFactory.Spreadsheet
 		catch (CompilerException.UnsupportedExpression e) {
 			if (getSpreadsheetExtension().equals( ".xls" )) {
 				String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
+						+ "\nCell containing expression is Sheet1!A1."
+						+ /**/"\nReferenced by cell Sheet1!A2."/**/;
+				assertEquals( err, e.getMessage() );
+			}
+			else if (getSpreadsheetExtension().equals( ".xlsx" )) {
+				String err = "Unsupported function INFO encountered in expression 1+INFO( <<? B1); error location indicated by <<?."
 						+ "\nCell containing expression is Sheet1!A1."
 						+ /**/"\nReferenced by cell Sheet1!A2."/**/;
 				assertEquals( err, e.getMessage() );
