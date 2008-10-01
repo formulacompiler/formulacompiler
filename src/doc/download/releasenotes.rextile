@@ -12,7 +12,7 @@ h2. Release 1.2
 
 h5. New
 
-	* AFC can now load spreadsheets in the Microsoft Office Open XML @.xlsx@ (MS Excel 2007) format.
+	* AFC can now load and save spreadsheets in the Microsoft Office Open XML @.xlsx@ (MS Excel 2007) format.
 
 h5. Fixed
 
