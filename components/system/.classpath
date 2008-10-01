@@ -15,6 +15,7 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-runtime"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-spreadsheet"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-spreadsheet-excel-xls"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-spreadsheet-excel-xlsx"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-spreadsheet-opendocument"/>
 	<classpathentry kind="lib" path="/afc/lib/test/junit.jar" sourcepath="/afc/lib/IDE/junit-src.jar"/>
 	<classpathentry kind="output" path="temp/eclipse"/>
