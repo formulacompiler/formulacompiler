@@ -46,6 +46,9 @@ public class CellIndexTest extends TestCase
 		assertEquals( "AB1", getNameA1( sheet1, 27, false, 0, false, sheet1 ) );
 		assertEquals( "AZ1", getNameA1( sheet1, 51, false, 0, false, sheet1 ) );
 		assertEquals( "BA1", getNameA1( sheet1, 52, false, 0, false, sheet1 ) );
+		assertEquals( "ZZ1", getNameA1( sheet1, 701, false, 0, false, sheet1 ) );
+		assertEquals( "AAA1", getNameA1( sheet1, 702, false, 0, false, sheet1 ) );
+		assertEquals( "XFD1", getNameA1( sheet1, 16383, false, 0, false, sheet1 ) );
 	}
 
 	private String getNameA1( SheetImpl _sheet, int _col, boolean _colAbs, int _row, boolean _rowAbs,
