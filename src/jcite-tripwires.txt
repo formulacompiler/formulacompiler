@@ -3232,8 +3232,8 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"Unsupported"/**/ 
 			fail();
 		}
 		catch (CompilerException.UnsupportedExpression e) {
-			String err = /**/"Function LENB is not supported for double engines."/**/
-					+ /**/"\nIn expression LEN(  >> LENB( Sheet1!B4 ) <<  ); error location indicated by >>..<<."/**/
+			String err = /**/"Function ASC is not supported for double engines."/**/
+					+ /**/"\nIn expression  >> ASC( Sheet1!B4 ) << ; error location indicated by >>..<<."/**/
 					+ "\nCell containing expression is Sheet1!A4."
 					+ "\nReferenced by cell Sheet1!A4.";
 			assertEquals( err, e.getMessage() );
@@ -7710,12 +7710,12 @@ __@@__
 	<tbody>
 		<tr>
 			<td class="xl-row">1</td>
-			<td class="xl-num">859865<br/><span class="xl-exp">=1.0+INFO(B1)</span><br/><span class="xl-name">(Info)</span></td>
+			<td>#N/A<br/><span class="xl-exp">=1.0+INFO(B1)</span><br/><span class="xl-name">(Info)</span></td>
 			<td>memused</td>
 		</tr>
 		<tr>
 			<td class="xl-row">2</td>
-			<td class="xl-num">1719730<br/><span class="xl-exp">=A1*2.0</span><br/><span class="xl-name">(ReferencesInfo)</span></td>
+			<td>#N/A<br/><span class="xl-exp">=A1*2.0</span><br/><span class="xl-name">(ReferencesInfo)</span></td>
 			<td></td>
 		</tr>
 		<tr>
@@ -7725,8 +7725,8 @@ __@@__
 		</tr>
 		<tr>
 			<td class="xl-row">4</td>
-			<td class="xl-num">2<br/><span class="xl-exp">=LEN(LENB(B4))</span><br/><span class="xl-name">(Unsupported)</span></td>
-			<td>hello world</td>
+			<td>Text<br/><span class="xl-exp">=ASC(B4)</span><br/><span class="xl-name">(Unsupported)</span></td>
+			<td>Text</td>
 		</tr>
 	</tbody>
 </table>

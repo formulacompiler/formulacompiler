@@ -102,8 +102,8 @@ public class ErrorUnsupportedFunction extends MultiFormatTestFactory.Spreadsheet
 			fail();
 		}
 		catch (CompilerException.UnsupportedExpression e) {
-			String err = /**/"Function LENB is not supported for double engines."/**/
-					+ /**/"\nIn expression LEN(  >> LENB( Sheet1!B4 ) <<  ); error location indicated by >>..<<."/**/
+			String err = /**/"Function ASC is not supported for double engines."/**/
+					+ /**/"\nIn expression  >> ASC( Sheet1!B4 ) << ; error location indicated by >>..<<."/**/
 					+ "\nCell containing expression is Sheet1!A4."
 					+ "\nReferenced by cell Sheet1!A4.";
 			assertEquals( err, e.getMessage() );
