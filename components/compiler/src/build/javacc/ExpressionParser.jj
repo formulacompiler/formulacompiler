@@ -360,7 +360,7 @@ TOKEN: /* Numeric constants */
 	{	<INT_CONST: <DIGITS> >
 	|	<DBL_CONST
 			:	<DIGITS> "." (<DIGIT>)* (<EXPONENT>)?
-      		|	"." <DIGITS> (<EXPONENT>)?
+		|	"." <DIGITS> (<EXPONENT>)?
 			|	<DIGITS> <EXPONENT>
 		>
 	|	<#EXPONENT: ["e","E"] (["+","-"])? <DIGITS> >
@@ -456,7 +456,7 @@ void percentTerm() : {}
 	}
 
 void value():
-	{	Token n = null; }
+	{	Token n; }
 	{	intConst()
 	|	dblConst()
 	|	strConst()
@@ -472,19 +472,19 @@ void value():
 	}
 
 void intConst():
-	{	Token c = null; }
+	{	Token c; }
 	{	c = <INT_CONST>
 			{ pushNode( new ExpressionNodeForConstantValue( parseInt( c.image ))); }
 	}
 
 void dblConst():
-	{	Token c = null; }
+	{	Token c; }
 	{	c = <DBL_CONST>
 			{ pushNode( new ExpressionNodeForConstantValue( parseDouble( c.image ))); }
 	}
 
 void strConst():
-	{	Token c = null; }
+	{	Token c; }
 	{	c = <STR_CONST>
 			{ pushNode( new ExpressionNodeForConstantValue( parseQuotedString( c.image ))); }
 	}
@@ -497,25 +497,25 @@ void cellRef(): {}
 	}
 
 void cellRefA1(ExpressionNode baseNode):
-	{	Token c = null, s = null; }
+	{	Token c; }
 	{	c = <CELLA1>
 			{ pushNode( makeCellA1( c, baseNode )); }
 	}
 
 void cellRefA1ODF(ExpressionNode baseNode):
-	{	Token c = null, s = null; }
+	{	Token c; }
 	{	c = <CELLA1_ODF>
 			{ pushNode( makeCellA1ODF( c, baseNode )); }
 	}
 
 void cellRefR1C1(ExpressionNode baseNode):
-	{	Token c = null, s = null; }
+	{	Token c; }
 	{	c = <CELLR1C1>
 			{ pushNode( makeCellR1C1( c, baseNode )); }
 	}
 
 void namedCellRef():
-	{	Token n = null; }
+	{	Token n; }
 	{	n = <NAME>
 			{ pushNode( makeNamedCellRef( n )); }
 	}
@@ -557,7 +557,7 @@ void fun(): {}
 	|	"CHITEST" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.CHITEST )
 	|	"CHOOSE" open() expr() commaExprs() closeFun( Function.CHOOSE )
 	|	"CLEAN" fun1( Function.CLEAN )
-   	|	"CODE" fun1( Function.CODE )
+	|	"CODE" fun1( Function.CODE )
 
 	// citation: combin
 	|	"COMBIN" fun2( Function.COMBIN )
@@ -836,7 +836,7 @@ void fun1to2(Function f): {}
 	{	open() expr() optCommaExpr() closeFun( f )
 	}
 
-	void fun1to3(Function f): {}
+void fun1to3(Function f): {}
 	{	open() expr() [commaExprOrNull() optCommaExpr()] closeFun( f )
 	}
 
@@ -902,7 +902,7 @@ void rangeIntersection(): {}
 	{	rangeExpr()
 		[	["!"] rangeExpr()
 				{ pushNode( makeRangeIntersection( popNodes( 2 ) )); }
-			(   ["!"] rangeExpr()
+			(	["!"] rangeExpr()
 				{ popNodeAndMergeIntoTopNode(); }
 			)*
 		]
@@ -910,7 +910,7 @@ void rangeIntersection(): {}
 
 // The warning in the following rule about "<NAME>" can be ignored.
 void rangeExpr():
-	{	Object r = null; }
+	{	Object r; }
 	{	LOOKAHEAD(3)
 		r = range()
 			{ pushNode( makeNodeForReference( r )); }
@@ -926,10 +926,10 @@ void shapedRangeExpr(): {}
 
 Object range(): {}
 	{
-		(   LOOKAHEAD(2)
+		(	LOOKAHEAD(2)
 			cellRefA1( null ) <RANGE_SEPARATOR> cellRefA1( peekNode() )
-		|   cellRefR1C1( null ) <RANGE_SEPARATOR> cellRefR1C1( peekNode() )
-		|   <LEFT_BRACKET> cellRefA1ODF( null ) <RANGE_SEPARATOR_ODF> cellRefA1ODF( peekNode() ) <RIGHT_BRACKET>
+		|	cellRefR1C1( null ) <RANGE_SEPARATOR> cellRefR1C1( peekNode() )
+		|	<LEFT_BRACKET> cellRefA1ODF( null ) <RANGE_SEPARATOR_ODF> cellRefA1ODF( peekNode() ) <RIGHT_BRACKET>
 		)
 			{ return makeCellRange( popNodes( 2 )); }
 	}
@@ -944,7 +944,7 @@ Object rangeOrCellRefODF(): {}
 	}
 
 void namedRangeRef():
-	{	Token n = null; }
+	{	Token n; }
 	{	n = <NAME>
 			{ pushNode( makeNamedRangeRef( n )); }
 	}
@@ -981,7 +981,7 @@ void def():
 void param():
 	{ Token n; char type = 0; }
 	{	n=<NAME>
-		[ "#"	{  type = '#'; }
+		[ "#"	{	type = '#'; }
 		| "*" 	{	type = '*'; }
 		| "+" 	{	type = '+'; }
 		]
@@ -1005,8 +1005,8 @@ void nice(): {}
 	}
 
 void niceLet():
-	{	Token name = null;
-		ExpressionNode in = null, val = null;
+	{	Token name;
+		ExpressionNode in, val;
 	}
 	{	name=<NAME> "=" expr()
 			{	let( name ); }
@@ -1018,9 +1018,7 @@ void niceLet():
 			}
 	}
 
-void niceIf():
-	{	ExpressionNode cond = null, iftrue = null, iffalse = null;
-	}
+void niceIf(): {}
 	{	expr() "then" niceExpr() "else" niceExpr()
 			{ pushNode( new ExpressionNodeForFunction( Function.IF, popNodes( 3 ) )); }
 	}
@@ -1060,50 +1058,48 @@ void foldBody(): {}
 	}
 
 void foldAccuInit():
-	{	Token n = null; }
+	{	Token n; }
 	{	n=<NAME> "=" expr()
 			{	addFoldAccuInit( n, popNode() ); }
 	}
 
 void foldIdxName():
-	{	Token n = null; }
+	{	Token n; }
 	{	n=<NAME>
 			{	setFoldIdxName( n ); }
 	}
 
 void foldEltName():
-	{	Token n = null; }
+	{	Token n; }
 	{	n=<NAME>
 			{	addFoldEltName( n ); }
 	}
 
 void foldAccuStep():
-	{	Token n = null; }
+	{	Token n; }
 	{	n=<NAME> "=" niceExpr()
 			{	addFoldStep( n, popNode() ); }
 	}
 
 void foldCountName():
-	{	Token n = null; }
+	{	Token n; }
 	{	n=<NAME>
 			{	setFoldCountName( n ); }
 	}
 
-void foldInto():
-	{	}
+void foldInto(): {}
 	{	niceExpr()
 			{	setFoldInto( popNode() ); }
 	}
 
-void foldWhenEmpty():
-	{	}
+void foldWhenEmpty(): {}
 	{	niceExpr()
 			{	setFoldWhenEmpty( popNode() ); }
 	}
 
 void niceApply():
-	{	Token def = null, vec = null;
-		Collection<Token> vecs = null;
+	{	Token def = null, vec;
+		Collection<Token> vecs;
 	}
 	{	(	"fold" niceFold(false)
 		|	"fold/reduce" niceFold( true )
@@ -1125,8 +1121,8 @@ void niceApply():
 	}
 
 void niceExpr(): {}
-	{ nice()
-	| expr()
+	{	nice()
+	|	expr()
 	}
 
 
@@ -1141,13 +1137,13 @@ TOKEN: /* Cell references */
 	|	<#SHEET: (<NAME> | "'" ("''"|~["'"])* "'") "!" >
 	|	<#IDX: "[" ("-")? <DIGITS> "]" | <DIGITS> >
 	|	<#ABS: ("$")? >
-	|   <RANGE_SEPARATOR: ":" >
+	|	<RANGE_SEPARATOR: ":" >
 	}
 
 /* OpenOffice.org-style cell references */
 
 TOKEN:
-	{   <LEFT_BRACKET: "["> : IN_ODF_CELL_REF
+	{	<LEFT_BRACKET: "["> : IN_ODF_CELL_REF
 	}
 
 <IN_ODF_CELL_REF> TOKEN:
