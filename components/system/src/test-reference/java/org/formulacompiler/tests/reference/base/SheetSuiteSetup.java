@@ -78,6 +78,10 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 			final Context odsLoaderCx = newOdsSheetContext( _fileName );
 			testSuite.addTest( setupContext( odsLoaderCx, _config, _documented, new OdsRowVerificationsTestSetup() ) );
 		}
+		{
+			final Context xlsxLoaderCx = newXlsxSheetContext( _fileName );
+			testSuite.addTest( setupContext( xlsxLoaderCx, _config, _documented, new XlsxRowVerificationsTestSetup() ) );
+		}
 		return testSuite;
 	}
 
@@ -279,6 +283,24 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 						"IF( ISBLANK( Mn ), An, Mn )" ) );
 				_suite.addTest( new ExpressionVerificationTestCase( _cx, checkingCol + 1,
 						"IF( ISBLANK( On ), IF( ISERROR( Bn ), ((\"Err:\" & ERRORTYPE( Bn )) = Mn), OR( (Pn = Bn), AND( ISNUMBER( Pn ), ISNUMBER( Bn ), OR( AND( (Pn = 0.0), (ABS( Bn ) < 1.0E-307) ), ((\"\" & Bn) = (\"\" & Pn)) ) ) ) ), On )" ) );
+				if (!_cx.getSpreadsheetFileBaseName().startsWith( "Bad" )) {
+					_suite.addTest( new ValueVerificationTestCase( _cx, checkingCol + 1, Boolean.TRUE ) );
+				}
+			}
+		}
+	}
+
+
+	private static class XlsxRowVerificationsTestSetup implements RowTestSetup
+	{
+		public void setup( final TestSuite _suite, final Context _cx ) throws Exception
+		{
+			final int checkingCol = _cx.getRowSetup().checkingCol();
+			if (checkingCol >= 0) {
+				_suite.addTest( new ExpressionVerificationTestCase( _cx, checkingCol,
+						"OR( ISBLANK( Bn ), IF( ISERROR( Bn ), (ERRORTYPE( Bn ) = IF( ISBLANK( Mn ), ERRORTYPE( An ), ERRORTYPE( Mn ) )), IF( ISBLANK( Mn ), AND( NOT( ISBLANK( An ) ), (An = Bn) ), (Bn = Mn) ) ) )" ) );
+				_suite.addTest( new ExpressionVerificationTestCase( _cx, checkingCol + 1,
+						"IF( ISBLANK( On ), IF( ISERROR( Pn ), false, Pn ), On )" ) );
 				if (!_cx.getSpreadsheetFileBaseName().startsWith( "Bad" )) {
 					_suite.addTest( new ValueVerificationTestCase( _cx, checkingCol + 1, Boolean.TRUE ) );
 				}

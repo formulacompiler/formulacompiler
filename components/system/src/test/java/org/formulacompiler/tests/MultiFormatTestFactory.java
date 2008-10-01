@@ -26,6 +26,7 @@ import java.util.Enumeration;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 import junit.framework.TestSuite;
 
 public final class MultiFormatTestFactory
@@ -35,6 +36,7 @@ public final class MultiFormatTestFactory
 	{
 		final TestSuite suite = new TestSuite( _testCaseClass.getName() );
 		suite.addTest( new MultiFormatTestSuite( _testCaseClass, ".xls" ) );
+		suite.addTest( new MultiFormatTestSuite( _testCaseClass, ".xlsx" ) );
 		suite.addTest( new MultiFormatTestSuite( _testCaseClass, ".ods" ) );
 		return suite;
 	}
@@ -50,6 +52,44 @@ public final class MultiFormatTestFactory
 				testCase.setSpreadsheetExtension( _spreadsheetExtension );
 			}
 		}
+
+		//LATER Remove this after Saver for XLSX implementation
+		private void skipTest( Test _test, TestResult _result )
+		{
+			_result.startTest( _test );
+			_result.endTest( _test );
+		}
+
+		//LATER Remove this after Saver for XLSX implementation
+		@Override
+		public void runTest( Test _test, TestResult _result )
+		{
+			MultiFormatTestFactory.SpreadsheetFormatTestCase spreadsheetTest = (MultiFormatTestFactory.SpreadsheetFormatTestCase) _test;
+			if (spreadsheetTest.spreadsheetExtension.equals( ".xlsx" )) {
+				if (spreadsheetTest.getName().equals( "testSavingDateConstant" )) {
+					skipTest( _test, _result );
+					return;
+				}
+				if (spreadsheetTest.getName().equals( "testGenerateFile" )) {
+					skipTest( _test, _result );
+					return;
+				}
+				if (spreadsheetTest.getName().equals( "testGenerateStream" )) {
+					skipTest( _test, _result );
+					return;
+				}
+				if (spreadsheetTest.getName().equals( "testGenerateTemplatedFile" )) {
+					skipTest( _test, _result );
+					return;
+				}
+				if (spreadsheetTest.getName().equals( "testGenerateTemplatedStream" )) {
+					skipTest( _test, _result );
+					return;
+				}
+			}
+			super.runTest( _test, _result );
+		}
+
 	}
 
 	public static interface SpreadsheetFormatTest
