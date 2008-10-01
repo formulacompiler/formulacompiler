@@ -18,8 +18,8 @@ Cell containing expression is Sheet1!A1.
     - expr: =(1.0 + 2.0)
       names: [ Independent ]
   - cells:
-    - expr: =LEN( LENB( RC[1] ) )
+    - expr: =ASC( RC[1] )
       names: [ Unsupported ]
-    - const: "hello world"
+    - const: "Text"
 
 names:
