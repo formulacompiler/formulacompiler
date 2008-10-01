@@ -24,12 +24,12 @@ package org.formulacompiler.spreadsheet.internal.parser;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.parser.Token;
-import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
 
 public class SpreadsheetExpressionParserA1 extends SpreadsheetExpressionParser
 {
 
-	public SpreadsheetExpressionParserA1( String _exprText, CellInstance _parseRelativeTo )
+	public SpreadsheetExpressionParserA1( String _exprText, CellIndex _parseRelativeTo )
 	{
 		super( _exprText, _parseRelativeTo );
 	}

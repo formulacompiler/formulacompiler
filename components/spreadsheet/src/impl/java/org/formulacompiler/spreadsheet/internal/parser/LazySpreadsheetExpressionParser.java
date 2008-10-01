@@ -26,30 +26,26 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.AbstractDescribable;
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
 import org.formulacompiler.spreadsheet.internal.LazyExpressionParser;
 
 public class LazySpreadsheetExpressionParser extends AbstractDescribable implements LazyExpressionParser
 {
-	private final CellInstance cell;
 	private final String expressionText;
 	private final CellRefFormat format;
 
 
-	public LazySpreadsheetExpressionParser( CellWithLazilyParsedExpression _cell, String _expressionText,
-			CellRefFormat _format )
+	public LazySpreadsheetExpressionParser( String _expressionText, CellRefFormat _format )
 	{
-		this.cell = _cell;
 		this.expressionText = _expressionText;
 		this.format = _format;
 	}
 
 
-	public ExpressionNode parseExpression( CellWithLazilyParsedExpression _cell ) throws CompilerException
+	public ExpressionNode parseExpression( CellIndex _cellIndex ) throws CompilerException
 	{
-		return SpreadsheetExpressionParser.newParser( this.expressionText, this.cell, this.format ).parse();
+		return SpreadsheetExpressionParser.newParser( this.expressionText, _cellIndex, this.format ).parse();
 	}
 
 
