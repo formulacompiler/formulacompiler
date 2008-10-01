@@ -18,6 +18,7 @@
     <orderEntry type="module" module-name="afc-decompiler" />
     <orderEntry type="module" module-name="afc-spreadsheet" />
     <orderEntry type="module" module-name="afc-spreadsheet-excel-xls" />
+    <orderEntry type="module" module-name="afc-spreadsheet-excel-xlsx" />
     <orderEntry type="module" module-name="afc-spreadsheet-opendocument" />
     <orderEntry type="library" name="junit" level="project" />
     <orderEntry type="library" name="stax" level="project" />

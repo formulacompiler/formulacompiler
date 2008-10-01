@@ -46,12 +46,14 @@
 		<pathelement location="../decompiler/build/${basename}-decompiler.jar" />
 		<pathelement location="../spreadsheet/build/${basename}-spreadsheet.jar" />
 		<pathelement location="../spreadsheet.excel.xls/build/${basename}-spreadsheet-excel-xls.jar" />
+		<pathelement location="../spreadsheet.excel.xlsx/build/${basename}-spreadsheet-excel-xlsx.jar" />
 		<pathelement location="../spreadsheet.opendocument/build/${basename}-spreadsheet-opendocument.jar" />
 	</path>
 
 	<path id="test-only.deps.classpath">
 		<pathelement location="../spreadsheet/temp/test/classes" />
 		<pathelement location="../spreadsheet.excel.xls/temp/test/classes" />
+		<pathelement location="../spreadsheet.excel.xlsx/temp/test/classes" />
 		<pathelement location="../spreadsheet.opendocument/temp/test/classes" />
 		<pathelement location="../compiler/temp/test/classes" />
 		<pathelement location="../compiler/temp/build/classes" />

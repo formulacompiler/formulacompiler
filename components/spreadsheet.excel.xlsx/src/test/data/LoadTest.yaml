@@ -1,0 +1,107 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: TestSheet
+  rows:
+  - cells:
+    - const: "a"
+  - cells:
+    - const: "b"
+    - const: "b"
+    - const: "b"
+  - cells:
+  - cells:
+  - cells:
+  - cells:
+    - null
+    - null
+    - const: "c"
+  - cells:
+  - cells:
+    - const: "Text"
+  - cells:
+    - const: "Текст"
+  - cells:
+    - const: 10.0
+  - cells:
+    - const: 3.14159
+  - cells:
+    - const: 100.0
+  - cells:
+    - const: 50.0
+  - cells:
+    - const: 0.23120000000000002
+  - cells:
+    - const: true
+  - cells:
+    - const: false
+  - cells:
+    - const: 22383.0
+    - const: 22383.0
+  - cells:
+    - const: 21097.811504629633
+    - const: 21097.8115046296
+  - cells:
+    - const: 1235:09:39.000
+    - const: 51.4650347222222
+  - cells:
+    - const: 23:24:43.000
+    - const: 0.975493425925926
+  - cells:
+    - const: -12:30:00.000
+    - const: -0.520833333333333
+  - cells:
+    - expr: =SUM( R[-12]C:R[-1]C[1] )
+  - cells:
+    - const: "Rich Text"
+
+- name: Has space
+  rows:
+  - cells:
+    - const: "A1"
+    - const: "B1"
+    - const: "C1"
+  - cells:
+    - const: "A2"
+    - null
+    - const: "C2"
+  - cells:
+    - const: "A3"
+    - const: "B3"
+    - const: "C3"
+  - cells:
+    - const: "A4"
+    - const: "B4"
+    - const: "C4"
+  - cells:
+    - const: "A5"
+    - const: "B5"
+    - const: "C5"
+  - cells:
+    - const: "A6"
+    - const: "B6"
+    - const: "C6"
+  - cells:
+    - const: "A7"
+    - const: "B7"
+    - const: "C7"
+
+- name: 12345
+  rows:
+  - cells:
+    - const: 1.0
+
+- name: Лист
+  rows:
+  - cells:
+    - const: 1.0
+
+- name: С пробелом
+  rows:
+  - cells:
+    - const: 1.0
+
+names:
