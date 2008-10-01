@@ -153,9 +153,8 @@ class CellParser implements ElementListener
 					new CellWithConstant( this.row, "" );
 				}
 				else {
-					final CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression( this.row );
-					exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, expression,
-							CellRefFormat.A1_ODF ) );
+					final CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression(
+							this.row, new LazySpreadsheetExpressionParser( expression, CellRefFormat.A1_ODF ) );
 					if (this.config.loadAllCellValues) {
 						final Object value = getValue();
 						if (value != null) {

@@ -22,13 +22,13 @@
 
 package org.formulacompiler.spreadsheet.internal.parser;
 
-import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public class SpreadsheetExpressionParserA1ODF extends SpreadsheetExpressionParser
 {
 
-	public SpreadsheetExpressionParserA1ODF( String _exprText, CellInstance _parseRelativeTo )
+	public SpreadsheetExpressionParserA1ODF( String _exprText, CellIndex _parseRelativeTo )
 	{
 		super( _exprText, _parseRelativeTo );
 	}

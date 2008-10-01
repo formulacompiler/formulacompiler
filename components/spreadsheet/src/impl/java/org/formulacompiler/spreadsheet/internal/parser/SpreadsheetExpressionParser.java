@@ -49,10 +49,10 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 	protected final SpreadsheetImpl workbook;
 	protected final CellIndex cellIndex;
 
-	protected SpreadsheetExpressionParser( String _exprText, CellInstance _parseRelativeTo )
+	protected SpreadsheetExpressionParser( String _exprText, CellIndex _parseRelativeTo )
 	{
 		super( _exprText );
-		this.cellIndex = _parseRelativeTo.getCellIndex();
+		this.cellIndex = _parseRelativeTo;
 		this.workbook = this.cellIndex.spreadsheet;
 	}
 
@@ -63,7 +63,7 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 		this.cellIndex = new CellIndex( _workbook, CellIndex.BROKEN_REF, CellIndex.BROKEN_REF, CellIndex.BROKEN_REF );
 	}
 
-	public static SpreadsheetExpressionParser newParser( String _exprText, CellInstance _parseRelativeTo,
+	public static SpreadsheetExpressionParser newParser( String _exprText, CellIndex _parseRelativeTo,
 			CellRefFormat _format )
 	{
 		final SpreadsheetExpressionParser parser;

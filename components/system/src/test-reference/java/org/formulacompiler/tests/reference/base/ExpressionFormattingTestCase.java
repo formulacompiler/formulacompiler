@@ -52,8 +52,8 @@ public class ExpressionFormattingTestCase extends AbstractContextTestCase
 			final ExpressionNode expr = exprCell.getExpression();
 			final ExcelXLSExpressionFormatter formatter = new ExcelXLSExpressionFormatter();
 			final String expected = formatter.format( expr );
-			final SpreadsheetExpressionParser parser = SpreadsheetExpressionParser.newParser( expected, exprCell,
-					CellRefFormat.A1 );
+			final SpreadsheetExpressionParser parser = SpreadsheetExpressionParser.newParser(
+					expected, exprCell.getCellIndex(), CellRefFormat.A1 );
 			final ExpressionNode parsed = parser.parse();
 			exprCell.setExpression( parsed );
 			final String actual = formatter.format( parsed );

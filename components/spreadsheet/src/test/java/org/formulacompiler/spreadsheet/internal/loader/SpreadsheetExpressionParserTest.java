@@ -24,13 +24,10 @@ package org.formulacompiler.spreadsheet.internal.loader;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
-import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellRefParseException;
-import org.formulacompiler.spreadsheet.internal.CellWithConstant;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
-import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.parser.SpreadsheetExpressionParser;
@@ -41,33 +38,26 @@ public class SpreadsheetExpressionParserTest extends TestCase
 {
 	SpreadsheetImpl workbook = new SpreadsheetImpl();
 	SheetImpl sheet = new SheetImpl( this.workbook, "One" );
-	RowImpl row1 = new RowImpl( this.sheet );
-	CellInstance cell11 = new CellWithConstant( this.row1, 123 );
-	CellInstance cell12 = new CellWithConstant( this.row1, 123 );
-	RowImpl row2 = new RowImpl( this.sheet );
-	CellInstance cell21 = new CellWithConstant( this.row2, 123 );
-	CellInstance cell22 = new CellWithConstant( this.row2, 123 );
-	CellInstance parseRelativeTo = this.cell22;
+	CellIndex parseRelativeTo = new CellIndex( this.workbook, 0, 1, 1 );
 
 
 	@Override
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		this.workbook.defineModelRangeName( "_A1_", this.cell11.getCellIndex() );
-		this.workbook.defineModelRangeName( "_B1_", this.cell12.getCellIndex() );
-		this.workbook.defineModelRangeName( "_A2_", this.cell21.getCellIndex() );
-		this.workbook.defineModelRangeName( "_B2_", this.cell22.getCellIndex() );
-		this.workbook.defineModelRangeName( "_A_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell21
-				.getCellIndex() ) );
-		this.workbook.defineModelRangeName( "_B_", CellRange.getCellRange( this.cell12.getCellIndex(), this.cell22
-				.getCellIndex() ) );
-		this.workbook.defineModelRangeName( "_1_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell12
-				.getCellIndex() ) );
-		this.workbook.defineModelRangeName( "_2_", CellRange.getCellRange( this.cell21.getCellIndex(), this.cell22
-				.getCellIndex() ) );
-		this.workbook.defineModelRangeName( "_ALL_", CellRange.getCellRange( this.cell11.getCellIndex(), this.cell22
-				.getCellIndex() ) );
+		CellIndex cell11 = new CellIndex( this.workbook, 0, 0, 0 );
+		CellIndex cell12 = new CellIndex( this.workbook, 0, 0, 1 );
+		CellIndex cell21 = new CellIndex( this.workbook, 0, 1, 0 );
+		CellIndex cell22 = new CellIndex( this.workbook, 0, 1, 1 );
+		this.workbook.defineModelRangeName( "_A1_", cell11 );
+		this.workbook.defineModelRangeName( "_B1_", cell12 );
+		this.workbook.defineModelRangeName( "_A2_", cell21 );
+		this.workbook.defineModelRangeName( "_B2_", cell22 );
+		this.workbook.defineModelRangeName( "_A_", CellRange.getCellRange( cell11, cell21 ) );
+		this.workbook.defineModelRangeName( "_B_", CellRange.getCellRange( cell12, cell22 ) );
+		this.workbook.defineModelRangeName( "_1_", CellRange.getCellRange( cell11, cell12 ) );
+		this.workbook.defineModelRangeName( "_2_", CellRange.getCellRange( cell21, cell22 ) );
+		this.workbook.defineModelRangeName( "_ALL_", CellRange.getCellRange( cell11, cell22 ) );
 	}
 
 
@@ -184,7 +174,7 @@ public class SpreadsheetExpressionParserTest extends TestCase
 	{
 		final String[] names = { "_A1", "A.1", "A1.", "A_1", "A.B", "_A", "_1", "_.", "A.B.C", "R1C.", "R1C3A" };
 
-		final CellIndex a1 = this.cell11.getCellIndex();
+		final CellIndex a1 = new CellIndex( this.workbook, 0, 0, 0 );
 		for (String n : names) {
 			this.workbook.defineModelRangeName( n, a1 );
 		}
@@ -230,10 +220,8 @@ public class SpreadsheetExpressionParserTest extends TestCase
 
 	public void testReferenceFromSecondarySheet() throws Exception
 	{
-		SheetImpl sheet2 = new SheetImpl( this.workbook, "Two" );
-		RowImpl row21 = new RowImpl( sheet2 );
-		CellInstance cell211 = new CellWithConstant( row21, 4711 );
-		this.parseRelativeTo = cell211;
+		new SheetImpl( this.workbook, "Two" );
+		this.parseRelativeTo = new CellIndex( this.workbook, 1, 0, 0 );
 		assertRefA1( "Two!A2", "A2" );
 		assertRefA1( "One!A2", "One!A2" );
 		assertRefA1ODF( "Two!A2", "[.A2]" );

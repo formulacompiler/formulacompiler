@@ -175,14 +175,18 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 
 		if (_xlsCell instanceof jxl.FormulaCell) {
 			final jxl.FormulaCell xlsFormulaCell = (jxl.FormulaCell) _xlsCell;
-			CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression( _row );
+			final String expression;
 			try {
-				exprCell.setExpressionParser( new LazySpreadsheetExpressionParser( exprCell, xlsFormulaCell.getFormula(),
-						CellRefFormat.A1 ) );
+				expression = xlsFormulaCell.getFormula();
 			}
 			catch (jxl.biff.formula.FormulaException e) {
-				throw new SpreadsheetException.LoadError( "Error parsing cell " + exprCell.getCellIndex(), e );
+				final SheetImpl sheet = _row.getSheet();
+				final CellIndex cellIndex = new CellIndex( sheet.getSpreadsheet(), sheet.getSheetIndex(),
+						_xlsCell.getColumn(), _xlsCell.getRow() );
+				throw new SpreadsheetException.LoadError( "Error parsing cell " + cellIndex, e );
 			}
+			final CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression(
+					_row, new LazySpreadsheetExpressionParser( expression, CellRefFormat.A1 ) );
 			if (xlsFormulaCell instanceof NumberFormulaCell) {
 				final NumberFormulaCell xlsNumFormulaCell = ((NumberFormulaCell) xlsFormulaCell);
 				exprCell.applyNumberFormat( convertNumberFormat( xlsNumFormulaCell, xlsNumFormulaCell.getNumberFormat() ) );

@@ -28,6 +28,6 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
 public interface LazyExpressionParser
 {
-	ExpressionNode parseExpression( CellWithLazilyParsedExpression _cell ) throws CompilerException;
+	ExpressionNode parseExpression( CellIndex _cell ) throws CompilerException;
 	String getSource();
 }

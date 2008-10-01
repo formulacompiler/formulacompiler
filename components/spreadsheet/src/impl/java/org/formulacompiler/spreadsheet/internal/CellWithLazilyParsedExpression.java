@@ -29,12 +29,13 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 public final class CellWithLazilyParsedExpression extends CellWithExpression
 {
-	private LazyExpressionParser expressionParser;
+	private final LazyExpressionParser expressionParser;
 
 
-	public CellWithLazilyParsedExpression( RowImpl _row )
+	public CellWithLazilyParsedExpression( RowImpl _row, LazyExpressionParser _expressionParser )
 	{
 		super( _row );
+		this.expressionParser = _expressionParser;
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public final class CellWithLazilyParsedExpression extends CellWithExpression
 		}
 		else {
 			try {
-				final ExpressionNode parsed = this.expressionParser.parseExpression( this );
+				final ExpressionNode parsed = this.expressionParser.parseExpression( this.getCellIndex() );
 				setExpression( parsed );
 				return parsed;
 			}
@@ -63,8 +64,4 @@ public final class CellWithLazilyParsedExpression extends CellWithExpression
 		return this.expressionParser;
 	}
 
-	public void setExpressionParser( LazyExpressionParser _expressionParser )
-	{
-		this.expressionParser = _expressionParser;
-	}
 }

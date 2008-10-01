@@ -22,12 +22,12 @@
 
 package org.formulacompiler.spreadsheet.internal.parser;
 
-import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.spreadsheet.internal.CellIndex;
 
 public class SpreadsheetExpressionParserR1C1 extends SpreadsheetExpressionParser
 {
 
-	public SpreadsheetExpressionParserR1C1( String _exprText, CellInstance _parseRelativeTo )
+	public SpreadsheetExpressionParserR1C1( String _exprText, CellIndex _parseRelativeTo )
 	{
 		super( _exprText, _parseRelativeTo );
 	}
