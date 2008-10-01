@@ -335,9 +335,11 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	public void describeTo( DescriptionBuilder _to )
 	{
 		getRange().describeTo( _to );
-		_to.append( " (which iterates " );
-		((AbstractDescribable) getCallChainToCall()).describeTo( _to );
-		_to.append( ")" );
+		if (this.callChainToCall != null) {
+			_to.append( " (which iterates " );
+			((AbstractDescribable) this.callChainToCall).describeTo( _to );
+			_to.append( ")" );
+		}
 	}
 
 
