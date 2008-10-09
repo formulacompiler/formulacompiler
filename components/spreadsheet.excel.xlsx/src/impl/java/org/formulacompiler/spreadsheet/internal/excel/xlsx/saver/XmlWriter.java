@@ -43,7 +43,6 @@ import javax.xml.stream.events.XMLEvent;
  */
 abstract class XmlWriter
 {
-	private final ZipOutputStream outputStream;
 	private final String path;
 
 	private final XMLEventWriter eventWriter;
@@ -57,7 +56,6 @@ abstract class XmlWriter
 		ZipEntry zipEntry = new ZipEntry( _path );
 		_outputStream.putNextEntry( zipEntry );
 
-		this.outputStream = _outputStream;
 		this.path = _path;
 
 		this.eventWriter = XMLOutputFactory.newInstance().createXMLEventWriter( _outputStream, "UTF-8" );
