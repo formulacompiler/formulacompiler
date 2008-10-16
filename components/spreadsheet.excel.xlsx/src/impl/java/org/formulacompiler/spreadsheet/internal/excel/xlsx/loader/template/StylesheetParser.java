@@ -22,8 +22,7 @@
 
 package org.formulacompiler.spreadsheet.internal.excel.xlsx.loader.template;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FilterInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -34,6 +33,7 @@ import javax.xml.stream.events.StartElement;
 
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.internal.excel.xlsx.XMLConstants;
+import org.formulacompiler.spreadsheet.internal.excel.xlsx.loader.IOUtil;
 import org.formulacompiler.spreadsheet.internal.excel.xlsx.loader.NumberFormat;
 import org.formulacompiler.spreadsheet.internal.excel.xlsx.loader.XmlParser;
 import org.formulacompiler.spreadsheet.internal.excel.xlsx.xml.XmlNode;
@@ -102,53 +102,10 @@ final class StylesheetParser extends XmlParser implements Stylesheet
 	private final List<XmlNode> xmlCellXfs = New.list();
 	private final List<XmlNode> xmlCellStyles = New.list();
 
-	private static final class CopyingStream extends FilterInputStream
+	StylesheetParser( final byte[] _input ) throws XMLStreamException
 	{
-		private final ByteArrayOutputStream copy;
-
-		private CopyingStream( InputStream _input )
-		{
-			super( _input );
-			this.copy = new ByteArrayOutputStream();
-		}
-
-		@Override
-		public int read() throws IOException
-		{
-			final int data = super.read();
-			if (data != -1) {
-				this.copy.write( data );
-			}
-			return data;
-		}
-
-		@Override
-		public int read( byte[] _buffer, int _offset, int _length ) throws IOException
-		{
-			final int bytesRead = super.read( _buffer, _offset, _length );
-			if (bytesRead != -1)
-				this.copy.write( _buffer, _offset, bytesRead );
-			return bytesRead;
-		}
-
-		@Override
-		public void close() throws IOException
-		{
-			super.close();
-
-			this.copy.close();
-		}
-	}
-
-	private StylesheetParser( final CopyingStream _input ) throws XMLStreamException
-	{
-		super( _input );
-		this.source = _input.copy.toByteArray();
-	}
-
-	StylesheetParser( final InputStream _input ) throws XMLStreamException
-	{
-		this( new CopyingStream( _input ) );
+		super( new ByteArrayInputStream( _input ) );
+		this.source = _input;
 
 		Map<String, NumberFormat> numberFormats = null;
 
@@ -166,6 +123,11 @@ final class StylesheetParser extends XmlParser implements Stylesheet
 				parseNamedCellStyles();
 			}
 		}
+	}
+
+	StylesheetParser( final InputStream _input ) throws IOException, XMLStreamException
+	{
+		this( IOUtil.readBytes( _input ) );
 	}
 
 	private Map<String, NumberFormat> parseNumberFormats() throws XMLStreamException
