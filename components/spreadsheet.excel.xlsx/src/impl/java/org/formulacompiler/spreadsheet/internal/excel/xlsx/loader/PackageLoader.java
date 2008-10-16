@@ -23,7 +23,6 @@
 package org.formulacompiler.spreadsheet.internal.excel.xlsx.loader;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -46,13 +45,8 @@ public final class PackageLoader
 		final ZipInputStream zipInputStream = new ZipInputStream( _stream );
 		ZipEntry zipEntry;
 		while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			final byte[] buffer = new byte[0x4000];
-			int bytesRead;
-			while ((bytesRead = zipInputStream.read( buffer, 0, buffer.length )) != -1)
-				baos.write( buffer, 0, bytesRead );
-			this.entries.put( zipEntry.getName(), baos.toByteArray() );
-			baos.close();
+			final byte[] bytes = IOUtil.readBytes( zipInputStream );
+			this.entries.put( zipEntry.getName(), bytes );
 		}
 	}
 
