@@ -244,11 +244,11 @@
 		<parallel threadcount="1" threadsperprocessor="1">
 			<antcall target="-ref-batch">
 				<param name="ref-batch-id" value="ref-batch-1" />
-				<param name="ref-batch-mem" value="256M" />
+				<param name="ref-batch-mem" value="512M" />
 			</antcall>
 			<antcall target="-ref-batch">
 				<param name="ref-batch-id" value="ref-batch-2" />
-				<param name="ref-batch-mem" value="256M" />
+				<param name="ref-batch-mem" value="512M" />
 			</antcall>
 		</parallel>
 
