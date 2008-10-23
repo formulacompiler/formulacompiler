@@ -86,7 +86,8 @@
 	<!-- build / dist -->
 
 	<target name="-build" depends="-jar-main" />
-	<target name="-copy-jars" depends="@copy-init, @copy-build, @copy-lib-intf, @copy-lib-impl" />
+	<target name="-copy-jars" depends="@copy-init, @copy-build, @copy-lib-intf, -copy-lib-impl" />
+	<target name="-copy-lib-impl" depends="@copy-lib-impl" />
 
 	<property name="outer.build" value="../../build" />
 	<property name="outer.lib" value="${outer.build}/lib" />

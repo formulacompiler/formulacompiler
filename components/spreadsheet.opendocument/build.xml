@@ -51,4 +51,15 @@
 	<import file="../build-common.xml" />
 
 
+	<!-- build / dist -->
+
+	<target name="-copy-lib-impl" depends="@copy-lib-impl, @copy-lib-impl-ext" />
+
+	<target name="@copy-lib-impl-ext">
+		<mkdir dir="${outer.lib}"/>
+		<copy todir="${outer.lib}">
+			<fileset dir="../../lib/impl" includes="stax-*.*" />
+		</copy>
+	</target>
+
 </project>
