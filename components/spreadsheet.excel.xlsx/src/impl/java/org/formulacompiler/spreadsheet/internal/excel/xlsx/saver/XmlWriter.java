@@ -139,14 +139,15 @@ abstract class XmlWriter
 		}
 	}
 
+	@SuppressWarnings( "unchecked" )
 	private void writeStartElement( StartElement _startElement ) throws XMLStreamException
 	{
 		final QName name = _startElement.getName();
 		writeStartElement( name );
 
-		final Iterator attributes = _startElement.getAttributes();
+		final Iterator<Attribute> attributes = _startElement.getAttributes();
 		while (attributes.hasNext()) {
-			final Attribute attribute = (Attribute) attributes.next();
+			final Attribute attribute = attributes.next();
 			writeAttribute( attribute );
 		}
 	}
