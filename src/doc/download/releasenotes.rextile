@@ -19,6 +19,7 @@ h5. Fixed
 	* Fixed parsing off-sheet ranges.
 	* Fixed parsing sheet names with hyphens and quotes.
 	* Fixed displaying cell references in A1 format with more that 2 letters.
+	* Fixed parsing percents on JDK 6 with de_CH locale.
 	* Sheet names are displayed in cell and range names in error messages.
 
 
