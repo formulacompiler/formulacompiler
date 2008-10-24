@@ -149,33 +149,43 @@ public abstract class Runtime_v2
 	{
 		final String text = _text.toUpperCase( _environment.locale() );
 
-		final NumberFormat numberFormat = getNumberFormat( _environment );
-		setParseBigDecimal( numberFormat, _parseBigDecimal );
-		Number result = parseNumber( text, numberFormat );
-		if (result != null) {
-			return result;
-		}
-
-		if (fixDecimalSeparator( numberFormat )) {
-			result = parseNumber( text, numberFormat );
+		{
+			final NumberFormat numberFormat = getNumberFormat( _environment );
+			final Number result = parseNumber( text, numberFormat, _parseBigDecimal );
 			if (result != null) {
 				return result;
 			}
 		}
 
-		final NumberFormat percentFormat = getPercentFormat( _environment );
-		setParseBigDecimal( percentFormat, _parseBigDecimal );
-		result = parseNumber( text, percentFormat );
-		if (result != null) {
-			return result;
+		{
+			final NumberFormat percentFormat = getPercentFormat( _environment );
+			final Number result = parseNumber( text, percentFormat, _parseBigDecimal );
+			if (result != null) {
+				return result;
+			}
 		}
 
-		final DecimalFormatSymbols formatSymbols = getDecimalFormatSymbols( _environment );
-		final DecimalFormat scientificFormat = new DecimalFormat( "#0.###E0", formatSymbols );
-		scientificFormat.setParseBigDecimal( _parseBigDecimal );
-		result = parseNumber( text, numberFormat );
-		if (result != null) {
-			return result;
+		{
+			final NumberFormat percentFormat = getNumberFormat( _environment );
+			if (percentFormat instanceof DecimalFormat) {
+				final DecimalFormat decimalFormat = (DecimalFormat) percentFormat;
+				decimalFormat.setPositiveSuffix( "%" );
+				decimalFormat.setNegativeSuffix( "%" );
+				decimalFormat.setMultiplier( 100 );
+				final Number result = parseNumber( text, decimalFormat, _parseBigDecimal );
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+
+		{
+			final DecimalFormatSymbols formatSymbols = getDecimalFormatSymbols( _environment );
+			final DecimalFormat scientificFormat = new DecimalFormat( "#0.###E0", formatSymbols );
+			final Number result = parseNumber( text, scientificFormat, _parseBigDecimal );
+			if (result != null) {
+				return result;
+			}
 		}
 
 		try {
@@ -183,6 +193,18 @@ public abstract class Runtime_v2
 		}
 		catch (ParseException e) {
 			return null;
+		}
+	}
+
+	private static Number parseNumber( String _text, NumberFormat _numberFormat, boolean _parseBigDecimal )
+	{
+		setParseBigDecimal( _numberFormat, _parseBigDecimal );
+		final Number num = parseNumber( _text, _numberFormat );
+		if (num == null && fixDecimalSeparator( _numberFormat )) {
+			return parseNumber( _text, _numberFormat );
+		}
+		else {
+			return num;
 		}
 	}
 
