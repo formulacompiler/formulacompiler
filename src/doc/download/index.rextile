@@ -5,7 +5,7 @@ h1. Download
 
 The latest stable release:
 
-<%= ver '1.1.0', '1.1.0' %>
+<%= ver '1.2.0', '1.1.0' %>
 
 dt. "License Information":license.htm : Background on AFC's dual licensing (commercial and "GPL":-gpl3).
 
