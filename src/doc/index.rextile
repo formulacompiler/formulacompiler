@@ -28,13 +28,13 @@ h1. Abacus Formula Compiler for Java
 <% @news= <<END
 <h2>News</h2>
 
+<h3><a href="download/releasenotes.htm">Release 1.2</a></h3>
+<p>adds support for Microsoft Office Open XML (MS Excel 2007) spreadsheets.
+<br/><span class="when">November 4, 2008</span></p>
+
 <h3><a href="download/releasenotes.htm">Release 1.1</a></h3>
 <p>adds better support for OpenOffice Calc spreadsheets.
 <br/><span class="when">July 4, 2008</span></p>
-
-<h3><a href="download/releasenotes.htm">Release 1.0.1</a></h3>
-<p>fixes minor issues found in 1.0.0.
-<br/><span class="when">March 7, 2008</span></p>
 
 END
 %>
