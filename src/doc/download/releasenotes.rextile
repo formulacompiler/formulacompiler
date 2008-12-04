@@ -8,6 +8,13 @@ Lists the new features, improvements, and fixes for each release of AFC. Note th
 <%= toc 2,3 %>
 
 
+h2. Release 1.3
+
+h5. Better
+
+	* Upgraded to "ASM 3.1":http://asm.objectweb.org/jdiff30to31/changes.html.
+
+
 h2. Release 1.2
 
 h5. New

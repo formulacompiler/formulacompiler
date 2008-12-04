@@ -22,44 +22,44 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/impl/asm-3.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/impl/asm-3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/lib/IDE/asm-3.0-src.zip!/" />
+          <root url="jar://$MODULE_DIR$/lib/IDE/asm-3.1-src.zip!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/impl/asm-commons-3.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/impl/asm-commons-3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/lib/IDE/asm-3.0-src.zip!/" />
+          <root url="jar://$MODULE_DIR$/lib/IDE/asm-3.1-src.zip!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/build/asm-tree-3.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/build/asm-tree-3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/lib/IDE/asm-3.0-src.zip!/" />
+          <root url="jar://$MODULE_DIR$/lib/IDE/asm-3.1-src.zip!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/build/asm-util-3.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/build/asm-util-3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/lib/IDE/asm-3.0-src.zip!/" />
+          <root url="jar://$MODULE_DIR$/lib/IDE/asm-3.1-src.zip!/" />
         </SOURCES>
       </library>
     </orderEntry>
