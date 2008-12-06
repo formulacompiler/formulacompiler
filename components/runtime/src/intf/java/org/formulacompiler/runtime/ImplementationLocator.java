@@ -180,7 +180,8 @@ public final class ImplementationLocator
 		try {
 			final Collection<Class<I>> result = New.collection();
 			final String configName = "META-INF/services/" + _class.getName();
-			final Enumeration<URL> resources = ClassLoader.getSystemResources( configName );
+			final ClassLoader classLoader = ImplementationLocator.class.getClassLoader();
+			final Enumeration<URL> resources = classLoader.getResources( configName );
 			while (resources.hasMoreElements()) {
 				loadImplementationClassesFrom( _class, resources.nextElement(), result );
 			}
