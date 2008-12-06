@@ -49,7 +49,7 @@ public interface EngineLoader
 		/**
 		 * The parent class loader to use for the loaded engine.
 		 */
-		public ClassLoader parentClassLoader = ClassLoader.getSystemClassLoader();
+		public ClassLoader parentClassLoader = EngineLoader.class.getClassLoader();
 
 		/**
 		 * Validates the configuration for missing or improperly set values.

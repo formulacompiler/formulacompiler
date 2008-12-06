@@ -14,6 +14,10 @@ h5. Better
 
 	* Upgraded to "ASM 3.1":http://asm.objectweb.org/jdiff30to31/changes.html.
 
+h5. Fixed
+
+	* Fixed loading saved engines when AFC classes are loaded not by system classloader.
+
 
 h2. Release 1.2
 
