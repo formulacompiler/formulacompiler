@@ -20,36 +20,22 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.compiler.internal.model;
+package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.runtime.EngineException;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLogging;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
+import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-
-public interface ComputationModelTransformer
+class EvalLogging extends EvalShadow
 {
-
-	public static class Config
+	EvalLogging( ExpressionNodeForLogging _node, InterpretedNumericType _type )
 	{
-		public ComputationModel model;
-		public NumericType numericType;
-		public boolean computationListenerEnabled;
-
-		public void validate()
-		{
-			if (this.numericType == null) throw new IllegalArgumentException( "numericType is null" );
-			if (this.model == null) throw new IllegalArgumentException( "model is null" );
-		}
+		super( _node, _type );
 	}
 
-
-	public abstract ComputationModel destructiveTransform() throws CompilerException, EngineException;
-
-
-	public static interface Factory
+	protected TypedResult evaluateToConst( final TypedResult... _args ) throws CompilerException
 	{
-		public ComputationModelTransformer newInstance( Config _config );
+		return _args[ 0 ];
 	}
-
 }

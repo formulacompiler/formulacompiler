@@ -45,6 +45,7 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 	private boolean fullCaching;
 	private final ClassLoader parentClassLoader;
 	private final boolean compileToReadableCode;
+	private final boolean computationListenerEnabled;
 
 
 	public SpreadsheetToEngineCompilerImpl( Config _config )
@@ -61,6 +62,7 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 		this.fullCaching = _config.fullCaching;
 		this.parentClassLoader = _config.parentClassLoader;
 		this.compileToReadableCode = _config.compileToReadableCode;
+		this.computationListenerEnabled = _config.computationListenerEnabled;
 	}
 
 	public static final class Factory implements SpreadsheetToEngineCompiler.Factory
@@ -75,7 +77,7 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
 		final SpreadsheetToModelCompiler cc = new SpreadsheetToModelCompiler( this.binding, this.numericType,
-				this.computationMode, this.compileToReadableCode );
+				this.computationMode, this.compileToReadableCode || this.computationListenerEnabled );
 		ComputationModel cm = cc.compile();
 
 		final ModelToEngineCompiler.Config ecc = new ModelToEngineCompiler.Config();
@@ -86,6 +88,7 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 		ecc.parentClassLoader = this.parentClassLoader;
 		ecc.fullCaching = this.fullCaching;
 		ecc.compileToReadableCode = this.compileToReadableCode;
+		ecc.computationListenerEnabled = this.computationListenerEnabled;
 		final ModelToEngineCompiler ec = new ModelToEngineCompilerImpl( ecc );
 
 		return ec.compile();

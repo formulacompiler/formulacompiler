@@ -36,6 +36,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldVe
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLogging;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSubstitution;
@@ -142,6 +143,8 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 		if (_expr instanceof ExpressionNodeForFoldDatabase) return typeOf( (ExpressionNodeForFoldDatabase) _expr );
 
 		if (_expr instanceof ExpressionNodeForSubstitution) return typeOf( (ExpressionNodeForSubstitution) _expr );
+
+		if (_expr instanceof ExpressionNodeForLogging) return typeOf( (ExpressionNodeForLogging) _expr );
 
 		unsupported( _expr );
 		return null;
@@ -389,6 +392,12 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 	{
 		annotateArgs( _expr );
 		return typeOf( _expr.arguments() );
+	}
+
+	private DataType typeOf( final ExpressionNodeForLogging _expr ) throws CompilerException
+	{
+		final ExpressionNode exp = _expr.argument( 0 );
+		return annotate( exp );
 	}
 
 	private void unsupported( ExpressionNode _expr ) throws CompilerException

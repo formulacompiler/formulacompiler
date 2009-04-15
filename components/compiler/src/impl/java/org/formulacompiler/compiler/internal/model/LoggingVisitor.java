@@ -23,33 +23,23 @@
 package org.formulacompiler.compiler.internal.model;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.runtime.EngineException;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLogging;
 
-
-public interface ComputationModelTransformer
+/**
+ * @author Vladimir Korenev
+ */
+public class LoggingVisitor extends AbstractComputationModelVisitor
 {
-
-	public static class Config
+	protected boolean visitCell( final CellModel _cell ) throws CompilerException
 	{
-		public ComputationModel model;
-		public NumericType numericType;
-		public boolean computationListenerEnabled;
-
-		public void validate()
-		{
-			if (this.numericType == null) throw new IllegalArgumentException( "numericType is null" );
-			if (this.model == null) throw new IllegalArgumentException( "model is null" );
+		final ExpressionNode expr = _cell.getExpression();
+		if (expr != null) {
+			final Object source = _cell.getSource();
+			final String definedName = _cell.getName();
+			final ExpressionNodeForLogging loggingExpr = new ExpressionNodeForLogging( expr, source, definedName );
+			_cell.setExpression( loggingExpr );
 		}
+		return true;
 	}
-
-
-	public abstract ComputationModel destructiveTransform() throws CompilerException, EngineException;
-
-
-	public static interface Factory
-	{
-		public ComputationModelTransformer newInstance( Config _config );
-	}
-
 }

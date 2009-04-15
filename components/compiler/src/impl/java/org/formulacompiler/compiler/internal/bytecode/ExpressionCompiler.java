@@ -45,6 +45,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldVe
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLogging;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMaxValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMinValue;
@@ -62,6 +63,7 @@ import org.formulacompiler.runtime.ComputationException;
 import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.NotAvailableException;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -285,6 +287,10 @@ abstract class ExpressionCompiler
 
 		else if (_node instanceof ExpressionNodeForFoldDatabase) {
 			compileFoldDatabase( (ExpressionNodeForFoldDatabase) _node );
+		}
+
+		else if (_node instanceof ExpressionNodeForLogging) {
+			compileLogging( (ExpressionNodeForLogging) _node );
 		}
 
 		else {
@@ -943,6 +949,30 @@ abstract class ExpressionCompiler
 		final Iterable<LetEntry> closure = closureOf( _node );
 		compileHelpedExpr( new HelperCompilerForFoldDatabase( sectionInContext(), _node, closure ), closure );
 	}
+
+	private void compileLogging( final ExpressionNodeForLogging _expressionNodeForLogging ) throws CompilerException
+	{
+		compile( _expressionNodeForLogging.argument( 0 ) );
+
+		final Object source = _expressionNodeForLogging.getSource();
+		if (source instanceof CellAddress) {
+			final CellAddress cellAddress = (CellAddress) source;
+			final GeneratorAdapter mv = mv();
+			final int valLocal = mv.newLocal( type() );
+			mv.storeLocal( valLocal );
+			mv.loadLocal( valLocal );
+			if (DataType.NUMERIC.equals( dataType() )) {
+				compileConversionTo( Number.class );
+			}
+
+			final String definedName = _expressionNodeForLogging.getDefinedName();
+			compile_util_log( cellAddress.getSheetName(), cellAddress.getColumnIndex(), cellAddress.getRowIndex(), definedName );
+
+			mv.loadLocal( valLocal );
+		}
+	}
+
+	protected abstract void compile_util_log( String _sheetName, int _columnIndex, int _rowIndex, final String _definedName ) throws CompilerException;
 
 
 	static final boolean isSubSectionIn( Iterable<ExpressionNode> _elts )

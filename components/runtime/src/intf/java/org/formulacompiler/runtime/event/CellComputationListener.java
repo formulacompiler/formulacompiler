@@ -20,36 +20,24 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.compiler.internal.model;
+package org.formulacompiler.runtime.event;
 
-import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.runtime.EngineException;
+import java.util.EventListener;
 
 
-public interface ComputationModelTransformer
+/**
+ * Allows to receive notifications about computation events.
+ *
+ * @author Vladimir Korenev
+ * @see org.formulacompiler.runtime.Computation.Config#cellComputationListener
+ */
+public interface CellComputationListener extends EventListener
 {
 
-	public static class Config
-	{
-		public ComputationModel model;
-		public NumericType numericType;
-		public boolean computationListenerEnabled;
-
-		public void validate()
-		{
-			if (this.numericType == null) throw new IllegalArgumentException( "numericType is null" );
-			if (this.model == null) throw new IllegalArgumentException( "model is null" );
-		}
-	}
-
-
-	public abstract ComputationModel destructiveTransform() throws CompilerException, EngineException;
-
-
-	public static interface Factory
-	{
-		public ComputationModelTransformer newInstance( Config _config );
-	}
-
+	/**
+	 * Is invoked after a cell value has been computed.
+	 *
+	 * @param _event contains information about the cell index and the value.
+	 */
+	void cellCalculated( CellComputationEvent _event );
 }

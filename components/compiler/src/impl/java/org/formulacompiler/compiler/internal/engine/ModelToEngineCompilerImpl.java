@@ -55,6 +55,7 @@ public final class ModelToEngineCompilerImpl extends AbstractOptimizedModelToEng
 		final Config cfg = config();
 		mtcfg.model = cfg.model;
 		mtcfg.numericType = cfg.numericType;
+		mtcfg.computationListenerEnabled = cfg.computationListenerEnabled;
 		final ComputationModelTransformer mt = TRANSFORMER_FACTORY.newInstance( mtcfg );
 		final ComputationModel transformed = mt.destructiveTransform();
 
