@@ -129,7 +129,7 @@ public abstract class CellInstance extends AbstractStyledElement
 	public void yamlTo( YamlBuilder _to )
 	{
 		final Set<String> names = getRow().getSheet().getSpreadsheet().getModelNamesFor( getCellIndex() );
-		if (names != null) {
+		if (names != null && !names.isEmpty()) {
 			_to.vn( "names" ).lOneLine( names ).lf();
 		}
 	}
