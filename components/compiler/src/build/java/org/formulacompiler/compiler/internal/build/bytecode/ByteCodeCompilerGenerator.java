@@ -887,7 +887,7 @@ final class ByteCodeCompilerGenerator extends AbstractGenerator
 			else {
 				cb.append( "( " ).append( argTypes[ iArg ].getClassName() ).append( " _" ).append( paramName( iArg++ ) );
 				while (iArg < argTypes.length) {
-					cb.append( argTypes[ iArg ].getClassName() ).append( " _" ).append( paramName( iArg++ ) );
+					cb.append( ", " ).append( argTypes[ iArg ].getClassName() ).append( " _" ).append( paramName( iArg++ ) );
 				}
 				cb.append( " )" );
 			}
