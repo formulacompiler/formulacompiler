@@ -44,6 +44,7 @@ import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.runtime.internal.ComputationTime;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.bytecode.ByteCodeEngine;
+import org.formulacompiler.runtime.spreadsheet.SectionInfo;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
 
@@ -60,6 +61,9 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	static final String PARENT_MEMBER_NAME = "$parent";
 	static final String ROOT_MEMBER_NAME = "$root";
 
+	static final Type INDEX_TYPE = Type.INT_TYPE;
+	static final String INDEX_MEMBER_NAME = "$index";
+
 	static final Type GEN_FACTORY_CLASS = Type.getType( GEN_FACTORY_DESC );
 	static final Type GEN_ROOT_CLASS = Type.getType( GEN_ROOT_DESC );
 
@@ -74,6 +78,10 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	static final Type ENV_CLASS = Type.getType( Environment.class );
 	static final String ENV_DESC = ENV_CLASS.getDescriptor();
 	static final String ENV_MEMBER_NAME = "$environment";
+
+	static final Type SECTION_INFO_CLASS = Type.getType( SectionInfo.class );
+	static final String SECTION_INFO_DESC = SECTION_INFO_CLASS.getDescriptor();
+	static final String SECTION_INFO_MEMBER_NAME = "$info";
 
 	static final Type COMP_MODE_CLASS = Type.getType( ComputationMode.class );
 	static final String COMP_MODE_DESC = COMP_MODE_CLASS.getDescriptor();
@@ -130,7 +138,7 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 	{
 		final Map<String, byte[]> classNamesAndBytes = New.map();
 
-		final SectionCompiler rootCompiler = new RootSectionCompiler( this, getModel().getRoot() );
+		final SectionCompiler rootCompiler = new RootSectionCompiler( this, getModel().getRoot(), isComputationListenerEnabled() );
 		this.rootCompiler = rootCompiler;
 		try {
 
@@ -169,7 +177,7 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 		@Override
 		protected SubSectionCompiler accessSubSection( SectionModel _section )
 		{
-			return new SubSectionCompiler( getSection(), _section );
+			return new SubSectionCompiler( getSection(), _section, isComputationListenerEnabled() );
 		}
 
 		@Override

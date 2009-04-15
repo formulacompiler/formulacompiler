@@ -27,19 +27,25 @@ import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.Runtime_v2;
 import org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl;
 import org.formulacompiler.runtime.internal.spreadsheet.CellInfoImpl;
+import org.formulacompiler.runtime.internal.spreadsheet.RangeAddressImpl;
+import org.formulacompiler.runtime.internal.spreadsheet.SectionInfoImpl;
 import org.formulacompiler.runtime.spreadsheet.CellAddress;
 import org.formulacompiler.runtime.spreadsheet.CellInfo;
+import org.formulacompiler.runtime.spreadsheet.SectionInfo;
 import org.formulacompiler.runtime.spreadsheet.SpreadsheetCellComputationEvent;
 
 
 public abstract class ExpressionTemplatesForAll
 {
 	protected final Environment environment;
+	private final SectionInfo sectionInfo;
 
-	public ExpressionTemplatesForAll( Environment _env )
+	public ExpressionTemplatesForAll( Environment _env, SectionInfo _sectionInfo )
 	{
 		this.environment = _env;
+		this.sectionInfo = _sectionInfo;
 	}
+
 
 	// ------------------------------------------------ Utils
 
@@ -125,13 +131,28 @@ public abstract class ExpressionTemplatesForAll
 		return Boolean.valueOf( a );
 	}
 
+	SectionInfo util_createSectionInfo( int _index, String _name,
+			String _startSheetName, int _startRowIndex, int _startColumnIndex,
+			String _endSheetName, int _endRowIndex, int _endColumnIndex )
+	{
+		final int index = _index;
+		final RangeAddressImpl range;
+		if (_startSheetName != null && _endSheetName != null) {
+			final CellAddress startCellAddress = new CellAddressImpl( _startSheetName, _startColumnIndex, _startRowIndex );
+			final CellAddress endCellAddress = new CellAddressImpl( _endSheetName, _endColumnIndex, _endRowIndex );
+			range = new RangeAddressImpl( startCellAddress, endCellAddress );
+		}
+		else range = null;
+		return new SectionInfoImpl( _name, range, index );
+	}
+
 	void util_log( Object _value, String _sheetName, int _columnIndex, int _rowIndex, String _definedName )
 	{
 		final Object value = _value;
 		final CellComputationListener listener = this.environment.computationListener();
 		final CellAddress cellAddress = new CellAddressImpl( _sheetName, _columnIndex, _rowIndex );
 		final CellInfo cellInfo = new CellInfoImpl( cellAddress, _definedName );
-		final SpreadsheetCellComputationEvent event = new SpreadsheetCellComputationEvent( cellInfo, value );
+		final SpreadsheetCellComputationEvent event = new SpreadsheetCellComputationEvent( cellInfo, this.sectionInfo, value );
 		listener.cellCalculated( event );
 	}
 

@@ -34,16 +34,19 @@ import org.formulacompiler.runtime.event.CellComputationEvent;
  */
 public class SpreadsheetCellComputationEvent extends CellComputationEvent
 {
+	private final SectionInfo sectionInfo;
 
 	/**
 	 * Creates a new event.
 	 *
-	 * @param _source the cell which contains the computation.
-	 * @param _value  the computed value.
+	 * @param _source  the cell which contains the computation.
+	 * @param _section the section which contains the cell.
+	 * @param _value   the computed value.
 	 */
-	public SpreadsheetCellComputationEvent( CellInfo _source, Object _value )
+	public SpreadsheetCellComputationEvent( CellInfo _source, SectionInfo _section, Object _value )
 	{
 		super( _source, _value );
+		this.sectionInfo = _section;
 	}
 
 	/**
@@ -54,6 +57,22 @@ public class SpreadsheetCellComputationEvent extends CellComputationEvent
 	public CellInfo getCellInfo()
 	{
 		return (CellInfo) getSource();
+	}
+
+	/**
+	 * Returns information about the section.
+	 *
+	 * @return section info.
+	 */
+	public SectionInfo getSectionInfo()
+	{
+		return this.sectionInfo;
+	}
+
+
+	public String toString()
+	{
+		return getClass().getName() + "[cell=" + this.getCellInfo() + ",section=" + this.getSectionInfo() + ",value=" + this.getValue() + "]";
 	}
 
 }

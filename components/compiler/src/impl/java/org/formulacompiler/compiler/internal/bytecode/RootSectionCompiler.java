@@ -27,6 +27,7 @@ import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompi
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.runtime.ComputationMode;
+import org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
@@ -38,9 +39,9 @@ final class RootSectionCompiler extends SectionCompiler
 			.getMethod( "void reset()" );
 
 
-	RootSectionCompiler( ByteCodeEngineCompiler _compiler, SectionModel _model )
+	RootSectionCompiler( ByteCodeEngineCompiler _compiler, SectionModel _model, boolean _computationListenerEnabled )
 	{
-		super( _compiler, _model, GEN_ROOT_NAME );
+		super( _compiler, _model, GEN_ROOT_NAME, _computationListenerEnabled );
 	}
 
 	@Override
@@ -96,6 +97,17 @@ final class RootSectionCompiler extends SectionCompiler
 					mv.loadThis();
 					mv.loadArg( 0 );
 					storeInputs( mv );
+				}
+
+				//this.sectionInfo = new SectionInfoImpl(...);
+				if (isComputationListenerEnabled()) {
+					mv.loadThis();
+					mv.push( -1 ); //section index
+					final ExpressionCompilerForNumbers c = numericCompiler();
+					c.compile_util_createSectionInfo( model().getName(),
+							null, CellAddressImpl.BROKEN_REF, CellAddressImpl.BROKEN_REF,
+							null, CellAddressImpl.BROKEN_REF, CellAddressImpl.BROKEN_REF );
+					mv.putField( section().classType(), SECTION_INFO_MEMBER_NAME, SECTION_INFO_CLASS );
 				}
 
 				if (RootSectionCompiler.this.computationTimeCompiled) {

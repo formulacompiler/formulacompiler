@@ -83,6 +83,11 @@ public abstract class AbstractOptimizedModelToEngineCompiler implements Optimize
 		return config().parentClassLoader;
 	}
 
+	public boolean isComputationListenerEnabled()
+	{
+		return config().computationListenerEnabled;
+	}
+
 
 	public abstract SaveableEngine compile() throws CompilerException, EngineException;
 

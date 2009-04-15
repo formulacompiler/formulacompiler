@@ -26,6 +26,8 @@ import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompi
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.model.SectionModel;
+import org.formulacompiler.runtime.spreadsheet.RangeAddress;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
@@ -40,9 +42,9 @@ final class SubSectionCompiler extends SectionCompiler
 	private final String getterDescriptor;
 
 
-	SubSectionCompiler( SectionCompiler _parent, SectionModel _model )
+	SubSectionCompiler( SectionCompiler _parent, SectionModel _model, boolean _computationListenerEnabled )
 	{
-		super( _parent.engineCompiler(), _model, _parent.engineCompiler().newSubClassName() );
+		super( _parent.engineCompiler(), _model, _parent.engineCompiler().newSubClassName(), _computationListenerEnabled );
 		this.parentSectionCompiler = _parent;
 		this.arrayDescriptor = "[" + classDescriptor();
 		this.arrayType = Type.getType( arrayDescriptor() );
@@ -85,7 +87,6 @@ final class SubSectionCompiler extends SectionCompiler
 		return this.getterDescriptor;
 	}
 
-
 	private Type parentType()
 	{
 		return parentSectionCompiler().classType();
@@ -103,6 +104,7 @@ final class SubSectionCompiler extends SectionCompiler
 		super.buildMembers();
 		buildParentMember();
 		buildRootMember();
+		if (this.isComputationListenerEnabled()) buildIndex();
 	}
 
 	private void buildParentMember()
@@ -117,12 +119,22 @@ final class SubSectionCompiler extends SectionCompiler
 		newField( Opcodes.ACC_FINAL, ROOT_MEMBER_NAME, rootType().getDescriptor() );
 	}
 
+	private void buildIndex()
+	{
+		newField( Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, INDEX_MEMBER_NAME, INDEX_TYPE.getDescriptor() );
+	}
+
 
 	@Override
 	protected void buildConstructorWithInputs() throws CompilerException
 	{
-		final MethodCompiler constructorCompiler = new MethodCompiler( this, 0, "<init>", "("
-				+ inputType().getDescriptor() + parentType().getDescriptor() + ")V" )
+		final StringBuilder descriptor = new StringBuilder( "(" );
+		descriptor.append( inputType().getDescriptor() );
+		descriptor.append( parentType().getDescriptor() );
+		if (this.isComputationListenerEnabled()) descriptor.append( INDEX_TYPE.getDescriptor() );
+		descriptor.append( ")V" );
+
+		final MethodCompiler constructorCompiler = new MethodCompiler( this, 0, "<init>", descriptor.toString() )
 		{
 			@Override
 			protected void compileBody() throws CompilerException
@@ -151,6 +163,21 @@ final class SubSectionCompiler extends SectionCompiler
 					mv.loadThis();
 					mv.loadArg( 0 );
 					storeInputs( mv );
+				}
+
+				//this.sectionInfo = new SectionInfoImpl(...);
+				if (isComputationListenerEnabled()) {
+					mv.loadThis();
+					mv.loadArg( 2 ); //section index
+					final ExpressionCompilerForNumbers c = numericCompiler();
+					final SectionModel sectionModel = model();
+					final RangeAddress range = (RangeAddress) model().getSource();
+					final CellAddress topLeft = range.getTopLeft();
+					final CellAddress bottomRight = range.getBottomRight();
+					c.compile_util_createSectionInfo( sectionModel.getName(),
+							topLeft.getSheetName(), topLeft.getRowIndex(), topLeft.getColumnIndex(),
+							bottomRight.getSheetName(), bottomRight.getRowIndex(), bottomRight.getColumnIndex() );
+					mv.putField( section().classType(), SECTION_INFO_MEMBER_NAME, SECTION_INFO_CLASS );
 				}
 
 				mv.visitInsn( Opcodes.RETURN );
