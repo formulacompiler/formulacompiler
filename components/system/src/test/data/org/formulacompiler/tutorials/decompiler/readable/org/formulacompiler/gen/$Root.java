@@ -14,19 +14,19 @@ final class $Root implements Computation, Decompilation.MyOutputs
         $inputs = myinputs;
     }
     
-    final double get$REBATE() {
-        return RuntimeDouble_v2.max(get$CUSTOMERREBATE(), get$ARTICLEREBATE());
+    final double get$Rebate() {
+        return RuntimeDouble_v2.max(get$CustomerRebate(), get$ArticleRebate());
     }
     
     public final double rebate() {
-        return get$REBATE();
+        return get$Rebate();
     }
     
-    final double get$CUSTOMERREBATE() {
+    final double get$CustomerRebate() {
         return $inputs.customerRebate();
     }
     
-    final double get$ARTICLEREBATE() {
+    final double get$ArticleRebate() {
         return $inputs.articleRebate();
     }
 }

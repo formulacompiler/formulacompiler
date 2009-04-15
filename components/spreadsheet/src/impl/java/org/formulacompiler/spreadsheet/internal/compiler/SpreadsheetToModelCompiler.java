@@ -237,7 +237,7 @@ public final class SpreadsheetToModelCompiler
 			if (range instanceof Spreadsheet.Cell) {
 				final CellModel cellModel = getCellModel( (CellIndex) range );
 				if (null != cellModel) {
-					cellModel.setName( nameDef.getKey().toUpperCase() );
+					cellModel.setName( nameDef.getKey() );
 				}
 			}
 		}
