@@ -19,6 +19,7 @@ h5. Fixed
 
 	* Fixed loading saved engines when AFC classes are loaded not by system classloader.
 	* Fixed getting named ranges defined in the spreadsheet after defining an additional range name.
+	* Fixed generating identifiers when compiling to readable code.
 
 
 h2. Release 1.2

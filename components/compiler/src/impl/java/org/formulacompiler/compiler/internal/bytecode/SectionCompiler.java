@@ -126,6 +126,25 @@ abstract class SectionCompiler extends ClassCompiler
 	}
 
 
+	private final Map<String, Integer> getterNameNums = New.map();
+
+	String newGetterName( String _baseName )
+	{
+		final StringBuilder sb = new StringBuilder( "get$" );
+		sb.append( _baseName );
+		final Integer id = this.getterNameNums.get( _baseName );
+		if (id == null) {
+			this.getterNameNums.put( _baseName, 0 );
+		}
+		else {
+			sb.append( '$' );
+			sb.append( id );
+			this.getterNameNums.put( _baseName, id + 1 );
+		}
+		return sb.toString();
+	}
+
+
 	private boolean compilationStarted = false;
 
 	void beginCompilation() throws CompilerException

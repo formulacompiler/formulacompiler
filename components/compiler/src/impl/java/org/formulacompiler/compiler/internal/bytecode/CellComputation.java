@@ -41,7 +41,7 @@ final class CellComputation
 		this.section = _section;
 		this.cell = _cell;
 		if (_section.engineCompiler().getCompileToReadableCode()) {
-			this.methodName = "get$" + cellNameToIdent( _cell.getShortName() );
+			this.methodName = _section.newGetterName( cellNameToIdent( _cell.getShortName() ) );
 		}
 		else {
 			this.methodName = _section.newGetterName();
@@ -59,6 +59,8 @@ final class CellComputation
 		if (result.endsWith( "()" )) {
 			result = result.substring( 0, result.length() - 2 );
 		}
+		// Replace all non-word characters by underscores.
+		result = result.replaceAll( "\\W", "_" );
 		return result;
 	}
 
