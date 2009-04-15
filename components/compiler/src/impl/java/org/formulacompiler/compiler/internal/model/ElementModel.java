@@ -33,29 +33,29 @@ public abstract class ElementModel extends AbstractYamlizable
 {
 	private final ComputationModel engine;
 	private final SectionModel section;
+	private final Object source;
 	private String name;
-	private String originalName;
 	private CallFrame callChainToCall;
 	private final Collection<CallFrame> callsToImplement = New.collection();
 
 
-	public ElementModel( SectionModel _section, String _name )
+	public ElementModel( SectionModel _section, Object _source, String _name )
 	{
 		super();
 		this.engine = _section.getEngine();
 		this.section = _section;
+		this.source = _source;
 		this.name = _name;
-		this.originalName = _name;
 	}
 
 
-	ElementModel( ComputationModel _engine, String _name )
+	ElementModel( ComputationModel _engine, Object _source, String _name )
 	{
 		super();
 		this.engine = _engine;
 		this.section = null;
+		this.source = _source;
 		this.name = _name;
-		this.originalName = _name;
 	}
 
 
@@ -75,22 +75,38 @@ public abstract class ElementModel extends AbstractYamlizable
 		return this.name;
 	}
 
-	protected void setName( String _name )
+	public void setName( String _name )
 	{
 		this.name = _name;
 	}
 
-
-	public final String getOriginalName()
+	public Object getSource()
 	{
-		return this.originalName;
+		return this.source;
 	}
 
-	public final void setOriginalName( String _originalName )
+	public String getSourceName()
 	{
-		this.originalName = _originalName;
+		final Object src = getSource();
+		return (null == src) ? "" : src.toString();
 	}
 
+	public String getShortName()
+	{
+		if (this.name != null) return this.name;
+		else return getSourceName();
+	}
+
+	public String getFullName()
+	{
+		final String src = getSourceName();
+		if (null == this.name) return src;
+		final StringBuilder sb = new StringBuilder( src );
+		sb.append( "(" );
+		sb.append( this.name );
+		sb.append( ")" );
+		return sb.toString();
+	}
 
 	public boolean isInput()
 	{
@@ -105,10 +121,7 @@ public abstract class ElementModel extends AbstractYamlizable
 	public void makeInput( CallFrame _callChainToCall )
 	{
 		this.callChainToCall = _callChainToCall;
-		this.name = _callChainToCall.getHead().getMethod().getDeclaringClass().getSimpleName()
-				+ "." + _callChainToCall.toString();
 	}
-
 
 	public boolean isOutput()
 	{
@@ -129,7 +142,11 @@ public abstract class ElementModel extends AbstractYamlizable
 	@Override
 	public String toString()
 	{
-		return getName();
+		if (isInput()) {
+			return this.callChainToCall.getHead().getMethod().getDeclaringClass().getSimpleName()
+					+ "." + this.callChainToCall.toString();
+		}
+		return getFullName();
 	}
 
 }

@@ -38,17 +38,10 @@ public class CellModel extends ElementModel implements TypedResult
 	private DataType dataType;
 
 
-	public CellModel( SectionModel _section, String _name )
+	public CellModel( SectionModel _section, Object _source )
 	{
-		super( _section, _name );
+		super( _section, _source, null );
 		_section.getCells().add( this );
-	}
-
-
-	@Override
-	public void setName( String _name )
-	{
-		super.setName( _name );
 	}
 
 
@@ -133,11 +126,11 @@ public class CellModel extends ElementModel implements TypedResult
 		this.dataType = _dataType;
 	}
 
-
 	@Override
 	public void yamlTo( YamlBuilder _to )
 	{
-		_to.nv( "name", getName() );
+		_to.nv( "source", getSource().toString() );
+		if (getName() != null) _to.nv( "name", getName() );
 		if (isInput()) _to.ln( "input" ).l( "calls", getCallChainToCall() );
 		if (isOutput()) _to.ln( "output" ).l( "implements", (Object[]) getCallsToImplement() );
 		_to.nv( "value", this.constantValue );

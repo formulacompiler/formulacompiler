@@ -25,6 +25,7 @@ package org.formulacompiler.compiler.internal.model;
 import java.util.List;
 
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.Util;
 import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.runtime.New;
 
@@ -37,18 +38,30 @@ public class SectionModel extends ElementModel
 	private final Class outputClass;
 
 
-	public SectionModel( SectionModel _section, String _name, Class _inputClass, Class _outputClass )
+	public SectionModel( SectionModel _section, Object _source, String _name, Class _inputClass, Class _outputClass )
 	{
-		super( _section, _name );
+		super( _section, _source, _name );
+		this.inputClass = _inputClass;
+		this.outputClass = _outputClass;
+		_section.getSections().add( this );
+	}
+
+	/**
+	 * For tests only.
+	 */
+	public SectionModel( SectionModel _section, Object _source, Class _inputClass, Class _outputClass )
+	{
+		super( _section, _source, null );
+		Util.assertTesting();
 		this.inputClass = _inputClass;
 		this.outputClass = _outputClass;
 		_section.getSections().add( this );
 	}
 
 
-	SectionModel( ComputationModel _engine, String _name, Class _inputClass, Class _outputClass )
+	SectionModel( ComputationModel _engine, Object _source, Class _inputClass, Class _outputClass )
 	{
-		super( _engine, _name );
+		super( _engine, _source, null );
 		this.inputClass = _inputClass;
 		this.outputClass = _outputClass;
 	}
@@ -94,7 +107,8 @@ public class SectionModel extends ElementModel
 	@Override
 	public void yamlTo( YamlBuilder _to )
 	{
-		_to.nv( "name", getName() );
+		_to.nv( "source", getSource().toString() );
+		if (getName() != null) _to.nv( "name", getName() );
 		_to.ln( "cells" ).l( getCells() );
 		_to.ln( "sections" ).l( getSections() );
 	}

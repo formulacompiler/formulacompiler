@@ -99,7 +99,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		assertEquals( 0, root.getSections().size() );
 
 		CellModel o1m = root.getCells().get( 0 );
-		assertEquals( "Sheet1!C1", o1m.getName() );
+		assertEquals( "Sheet1!C1", o1m.toString() );
 		assertEquals( false, o1m.isInput() );
 		assertEquals( true, o1m.isOutput() );
 		assertEquals( 1, o1m.getReferenceCount() );
@@ -107,7 +107,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		assertEquals( 2.0, (Double) o1m.getConstantValue(), 0.1 );
 
 		CellModel o2m = root.getCells().get( 1 );
-		assertEquals( "Sheet1!H1", o2m.getName() );
+		assertEquals( "Sheet1!H1", o2m.toString() );
 		assertEquals( false, o2m.isInput() );
 		assertEquals( true, o2m.isOutput() );
 		assertEquals( 1, o2m.getReferenceCount() );
@@ -115,7 +115,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		assertEquals( "(((Inputs.getOne() + Sheet1!D1) + Sheet1!F1) + #NULL)", o2m.getExpression().describe() );
 
 		CellModel i1m = root.getCells().get( 2 );
-		assertEquals( "Inputs.getOne()", i1m.getName() );
+		assertEquals( "Inputs.getOne()", i1m.toString() );
 		assertEquals( true, i1m.isInput() );
 		assertEquals( false, i1m.isOutput() );
 		assertEquals( 1, i1m.getReferenceCount() );
@@ -123,7 +123,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		assertEquals( 1.0, (Double) i1m.getConstantValue(), 0.1 );
 
 		CellModel x1m = root.getCells().get( 3 );
-		assertEquals( "Sheet1!D1", x1m.getName() );
+		assertEquals( "Sheet1!D1", x1m.toString() );
 		assertEquals( false, x1m.isInput() );
 		assertEquals( false, x1m.isOutput() );
 		assertEquals( 2, x1m.getReferenceCount() );
@@ -131,7 +131,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		assertEquals( 3.0, (Double) x1m.getConstantValue(), 0.1 );
 
 		CellModel x3m = root.getCells().get( 4 );
-		assertEquals( "Sheet1!F1", x3m.getName() );
+		assertEquals( "Sheet1!F1", x3m.toString() );
 		assertEquals( false, x3m.isInput() );
 		assertEquals( false, x3m.isOutput() );
 		assertEquals( 1, x3m.getReferenceCount() );
@@ -141,7 +141,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		assertSame( x3.getExpression().arguments().get( 0 ), x3m.getExpression().arguments().get( 0 ).getDerivedFrom() );
 
 		CellModel x2m = root.getCells().get( 5 );
-		assertEquals( "Sheet1!E1", x2m.getName() );
+		assertEquals( "Sheet1!E1", x2m.toString() );
 		assertEquals( false, x2m.isInput() );
 		assertEquals( false, x2m.isOutput() );
 		assertEquals( 1, x2m.getReferenceCount() );
@@ -149,7 +149,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		assertEquals( 4.0, (Double) x2m.getConstantValue(), 0.1 );
 
 		CellModel io1m = root.getCells().get( 6 );
-		assertEquals( "Inputs.getThree()", io1m.getName() );
+		assertEquals( "Inputs.getThree()", io1m.toString() );
 		assertEquals( true, io1m.isInput() );
 		assertEquals( true, io1m.isOutput() );
 		assertEquals( 1, io1m.getReferenceCount() );
@@ -183,8 +183,8 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		CellModel constant = root.getCells().get( 1 );
 		SectionModel range = root.getSections().get( 0 );
 
-		assertEquals( "Sheet1!B1", constant.getName() );
-		assertEquals( "Sheet1!A1", result.getName() );
+		assertEquals( "Sheet1!B1", constant.toString() );
+		assertEquals( "Sheet1!A1", result.toString() );
 
 		assertEquals( root, range.getSection() );
 		assertEquals( 4, range.getCells().size() );
@@ -199,10 +199,10 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		assertEquals( "(SUM( Inputs.getOne(), Inputs.getTwo(), Inputs.getThree() ) * <~Sheet1!B1)",
 				x1.getExpression().describe() );
 
-		assertEquals( "Sheet1!D2", x1.getName() );
-		assertEquals( "Inputs.getOne()", i1.getName() );
-		assertEquals( "Inputs.getTwo()", i2.getName() );
-		assertEquals( "Inputs.getThree()", i3.getName() );
+		assertEquals( "Sheet1!D2", x1.toString() );
+		assertEquals( "Inputs.getOne()", i1.toString() );
+		assertEquals( "Inputs.getTwo()", i2.toString() );
+		assertEquals( "Inputs.getThree()", i3.toString() );
 	}
 
 
@@ -229,7 +229,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		CellModel constant = root.getCells().get( 0 );
 		SectionModel range = root.getSections().get( 0 );
 
-		assertEquals( "Sheet1!B1", constant.getName() );
+		assertEquals( "Sheet1!B1", constant.toString() );
 
 		assertEquals( root, range.getSection() );
 		assertEquals( 4, range.getCells().size() );
@@ -240,10 +240,10 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		CellModel i2 = range.getCells().get( 2 );
 		CellModel i3 = range.getCells().get( 3 );
 
-		assertEquals( "Sheet1!D2", o1.getName() );
-		assertEquals( "Inputs.getOne()", i1.getName() );
-		assertEquals( "Inputs.getTwo()", i2.getName() );
-		assertEquals( "Inputs.getThree()", i3.getName() );
+		assertEquals( "Sheet1!D2", o1.toString() );
+		assertEquals( "Inputs.getOne()", i1.toString() );
+		assertEquals( "Inputs.getTwo()", i2.toString() );
+		assertEquals( "Inputs.getThree()", i3.toString() );
 
 		assertEquals( "(SUM( Inputs.getOne(), Inputs.getTwo(), Inputs.getThree() ) * <~Sheet1!B1)",
 				o1.getExpression().describe() );
@@ -280,8 +280,8 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 			SectionModel outputs = root.getSections().get( 0 );
 			SectionModel inputs = root.getSections().get( 1 );
 
-			assertEquals( "Inputs.getDetails()", outputs.getName() );
-			assertEquals( "Inputs.getDetails()", inputs.getName() );
+			assertEquals( "Inputs.getDetails()", outputs.toString() );
+			assertEquals( "Inputs.getDetails()", inputs.toString() );
 
 			final CellModel output = outputs.getCells().get( 0 );
 			assertEquals( "SUM( <~Inputs.getDetails()~>Inputs.getOne() )", output.getExpression().describe() );
@@ -328,9 +328,9 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		CellModel global = root.getCells().get( 1 );
 		SectionModel outer = root.getSections().get( 0 );
 
-		assertEquals( "Sheet1!B1", line.getName() );
-		assertEquals( "Sheet1!C1", global.getName() );
-		assertEquals( "Inputs.getDetails()", outer.getName() );
+		assertEquals( "Sheet1!B1", line.toString() );
+		assertEquals( "Sheet1!C1", global.toString() );
+		assertEquals( "Inputs.getDetails()", outer.toString() );
 
 		assertEquals( 1, outer.getCells().size() );
 		assertEquals( 1, outer.getSections().size() );
@@ -338,15 +338,15 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		CellModel inter = outer.getCells().get( 0 );
 		SectionModel inner = outer.getSections().get( 0 );
 
-		assertEquals( "Sheet1!A2", inter.getName() );
-		assertEquals( "Inputs.getSubDetails()", inner.getName() );
+		assertEquals( "Sheet1!A2", inter.toString() );
+		assertEquals( "Inputs.getSubDetails()", inner.toString() );
 
 		assertEquals( 1, inner.getCells().size() );
 		assertEquals( 0, inner.getSections().size() );
 
 		CellModel inp = inner.getCells().get( 0 );
 
-		assertEquals( "Inputs.getOne()", inp.getName() );
+		assertEquals( "Inputs.getOne()", inp.toString() );
 
 		assertEquals( "SUM( Inputs.getDetails()~>Inputs.getSubDetails()~>Inputs.getOne() )", global.getExpression()
 				.describe() );
@@ -424,8 +424,8 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		CellModel _o1 = root.getCells().get( 0 );
 		CellModel _i1 = root.getCells().get( 1 );
 
-		assertEquals( "One!A1", _o1.getName() );
-		assertEquals( "Inputs.getOne()", _i1.getName() );
+		assertEquals( "One!A1", _o1.toString() );
+		assertEquals( "Inputs.getOne()", _i1.toString() );
 		assertEquals( "SUM( Inputs.getOne() )", _o1.getExpression().describe() );
 	}
 
@@ -456,8 +456,8 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 		CellModel _o1 = root.getCells().get( 0 );
 		CellModel _i1 = root.getCells().get( 1 );
 
-		assertEquals( "Two!A1", _o1.getName() );
-		assertEquals( "Inputs.getOne()", _i1.getName() );
+		assertEquals( "Two!A1", _o1.toString() );
+		assertEquals( "Inputs.getOne()", _i1.toString() );
 		assertEquals( "SUM( Inputs.getOne() )", _o1.getExpression().describe() );
 	}
 
