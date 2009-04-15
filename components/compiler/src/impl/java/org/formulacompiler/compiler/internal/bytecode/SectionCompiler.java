@@ -49,14 +49,21 @@ abstract class SectionCompiler extends ClassCompiler
 	private final SectionModel model;
 	private final Type inputs;
 	private final Type outputs;
+	private final boolean computationListenerEnabled;
 
 
-	protected SectionCompiler( ByteCodeEngineCompiler _compiler, SectionModel _model, String _name )
+	protected SectionCompiler( ByteCodeEngineCompiler _compiler, SectionModel _model, String _name, boolean _computationListenerEnabled )
 	{
 		super( _compiler, _name, false );
 		this.model = _model;
 		this.inputs = typeFor( inputClass() );
 		this.outputs = typeFor( outputClass() );
+		this.computationListenerEnabled = _computationListenerEnabled;
+	}
+
+	boolean isComputationListenerEnabled()
+	{
+		return this.computationListenerEnabled;
 	}
 
 	private Type typeFor( Class _inputClass )
@@ -163,6 +170,7 @@ abstract class SectionCompiler extends ClassCompiler
 	protected void buildMembers()
 	{
 		if (hasInputs()) buildInputMember();
+		if (isComputationListenerEnabled()) buildSectionInfoMember();
 	}
 
 	void compileAccessTo( SubSectionCompiler _sub ) throws CompilerException
@@ -265,6 +273,12 @@ abstract class SectionCompiler extends ClassCompiler
 		newField( Opcodes.ACC_FINAL + Opcodes.ACC_PRIVATE, INPUTS_MEMBER_NAME, inputType().getDescriptor() );
 	}
 
+	private void buildSectionInfoMember()
+	{
+		if (!isComputationListenerEnabled()) throw new IllegalStateException();
+		newField( Opcodes.ACC_FINAL + Opcodes.ACC_PRIVATE, SECTION_INFO_MEMBER_NAME, SECTION_INFO_DESC );
+	}
+
 	protected abstract void buildConstructorWithInputs() throws CompilerException;
 	protected abstract void finalizeConstructor() throws CompilerException;
 
@@ -328,6 +342,15 @@ abstract class SectionCompiler extends ClassCompiler
 	protected abstract void compileEnvironmentAccess( GeneratorAdapter _mv );
 	protected abstract void compileComputationModeAccess( GeneratorAdapter _mv );
 	protected abstract void compileComputationTimeAccess( GeneratorAdapter _mv );
+
+	protected void compileSectionInfoAccess( GeneratorAdapter _mv )
+	{
+		if (isComputationListenerEnabled()) {
+			_mv.loadThis();
+			_mv.getField( classType(), SECTION_INFO_MEMBER_NAME, SECTION_INFO_CLASS );
+		}
+		else throw new UnsupportedOperationException( "Section name access is not supported" );
+	}
 
 
 	private final Map<String, ArrayAccessorCompiler> arrayAccessorsForConstData = New.map();

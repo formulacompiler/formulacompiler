@@ -155,7 +155,8 @@ final class SubSectionLazyGetterCompiler extends FinalMethodCompiler
 		mv.loadLocal( l_ds );
 		mv.loadLocal( l_i );
 		mv.arrayLoad( sub.inputType() );
-		compileInit( mv, sub );
+		final IndexCompiler ic = sub.isComputationListenerEnabled() ? new IndexCompiler( l_i ) : null;
+		compileInit( mv, sub, ic );
 		mv.arrayStore( sub.classType() );
 
 		// }
@@ -208,7 +209,8 @@ final class SubSectionLazyGetterCompiler extends FinalMethodCompiler
 		mv.loadLocal( l_ds );
 		mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, n_iter, "next", "()Ljava/lang/Object;" );
 		mv.checkCast( sub.inputType() );
-		compileInit( mv, sub );
+		final IndexCompiler ic = sub.isComputationListenerEnabled() ? new IndexCompiler( l_i ) : null;
+		compileInit( mv, sub, ic );
 		mv.arrayStore( sub.classType() );
 
 		// }
@@ -235,6 +237,15 @@ final class SubSectionLazyGetterCompiler extends FinalMethodCompiler
 		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, n_arraylist, "<init>", "()V" );
 		mv.storeLocal( l_coll );
 
+		final IndexCompiler ic;
+		if (sub.isComputationListenerEnabled()) {
+			int l_i = mv.newLocal( Type.INT_TYPE );
+			mv.push( 0 );
+			mv.storeLocal( l_i );
+			ic = new IndexCompiler( l_i );
+		}
+		else ic = null;
+
 		// while (ds.hasNext()) {
 		final Label next = mv.newLabel();
 		mv.goTo( next );
@@ -247,9 +258,12 @@ final class SubSectionLazyGetterCompiler extends FinalMethodCompiler
 		mv.loadLocal( l_ds );
 		mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, n_iter, "next", "()Ljava/lang/Object;" );
 		mv.checkCast( sub.inputType() );
-		compileInit( mv, sub );
+		compileInit( mv, sub, ic );
 		mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, n_coll, "add", "(Ljava/lang/Object;)Z" );
 		mv.pop();
+
+		// index++;
+		if (ic != null) ic.compileInc( mv );
 
 		// }
 		mv.mark( next );
@@ -270,12 +284,43 @@ final class SubSectionLazyGetterCompiler extends FinalMethodCompiler
 		return l_di;
 	}
 
-
-	private void compileInit( final GeneratorAdapter _mv, final SubSectionCompiler _sub )
+	private void compileInit( final GeneratorAdapter _mv, final SubSectionCompiler _sub, IndexCompiler _ic )
 	{
+		final StringBuilder descriptor = new StringBuilder( "(" );
+		descriptor.append( _sub.inputType().getDescriptor() );
+		descriptor.append( section().classDescriptor() );
+		if (_ic != null) descriptor.append( ByteCodeEngineCompiler.INDEX_TYPE.getDescriptor() );
+		descriptor.append( ")V" );
+
 		_mv.loadThis();
-		_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, _sub.classInternalName(), "<init>", "("
-				+ _sub.inputType().getDescriptor() + section().classDescriptor() + ")V" );
+		// Section index as 3rd parameter if needed
+		if (_ic != null) {
+			_ic.compileLoad( _mv );
+		}
+
+		_mv.visitMethodInsn( Opcodes.INVOKESPECIAL, _sub.classInternalName(), "<init>", descriptor.toString() );
+	}
+
+
+	private static class IndexCompiler
+	{
+		private final int indexLocal;
+
+		public IndexCompiler( final int _indexLocal )
+		{
+			this.indexLocal = _indexLocal;
+		}
+
+		public void compileLoad( final GeneratorAdapter _mv )
+		{
+			_mv.loadLocal( this.indexLocal );
+		}
+
+		public void compileInc( final GeneratorAdapter _mv )
+		{
+			_mv.iinc( this.indexLocal, 1 );
+		}
+
 	}
 
 

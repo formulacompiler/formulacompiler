@@ -24,9 +24,13 @@ package org.formulacompiler.spreadsheet.internal.compiler;
 
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ConstantExpressionCellListenerSupport;
+import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.runtime.internal.spreadsheet.CellInfoImpl;
+import org.formulacompiler.runtime.internal.spreadsheet.SectionInfoImpl;
 import org.formulacompiler.runtime.spreadsheet.CellAddress;
 import org.formulacompiler.runtime.spreadsheet.CellInfo;
+import org.formulacompiler.runtime.spreadsheet.RangeAddress;
+import org.formulacompiler.runtime.spreadsheet.SectionInfo;
 import org.formulacompiler.runtime.spreadsheet.SpreadsheetCellComputationEvent;
 import org.formulacompiler.spreadsheet.ConstantExpressionOptimizationListener;
 
@@ -46,7 +50,11 @@ public class ConstantExpressionCellListenerSupportImpl implements ConstantExpres
 		if (cellSource instanceof CellAddress) {
 			final CellAddress cellAddress = (CellAddress) cellSource;
 			final CellInfo cellInfo = new CellInfoImpl( cellAddress, _cell.getName() );
-			final SpreadsheetCellComputationEvent event = new SpreadsheetCellComputationEvent( cellInfo, value );
+			final SectionModel sectionModel = _cell.getSection();
+			final Object sectionSource = sectionModel.getSource();
+			final RangeAddress range = sectionSource instanceof RangeAddress ? (RangeAddress) sectionSource : null;
+			final SectionInfo sectionInfo = new SectionInfoImpl( sectionModel.getName(), range, -1 );
+			final SpreadsheetCellComputationEvent event = new SpreadsheetCellComputationEvent( cellInfo, sectionInfo, value );
 			this.listener.constantCellCalculated( event );
 		}
 	}
