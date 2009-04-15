@@ -47,6 +47,49 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestCase
 {
 
 
+	public void testIllegalSymbolsInReadableCode() throws Exception
+	{
+		testReadableCode( "cell 1", "cell$2", "cell!3" );
+	}
+
+	public void testSameNamesInReadableCode() throws Exception
+	{
+		testReadableCode( "cell", "cell", "cell" );
+	}
+
+	private void testReadableCode( final String _name1, final String _name2, final String _name3 )
+			throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final CellModel a = new CellModel( rootModel, _name1 );
+		final CellModel b = new CellModel( rootModel, _name2 );
+		final CellModel r = new CellModel( rootModel, _name3 );
+		r.setExpression( new ExpressionNodeForOperator( Operator.PLUS, new ExpressionNodeForCellModel( a ),
+				new ExpressionNodeForCellModel( b ) ) );
+
+		a.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getDoubleA" ) ) );
+		b.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getDoubleB" ) ) );
+		r.makeOutput( new CallFrameImpl( Outputs.class.getMethod( "getResult" ) ) );
+
+		engineModel.traverse( new IntermediateResultsInliner() );
+		engineModel.traverse( new TypeAnnotator() );
+		final ByteCodeEngineCompiler.Config config = new ByteCodeEngineCompiler.Config();
+		config.model = engineModel;
+		config.numericType = FormulaCompiler.DOUBLE;
+		config.compileToReadableCode = true;
+		final ByteCodeEngineCompiler compiler = new ByteCodeEngineCompiler( config );
+		final SaveableEngine engine = compiler.compile();
+
+		checkEngine( engine );
+
+		final ComputationFactory factory = engine.getComputationFactory();
+		final Outputs outputs = (Outputs) factory.newComputation( new Inputs() );
+		final double d = outputs.getResult();
+		assertEquals( 103.34, d, 0.000001 );
+	}
+
+
 	public void testOperators() throws Exception
 	{
 		final double a = 100.34;
