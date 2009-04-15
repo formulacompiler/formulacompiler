@@ -27,9 +27,9 @@ import java.util.regex.Pattern;
 
 public abstract class CellRefParser
 {
-	private static final String BROKEN_REF = "#REF!";
+	private static final String BROKEN_REF_ERR = "#REF!";
 	private static final String SHEET_NAME_REGEXP = "(?:(\\w+)|'((?:''|[^'])+)')";
-	private static final String BROKEN_SHEET_NAME_REGEXP = "(?:(\\w+|" + BROKEN_REF + ")|'((?:''|[^'])+)')";
+	private static final String BROKEN_SHEET_NAME_REGEXP = "(?:(\\w+|" + BROKEN_REF_ERR + ")|'((?:''|[^'])+)')";
 
 	public static class R1C1
 	{
@@ -98,7 +98,7 @@ public abstract class CellRefParser
 		}
 
 		private static final Pattern ODF_CELL_PATTERN = Pattern.compile(
-				"^(?:\\$?" + BROKEN_SHEET_NAME_REGEXP + ")?.(\\$?)([A-Z]+|" + BROKEN_REF + ")(\\$?)(\\d+|" + BROKEN_REF + ")$" );
+				"^(?:\\$?" + BROKEN_SHEET_NAME_REGEXP + ")?.(\\$?)([A-Z]+|" + BROKEN_REF_ERR + ")(\\$?)(\\d+|" + BROKEN_REF_ERR + ")$" );
 
 		public static CellIndex parseCellA1ODF( String _cellRef, CellIndex _relativeTo )
 		{
@@ -182,7 +182,7 @@ public abstract class CellRefParser
 
 		private static CellRange getBrokenRange( Matcher _matcher, int _group, int _fromSheetIndex, int _toSheetIndex, final SpreadsheetImpl _spreadsheet )
 		{
-			if (BROKEN_REF.equals( _matcher.group( _group ) )) {
+			if (BROKEN_REF_ERR.equals( _matcher.group( _group ) )) {
 				final CellIndex fromCellIndex = new CellIndex( _spreadsheet, _fromSheetIndex, CellIndex.BROKEN_REF, CellIndex.BROKEN_REF );
 				if (_fromSheetIndex != _toSheetIndex) {
 					final CellIndex toCellIndex = new CellIndex( _spreadsheet, _toSheetIndex, CellIndex.BROKEN_REF, CellIndex.BROKEN_REF );
@@ -202,7 +202,7 @@ public abstract class CellRefParser
 			final int len = _ci.length();
 			assert len > 0;
 			final int colIndex;
-			if (BROKEN_REF.equals( _ci )) {
+			if (BROKEN_REF_ERR.equals( _ci )) {
 				colIndex = CellIndex.BROKEN_REF;
 			}
 			else {
@@ -218,7 +218,7 @@ public abstract class CellRefParser
 		private static int getRowIndex( final String _ri )
 		{
 			final int rowIndex;
-			if (BROKEN_REF.equals( _ri )) {
+			if (BROKEN_REF_ERR.equals( _ri )) {
 				rowIndex = CellIndex.BROKEN_REF;
 			}
 			else {
@@ -231,7 +231,7 @@ public abstract class CellRefParser
 		private static final String COL_RANGE_REGEXP = COL_REGEXP + ":" + COL_REGEXP;
 		private static final String ROW_RANGE_REGEXP = ROW_REGEXP + ":" + ROW_REGEXP;
 		private static final Pattern OOXML_RANGE_PATTERN = Pattern.compile(
-				"^(?:" + SHEET_NAME_REGEXP + "(?::" + SHEET_NAME_REGEXP + ")?!|(" + BROKEN_REF + "))?(?:" + CELL_OR_RANGE_REGEXP + "|" + COL_RANGE_REGEXP + "|" + ROW_RANGE_REGEXP + "|(" + BROKEN_REF + "))$" );
+				"^(?:" + SHEET_NAME_REGEXP + "(?::" + SHEET_NAME_REGEXP + ")?!|(" + BROKEN_REF_ERR + "))?(?:" + CELL_OR_RANGE_REGEXP + "|" + COL_RANGE_REGEXP + "|" + ROW_RANGE_REGEXP + "|(" + BROKEN_REF_ERR + "))$" );
 
 		public static CellRange parseCellRangeA1OOXML( String _range, CellIndex _relativeTo )
 		{
@@ -242,7 +242,7 @@ public abstract class CellRefParser
 			final SpreadsheetImpl spreadsheet = _relativeTo.spreadsheet;
 			final int fromSheetIndex;
 			final int toSheetIndex;
-			if (BROKEN_REF.equals( matcher.group( 5 ) )) {
+			if (BROKEN_REF_ERR.equals( matcher.group( 5 ) )) {
 				fromSheetIndex = CellIndex.BROKEN_REF;
 				toSheetIndex = CellIndex.BROKEN_REF;
 			}
@@ -311,7 +311,7 @@ public abstract class CellRefParser
 		final String nameUnquoted = _matcher.group( _group );
 		final String nameQuoted = _matcher.group( _group + 1 );
 		final int sheetIndex;
-		if (BROKEN_REF.equals( nameUnquoted )) {
+		if (BROKEN_REF_ERR.equals( nameUnquoted )) {
 			sheetIndex = CellIndex.BROKEN_REF;
 		}
 		else {
