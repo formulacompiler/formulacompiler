@@ -40,6 +40,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSubsti
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeShadow;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLogging;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForParentSectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
@@ -76,6 +77,7 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder
 		else if (_node instanceof ExpressionNodeForFoldVectors) return new EvalFoldVectors( (ExpressionNodeForFoldVectors) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFoldDatabase) return new EvalFoldDatabase( (ExpressionNodeForFoldDatabase) _node, this.type );
 		else if (_node instanceof ExpressionNodeForMakeArray) return new EvalMakeArray( _node );
+		else if (_node instanceof ExpressionNodeForLogging) return new EvalLogging( (ExpressionNodeForLogging) _node, this.type );
 		else return new EvalNonFoldable( _node );
 		// DO NOT REFORMAT ABOVE THIS LINE
 	}

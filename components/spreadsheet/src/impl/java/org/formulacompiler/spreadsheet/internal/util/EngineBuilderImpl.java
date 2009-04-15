@@ -63,6 +63,7 @@ public class EngineBuilderImpl implements EngineBuilder
 	private SpreadsheetByNameBinder byNameBinder;
 	private ClassLoader parentClassLoaderForEngine = ClassLoader.getSystemClassLoader();
 	private boolean compileToReadableCode = false;
+	private boolean computationListenerEnabled = false;
 
 
 	public static final class Factory implements EngineBuilder.Factory
@@ -433,6 +434,17 @@ public class EngineBuilderImpl implements EngineBuilder
 	}
 
 
+	public boolean isComputationListenerEnabled()
+	{
+		return this.computationListenerEnabled;
+	}
+
+	public void setComputationListenerEnabled( boolean _enabled )
+	{
+		this.computationListenerEnabled = _enabled;
+	}
+
+
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
 		final SpreadsheetToEngineCompiler.Config cfg = new SpreadsheetToEngineCompiler.Config();
@@ -444,6 +456,7 @@ public class EngineBuilderImpl implements EngineBuilder
 		cfg.fullCaching = this.fullCaching;
 		cfg.parentClassLoader = this.parentClassLoaderForEngine;
 		cfg.compileToReadableCode = this.compileToReadableCode;
+		cfg.computationListenerEnabled = this.computationListenerEnabled;
 		return SpreadsheetCompiler.newSpreadsheetCompiler( cfg ).compile();
 	}
 

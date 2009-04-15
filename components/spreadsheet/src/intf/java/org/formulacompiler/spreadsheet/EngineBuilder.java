@@ -457,6 +457,29 @@ public interface EngineBuilder
 
 
 	/**
+	 * Controls whether AFC should compile the computation with support of
+	 * {@link org.formulacompiler.runtime.event.CellComputationListener}.
+	 *
+	 * @return {@code true} if {@link org.formulacompiler.runtime.event.CellComputationListener} will be supported.
+	 *         The default is {@code false}.
+	 * @see org.formulacompiler.runtime.event.CellComputationListener
+	 * @see org.formulacompiler.runtime.Computation.Config#cellComputationListener
+	 */
+	boolean isComputationListenerEnabled();
+
+	/**
+	 * Controls whether AFC should compile the computation with support of
+	 * {@link org.formulacompiler.runtime.event.CellComputationListener}.
+	 *
+	 * @param _enabled if {@code true} then {@link org.formulacompiler.runtime.event.CellComputationListener}
+	 *                 will be supported. The default is {@code false}.
+	 * @see org.formulacompiler.runtime.event.CellComputationListener
+	 * @see org.formulacompiler.runtime.Computation.Config#cellComputationListener
+	 */
+	void setComputationListenerEnabled( boolean _enabled );
+
+
+	/**
 	 * Compiles an executable computation engine from the inputs to this builder. In particular, you
 	 * must have loaded a spreadsheet, set the input and output types, or the factory type, and bound
 	 * spreadsheet cells to methods.

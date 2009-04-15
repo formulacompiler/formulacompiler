@@ -20,36 +20,27 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.compiler.internal.model;
-
-import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.runtime.EngineException;
+package org.formulacompiler.runtime.spreadsheet;
 
 
-public interface ComputationModelTransformer
+/**
+ * Information about a cell.
+ *
+ * @author Vladimir Korenev
+ */
+public interface CellInfo
 {
+	/**
+	 * Returns cell index.
+	 *
+	 * @return cell index
+	 */
+	CellAddress getCellAddress();
 
-	public static class Config
-	{
-		public ComputationModel model;
-		public NumericType numericType;
-		public boolean computationListenerEnabled;
-
-		public void validate()
-		{
-			if (this.numericType == null) throw new IllegalArgumentException( "numericType is null" );
-			if (this.model == null) throw new IllegalArgumentException( "model is null" );
-		}
-	}
-
-
-	public abstract ComputationModel destructiveTransform() throws CompilerException, EngineException;
-
-
-	public static interface Factory
-	{
-		public ComputationModelTransformer newInstance( Config _config );
-	}
-
+	/**
+	 * Returns cell defined name, if any.
+	 *
+	 * @return cell name
+	 */
+	String getName();
 }

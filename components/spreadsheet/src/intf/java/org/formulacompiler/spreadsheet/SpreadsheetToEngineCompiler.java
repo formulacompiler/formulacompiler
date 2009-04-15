@@ -110,6 +110,11 @@ public interface SpreadsheetToEngineCompiler
 		public boolean compileToReadableCode = false;
 
 		/**
+		 * Allows logging intermediate cell values.
+		 */
+		public boolean computationListenerEnabled = false;
+
+		/**
 		 * Validates the configuration.
 		 * 
 		 * @throws IllegalArgumentException

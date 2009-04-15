@@ -20,36 +20,40 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.compiler.internal.model;
+package org.formulacompiler.runtime.spreadsheet;
 
-import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.runtime.EngineException;
+import org.formulacompiler.runtime.event.CellComputationEvent;
 
 
-public interface ComputationModelTransformer
+/**
+ * This event is emitted after a cell has been computed.
+ *
+ * @author Vladimir Korenev
+ * @see org.formulacompiler.runtime.event.CellComputationListener
+ * @see org.formulacompiler.runtime.Computation.Config#cellComputationListener
+ */
+public class SpreadsheetCellComputationEvent extends CellComputationEvent
 {
 
-	public static class Config
+	/**
+	 * Creates a new event.
+	 *
+	 * @param _source the cell which contains the computation.
+	 * @param _value  the computed value.
+	 */
+	public SpreadsheetCellComputationEvent( CellInfo _source, Object _value )
 	{
-		public ComputationModel model;
-		public NumericType numericType;
-		public boolean computationListenerEnabled;
-
-		public void validate()
-		{
-			if (this.numericType == null) throw new IllegalArgumentException( "numericType is null" );
-			if (this.model == null) throw new IllegalArgumentException( "model is null" );
-		}
+		super( _source, _value );
 	}
 
-
-	public abstract ComputationModel destructiveTransform() throws CompilerException, EngineException;
-
-
-	public static interface Factory
+	/**
+	 * Returns information about the cell.
+	 *
+	 * @return cell info.
+	 */
+	public CellInfo getCellInfo()
 	{
-		public ComputationModelTransformer newInstance( Config _config );
+		return (CellInfo) getSource();
 	}
 
 }

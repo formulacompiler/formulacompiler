@@ -26,6 +26,7 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.ComputationModelTransformer;
+import org.formulacompiler.compiler.internal.model.LoggingVisitor;
 import org.formulacompiler.compiler.internal.model.analysis.ModelIsTypedChecker;
 import org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
@@ -40,6 +41,7 @@ public final class ComputationModelTransformerImpl implements ComputationModelTr
 {
 	private final ComputationModel model;
 	private final NumericType numericType;
+	private final boolean computationListenerEnabled;
 
 	public ComputationModelTransformerImpl( Config _config )
 	{
@@ -47,6 +49,7 @@ public final class ComputationModelTransformerImpl implements ComputationModelTr
 		_config.validate();
 		this.model = _config.model;
 		this.numericType = _config.numericType;
+		this.computationListenerEnabled = _config.computationListenerEnabled;
 	}
 
 	public static final class Factory implements ComputationModelTransformer.Factory
@@ -72,6 +75,8 @@ public final class ComputationModelTransformerImpl implements ComputationModelTr
 	public ComputationModel destructiveTransform() throws CompilerException, EngineException
 	{
 		rewriteExpressions();
+
+		if (this.computationListenerEnabled) insertLoggingNodes();
 
 		annotateTypes();
 		assert modelIsFullyTyped(): "Typer should fully type the model";
@@ -123,6 +128,11 @@ public final class ComputationModelTransformerImpl implements ComputationModelTr
 	private void annotateTypes() throws CompilerException
 	{
 		this.model.traverse( new TypeAnnotator() );
+	}
+
+	private void insertLoggingNodes() throws CompilerException
+	{
+		this.model.traverse( new LoggingVisitor() );
 	}
 
 

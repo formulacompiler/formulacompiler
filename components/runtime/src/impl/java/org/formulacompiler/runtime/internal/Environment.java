@@ -33,6 +33,7 @@ import java.util.TimeZone;
 
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.New;
+import org.formulacompiler.runtime.event.CellComputationListener;
 
 public final class Environment
 {
@@ -44,6 +45,7 @@ public final class Environment
 	private final DecimalFormatSymbols decimalFormatSymbols;
 	private final TimeZone timeZone;
 	private final Charset charset;
+	private final CellComputationListener cellComputationListener;
 
 	static {
 		// different codepages for languages: "az", "uz" and "sr" now realized only for Cyrillic, not for Latin
@@ -131,6 +133,7 @@ public final class Environment
 				: (DecimalFormatSymbols) _cfg.decimalFormatSymbols.clone();
 		this.timeZone = (null == _cfg.timeZone) ? null : (TimeZone) _cfg.timeZone.clone();
 		this.charset = _cfg.charset;
+		this.cellComputationListener = _cfg.cellComputationListener;
 	}
 
 
@@ -142,6 +145,11 @@ public final class Environment
 	public Charset charset()
 	{
 		return (null != this.charset) ? this.charset : getAnsiCodePage( locale() );
+	}
+
+	public CellComputationListener computationListener()
+	{
+		return this.cellComputationListener;
 	}
 
 	public DecimalFormat decimalFormat()

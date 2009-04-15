@@ -22,12 +22,24 @@
 
 package org.formulacompiler.compiler.internal.templates;
 
+import org.formulacompiler.runtime.event.CellComputationListener;
+import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.Runtime_v2;
+import org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl;
+import org.formulacompiler.runtime.internal.spreadsheet.CellInfoImpl;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
+import org.formulacompiler.runtime.spreadsheet.CellInfo;
+import org.formulacompiler.runtime.spreadsheet.SpreadsheetCellComputationEvent;
 
 
 public abstract class ExpressionTemplatesForAll
 {
+	protected final Environment environment;
 
+	public ExpressionTemplatesForAll( Environment _env )
+	{
+		this.environment = _env;
+	}
 
 	// ------------------------------------------------ Utils
 
@@ -111,6 +123,16 @@ public abstract class ExpressionTemplatesForAll
 	Boolean util_boxBoolean( boolean a )
 	{
 		return Boolean.valueOf( a );
+	}
+
+	void util_log( Object _value, String _sheetName, int _columnIndex, int _rowIndex, String _definedName )
+	{
+		final Object value = _value;
+		final CellComputationListener listener = this.environment.computationListener();
+		final CellAddress cellAddress = new CellAddressImpl( _sheetName, _columnIndex, _rowIndex );
+		final CellInfo cellInfo = new CellInfoImpl( cellAddress, _definedName );
+		final SpreadsheetCellComputationEvent event = new SpreadsheetCellComputationEvent( cellInfo, value );
+		listener.cellCalculated( event );
 	}
 
 

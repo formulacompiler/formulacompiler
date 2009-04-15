@@ -44,6 +44,7 @@ public interface OptimizedModelToEngineCompiler
 		public Method factoryMethod;
 		public boolean fullCaching;
 		public boolean compileToReadableCode;
+		public boolean computationListenerEnabled;
 
 		public void validate()
 		{
