@@ -480,6 +480,21 @@ public interface EngineBuilder
 
 
 	/**
+	 * Returns a listener that receives notifications about events during compilation process, if any.
+	 *
+	 * @return compilation events listewner.
+	 */
+	ConstantExpressionOptimizationListener getConstantExpressionOptimizationListener();
+
+	/**
+	 * Sets a listener that receives notifications about events during compilation process.
+	 *
+	 * @param _listener compilation events listewner.
+	 */
+	void setConstantExpressionOptimizationListener( ConstantExpressionOptimizationListener _listener );
+
+
+	/**
 	 * Compiles an executable computation engine from the inputs to this builder. In particular, you
 	 * must have loaded a spreadsheet, set the input and output types, or the factory type, and bound
 	 * spreadsheet cells to methods.

@@ -32,6 +32,7 @@ import org.formulacompiler.compiler.internal.engine.ModelToEngineCompilerImpl;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.EngineException;
+import org.formulacompiler.spreadsheet.ConstantExpressionOptimizationListener;
 import org.formulacompiler.spreadsheet.SpreadsheetBinding;
 import org.formulacompiler.spreadsheet.SpreadsheetToEngineCompiler;
 
@@ -46,6 +47,7 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 	private final ClassLoader parentClassLoader;
 	private final boolean compileToReadableCode;
 	private final boolean computationListenerEnabled;
+	private final ConstantExpressionOptimizationListener constExprOptListener;
 
 
 	public SpreadsheetToEngineCompilerImpl( Config _config )
@@ -63,6 +65,7 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 		this.parentClassLoader = _config.parentClassLoader;
 		this.compileToReadableCode = _config.compileToReadableCode;
 		this.computationListenerEnabled = _config.computationListenerEnabled;
+		this.constExprOptListener = _config.constantExpressionOptimizationListener;
 	}
 
 	public static final class Factory implements SpreadsheetToEngineCompiler.Factory
@@ -89,6 +92,9 @@ public final class SpreadsheetToEngineCompilerImpl implements SpreadsheetToEngin
 		ecc.fullCaching = this.fullCaching;
 		ecc.compileToReadableCode = this.compileToReadableCode;
 		ecc.computationListenerEnabled = this.computationListenerEnabled;
+		if (this.constExprOptListener != null) {
+			ecc.constExprCellListenerSupport = new ConstantExpressionCellListenerSupportImpl( this.constExprOptListener );
+		}
 		final ModelToEngineCompiler ec = new ModelToEngineCompilerImpl( ecc );
 
 		return ec.compile();

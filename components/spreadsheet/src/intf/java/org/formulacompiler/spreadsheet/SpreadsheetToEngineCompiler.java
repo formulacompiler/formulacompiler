@@ -115,6 +115,11 @@ public interface SpreadsheetToEngineCompiler
 		public boolean computationListenerEnabled = false;
 
 		/**
+		 * Allows to receive notifications about events during compilation process.
+		 */
+		public ConstantExpressionOptimizationListener constantExpressionOptimizationListener = null;
+
+		/**
 		 * Validates the configuration.
 		 * 
 		 * @throws IllegalArgumentException

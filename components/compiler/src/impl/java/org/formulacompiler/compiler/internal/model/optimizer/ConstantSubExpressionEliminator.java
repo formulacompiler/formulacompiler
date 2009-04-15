@@ -30,6 +30,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.AbstractComputationModelVisitor;
 import org.formulacompiler.compiler.internal.model.CellModel;
+import org.formulacompiler.compiler.internal.model.ConstantExpressionCellListenerSupport;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.optimizer.consteval.ConstResult;
@@ -41,22 +42,25 @@ import org.formulacompiler.runtime.internal.Environment;
 final public class ConstantSubExpressionEliminator extends AbstractComputationModelVisitor
 {
 	private final InterpretedNumericType numericType;
+	private final ConstantExpressionCellListenerSupport listenerSupport;
 
 
-	public ConstantSubExpressionEliminator( InterpretedNumericType _type )
+	private ConstantSubExpressionEliminator( InterpretedNumericType _type, ConstantExpressionCellListenerSupport _listenerSupport )
 	{
 		super();
 		this.numericType = _type;
+		this.listenerSupport = _listenerSupport;
 	}
 
-	public ConstantSubExpressionEliminator( NumericType _type, ComputationMode _mode, Environment _env )
+	public ConstantSubExpressionEliminator( NumericType _type, ComputationMode _mode, Environment _env,
+			ConstantExpressionCellListenerSupport _listenerSupport )
 	{
-		this( InterpretedNumericType.typeFor( _type, _mode, _env ) );
+		this( InterpretedNumericType.typeFor( _type, _mode, _env ), _listenerSupport );
 	}
 
 	public ConstantSubExpressionEliminator( NumericType _type )
 	{
-		this( InterpretedNumericType.typeFor( _type, ComputationMode.EXCEL, Environment.DEFAULT ) );
+		this( InterpretedNumericType.typeFor( _type, ComputationMode.EXCEL, Environment.DEFAULT ), null );
 		Util.assertTesting();
 	}
 
@@ -77,7 +81,11 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 				assert (optimizedResult.getDataType() == _cell.getDataType() || optimizedResult.getDataType() == DataType.NULL);
 				if (optimizedResult.hasConstantValue()) {
 					_cell.setExpression( null );
-					_cell.setConstantValue( optimizedResult.getConstantValue() );
+					final Object value = optimizedResult.getConstantValue();
+					_cell.setConstantValue( value );
+					if (this.listenerSupport != null) {
+						listenerSupport.constantExpressionEliminated( _cell, value );
+					}
 				}
 				else {
 					ExpressionNode optimizedExpr = (ExpressionNode) optimizedResult;

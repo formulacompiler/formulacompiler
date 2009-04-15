@@ -29,6 +29,7 @@ import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.Util;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
+import org.formulacompiler.compiler.internal.model.ConstantExpressionCellListenerSupport;
 import org.formulacompiler.runtime.EngineException;
 
 
@@ -45,6 +46,7 @@ public interface OptimizedModelToEngineCompiler
 		public boolean fullCaching;
 		public boolean compileToReadableCode;
 		public boolean computationListenerEnabled;
+		public ConstantExpressionCellListenerSupport constExprCellListenerSupport;
 
 		public void validate()
 		{

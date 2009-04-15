@@ -22,35 +22,8 @@
 
 package org.formulacompiler.compiler.internal.model;
 
-import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.runtime.EngineException;
 
-
-public interface ComputationModelTransformer
+public interface ConstantExpressionCellListenerSupport
 {
-
-	public static class Config
-	{
-		public ComputationModel model;
-		public NumericType numericType;
-		public boolean computationListenerEnabled;
-		public ConstantExpressionCellListenerSupport constExprCellListenerSupport;
-
-		public void validate()
-		{
-			if (this.numericType == null) throw new IllegalArgumentException( "numericType is null" );
-			if (this.model == null) throw new IllegalArgumentException( "model is null" );
-		}
-	}
-
-
-	public abstract ComputationModel destructiveTransform() throws CompilerException, EngineException;
-
-
-	public static interface Factory
-	{
-		public ComputationModelTransformer newInstance( Config _config );
-	}
-
+	void constantExpressionEliminated( CellModel _cellModel, Object value );
 }
