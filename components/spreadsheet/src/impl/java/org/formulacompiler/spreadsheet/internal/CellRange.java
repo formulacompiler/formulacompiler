@@ -24,6 +24,8 @@ package org.formulacompiler.spreadsheet.internal;
 
 import org.formulacompiler.compiler.internal.AbstractDescribable;
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
+import org.formulacompiler.runtime.internal.spreadsheet.RangeAddressImpl;
+import org.formulacompiler.runtime.spreadsheet.RangeAddress;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
@@ -94,6 +96,13 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 		description.pushContext( DescribeShortStyle.getInstance() );
 		describeTo( description );
 		return description.toString();
+	}
+
+	public RangeAddress getRangeAddress()
+	{
+		final CellIndex from = getFrom();
+		final CellIndex to = getTo();
+		return new RangeAddressImpl( from.getCellAddress(), to.getCellAddress() );
 	}
 
 
