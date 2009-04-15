@@ -22,11 +22,15 @@
 
 package org.formulacompiler.spreadsheet.internal;
 
+import static org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl.BROKEN_REF;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
+import org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
@@ -34,7 +38,6 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 public final class CellIndex extends CellRange implements Cell
 {
-	public static final int BROKEN_REF = -1;
 	static final int MAX_INDEX = Integer.MAX_VALUE - 1;
 
 	public final SpreadsheetImpl spreadsheet;
@@ -283,7 +286,7 @@ public final class CellIndex extends CellRange implements Cell
 	String getNameA1ForCellIndex( boolean _columnIndexAbsolute, boolean _rowIndexAbsolute, SheetImpl _contextSheet )
 	{
 		final StringBuilder result = new StringBuilder();
-		if (this.sheetIndex == CellIndex.BROKEN_REF) {
+		if (this.sheetIndex == BROKEN_REF) {
 			result.append( "#REF!" );
 		}
 		else if (_contextSheet == null || this.sheetIndex != _contextSheet.getSheetIndex()) {
@@ -299,48 +302,14 @@ public final class CellIndex extends CellRange implements Cell
 			}
 			result.append( "!" );
 		}
-		appendNameA1ForCellIndex( result, this.columnIndex, _columnIndexAbsolute, this.rowIndex, _rowIndexAbsolute );
+		CellAddressImpl.appendNameA1ForCellIndex( result, this.columnIndex, _columnIndexAbsolute, this.rowIndex, _rowIndexAbsolute );
 		return result.toString();
 	}
 
 	public static void appendNameA1ForCellIndex( final StringBuilder _result, final CellIndex _cellIndex )
 	{
-		appendNameA1ForCellIndex( _result, _cellIndex.columnIndex, _cellIndex.isColumnIndexAbsolute, _cellIndex.rowIndex, _cellIndex.isRowIndexAbsolute );
+		CellAddressImpl.appendNameA1ForCellIndex( _result, _cellIndex.columnIndex, _cellIndex.isColumnIndexAbsolute, _cellIndex.rowIndex, _cellIndex.isRowIndexAbsolute );
 	}
-
-	public static void appendNameA1ForCellIndex( final StringBuilder _result, final int _columnIndex, final boolean _columnIndexAbsolute, final int _rowIndex, final boolean _rowIndexAbsolute )
-	{
-		if (_columnIndexAbsolute) {
-			_result.append( '$' );
-		}
-		if (_columnIndex == BROKEN_REF) {
-			_result.append( "#REF!" );
-		}
-		else {
-			appendColumn( _result, _columnIndex );
-		}
-		if (_rowIndexAbsolute) {
-			_result.append( '$' );
-		}
-		if (_rowIndex == BROKEN_REF) {
-			_result.append( "#REF!" );
-		}
-		else {
-			_result.append( _rowIndex + 1 );
-		}
-	}
-
-	private static void appendColumn( StringBuilder _result, int _columnIndex )
-	{
-		int insPos = _result.length();
-		int col = _columnIndex;
-		while (col >= 0) {
-			int digit = col % 26;
-			_result.insert( insPos, (char) ('A' + digit) );
-			col = col / 26 - 1;
-		}
-	}
-
 
 	private void describeOffsetTo( DescriptionBuilder _to, char _prefix, int _offset )
 	{
@@ -427,6 +396,12 @@ public final class CellIndex extends CellRange implements Cell
 		final int rowIndex = this.isRowIndexAbsolute ? this.rowIndex : (this.rowIndex + _rowOffset);
 		return new CellIndex( this.spreadsheet, this.sheetIndex,
 				colIndex, this.isColumnIndexAbsolute, rowIndex, this.isRowIndexAbsolute);
+	}
+
+	public CellAddress getCellAddress()
+	{
+		final String sheetName = getSheet().getName();
+		return new CellAddressImpl( sheetName, getColumnIndex(), getRowIndex() );
 	}
 
 }

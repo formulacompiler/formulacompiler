@@ -61,6 +61,10 @@ groups:
             All the components needed to run compiled engines.
         comps:
 
+          - id: api.spreadsheet
+            pkgs:
+              - org.formulacompiler.runtime.spreadsheet
+
           - id: api
             pkgs:
               - org.formulacompiler.runtime
@@ -79,6 +83,12 @@ groups:
               - core.runtime.api
             deps:
               - core.runtime.cern
+
+          - id: spreadsheet
+            pkgs:
+              - org.formulacompiler.runtime.internal.spreadsheet
+            api_deps:
+              - core.runtime.api.spreadsheet
 
           - id: jvm
             pkgs:
@@ -276,6 +286,9 @@ groups:
             api_deps:
               - spreadsheet.compiler.api
               - core.compiler.expressions
+              - core.runtime.api.spreadsheet
+            deps:
+              - core.runtime.spreadsheet
 
           - id: binding
             desc:

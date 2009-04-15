@@ -22,6 +22,8 @@
 
 package org.formulacompiler.spreadsheet.internal.excel.xlsx.saver;
 
+import static org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl.BROKEN_REF;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.zip.ZipOutputStream;
@@ -29,7 +31,6 @@ import javax.xml.stream.XMLStreamException;
 
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.excel.xlsx.XMLConstants;
 
 
@@ -75,7 +76,7 @@ class WorkbookWriter extends ContentXmlWriter
 		for (Map.Entry<String, Spreadsheet.Range> range : _spreadsheet.getRangeNames().entrySet()) {
 			writeStartElement( XMLConstants.Main.DEFINED_NAME );
 			writeAttribute( XMLConstants.Main.NAME, range.getKey() );
-			writeText( ExpressionFormatter.format( range.getValue(), CellIndex.BROKEN_REF ) );
+			writeText( ExpressionFormatter.format( range.getValue(), BROKEN_REF ) );
 			writeEndElement( XMLConstants.Main.DEFINED_NAME );
 		}
 		writeEndElement( XMLConstants.Main.DEFINED_NAMES );
