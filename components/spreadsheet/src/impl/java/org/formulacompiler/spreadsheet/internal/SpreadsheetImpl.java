@@ -119,6 +119,7 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 
 		if (null == this.userRangeNames) {
 			this.userRangeNames = New.caseInsensitiveMap();
+			this.userRangeNames.putAll( this.modelRangeNames );
 			this.readOnlyRangeNames = Collections.unmodifiableMap( this.userRangeNames );
 		}
 		this.userRangeNames.put( _name, _ref );

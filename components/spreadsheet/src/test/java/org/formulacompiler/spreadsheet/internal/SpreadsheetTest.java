@@ -25,14 +25,18 @@ package org.formulacompiler.spreadsheet.internal;
 import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
 
 import java.util.Calendar;
+import java.util.Map;
 import java.util.TimeZone;
 
 import org.formulacompiler.compiler.Function;
+import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
+import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.tests.utils.AbstractStandardInputsOutputsTestCase;
 import org.formulacompiler.tests.utils.WorksheetBuilderWithBands;
 
-public class WorkbookTest extends AbstractStandardInputsOutputsTestCase
+
+public class SpreadsheetTest extends AbstractStandardInputsOutputsTestCase
 {
 
 	public void testGetCellA1() throws Exception
@@ -115,6 +119,117 @@ public class WorkbookTest extends AbstractStandardInputsOutputsTestCase
 
 		assertEqualToFile( "src/test/data/org/formulacompiler/spreadsheet/internal/test-sheet-description.yaml",
 				description );
+	}
+
+	public void testModelAndUserNames()
+	{
+		final SpreadsheetImpl spreadsheet = new SpreadsheetImpl();
+		spreadsheet.getSheetList().add( new SheetImpl( spreadsheet ) );
+
+		final NamesChecker checker = new NamesChecker();
+
+		checker.assertNames( spreadsheet );
+
+		{
+			final String name = "modelRange1";
+			final CellIndex cell = new CellIndex( spreadsheet, 0, 0, 0 );
+			spreadsheet.defineModelRangeName( name, cell );
+			checker.addModelName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+
+		{
+			final String name = "userRange1";
+			final CellIndex cell = new CellIndex( spreadsheet, 0, 1, 0 );
+			spreadsheet.defineAdditionalRangeName( name, cell );
+			checker.addUserDefinedName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+
+		{
+			final String name = "modelRange2";
+			final CellIndex cell = new CellIndex( spreadsheet, 0, 0, 1 );
+			spreadsheet.defineModelRangeName( name, cell );
+			checker.addModelName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+
+		{
+			final String name = "userRange2";
+			final CellIndex cell = new CellIndex( spreadsheet, 0, 1, 1 );
+			spreadsheet.defineAdditionalRangeName( name, cell );
+			checker.addUserDefinedName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+	}
+
+
+	public void testUserAndModelNames()
+	{
+		final SpreadsheetImpl spreadsheet = new SpreadsheetImpl();
+		spreadsheet.getSheetList().add( new SheetImpl( spreadsheet ) );
+
+		final NamesChecker checker = new NamesChecker();
+
+		checker.assertNames( spreadsheet );
+
+		{
+			final String name = "userRange1";
+			final CellIndex cell = new CellIndex( spreadsheet, 0, 1, 0 );
+			spreadsheet.defineAdditionalRangeName( name, cell );
+			checker.addUserDefinedName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+
+		{
+			final String name = "modelRange1";
+			final CellIndex cell = new CellIndex( spreadsheet, 0, 0, 0 );
+			spreadsheet.defineModelRangeName( name, cell );
+			checker.addModelName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+
+		{
+			final String name = "userRange2";
+			final CellIndex cell = new CellIndex( spreadsheet, 0, 1, 1 );
+			spreadsheet.defineAdditionalRangeName( name, cell );
+			checker.addUserDefinedName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+
+		{
+			final String name = "modelRange2";
+			final CellIndex cell = new CellIndex( spreadsheet, 0, 0, 1 );
+			spreadsheet.defineModelRangeName( name, cell );
+			checker.addModelName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+	}
+
+	private class NamesChecker
+	{
+		final Map<String, Range> expectedModelRanges = New.map();
+		final Map<String, Range> expectedRanges = New.map();
+
+		public void assertNames( SpreadsheetImpl _spreadsheet )
+		{
+			assertEquals( this.expectedModelRanges, _spreadsheet.getModelRangeNames() );
+			assertEquals( this.expectedRanges, _spreadsheet.getRangeNames() );
+		}
+
+		public void addModelName( final String _name, final Range _range )
+		{
+			assertFalse( this.expectedModelRanges.containsKey( _name ) );
+			this.expectedModelRanges.put( _name, _range );
+			assertFalse( this.expectedRanges.containsKey( _name ) );
+			this.expectedRanges.put( _name, _range );
+		}
+
+		public void addUserDefinedName( final String _name, final Range _range )
+		{
+			assertFalse( this.expectedRanges.containsKey( _name ) );
+			this.expectedRanges.put( _name, _range );
+		}
 	}
 
 }
