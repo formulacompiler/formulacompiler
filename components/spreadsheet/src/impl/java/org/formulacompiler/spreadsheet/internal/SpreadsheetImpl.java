@@ -45,9 +45,10 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 	private final List<SheetImpl> sheets = New.list();
 	private final Map<String, CellRange> modelRangeNames = New.caseInsensitiveMap();
 	private final Map<String, CellRange> readOnlyModelRangeNames = Collections.unmodifiableMap( this.modelRangeNames );
-	private final Map<CellIndex, Set<String>> namedCells = New.map();
+	private final Map<Range, Set<String>> modelNamedRanges = New.map();
 	private final ComputationMode computationMode;
 	private Map<String, Range> userRangeNames = null;
+	private Map<Range, Set<String>> userNamedRanges = null;
 	private Map<String, Range> readOnlyRangeNames = Collections
 			.unmodifiableMap( (Map<String, ? extends Range>) this.modelRangeNames );
 
@@ -73,21 +74,13 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 	public void defineModelRangeName( String _name, CellRange _ref )
 	{
 		this.modelRangeNames.put( _name, _ref );
-		if (_ref instanceof CellIndex) {
-			final CellIndex cellIndex = (CellIndex) _ref;
-			final Set<String> existingCellNames = this.namedCells.get( cellIndex );
-			final Set<String> cellNames;
-			if (existingCellNames != null) {
-				cellNames = existingCellNames;
-			}
-			else {
-				cellNames = New.sortedSet();
-				this.namedCells.put( cellIndex, cellNames );
-			}
-			cellNames.add( _name );
-		}
+		final Map<Range, Set<String>> namedRanges = this.modelNamedRanges;
+		putRangeName( namedRanges, _ref, _name );
 		if (null != this.userRangeNames) {
 			this.userRangeNames.put( _name, _ref );
+		}
+		if (null != this.userNamedRanges) {
+			putRangeName( this.userNamedRanges, _ref, _name );
 		}
 	}
 
@@ -96,10 +89,28 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 		return this.readOnlyModelRangeNames;
 	}
 
-	public Set<String> getModelNamesFor( CellIndex _cell )
+	public Set<String> getModelNamesFor( Range _range )
 	{
-		return this.namedCells.get( _cell );
+		return this.modelNamedRanges.get( _range );
 	}
+
+	public Set<String> getNamesFor( Range _range )
+	{
+		final Set<String> modelNames = this.modelNamedRanges.get( _range );
+		if (this.userNamedRanges == null) return modelNames;
+		else {
+			final Set<String> userNames = this.userNamedRanges.get( _range );
+			if (modelNames == null || modelNames.isEmpty()) return userNames;
+			else if (userNames == null || userNames.isEmpty()) return modelNames;
+			else {
+				final Set<String> names = New.set();
+				names.addAll( modelNames );
+				names.addAll( userNames );
+				return names;
+			}
+		}
+	}
+
 
 	// --------------------------------------- Implement Spreadsheet
 
@@ -123,6 +134,25 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 			this.readOnlyRangeNames = Collections.unmodifiableMap( this.userRangeNames );
 		}
 		this.userRangeNames.put( _name, _ref );
+
+		if (null == this.userNamedRanges) {
+			this.userNamedRanges = New.map();
+		}
+		putRangeName( this.userNamedRanges, _ref, _name );
+	}
+
+	private void putRangeName( Map<Range, Set<String>> _namedRanges, Range _ref, String _name )
+	{
+		final Set<String> existingCellNames = _namedRanges.get( _ref );
+		final Set<String> cellNames;
+		if (existingCellNames != null) {
+			cellNames = existingCellNames;
+		}
+		else {
+			cellNames = New.sortedSet();
+			_namedRanges.put( _ref, cellNames );
+		}
+		cellNames.add( _name );
 	}
 
 

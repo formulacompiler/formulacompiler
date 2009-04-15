@@ -26,6 +26,7 @@ import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilde
 
 import java.util.Calendar;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 import org.formulacompiler.compiler.Function;
@@ -206,29 +207,137 @@ public class SpreadsheetTest extends AbstractStandardInputsOutputsTestCase
 		}
 	}
 
+	public void testDifferentModelAndUserNamesForSameCell()
+	{
+		final SpreadsheetImpl spreadsheet = new SpreadsheetImpl();
+		spreadsheet.getSheetList().add( new SheetImpl( spreadsheet ) );
+
+		final NamesChecker checker = new NamesChecker();
+
+		checker.assertNames( spreadsheet );
+
+		final CellIndex cell = new CellIndex( spreadsheet, 0, 0, 0 );
+
+		{
+			final String name = "modelRange1";
+			spreadsheet.defineModelRangeName( name, cell );
+			checker.addModelName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+
+		{
+			final String name = "userRange1";
+			spreadsheet.defineAdditionalRangeName( name, cell );
+			checker.addUserDefinedName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+
+		{
+			final String name = "modelRange2";
+			spreadsheet.defineModelRangeName( name, cell );
+			checker.addModelName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+
+		{
+			final String name = "userRange2";
+			spreadsheet.defineAdditionalRangeName( name, cell );
+			checker.addUserDefinedName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+	}
+
+	public void testDifferentUserAndModelNamesForSameCell()
+	{
+		final SpreadsheetImpl spreadsheet = new SpreadsheetImpl();
+		spreadsheet.getSheetList().add( new SheetImpl( spreadsheet ) );
+
+		final NamesChecker checker = new NamesChecker();
+
+		checker.assertNames( spreadsheet );
+
+		final CellIndex cell = new CellIndex( spreadsheet, 0, 0, 0 );
+
+		{
+			final String name = "userRange1";
+			spreadsheet.defineAdditionalRangeName( name, cell );
+			checker.addUserDefinedName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+
+		{
+			final String name = "modelRange1";
+			spreadsheet.defineModelRangeName( name, cell );
+			checker.addModelName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+
+		{
+			final String name = "userRange2";
+			spreadsheet.defineAdditionalRangeName( name, cell );
+			checker.addUserDefinedName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+
+		{
+			final String name = "modelRange2";
+			spreadsheet.defineModelRangeName( name, cell );
+			checker.addModelName( name, cell );
+			checker.assertNames( spreadsheet );
+		}
+	}
+
 	private class NamesChecker
 	{
 		final Map<String, Range> expectedModelRanges = New.map();
 		final Map<String, Range> expectedRanges = New.map();
+		final Map<Range, Set<String>> expectedModelNames = New.map();
+		final Map<Range, Set<String>> expectedNames = New.map();
+		final Set<Range> knownRanges = New.set();
+
 
 		public void assertNames( SpreadsheetImpl _spreadsheet )
 		{
 			assertEquals( this.expectedModelRanges, _spreadsheet.getModelRangeNames() );
 			assertEquals( this.expectedRanges, _spreadsheet.getRangeNames() );
+			for (Range range : this.knownRanges) {
+				assertEquals( this.expectedModelNames.get( range ), _spreadsheet.getModelNamesFor( range ) );
+				assertEquals( this.expectedNames.get( range ), _spreadsheet.getNamesFor( range ) );
+			}
 		}
 
 		public void addModelName( final String _name, final Range _range )
 		{
+			this.knownRanges.add( _range );
 			assertFalse( this.expectedModelRanges.containsKey( _name ) );
 			this.expectedModelRanges.put( _name, _range );
+			putRangeName( this.expectedModelNames, _range, _name );
 			assertFalse( this.expectedRanges.containsKey( _name ) );
 			this.expectedRanges.put( _name, _range );
+			putRangeName( this.expectedNames, _range, _name );
 		}
 
 		public void addUserDefinedName( final String _name, final Range _range )
 		{
+			this.knownRanges.add( _range );
 			assertFalse( this.expectedRanges.containsKey( _name ) );
 			this.expectedRanges.put( _name, _range );
+			putRangeName( this.expectedNames, _range, _name );
+		}
+
+		private void putRangeName( Map<Range, Set<String>> _namedRanges, Range _ref, String _name )
+		{
+			final Set<String> existingCellNames = _namedRanges.get( _ref );
+			final Set<String> cellNames;
+			if (existingCellNames != null) {
+				cellNames = existingCellNames;
+			}
+			else {
+				cellNames = New.sortedSet();
+				_namedRanges.put( _ref, cellNames );
+			}
+			assertFalse( cellNames.contains( _name ) );
+			cellNames.add( _name );
 		}
 	}
 
