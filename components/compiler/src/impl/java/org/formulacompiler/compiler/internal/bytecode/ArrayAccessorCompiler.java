@@ -24,7 +24,7 @@ package org.formulacompiler.compiler.internal.bytecode;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 
-abstract class ArrayAccessorCompiler extends MethodCompiler
+abstract class ArrayAccessorCompiler extends FinalMethodCompiler
 {
 	protected final ExpressionNodeForArrayReference arrayNode;
 	protected final String arrayDescriptor;

@@ -121,35 +121,42 @@ final class SubSectionCompiler extends SectionCompiler
 	@Override
 	protected void buildConstructorWithInputs() throws CompilerException
 	{
-		GeneratorAdapter mv = newMethod( 0, "<init>", "("
-				+ inputType().getDescriptor() + parentType().getDescriptor() + ")V" );
+		final MethodCompiler constructorCompiler = new MethodCompiler( this, 0, "<init>", "("
+				+ inputType().getDescriptor() + parentType().getDescriptor() + ")V" )
+		{
+			@Override
+			protected void compileBody() throws CompilerException
+			{
+				final GeneratorAdapter mv = mv();
 
-		// super( _inputs ); or super(); or super( _inputs, _parent );
-		callInheritedConstructor( mv, 1 );
+				// super( _inputs ); or super(); or super( _inputs, _parent );
+				callInheritedConstructor( mv, 1 );
 
-		// this.parent = _parent;
-		mv.loadThis();
-		mv.loadArg( 1 );
-		mv.putField( classType(), PARENT_MEMBER_NAME, parentType() );
-		// this.root = _parent.root();
-		mv.loadThis();
-		mv.loadArg( 1 );
-		final Type rootType = rootSectionCompiler().classType();
-		if (!(parentSectionCompiler() instanceof RootSectionCompiler)) {
-			// parent.root is package visible
-			mv.getField( parentType(), ROOT_MEMBER_NAME, rootType );
-		}
-		mv.putField( this.classType(), ROOT_MEMBER_NAME, rootType );
+				// this.parent = _parent;
+				mv.loadThis();
+				mv.loadArg( 1 );
+				mv.putField( classType(), PARENT_MEMBER_NAME, parentType() );
+				// this.root = _parent.root();
+				mv.loadThis();
+				mv.loadArg( 1 );
+				final Type rootType = rootSectionCompiler().classType();
+				if (!(parentSectionCompiler() instanceof RootSectionCompiler)) {
+					// parent.root is package visible
+					mv.getField( parentType(), ROOT_MEMBER_NAME, rootType );
+				}
+				mv.putField( SubSectionCompiler.this.classType(), ROOT_MEMBER_NAME, rootType );
 
-		// this.inputs = _inputs;
-		if (hasInputs()) {
-			mv.loadThis();
-			mv.loadArg( 0 );
-			storeInputs( mv );
-		}
+				// this.inputs = _inputs;
+				if (hasInputs()) {
+					mv.loadThis();
+					mv.loadArg( 0 );
+					storeInputs( mv );
+				}
 
-		mv.visitInsn( Opcodes.RETURN );
-		endMethod( mv );
+				mv.visitInsn( Opcodes.RETURN );
+			}
+		};
+		constructorCompiler.compile();
 	}
 
 	@Override
