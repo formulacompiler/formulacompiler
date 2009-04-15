@@ -34,7 +34,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-final class SubSectionOutputAccessorCompiler extends MethodCompiler
+final class SubSectionOutputAccessorCompiler extends FinalMethodCompiler
 {
 	private static final Type ITERATOR_INTF = Type.getType( Iterator.class );
 	private static final Type ARRAYLIST_CLASS = Type.getType( ArrayList.class );

@@ -69,7 +69,7 @@ abstract class MethodCompiler
 		this.section = _section;
 		this.methodName = _methodName;
 		this.methodDescriptor = _descriptor;
-		this.mv = section().newMethod( _access | Opcodes.ACC_FINAL, _methodName, _descriptor );
+		this.mv = section().newMethod( _access, _methodName, _descriptor );
 		this.localsOffset = 1 + totalSizeOf( Type.getArgumentTypes( _descriptor ) );
 		this.sectionInContext = _section;
 		this.objectInContext = 0; // "this"

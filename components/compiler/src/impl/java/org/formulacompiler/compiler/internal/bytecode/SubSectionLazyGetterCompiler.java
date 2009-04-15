@@ -34,7 +34,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-final class SubSectionLazyGetterCompiler extends MethodCompiler
+final class SubSectionLazyGetterCompiler extends FinalMethodCompiler
 {
 	private static final Type ITERATOR_INTF = Type.getType( Iterator.class );
 	private static final Type ITERABLE_INTF = Type.getType( Iterable.class );

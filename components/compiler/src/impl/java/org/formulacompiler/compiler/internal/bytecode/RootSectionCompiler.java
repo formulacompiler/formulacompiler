@@ -70,45 +70,58 @@ final class RootSectionCompiler extends SectionCompiler
 	}
 
 
-	private GeneratorAdapter constructor;
+	private MethodCompiler constructor;
 
 	@Override
 	protected void buildConstructorWithInputs() throws CompilerException
 	{
-		GeneratorAdapter mv = newMethod( 0, "<init>", "(" + inputType().getDescriptor() + ENV_DESC + ")V" );
 
-		// super( _inputs ); or super();
-		callInheritedConstructor( mv, 1 );
+		this.constructor = new MethodCompiler( RootSectionCompiler.this, 0, "<init>", "(" + inputType().getDescriptor() + ENV_DESC + ")V" )
+		{
+			@Override
+			protected void compileBody() throws CompilerException
+			{
+				GeneratorAdapter mv = mv();
 
-		// this.environment = _environment;
-		mv.loadThis();
-		mv.loadArg( 1 );
-		mv.putField( this.classType(), ENV_MEMBER_NAME, ENV_CLASS );
+				// super( _inputs ); or super();
+				callInheritedConstructor( mv, 1 );
 
-		// this.inputs = _inputs;
-		if (hasInputs()) {
-			mv.loadThis();
-			mv.loadArg( 0 );
-			storeInputs( mv );
-		}
+				// this.environment = _environment;
+				mv.loadThis();
+				mv.loadArg( 1 );
+				mv.putField( section().classType(), ENV_MEMBER_NAME, ENV_CLASS );
 
-		this.constructor = mv;
+				// this.inputs = _inputs;
+				if (hasInputs()) {
+					mv.loadThis();
+					mv.loadArg( 0 );
+					storeInputs( mv );
+				}
+
+				if (RootSectionCompiler.this.computationTimeCompiled) {
+					mv.loadThis();
+					mv.newInstance( COMP_TIME_CLASS );
+					mv.dup();
+					mv.invokeConstructor( COMP_TIME_CLASS, EMPTY_CONSTRUCTOR_METHOD );
+					mv.putField( section().classType(), COMP_TIME_MEMBER_NAME, COMP_TIME_CLASS );
+				}
+
+				if (RootSectionCompiler.this.computationModeCompiled) {
+					mv.loadThis();
+					final ComputationMode computationMode = model().getEngine().getComputationMode();
+					mv.getStatic( COMP_MODE_CLASS, computationMode.name(), COMP_MODE_CLASS );
+					mv.putField( classType(), COMP_MODE_MEMBER_NAME, COMP_MODE_CLASS );
+				}
+
+				mv.visitInsn( Opcodes.RETURN );
+			}
+		};
 	}
 
 	@Override
 	protected void finalizeConstructor() throws CompilerException
 	{
-		if (this.computationTimeCompiled) {
-			this.constructor.loadThis();
-			this.constructor.newInstance( COMP_TIME_CLASS );
-			this.constructor.dup();
-			this.constructor.invokeConstructor( COMP_TIME_CLASS, EMPTY_CONSTRUCTOR_METHOD );
-			this.constructor.putField( this.classType(), COMP_TIME_MEMBER_NAME, COMP_TIME_CLASS );
-		}
-
-		GeneratorAdapter mv = this.constructor;
-		mv.visitInsn( Opcodes.RETURN );
-		endMethod( mv );
+		this.constructor.compile();
 	}
 
 
@@ -126,11 +139,6 @@ final class RootSectionCompiler extends SectionCompiler
 	{
 		if (!this.computationModeCompiled) {
 			newField( Opcodes.ACC_FINAL, COMP_MODE_MEMBER_NAME, COMP_MODE_DESC );
-			final ComputationMode computationMode = model().getEngine().getComputationMode();
-			final GeneratorAdapter ga = this.constructor;
-			ga.loadThis();
-			ga.getStatic( COMP_MODE_CLASS, computationMode.name(), COMP_MODE_CLASS );
-			ga.putField( classType(), COMP_MODE_MEMBER_NAME, COMP_MODE_CLASS );
 			this.computationModeCompiled = true;
 		}
 	}

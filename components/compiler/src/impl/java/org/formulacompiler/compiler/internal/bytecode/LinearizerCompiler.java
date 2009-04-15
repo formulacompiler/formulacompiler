@@ -28,7 +28,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-final class LinearizerCompiler extends MethodCompiler
+final class LinearizerCompiler extends FinalMethodCompiler
 {
 	private final int rows;
 	private final int cols;

@@ -32,7 +32,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-final class IndexerCompiler extends MethodCompiler
+final class IndexerCompiler extends FinalMethodCompiler
 {
 	private final ExpressionNodeForArrayReference node;
 

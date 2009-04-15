@@ -29,7 +29,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-final class HelperCompilerForDatabaseMatch extends MethodCompiler
+final class HelperCompilerForDatabaseMatch extends FinalMethodCompiler
 {
 	private final ExpressionNode node;
 

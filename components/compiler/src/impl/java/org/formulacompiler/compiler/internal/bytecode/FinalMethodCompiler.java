@@ -22,35 +22,13 @@
 
 package org.formulacompiler.compiler.internal.bytecode;
 
-import org.formulacompiler.compiler.internal.expressions.DataType;
+import org.objectweb.asm.Opcodes;
 
-abstract class TypedMethodCompiler extends FinalMethodCompiler
+
+public abstract class FinalMethodCompiler extends MethodCompiler
 {
-	private final DataType dataType;
-
-
-	TypedMethodCompiler( SectionCompiler _section, int _access, String _methodName, String _descriptor, DataType _type )
+	FinalMethodCompiler( SectionCompiler _section, int _access, String _methodName, String _descriptor )
 	{
-		super( _section, _access, _methodName, _descriptor );
-		this.dataType = _type;
+		super( _section, _access | Opcodes.ACC_FINAL, _methodName, _descriptor );
 	}
-
-
-	DataType dataType()
-	{
-		return this.dataType;
-	}
-
-
-	ExpressionCompiler expressionCompiler()
-	{
-		return expressionCompiler( dataType() );
-	}
-
-	TypeCompiler typeCompiler()
-	{
-		return expressionCompiler().typeCompiler();
-	}
-
-
 }
