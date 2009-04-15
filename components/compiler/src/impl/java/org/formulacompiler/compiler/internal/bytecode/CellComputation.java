@@ -41,7 +41,7 @@ final class CellComputation
 		this.section = _section;
 		this.cell = _cell;
 		if (_section.engineCompiler().getCompileToReadableCode()) {
-			this.methodName = "get$" + cellNameToIdent( _cell.getName() );
+			this.methodName = "get$" + cellNameToIdent( _cell.getShortName() );
 		}
 		else {
 			this.methodName = _section.newGetterName();

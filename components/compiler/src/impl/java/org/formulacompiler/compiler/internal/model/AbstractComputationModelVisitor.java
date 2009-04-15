@@ -59,7 +59,7 @@ public abstract class AbstractComputationModelVisitor implements ComputationMode
 			return visitSection( _section );
 		}
 		catch (CompilerException e) {
-			e.addMessageContext( "\nSection containing expression is " + _section.getName() + "." );
+			e.addMessageContext( "\nSection containing expression is " + _section.getFullName() + "." );
 			throw e;
 		}
 	}
@@ -76,7 +76,7 @@ public abstract class AbstractComputationModelVisitor implements ComputationMode
 			return visitedSection( _section );
 		}
 		catch (CompilerException e) {
-			e.addMessageContext( "\nSection containing expression is " + _section.getName() + "." );
+			e.addMessageContext( "\nSection containing expression is " + _section.getFullName() + "." );
 			throw e;
 		}
 	}
@@ -105,18 +105,18 @@ public abstract class AbstractComputationModelVisitor implements ComputationMode
 						cause.addMessageContext( cellExpr.getContext( null ) );
 					}
 					else {
-						cause.addMessageContext( "\nCell containing expression is " + _cell.getOriginalName() + "." );
+						cause.addMessageContext( "\nCell containing expression is " + _cell.getFullName() + "." );
 					}
 				}
 				throw cause;
 			}
 			catch (CompilerException e) {
-				e.addMessageContext( "\nCell containing expression is " + _cell.getOriginalName() + "." );
+				e.addMessageContext( "\nCell containing expression is " + _cell.getFullName() + "." );
 				throw e;
 			}
 		}
 		catch (CompilerException e) {
-			e.addMessageContext( "\nReferenced by cell " + _cell.getOriginalName() + "." );
+			e.addMessageContext( "\nReferenced by cell " + _cell.getFullName() + "." );
 			throw e;
 		}
 	}

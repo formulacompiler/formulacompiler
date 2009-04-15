@@ -75,7 +75,7 @@ public final class ExpressionNodeForCount extends ExpressionNode
 	{
 		_to.append( "(" ).append( this.staticValueCount );
 		for (int i = 0; i < this.subSectionModels.length; i++) {
-			_to.append( " + " ).append( this.subSectionModels[ i ].getName() ).append( ".size()" );
+			_to.append( " + " ).append( this.subSectionModels[ i ] ).append( ".size()" );
 			_to.append( " * " ).append( this.subSectionStaticValueCounts[ i ] );
 		}
 		_to.append( ")" );

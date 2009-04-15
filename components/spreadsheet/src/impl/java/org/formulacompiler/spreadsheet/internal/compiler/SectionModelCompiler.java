@@ -23,6 +23,7 @@
 package org.formulacompiler.spreadsheet.internal.compiler;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.Function;
@@ -38,6 +39,8 @@ import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.runtime.New;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
+import org.formulacompiler.runtime.spreadsheet.RangeAddress;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
@@ -49,6 +52,7 @@ import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeShape;
+import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.binding.CellBinding;
 import org.formulacompiler.spreadsheet.internal.binding.InputCellBinding;
 import org.formulacompiler.spreadsheet.internal.binding.SectionBinding;
@@ -115,7 +119,8 @@ public final class SectionModelCompiler
 		final CellInstance cell = _cellIndex.getCell();
 		final boolean nonNull = (null != cell);
 		if (nonNull || _isInput) {
-			final CellModel result = new CellModel( this.sectionModel, _cellIndex.getShortName() );
+			final CellAddress cellAddress = _cellIndex.getCellAddress();
+			final CellModel result = new CellModel( this.sectionModel, cellAddress );
 			this.compiler.addCellModel( _cellIndex, result );
 			if (nonNull) {
 				buildCellModel( cell, result );
@@ -162,9 +167,13 @@ public final class SectionModelCompiler
 
 	SectionModelCompiler createSectionCompiler( SectionBinding _sectionDef )
 	{
-		final SectionModel model = new SectionModel( getSectionModel(), _sectionDef.getCallChainToCall().toString(),
+		final CellRange range = _sectionDef.getRange();
+		final SpreadsheetImpl spreadsheet = range.getFrom().getSheet().getSpreadsheet();
+		final Set<String> names = spreadsheet.getNamesFor( range );
+		final String name = names != null && !names.isEmpty() ? names.iterator().next() : null;
+		final RangeAddress rangeAddress = range.getRangeAddress();
+		final SectionModel model = new SectionModel( getSectionModel(), rangeAddress, name,
 				_sectionDef.getInputClass(), _sectionDef.getOutputClass() );
-		model.setOriginalName( _sectionDef.getRange().describe() );
 		model.makeInput( _sectionDef.getCallChainToCall() );
 		if (_sectionDef.getCallToImplement() != null) {
 			model.makeOutput( _sectionDef.getCallToImplement() );
