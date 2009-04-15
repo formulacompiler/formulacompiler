@@ -22,6 +22,8 @@
 
 package org.formulacompiler.spreadsheet.internal;
 
+import static org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl.BROKEN_REF;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -41,9 +43,9 @@ public final class MultiCellRange extends CellRange
 		super();
 		if (_from.spreadsheet != _to.spreadsheet)
 			throw new IllegalArgumentException( "From and to not from same spreadsheet for range" );
-		assert _from.sheetIndex == CellIndex.BROKEN_REF || _to.sheetIndex == CellIndex.BROKEN_REF || _from.sheetIndex <= _to.sheetIndex;
-		assert _from.rowIndex == CellIndex.BROKEN_REF || _to.rowIndex == CellIndex.BROKEN_REF || _from.rowIndex <= _to.rowIndex;
-		assert _from.columnIndex == CellIndex.BROKEN_REF || _to.columnIndex == CellIndex.BROKEN_REF || _from.columnIndex <= _to.columnIndex;
+		assert _from.sheetIndex == BROKEN_REF || _to.sheetIndex == BROKEN_REF || _from.sheetIndex <= _to.sheetIndex;
+		assert _from.rowIndex == BROKEN_REF || _to.rowIndex == BROKEN_REF || _from.rowIndex <= _to.rowIndex;
+		assert _from.columnIndex == BROKEN_REF || _to.columnIndex == BROKEN_REF || _from.columnIndex <= _to.columnIndex;
 		this.from = _from;
 		this.to = _to;
 	}

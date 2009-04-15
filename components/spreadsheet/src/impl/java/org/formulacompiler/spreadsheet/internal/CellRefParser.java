@@ -22,6 +22,8 @@
 
 package org.formulacompiler.spreadsheet.internal;
 
+import static org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl.BROKEN_REF;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,7 +62,7 @@ public abstract class CellRefParser
 			}
 			else {
 				colIndexAbsolute = false;
-				colIndex = _relativeTo.columnIndex == CellIndex.BROKEN_REF ? CellIndex.BROKEN_REF :
+				colIndex = _relativeTo.columnIndex == BROKEN_REF ? BROKEN_REF :
 						_relativeTo.columnIndex + (isNotEmpty( ciRel ) ? Integer.parseInt( ciRel ) : 0);
 			}
 
@@ -72,7 +74,7 @@ public abstract class CellRefParser
 			}
 			else {
 				rowIndexAbsolute = false;
-				rowIndex = _relativeTo.rowIndex == CellIndex.BROKEN_REF ? CellIndex.BROKEN_REF :
+				rowIndex = _relativeTo.rowIndex == BROKEN_REF ? BROKEN_REF :
 						_relativeTo.rowIndex + (isNotEmpty( riRel ) ? Integer.parseInt( riRel ) : 0);
 			}
 
@@ -183,9 +185,9 @@ public abstract class CellRefParser
 		private static CellRange getBrokenRange( Matcher _matcher, int _group, int _fromSheetIndex, int _toSheetIndex, final SpreadsheetImpl _spreadsheet )
 		{
 			if (BROKEN_REF_ERR.equals( _matcher.group( _group ) )) {
-				final CellIndex fromCellIndex = new CellIndex( _spreadsheet, _fromSheetIndex, CellIndex.BROKEN_REF, CellIndex.BROKEN_REF );
+				final CellIndex fromCellIndex = new CellIndex( _spreadsheet, _fromSheetIndex, BROKEN_REF, BROKEN_REF );
 				if (_fromSheetIndex != _toSheetIndex) {
-					final CellIndex toCellIndex = new CellIndex( _spreadsheet, _toSheetIndex, CellIndex.BROKEN_REF, CellIndex.BROKEN_REF );
+					final CellIndex toCellIndex = new CellIndex( _spreadsheet, _toSheetIndex, BROKEN_REF, BROKEN_REF );
 					return CellRange.getCellRange( fromCellIndex, toCellIndex );
 				}
 				else {
@@ -203,7 +205,7 @@ public abstract class CellRefParser
 			assert len > 0;
 			final int colIndex;
 			if (BROKEN_REF_ERR.equals( _ci )) {
-				colIndex = CellIndex.BROKEN_REF;
+				colIndex = BROKEN_REF;
 			}
 			else {
 				int i = _ci.charAt( 0 ) - 'A';
@@ -219,7 +221,7 @@ public abstract class CellRefParser
 		{
 			final int rowIndex;
 			if (BROKEN_REF_ERR.equals( _ri )) {
-				rowIndex = CellIndex.BROKEN_REF;
+				rowIndex = BROKEN_REF;
 			}
 			else {
 				rowIndex = Integer.parseInt( _ri ) - 1;
@@ -243,8 +245,8 @@ public abstract class CellRefParser
 			final int fromSheetIndex;
 			final int toSheetIndex;
 			if (BROKEN_REF_ERR.equals( matcher.group( 5 ) )) {
-				fromSheetIndex = CellIndex.BROKEN_REF;
-				toSheetIndex = CellIndex.BROKEN_REF;
+				fromSheetIndex = BROKEN_REF;
+				toSheetIndex = BROKEN_REF;
 			}
 			else {
 				fromSheetIndex = getSheetIndex( matcher, 1, _relativeTo.sheetIndex, spreadsheet );
@@ -312,7 +314,7 @@ public abstract class CellRefParser
 		final String nameQuoted = _matcher.group( _group + 1 );
 		final int sheetIndex;
 		if (BROKEN_REF_ERR.equals( nameUnquoted )) {
-			sheetIndex = CellIndex.BROKEN_REF;
+			sheetIndex = BROKEN_REF;
 		}
 		else {
 			final String sheetName = isNotEmpty( nameQuoted ) ? convertQuotes( nameQuoted ) : nameUnquoted;
