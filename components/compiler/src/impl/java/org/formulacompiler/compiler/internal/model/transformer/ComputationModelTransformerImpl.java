@@ -26,6 +26,7 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.ComputationModelTransformer;
+import org.formulacompiler.compiler.internal.model.ConstantExpressionCellListenerSupport;
 import org.formulacompiler.compiler.internal.model.LoggingVisitor;
 import org.formulacompiler.compiler.internal.model.analysis.ModelIsTypedChecker;
 import org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator;
@@ -41,6 +42,7 @@ public final class ComputationModelTransformerImpl implements ComputationModelTr
 {
 	private final ComputationModel model;
 	private final NumericType numericType;
+	private final ConstantExpressionCellListenerSupport constExprCellListenerSupport;
 	private final boolean computationListenerEnabled;
 
 	public ComputationModelTransformerImpl( Config _config )
@@ -49,6 +51,7 @@ public final class ComputationModelTransformerImpl implements ComputationModelTr
 		_config.validate();
 		this.model = _config.model;
 		this.numericType = _config.numericType;
+		this.constExprCellListenerSupport = _config.constExprCellListenerSupport;
 		this.computationListenerEnabled = _config.computationListenerEnabled;
 	}
 
@@ -111,7 +114,7 @@ public final class ComputationModelTransformerImpl implements ComputationModelTr
 	private void eliminateConstantSubExpressions() throws CompilerException
 	{
 		this.model.traverse( new ConstantSubExpressionEliminator( getNumericType(),
-				this.model.getComputationMode(), this.model.getEnvironment() ) );
+				this.model.getComputationMode(), this.model.getEnvironment(), this.constExprCellListenerSupport ) );
 	}
 
 

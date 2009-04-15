@@ -36,6 +36,7 @@ import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.Computation;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.EngineException;
+import org.formulacompiler.spreadsheet.ConstantExpressionOptimizationListener;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
@@ -64,6 +65,7 @@ public class EngineBuilderImpl implements EngineBuilder
 	private ClassLoader parentClassLoaderForEngine = ClassLoader.getSystemClassLoader();
 	private boolean compileToReadableCode = false;
 	private boolean computationListenerEnabled = false;
+	private ConstantExpressionOptimizationListener constExprOptListener;
 
 
 	public static final class Factory implements EngineBuilder.Factory
@@ -445,6 +447,17 @@ public class EngineBuilderImpl implements EngineBuilder
 	}
 
 
+	public ConstantExpressionOptimizationListener getConstantExpressionOptimizationListener()
+	{
+		return this.constExprOptListener;
+	}
+
+	public void setConstantExpressionOptimizationListener( ConstantExpressionOptimizationListener _listener )
+	{
+		this.constExprOptListener = _listener;
+	}
+
+
 	public SaveableEngine compile() throws CompilerException, EngineException
 	{
 		final SpreadsheetToEngineCompiler.Config cfg = new SpreadsheetToEngineCompiler.Config();
@@ -457,6 +470,7 @@ public class EngineBuilderImpl implements EngineBuilder
 		cfg.parentClassLoader = this.parentClassLoaderForEngine;
 		cfg.compileToReadableCode = this.compileToReadableCode;
 		cfg.computationListenerEnabled = this.computationListenerEnabled;
+		cfg.constantExpressionOptimizationListener = this.constExprOptListener;
 		return SpreadsheetCompiler.newSpreadsheetCompiler( cfg ).compile();
 	}
 
