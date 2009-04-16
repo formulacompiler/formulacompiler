@@ -3921,6 +3921,151 @@ try {
 				assertEquals( "Non-terminating decimal expansion; no exact representable decimal result.", e.getMessage() );
 			}
 ___@_@___
+jc:org/formulacompiler/tutorials/BonusPerEmployee_LogComputation:---- compileEngine
+__@@__
+EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+		builder.setNumericType( SpreadsheetCompiler.LONG_SCALE4 );
+		builder.loadSpreadsheet( getPath() );
+		builder.setFactoryClass( BonusComputationFactory.class );
+		builder.setOutputClass( BonusComputationDefaults.class );
+		builder./**/setComputationListenerEnabled( true )/**/;
+		builder./**/setFullCaching( true )/**/;
+
+		bindElements( builder );
+		SaveableEngine engine = builder.compile();
+___@_@___
+jc:org/formulacompiler/tutorials/BonusPerEmployee_LogComputation:---- events
+__@@__
+final List<SpreadsheetCellComputationEvent> computationEvents = listener.events;
+		assertEquals( 10, computationEvents.size() );
+		assertEvents( new String[]{
+				"6600.0000 in Sheet1!D2 in section: Sheet1!A2:Sheet1!F4(Employees)[0]",
+				"6150.0000 in Sheet1!D2 in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
+				"5500.0000 in Sheet1!D2 in section: Sheet1!A2:Sheet1!F4(Employees)[2]",
+				"18250.0000 in Sheet1!D5 in section: ROOT",
+				"0.3616 in Sheet1!E2 in section: Sheet1!A2:Sheet1!F4(Employees)[0]",
+				"7232.0000 in Sheet1!F2(BonusAmount) in section: Sheet1!A2:Sheet1!F4(Employees)[0]",
+				"0.3369 in Sheet1!E2 in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
+				"6738.0000 in Sheet1!F2(BonusAmount) in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
+				"0.3013 in Sheet1!E2 in section: Sheet1!A2:Sheet1!F4(Employees)[2]",
+				"6026.0000 in Sheet1!F2(BonusAmount) in section: Sheet1!A2:Sheet1!F4(Employees)[2]"
+		}, listener.events );
+___@_@___
+jc:org/formulacompiler/tutorials/BonusPerEmployee_LogComputation:---- setListener
+__@@__
+TestComputationListener listener = new TestComputationListener();
+		Computation.Config config = /**/new Computation.Config()/**/;
+		config./**/cellComputationListener/**/ = listener;
+		BonusComputationFactory factory = (BonusComputationFactory) engine.getComputationFactory( /**/config/**/ );
+___@_@___
+jc:org/formulacompiler/tutorials/CubeVolume:---- CompilationListener
+__@@__
+private class TestCompilationListener implements /**/SpreadsheetCompilationListener /**/
+	{
+		final List<SpreadsheetCellComputationEvent> events = New.list();
+
+		public void /**/constantCellCalculated/**/( /**/SpreadsheetCellComputationEvent/**/_event )
+		{
+			this.events.add( _event );
+		}
+	}
+___@_@___
+jc:org/formulacompiler/tutorials/CubeVolume:---- ComputationListener
+__@@__
+private class TestComputationListener implements /**/SpreadsheetCellComputationListener /**/
+	{
+		final List<SpreadsheetCellComputationEvent> events = New.list();
+
+		public void /**/cellCalculated/**/( /**/SpreadsheetCellComputationEvent /**/_event )
+		{
+			this.events.add( _event );
+		}
+	}
+___@_@___
+jc:org/formulacompiler/tutorials/CubeVolume:---- checkCompilationEvents
+__@@__
+final SaveableEngine e = b.compile();
+
+		assertEquals( 1, compilationListener.events.size() );
+		assertEvent( "6.0 in Sheet1!B4(Area)", compilationListener.events.get( 0 ) );
+___@_@___
+jc:org/formulacompiler/tutorials/CubeVolume:---- checkComputationEvents
+__@@__
+assertEquals( 2, listener.events.size() );
+		assertEvent( "77.0 in Sheet1!B4(Area)", listener.events.get( 0 ) );
+		assertEvent( "1001.0 in Sheet1!B5(Volume)", listener.events.get( 1 ) );
+___@_@___
+jc:org/formulacompiler/tutorials/CubeVolume:---- compileEngine
+__@@__
+final EngineBuilder b = SpreadsheetCompiler.newEngineBuilder();
+		b.loadSpreadsheet( getPath() );
+		b.setInputClass( Inputs.class );
+		b.setOutputClass( Outputs.class );
+		b.createCellNamesFromRowTitles();
+		b.bindAllByName();
+		b./**/setComputationListenerEnabled( true )/**/;
+		final SaveableEngine e = b.compile();
+___@_@___
+jc:org/formulacompiler/tutorials/CubeVolume:---- compute
+__@@__
+final Outputs c = (Outputs) f.newComputation( new Inputs() );
+		assertEquals( 1001.0, c.getVolume(), 1e-10 );
+___@_@___
+jc:org/formulacompiler/tutorials/CubeVolume:---- createBuilder
+__@@__
+final EngineBuilder b = SpreadsheetCompiler.newEngineBuilder();
+		b.loadSpreadsheet( getPath() );
+		b.setInputClass( Inputs2.class );
+		b.setOutputClass( Outputs.class );
+		b.createCellNamesFromRowTitles();
+		b.bindAllByName();
+		final TestCompilationListener compilationListener = new TestCompilationListener();
+		b./**/setCompilationListener/**/( compilationListener );
+___@_@___
+jc:org/formulacompiler/tutorials/CubeVolume:---- inputs
+__@@__
+public static class Inputs
+	{
+		public double /**/getLength()/**/
+		{
+			return 7;
+		}
+
+		public double /**/getWidth()/**/
+		{
+			return 11;
+		}
+
+		public double /**/getHeight()/**/
+		{
+			return 13;
+		}
+	}
+___@_@___
+jc:org/formulacompiler/tutorials/CubeVolume:---- inputs2
+__@@__
+public static class Inputs2
+	{
+		public double /**/getHeight()/**/
+		{
+			return 17;
+		}
+	}
+___@_@___
+jc:org/formulacompiler/tutorials/CubeVolume:---- outputs
+__@@__
+public static interface Outputs
+	{
+		double /**/getVolume()/**/;
+	}
+___@_@___
+jc:org/formulacompiler/tutorials/CubeVolume:---- setComputationListener
+__@@__
+final Computation.Config config = /**/new Computation.Config()/**/;
+		final TestComputationListener listener = new TestComputationListener();
+		config./**/cellComputationListener/**/ = listener;
+		final ComputationFactory f = e.getComputationFactory( /**/config/**/ );
+___@_@___
 jc:org/formulacompiler/tutorials/decompiler/readable/org.formulacompiler.gen.$Root
 __@@__
 package org.formulacompiler.gen;
@@ -7139,6 +7284,45 @@ __@@__
 			<td class="xl-row">4</td>
 			<td>Volume</td>
 			<td class="xl-num">8<br/><span class="xl-exp">=B3*B1</span></td>
+		</tr>
+	</tbody>
+</table>
+___@_@___
+xc:org/formulacompiler/tutorials/CubeVolume.xls
+__@@__
+<table class="xl">
+	<thead>
+		<tr>
+			<td/>
+			<td>A</td>
+			<td>B</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="xl-row">1</td>
+			<td>Length</td>
+			<td class="xl-num">2</td>
+		</tr>
+		<tr>
+			<td class="xl-row">2</td>
+			<td>Width</td>
+			<td class="xl-num">3</td>
+		</tr>
+		<tr>
+			<td class="xl-row">3</td>
+			<td>Height</td>
+			<td class="xl-num">5</td>
+		</tr>
+		<tr>
+			<td class="xl-row">4</td>
+			<td>Area</td>
+			<td class="xl-num">6<br/><span class="xl-exp">=B1*B2</span></td>
+		</tr>
+		<tr>
+			<td class="xl-row">5</td>
+			<td><span style="text-decoration: underline;">Volume</span></td>
+			<td class="xl-num">30<br/><span class="xl-exp">=B4*B3</span></td>
 		</tr>
 	</tbody>
 </table>

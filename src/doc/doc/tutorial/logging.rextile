@@ -1,0 +1,107 @@
+
+h1. Logging intermediate values
+
+
+This tutorial chapter describes AFC feature that helps to debug spreadsheets.
+
+<%= toc 2, 3 %>
+
+
+h2. Overview
+
+Sometimes it may be interesting to watch how output values of a computation are calculated. AFC provides a capability of watching what intermediate results are calculated in any cell during the calculation of output values.
+
+
+h2. <a name="example_1">Basic example</a>
+
+
+h5. Sample Spreadsheet
+
+The use case very simple. The spreadsheet computes a volume of a cube.
+
+	[xc:org/formulacompiler/tutorials/CubeVolume.xls]
+
+We provide dimensions as @Inputs@ class.
+
+	[jc:org/formulacompiler/tutorials/CubeVolume:---- inputs]
+
+We use @Outputs@ interface to receive the result.
+
+	[jc:org/formulacompiler/tutorials/CubeVolume:---- outputs]
+
+
+h5. Building engine
+
+We should compile an engine with support for computation listener.
+
+	[jc:org/formulacompiler/tutorials/CubeVolume:---- compileEngine]
+
+
+h5. Logging computed values
+
+The next step is creating a listener and attaching it to the computation. A listener must implement the "@CellComputationListener@":../javadoc/org/formulacompiler/runtime/event/CellComputationListener.html interface. It will be invoked every time the engine computes a value of a cell and will receive the cell's address and the computed value.
+
+A simple listener is used in this example. It puts received events in a list.
+
+	[jc:org/formulacompiler/tutorials/CubeVolume:---- ComputationListener]
+
+We pass an instance of the listener when creating computaton factory using "@Computation.Config@":../javadoc/org/formulacompiler/runtime/Computation.Config.html.
+
+	[jc:org/formulacompiler/tutorials/CubeVolume:---- setComputationListener]
+
+Now we are ready to perform the computation.
+
+	[jc:org/formulacompiler/tutorials/CubeVolume:---- compute]
+
+Let's see what events we have received.
+
+	[jc:org/formulacompiler/tutorials/CubeVolume:---- checkComputationEvents]
+
+
+h2. Repeating sections
+
+An expression in a cell in a repeating section is calculated for each section's input data object. The "@SpreadsheetCellComputationEvent@":../javadoc/org/formulacompiler/runtime/spreadsheet/SpreadsheetCellComputationEvent.html event contains information about the sections's name and row or column number. The numbering is starting from zero and has nothing to do with real row or column number in the source worksheet.
+
+h5. Example
+
+Let's watch how the values are computed in "this tutorial":repeatingsections_withoutputs.htm.
+
+We compile an engine with computation listener support. We also enable caching, so each value will be computed only once, and we won't receive many identical events for each recomputation.
+
+	[jc:org/formulacompiler/tutorials/BonusPerEmployee_LogComputation:---- compileEngine]
+
+Then we attach a listener to the engine.
+
+	[jc:org/formulacompiler/tutorials/BonusPerEmployee_LogComputation:---- setListener]
+
+Now we can execute the computation and watch intermediate values.
+
+	[jc:org/formulacompiler/tutorials/BonusPerEmployee_LogComputation:---- events]
+
+As we can see, the values for Sheet1!D2, Sheet1!E2, and Sheet1!F2 cells were computed 3 times because we provided 3 @EmployeeBonusData@ objects.
+
+h2. Constant values
+
+If an expression in a cell does not depend on input cells and uses functions which depend only on their arguments then the compiler calculates the value of this cell during compile-time and replaces the expression by it. The attached "@CellComputationListener@":../javadoc/org/formulacompiler/runtime/event/CellComputationListener.html will not receive notifications from such cells when the computation is executed. But it is possible to attach a "@ConstantExpressionOptimizationListener@":../javadoc/org/formulacompiler/spreadsheet/ConstantExpressionOptimizationListener.html to the EngineBuilder and watch in which cells the expressions are replaced by constants and the values of that constants.
+
+h5. Example
+
+We will use the same sheet as for the "first example":#example_1. But now we will provide an input only for height.
+
+	[jc:org/formulacompiler/tutorials/CubeVolume:---- inputs2]
+
+Then the area will always be equal to 6 and can be calculated during compile-time.
+
+Firstly we create an engine builder and attach a listener to it.
+
+	[jc:org/formulacompiler/tutorials/CubeVolume:---- createBuilder]
+
+The listener should implement "@ConstantExpressionOptimizationListener@":../javadoc/org/formulacompiler/spreadsheet/ConstantExpressionOptimizationListener.html interface.
+
+	[jc:org/formulacompiler/tutorials/CubeVolume:---- CompilationListener]
+
+Then we compile the engine. Let's see what events we have got.
+
+	[jc:org/formulacompiler/tutorials/CubeVolume:---- checkCompilationEvents]
+
+As it is expected, the compiler replaced the expression in Sheet1!B4 by its value.
