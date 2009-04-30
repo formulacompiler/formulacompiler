@@ -63,6 +63,7 @@
 	<property name="doc.dir" location="doc" />
 	<property name="build.dir" location="build" />
 	<property name="temp.dir" location="temp" />
+	<property name="dist.tmp.dir" value="${temp.dir}/dist" />
 	<property name="dist.dir" location="dist" />
 
 	<property name="temp.rextile.dir" location="${temp.dir}/rextile" />
@@ -565,7 +566,6 @@
 		<property name="dist.name" value="${basename}-${dist.version}" />
 		<property name="dist.file" value="${dist.dir}/${dist.name}" />
 
-		<property name="dist.tmp.dir" value="${temp.dir}/dist" />
 		<property name="dist.staging.dir" value="${dist.tmp.dir}/${dist.name}" />
 
 		<!-- binary -->
