@@ -48,6 +48,7 @@ public class CellInfoImpl implements CellInfo
 		return this.name;
 	}
 
+	@Override
 	public String toString()
 	{
 		if (this.name == null) return this.cellAddress.toString();

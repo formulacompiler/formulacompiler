@@ -58,17 +58,20 @@ public class ExpressionNodeForLogging extends ExpressionNode
 		return this.definedName;
 	}
 
+	@Override
 	protected ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForLogging( this.source, this.definedName );
 	}
 
+	@Override
 	protected void describeToWithConfig( final DescriptionBuilder _to, final ExpressionDescriptionConfig _cfg )
 	{
 		_to.append( "Logging" );
 		describeArgumentListTo( _to, _cfg );
 	}
 
+	@Override
 	protected int countValuesCore( final Collection<ExpressionNode> _uncountables )
 	{
 		return 1;

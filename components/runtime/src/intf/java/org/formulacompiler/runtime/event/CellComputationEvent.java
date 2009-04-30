@@ -58,6 +58,7 @@ public class CellComputationEvent extends EventObject
 		return this.value;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getClass().getName() + "[cell=" + this.source + ",value=" + this.value + "]";

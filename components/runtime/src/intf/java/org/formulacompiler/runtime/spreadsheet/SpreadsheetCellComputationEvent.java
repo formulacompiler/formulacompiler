@@ -70,6 +70,7 @@ public class SpreadsheetCellComputationEvent extends CellComputationEvent
 	}
 
 
+	@Override
 	public String toString()
 	{
 		return getClass().getName() + "[cell=" + this.getCellInfo() + ",section=" + this.getSectionInfo() + ",value=" + this.getValue() + "]";

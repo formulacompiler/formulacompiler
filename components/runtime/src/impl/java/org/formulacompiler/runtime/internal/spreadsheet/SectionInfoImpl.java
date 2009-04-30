@@ -53,6 +53,7 @@ public class SectionInfoImpl implements SectionInfo
 		return this.index;
 	}
 
+	@Override
 	public String toString()
 	{
 		final StringBuilder sb = new StringBuilder();
