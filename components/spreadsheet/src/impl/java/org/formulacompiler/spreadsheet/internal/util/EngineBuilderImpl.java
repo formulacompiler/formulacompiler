@@ -436,7 +436,7 @@ public class EngineBuilderImpl implements EngineBuilder
 	}
 
 
-	public boolean isComputationListenerEnabled()
+	public boolean getComputationListenerEnabled()
 	{
 		return this.computationListenerEnabled;
 	}

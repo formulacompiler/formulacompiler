@@ -74,8 +74,7 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 	public void defineModelRangeName( String _name, CellRange _ref )
 	{
 		this.modelRangeNames.put( _name, _ref );
-		final Map<Range, Set<String>> namedRanges = this.modelNamedRanges;
-		putRangeName( namedRanges, _ref, _name );
+		putRangeName( this.modelNamedRanges, _ref, _name );
 		if (null != this.userRangeNames) {
 			this.userRangeNames.put( _name, _ref );
 		}
@@ -97,18 +96,17 @@ public final class SpreadsheetImpl extends AbstractYamlizable implements Spreads
 	public Set<String> getNamesFor( Range _range )
 	{
 		final Set<String> modelNames = this.modelNamedRanges.get( _range );
-		if (this.userNamedRanges == null) return modelNames;
-		else {
-			final Set<String> userNames = this.userNamedRanges.get( _range );
-			if (modelNames == null || modelNames.isEmpty()) return userNames;
-			else if (userNames == null || userNames.isEmpty()) return modelNames;
-			else {
-				final Set<String> names = New.set();
-				names.addAll( modelNames );
-				names.addAll( userNames );
-				return names;
-			}
-		}
+		if (this.userNamedRanges == null)
+			return modelNames;
+		final Set<String> userNames = this.userNamedRanges.get( _range );
+		if (modelNames == null || modelNames.isEmpty())
+			return userNames;
+		if (userNames == null || userNames.isEmpty())
+			return modelNames;		
+		final Set<String> names = New.set();
+		names.addAll( modelNames );
+		names.addAll( userNames );
+		return names;
 	}
 
 

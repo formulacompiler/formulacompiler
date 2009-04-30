@@ -457,7 +457,7 @@ public interface EngineBuilder
 
 
 	/**
-	 * Controls whether AFC should compile the computation with support of
+	 * Controls whether AFC should compile the computation with support for
 	 * {@link org.formulacompiler.runtime.event.CellComputationListener}.
 	 *
 	 * @return {@code true} if {@link org.formulacompiler.runtime.event.CellComputationListener} will be supported.
@@ -465,10 +465,10 @@ public interface EngineBuilder
 	 * @see org.formulacompiler.runtime.event.CellComputationListener
 	 * @see org.formulacompiler.runtime.Computation.Config#cellComputationListener
 	 */
-	boolean isComputationListenerEnabled();
+	boolean getComputationListenerEnabled();
 
 	/**
-	 * Controls whether AFC should compile the computation with support of
+	 * Controls whether AFC should compile the computation with support for
 	 * {@link org.formulacompiler.runtime.event.CellComputationListener}.
 	 *
 	 * @param _enabled if {@code true} then {@link org.formulacompiler.runtime.event.CellComputationListener}

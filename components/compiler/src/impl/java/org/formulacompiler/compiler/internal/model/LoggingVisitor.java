@@ -31,6 +31,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLoggin
  */
 public class LoggingVisitor extends AbstractComputationModelVisitor
 {
+	@Override
 	protected boolean visitCell( final CellModel _cell ) throws CompilerException
 	{
 		final ExpressionNode expr = _cell.getExpression();

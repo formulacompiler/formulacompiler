@@ -34,6 +34,7 @@ class EvalLogging extends EvalShadow
 		super( _node, _type );
 	}
 
+	@Override
 	protected TypedResult evaluateToConst( final TypedResult... _args ) throws CompilerException
 	{
 		return _args[ 0 ];

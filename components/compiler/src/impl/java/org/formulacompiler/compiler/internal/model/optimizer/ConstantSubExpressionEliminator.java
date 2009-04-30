@@ -84,7 +84,7 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 					final Object value = optimizedResult.getConstantValue();
 					_cell.setConstantValue( value );
 					if (this.listenerSupport != null) {
-						listenerSupport.constantExpressionEliminated( _cell, value );
+						this.listenerSupport.constantExpressionEliminated( _cell, value );
 					}
 				}
 				else {
