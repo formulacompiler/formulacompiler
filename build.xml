@@ -648,10 +648,38 @@
 			</fileset>
 		</copy>
 		<mkdir dir="${dist.dir}" />
-		<property name="tools.name" value="${basename}-${tools.version}-tools.zip" />
+		<property name="tools.name" value="${basename}-${tools.version}-tools" />
 		<property name="tools.file" value="${dist.dir}/${tools.name}" />
 		<delete file="${tools.file}" />
-		<zip basedir="${dist.tmp.dir}" destfile="${tools.file}" filesonly="no"/>
+		<selector id="executables">
+			<or>
+				<filename name="**/bin/ant" />
+				<filename name="**/bin/antRun" />
+				<filename name="**/bin/*.pl" />
+				<filename name="**/bin/*.py" />
+				<filename name="**/rextile" />
+			</or>
+		</selector>
+		<!-- tar destfile="${tools.file}.tar.gz" compression="gzip" longfile="gnu">
+			<tarfileset dir="${dist.tmp.dir}">
+				<not>
+					<selector refid="executables" />
+				</not>
+			</tarfileset>
+			<tarfileset dir="${dist.tmp.dir}" filemode="755">
+				<selector refid="executables" />
+			</tarfileset>
+		</tar -->
+		<zip destfile="${tools.file}.zip">
+			<zipfileset dir="${dist.tmp.dir}">
+				<not>
+					<selector refid="executables" />
+				</not>
+			</zipfileset>
+			<zipfileset dir="${dist.tmp.dir}" filemode="755">
+				<selector refid="executables" />
+			</zipfileset>
+		</zip>
 		<delete dir="${dist.tmp.dir}" />
 	</target>
 
