@@ -17,6 +17,8 @@ h5. New
 h5. Better
 
 	* Upgraded to "ASM 3.1":http://asm.objectweb.org/jdiff30to31/changes.html.
+	* Upgraded to "Ant 1.7.1":http://archive.apache.org/dist/ant/RELEASE-NOTES-1.7.1.html.
+	* Upgraded to "Checkstyle 5.0":http://checkstyle.sourceforge.net/releasenotes.html#Release%205.0.
 	* Cell name case is preserved when compiling to readable code.
 
 h5. Fixed
