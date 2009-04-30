@@ -19,7 +19,7 @@ The easiest setup is to simply download @formulacompiler-x.y.z-tools.zip@, unpac
 
 The download contains "Ant":-ant and, contained within it, "JUnit 3.x":-junit. So running
 
-	tools/apache-ant-1.7.0/bin/ant
+	tools/apache-ant-1.7.1/bin/ant
 	
 should properly build AFC.
 
