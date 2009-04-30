@@ -80,7 +80,7 @@
 
 	<target name="@clobber">
 		<delete dir="${temp.dir}" />
-		<delete file="${build.dir}" />
+		<delete dir="${build.dir}" />
 	</target>
 
 	<!-- build / dist -->
