@@ -54,6 +54,11 @@ public class LoadTest extends TestCase
 		checkLoaded();
 	}
 
+	public void testOpenOffice3_0() throws Exception
+	{
+		checkLoaded();
+	}
+
 	public void testKoffice2() throws Exception
 	{
 		checkLoaded();
