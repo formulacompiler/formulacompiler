@@ -23,6 +23,7 @@ h5. Better
 
 h5. Fixed
 
+	* Fixed compatibility issues with OpenOffice.org Calc 3.0.
 	* Fixed loading saved engines when AFC classes are loaded not by system classloader.
 	* Fixed getting named ranges defined in the spreadsheet after defining an additional range name.
 	* Fixed generating identifiers when compiling to readable code.
