@@ -27,6 +27,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.xml.namespace.QName;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.EndElement;
@@ -55,6 +57,8 @@ import org.formulacompiler.spreadsheet.internal.parser.LazySpreadsheetExpression
  */
 class CellParser implements ElementListener
 {
+	private static final Pattern FORMULA_PATTERN = Pattern.compile( "(?:(\\w+):)?=(.*)" );
+
 	private final RowImpl row;
 	private final SpreadsheetLoader.Config config;
 	private TableCell tableCell;
@@ -139,28 +143,27 @@ class CellParser implements ElementListener
 		for (int i = 0; i < numberColumnsRepeated; i++) {
 			String formula = this.tableCell.formula;
 			if (formula != null) {
-				final String expression;
-				if (formula.startsWith( "oooc:=" ))
-					expression = formula.substring( 6 );
-				else if (formula.startsWith( "=" )) {
-					expression = formula.substring( 1 );
-				}
-				else {
-					expression = formula;
-				}
-				if ("\"\"".equals( expression )) {
-					// Replace ="" by empty string constant.
-					new CellWithConstant( this.row, "" );
-				}
-				else {
-					final CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression(
-							this.row, new LazySpreadsheetExpressionParser( expression, CellRefFormat.A1_ODF ) );
-					if (this.config.loadAllCellValues) {
-						final Object value = getValue();
-						if (value != null) {
-							exprCell.setValue( value );
+				final Matcher matcher = FORMULA_PATTERN.matcher( formula );
+				if (matcher.matches()) {
+					// final String nameSpace = matcher.group( 1 );
+					final String expression = matcher.group( 2 );
+					if ("\"\"".equals( expression )) {
+						// Replace ="" by empty string constant.
+						new CellWithConstant( this.row, "" );
+					}
+					else {
+						final CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression(
+								this.row, new LazySpreadsheetExpressionParser( expression, CellRefFormat.A1_ODF ) );
+						if (this.config.loadAllCellValues) {
+							final Object value = getValue();
+							if (value != null) {
+								exprCell.setValue( value );
+							}
 						}
 					}
+				}
+				else {
+					throw new RuntimeException( "Cannot parse formula: " + formula );
 				}
 			}
 			else {
