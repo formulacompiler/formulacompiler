@@ -291,7 +291,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: "text text"
+    - null
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -309,7 +309,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: "text "
+    - null
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -725,7 +725,7 @@ sheets:
     - const: 3.0
     - null
     - null
-    - const: "Err:504"
+    - const: "Err:502"
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -743,7 +743,7 @@ sheets:
     - const: 3.0
     - null
     - null
-    - const: "Err:504"
+    - const: "Err:502"
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -906,7 +906,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: "Err:504"
+    - const: "Err:502"
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -1069,7 +1069,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: "Err:504"
+    - const: "Err:502"
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -1376,7 +1376,7 @@ sheets:
     - const: 4.0
     - null
     - null
-    - const: "Err:504"
+    - const: "Err:502"
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )

@@ -1806,7 +1806,7 @@ sheets:
     - const: 1.0
     - const: "DOLLAR"
     - const: "DOLLAR"
-    - const: "123,00руб."
+    - null
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -1824,7 +1824,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: "-1 234,57руб."
+    - null
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -1843,7 +1843,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: "123 000руб."
+    - null
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -1861,7 +1861,7 @@ sheets:
     - const: 2.0
     - null
     - null
-    - const: "12 345,340руб."
+    - null
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -2080,7 +2080,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: 39231.5208333333
+    - const: 39231.0
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -2098,7 +2098,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: 39231.521099537
+    - const: 39231.0
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -2278,7 +2278,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: 35922.5090277778
+    - const: 35922.0
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -2296,7 +2296,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: 35922.5091898148
+    - const: 35922.0
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -2315,7 +2315,7 @@ sheets:
     - const: 1.0
     - const: "TIMEVALUE"
     - const: "TIMEVALUE"
-    - const: 35922.5090277778
+    - null
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -2333,7 +2333,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: 39231.5208333333
+    - const: 0.520833333335759
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -2351,7 +2351,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: 39231.521099537
+    - const: 0.521099537036207
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
@@ -2369,7 +2369,7 @@ sheets:
     - const: 1.0
     - null
     - null
-    - const: 35922.5090277778
+    - const: 0.509027777778101
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
