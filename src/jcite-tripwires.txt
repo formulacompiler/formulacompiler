@@ -3949,7 +3949,7 @@ final List<SpreadsheetCellComputationEvent> computationEvents = listener.events;
 				"6738.0000 in Sheet1!F2(BonusAmount) in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
 				"0.3013 in Sheet1!E2 in section: Sheet1!A2:Sheet1!F4(Employees)[2]",
 				"6026.0000 in Sheet1!F2(BonusAmount) in section: Sheet1!A2:Sheet1!F4(Employees)[2]"
-		}, listener.events );
+		}, computationEvents );
 ___@_@___
 jc:org/formulacompiler/tutorials/BonusPerEmployee_LogComputation:---- setListener
 __@@__
@@ -3960,11 +3960,11 @@ TestComputationListener listener = new TestComputationListener();
 ___@_@___
 jc:org/formulacompiler/tutorials/CubeVolume:---- CompilationListener
 __@@__
-private class TestCompilationListener implements /**/SpreadsheetCompilationListener /**/
+private class TestConstExprOptListener implements /**/ConstantExpressionOptimizationListener/**/
 	{
 		final List<SpreadsheetCellComputationEvent> events = New.list();
 
-		public void /**/constantCellCalculated/**/( /**/SpreadsheetCellComputationEvent/**/_event )
+		public void /**/constantCellCalculated/**/( /**/SpreadsheetCellComputationEvent/**/ _event )
 		{
 			this.events.add( _event );
 		}
@@ -3972,13 +3972,13 @@ private class TestCompilationListener implements /**/SpreadsheetCompilationListe
 ___@_@___
 jc:org/formulacompiler/tutorials/CubeVolume:---- ComputationListener
 __@@__
-private class TestComputationListener implements /**/SpreadsheetCellComputationListener /**/
+private class TestComputationListener implements /**/CellComputationListener/**/
 	{
 		final List<SpreadsheetCellComputationEvent> events = New.list();
 
-		public void /**/cellCalculated/**/( /**/SpreadsheetCellComputationEvent /**/_event )
+		public void /**/cellCalculated/**/( /**/CellComputationEvent/**/ _event )
 		{
-			this.events.add( _event );
+			this.events.add( (SpreadsheetCellComputationEvent) _event );
 		}
 	}
 ___@_@___
@@ -3986,8 +3986,8 @@ jc:org/formulacompiler/tutorials/CubeVolume:---- checkCompilationEvents
 __@@__
 final SaveableEngine e = b.compile();
 
-		assertEquals( 1, compilationListener.events.size() );
-		assertEvent( "6.0 in Sheet1!B4(Area)", compilationListener.events.get( 0 ) );
+		assertEquals( 1, constExprOptListener.events.size() );
+		assertEvent( "6.0 in Sheet1!B4(Area)", constExprOptListener.events.get( 0 ) );
 ___@_@___
 jc:org/formulacompiler/tutorials/CubeVolume:---- checkComputationEvents
 __@@__
@@ -4019,8 +4019,8 @@ final EngineBuilder b = SpreadsheetCompiler.newEngineBuilder();
 		b.setOutputClass( Outputs.class );
 		b.createCellNamesFromRowTitles();
 		b.bindAllByName();
-		final TestCompilationListener compilationListener = new TestCompilationListener();
-		b./**/setCompilationListener/**/( compilationListener );
+		final TestConstExprOptListener constExprOptListener = new TestConstExprOptListener();
+		b./**/setConstantExpressionOptimizationListener/**/( constExprOptListener );
 ___@_@___
 jc:org/formulacompiler/tutorials/CubeVolume:---- inputs
 __@@__
