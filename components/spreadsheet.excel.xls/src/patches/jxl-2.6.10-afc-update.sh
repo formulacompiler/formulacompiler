@@ -3,12 +3,14 @@
 # Location setup
 tgt=`echo $0 | sed "s/-update.sh//"`
 lib=`echo $0 | sed "s/src\/patches\/jxl-.*//"`lib
+junit=`echo $0 | sed "s/components\/spreadsheet.excel.xls\/src\/patches\/jxl-.*/lib\/test\/junit.jar/"`
 
 # Sanity checks
+if [ ! -f $junit ]; then echo "Could not find:" $junit; exit; fi
 if [ ! -f jxlrwtest.xls ]; then echo "Don't seem to be in a JExcelAPI source folder; missing jxlrwtest.xls"; exit; fi
 if [ ! -d .hg ]; then echo "Current folder is no hg repository; missing .hg"; exit; fi
 
-if ( cd build ; ant test srczip ); then
+if ( cd build ; ant -lib $junit test srczip ); then
 
 	# Copy build result over to afc.
 	cp jxl.jar $lib/impl/jxl.jar
