@@ -42,6 +42,7 @@
 	<path id="test.deps.classpath">
 		<pathelement location="../compiler/temp/test/classes" />
 		<pathelement location="../compiler/temp/build/classes" />
+		<fileset dir="../runtime/lib/impl" includes="*.jar" />
 		<fileset dir="../compiler/lib/impl" includes="*.jar" />
 	</path>
 

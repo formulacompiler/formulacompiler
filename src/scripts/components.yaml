@@ -16,6 +16,14 @@ groups:
           - org.objectweb.asm
           - org.objectweb.asm.commons
 
+      - id: colt
+        jars:
+          - colt-shrunk.jar
+        pkgs:
+          - cern.colt.matrix
+          - cern.colt.matrix.linalg
+          - cern.jet.stat
+
       - id: jode
         jars:
           - jode-decompiler.jar
@@ -77,20 +85,13 @@ groups:
             api_deps:
               - core.runtime.api.event
 
-          - id: cern
-            desc:
-              Mathematical and statistical functions library released as open source by CERN (http://cern.ch/).
-            pkgs:
-              - org.formulacompiler.runtime.internal.cern.jet.math
-              - org.formulacompiler.runtime.internal.cern.jet.stat
-
           - id: core
             pkgs:
               - org.formulacompiler.runtime.internal
             api_deps:
               - core.runtime.api
             deps:
-              - core.runtime.cern
+              - ext.colt
 
           - id: spreadsheet
             pkgs:

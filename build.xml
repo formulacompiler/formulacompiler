@@ -319,7 +319,6 @@
 				<!--  the following files have differing licences  -->
 				<exclude name="**/internal/IOUtil.java" />
 				<exclude name="**/internal/build/bytecode/ASMHelpers.java" />
-				<exclude name="**/internal/cern/**" />
 			</fileset>
 		</checkstyle>
 

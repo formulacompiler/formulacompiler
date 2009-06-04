@@ -6,5 +6,6 @@ syntax: regexp
 ^tools/.*
 ^build\.properties
 ^afc\.iws$
+^components/runtime/lib/impl/colt-shrunk.jar$
 ^components/system/src/test-reference/java-debug/org/formulacompiler/tests/reference/[^/]*\.java$
 

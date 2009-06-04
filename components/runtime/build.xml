@@ -38,9 +38,44 @@
 
 	<!-- internal targets -->
 
+	<!-- clean -->
+
+	<target name="-clobber" depends="@clobber, @delete-colt-shrunk-jar" />
+
+	<!-- shrink colt.jar -->
+
+	<property name="colt-shrunk.jar" location="${lib.dir}/impl/colt-shrunk.jar" />
+
+	<target name="@delete-colt-shrunk-jar" depends="@init">
+		<delete file="${colt-shrunk.jar}" />
+	</target>
+
+	<target name="@ensure-colt-jar" depends="@init">
+		<available file="${colt-shrunk.jar}" property="colt-shrunk-availavle" />
+		<antcall target="@shrink-colt-jar" />
+	</target>
+
+	<target name="@shrink-colt-jar" depends="@init" unless="colt-shrunk-availavle">
+		<taskdef resource="proguard/ant/task.properties"
+		         classpath="${proguard.jar}" />
+		<proguard obfuscate="false" optimize="false">
+			<injar file="${colt.lib.dir}/colt.jar" />
+			<outjar file="${colt-shrunk.jar}" />
+			<libraryjar file="${java.home}/lib/rt.jar" />
+			<libraryjar file="${colt.lib.dir}/concurrent.jar" />
+
+			<keep name="cern.jet.stat.Gamma">
+				<method name="gamma" />
+			</keep>
+			<keep name="cern.jet.stat.Probability">
+				<method name="*" />
+			</keep>
+		</proguard>
+	</target>
+
 	<!-- compile -->
 
-	<target name="-compile-main" depends="@compile-intf, @compile-impl, -compile-templates" />
+	<target name="-compile-main" depends="@compile-intf, @ensure-colt-jar, @compile-impl, -compile-templates" />
 	<target name="-compile-templates" depends="@generate-from-templates, @compile-generated" />
 
 	<property name="templates.dir" location="${src.dir}/impl/templates" />

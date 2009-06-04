@@ -33,8 +33,8 @@ import java.util.TimeZone;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.runtime.NotAvailableException;
-import org.formulacompiler.runtime.internal.cern.jet.stat.Gamma;
-import org.formulacompiler.runtime.internal.cern.jet.stat.Probability;
+import cern.jet.stat.Gamma;
+import cern.jet.stat.Probability;
 
 
 public final class RuntimeDouble_v2 extends Runtime_v2

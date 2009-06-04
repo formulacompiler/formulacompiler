@@ -39,6 +39,7 @@
 
 	<path id="test.deps.classpath">
 		<pathelement location="temp/build/classes" />
+		<fileset dir="../runtime/lib/impl" includes="*.jar" />
 	</path>
 
 	<import file="../build-common.xml" />
