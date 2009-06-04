@@ -25,11 +25,17 @@ package org.formulacompiler.compiler.internal.bytecode.compiler;
 import java.math.BigDecimal;
 
 import org.formulacompiler.compiler.FormulaCompiler;
+import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.CallFrameImpl;
 import org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler;
+import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
+import org.formulacompiler.compiler.internal.expressions.DataType;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
@@ -103,6 +109,31 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestCase
 		assertOperator( Operator.INTERNAL_MAX, a );
 		assertUnaryOperator( Operator.MINUS, -a );
 		assertUnaryOperator( Operator.PERCENT, a / 100 );
+	}
+
+
+	public void testArraysInTemplates() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final CellModel a = new CellModel( rootModel, "a" );
+		final CellModel b = new CellModel( rootModel, "b" );
+		final CellModel c = new CellModel( rootModel, "c" );
+		final CellModel d = new CellModel( rootModel, "d" );
+		final CellModel r = new CellModel( rootModel, "r" );
+		final ArrayDescriptor desc = new ArrayDescriptor( 0, 0, 0, 1, 2, 2 );
+		r.setExpression( new ExpressionNodeForFunction( Function.MDETERM, new ExpressionNodeForArrayReference( desc,
+				new ExpressionNodeForCellModel( a ), new ExpressionNodeForCellModel( b ),
+				new ExpressionNodeForCellModel( c ), new ExpressionNodeForCellModel( d ) ),
+				new ExpressionNodeForConstantValue( 2, DataType.NUMERIC ) ) );
+
+		a.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getDoubleA" ) ) );
+		b.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getDoubleB" ) ) );
+		c.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getDoubleC" ) ) );
+		d.makeInput( new CallFrameImpl( Inputs.class.getMethod( "getDoubleD" ) ) );
+		r.makeOutput( new CallFrameImpl( Outputs.class.getMethod( "getResult" ) ) );
+
+		assertDoubleResult( 4586.6908, engineModel, "MDETERM" );
 	}
 
 

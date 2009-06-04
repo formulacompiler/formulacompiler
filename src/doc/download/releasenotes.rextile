@@ -13,6 +13,7 @@ h2. Release 1.3
 h5. New
 
 	* AFC can now compile engines which can "log intermediate values":../doc/tutorial/logging.htm during a computation.
+	* @MDETERM()@ is now "supported":../doc/reference/matrices.htm.
 
 h5. Better
 

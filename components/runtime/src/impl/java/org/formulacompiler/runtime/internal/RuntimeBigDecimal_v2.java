@@ -539,6 +539,22 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 	}
 
 
+	public static BigDecimal fun_MDETERM( BigDecimal[] _squareMatrix, int _sideLength )
+	{
+		return BigDecimal.valueOf( RuntimeDouble_v2.fun_MDETERM( toDoubles( _squareMatrix ), _sideLength ) );
+	}
+
+
+	private static double[] toDoubles( BigDecimal[] _bigDecimals )
+	{
+		double[] result = new double[_bigDecimals.length];
+		for (int i = 0; i < _bigDecimals.length; i++) {
+			result[ i ] = _bigDecimals[ i ].doubleValue();
+		}
+		return result;
+	}
+
+
 	/**
 	 * @deprecated replaced by {@link #fun_DATE(BigDecimal,BigDecimal,BigDecimal,ComputationMode)}
 	 */

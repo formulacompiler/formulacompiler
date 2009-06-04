@@ -43,6 +43,10 @@ public enum Function {
 	// Combinatorics
 
 	FACT, COMBIN,
+	
+	// Matrix operations
+	
+	MDETERM,
 
 	// Financials
 

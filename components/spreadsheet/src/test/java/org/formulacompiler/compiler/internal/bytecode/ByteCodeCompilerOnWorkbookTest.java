@@ -537,6 +537,21 @@ public class ByteCodeCompilerOnWorkbookTest extends AbstractStandardInputsOutput
 		assertEquals( 19.5, result, 0.001 );
 	}
 
+	public void testMatrixArguments() throws Exception
+	{
+		CellInstance a = new CellWithConstant( this.row, 1.0 );
+		CellInstance b = new CellWithConstant( this.row, 2.0 );
+		CellInstance c = new CellWithConstant( this.row, 3.0 );
+		CellInstance d = new CellWithConstant( this.row, 4.0 );
+		final ArrayDescriptor desc = new ArrayDescriptor( 0, 0, 0, 1, 2, 2 );
+		this.formula.setExpression( new ExpressionNodeForFunction( Function.MDETERM, new ExpressionNodeForArrayReference(
+				desc, new ExpressionNodeForCell( a ), new ExpressionNodeForCell( b ), new ExpressionNodeForCell( c ),
+				new ExpressionNodeForCell( d ) ) ) );
+
+		assertResult( -2.0, null, null );
+		assertResult( -112.0, new CellInstance[] { a, b, c }, new double[] { 11.0, 12.0, 13.0 } );
+	}
+
 	private Engine newEngine() throws Exception
 	{
 		return newEngine( SpreadsheetCompiler.DEFAULT_NUMERIC_TYPE );

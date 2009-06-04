@@ -636,6 +636,7 @@ void fun(): {}
 	|	"LOWER" fun1( Function.LOWER )
 	|	"MAX" aggN( Function.MAX )
 	|	"MATCH" open() expr() <SEP> shapedRangeExpr() optCommaExpr() closeFun( Function.MATCH )
+	|	"MDETERM" open() shapedRangeExpr() closeFun( Function.MDETERM )
 	|	"MEDIAN" open() shapedRangeExpr() closeFun( Function.MEDIAN )
 	|	"MID" fun3( Function.MID )
 	|	"MIN" aggN( Function.MIN )

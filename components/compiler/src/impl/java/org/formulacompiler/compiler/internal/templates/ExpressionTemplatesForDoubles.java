@@ -540,15 +540,25 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_WEIBULL( _x, _alpha, _beta, _cumulative != 0 );
 	}
 
+	
 	// ------------------------------------------------ Combinatorics
 
-
+	
 	public double fun_FACT( double a )
 	{
 		return RuntimeDouble_v2.fun_FACT( a );
 	}
 
 
+	// ------------------------------------------------ Matrix operations
+	
+	
+	public double fun_MDETERM( double[] _squareMatrix, int _sideLength)
+	{
+		return RuntimeDouble_v2.fun_MDETERM( _squareMatrix, _sideLength );
+	}
+
+	
 	// ------------------------------------------------ Financials
 
 

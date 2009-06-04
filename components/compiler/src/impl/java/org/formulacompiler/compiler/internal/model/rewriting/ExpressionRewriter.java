@@ -157,6 +157,19 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 				}
 				break;
 			}
+			case MDETERM: {
+				if (_fun.cardinality() < 2) {
+					final ArrayDescriptor desc = ((ExpressionNodeForArrayReference) _fun.argument( 0 )).arrayDescriptor();
+					final int cols = desc.numberOfColumns();
+					final int rows = desc.numberOfRows();
+					if (cols != rows) {
+						throw new CompilerException.UnsupportedExpression( "MDETERM called with non-square matrix" );
+					}
+					return fun( MDETERM, _fun.argument( 0 ), cst( cols, DataType.NUMERIC ) );
+				}
+				break;
+			}
+
 			case DCOUNT:
 			case DCOUNTA:
 				return rewriteDAgg( _fun, fold_count() );
