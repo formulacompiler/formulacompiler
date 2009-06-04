@@ -35,7 +35,7 @@
 
 	<!-- global properties -->
 
-	<property name="parent.dir" location="../.." />
+	<property name="root.dir" location="../.." />
 	<property name="comps.dir" location=".." />
 	<property name="src.dir" location="src" />
 	<property name="lib.dir" location="lib" />
