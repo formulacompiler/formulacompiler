@@ -64,7 +64,7 @@ abstract class AbstractSuiteSetup
 	private static void setRowSetupBuilder( final Context _cx, final String _fileBaseName )
 	{
 		final RowSetup.Builder setup;
-		if (_fileBaseName.startsWith( "Database" )) {
+		if (_fileBaseName.startsWith( "Database" ) || _fileBaseName.startsWith( "Matrices" )) {
 			setup = new RowSetupDbAgg.Builder();
 		}
 		else {

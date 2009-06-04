@@ -608,6 +608,15 @@ public final class ExpressionTemplatesForScaledLongs
 	}
 
 
+	// ------------------------------------------------ Matrix operations
+
+
+	public long fun_MDETERM( long[] _squareMatrix, int _sideLength )
+	{
+		return RuntimeLong_v2.fun_MDETERM( _squareMatrix, _sideLength, this.context );
+	}
+
+
 	// ------------------------------------------------ Financials
 
 

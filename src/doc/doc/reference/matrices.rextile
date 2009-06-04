@@ -1,0 +1,20 @@
+
+h1. Matrix Functions In AFC
+
+
+<%= toc 2, 5 %>
+
+
+h3. Test Sheet
+
+The following test cases reference this sheet:
+
+	[xc:org/formulacompiler/tests/reference/Matrices.xls:BaseData;fo]
+
+
+h3. Matrix Functions
+
+The supported matrix functions are shown by example below:
+
+<%= gen_doc "Matrices" %>
+

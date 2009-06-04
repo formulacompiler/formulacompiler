@@ -64,6 +64,16 @@
 			<libraryjar file="${java.home}/lib/rt.jar" />
 			<libraryjar file="${colt.lib.dir}/concurrent.jar" />
 
+			<keep name="cern.colt.matrix.DoubleFactory2D">
+				<method name="make" />
+			</keep>
+			<keep name="cern.colt.matrix.DoubleMatrix2D">
+				<method name="*" />
+			</keep>
+			<keep name="cern.colt.matrix.linalg.Algebra">
+				<field name="DEFAULT" />
+				<method name="det" />
+			</keep>
 			<keep name="cern.jet.stat.Gamma">
 				<method name="gamma" />
 			</keep>

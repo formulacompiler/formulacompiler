@@ -877,6 +877,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		}
 	}
 
+	public static long fun_MDETERM( long[] _squareMatrix, int _sideLength, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_MDETERM( _cx.toDoubles( _squareMatrix ), _sideLength ) );
+	}
+
 	public static long fun_IRR( long[] _values, long _guess, Context _cx )
 	{
 		return _cx.fromDouble( RuntimeDouble_v2.fun_IRR( _cx.toDoubles( _values ), _cx.toDouble( _guess ) ) );

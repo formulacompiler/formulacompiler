@@ -492,6 +492,16 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_WEIBULL( _x, _alpha, _beta, _cumulative.signum() != 0 );
 	}
 
+
+	// ------------------------------------------------ Matrix operations
+
+
+	public BigDecimal fun_MDETERM( BigDecimal[] _squareMatrix, int _sideLength )
+	{
+		return RuntimeBigDecimal_v2.fun_MDETERM( _squareMatrix , _sideLength );
+	}
+
+
 	// ------------------------------------------------ Date Functions
 
 

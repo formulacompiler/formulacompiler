@@ -33,6 +33,9 @@ import java.util.TimeZone;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.runtime.NotAvailableException;
+import cern.colt.matrix.DoubleFactory2D;
+import cern.colt.matrix.DoubleMatrix2D;
+import cern.colt.matrix.linalg.Algebra;
 import cern.jet.stat.Gamma;
 import cern.jet.stat.Probability;
 
@@ -1176,6 +1179,14 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			}
 			return r;
 		}
+	}
+
+
+	public static double fun_MDETERM( double[] _squareMatrix, int _sideLength )
+	{
+		final DoubleFactory2D factory2D = DoubleFactory2D.dense;
+		final DoubleMatrix2D matrix2D = factory2D.make( _squareMatrix, _sideLength );
+		return Algebra.DEFAULT.det( matrix2D );
 	}
 
 

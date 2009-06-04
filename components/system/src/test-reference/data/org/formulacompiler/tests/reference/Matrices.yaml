@@ -1,0 +1,84 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "1x1"
+    - const: 5.0
+      names: [ M1x1 ]
+  - cells:
+  - cells:
+    - const: "2x2"
+    - const: 2.0
+    - const: 9.0
+  - cells:
+    - null
+    - const: 3.0
+    - const: 6.0
+  - cells:
+  - cells:
+    - const: "3x3"
+    - const: 4.0
+    - const: -3.0
+    - const: 6.0
+  - cells:
+    - null
+    - const: 2.0
+    - const: 5.0
+    - const: -1.0
+  - cells:
+    - null
+    - const: 7.0
+    - const: 3.0
+    - const: 9.0
+  - cells:
+  - cells:
+    - const: "Tests"
+    - const: "Expected"
+    - const: "Actual"
+    - null
+    - const: "Arg"
+    - null
+    - const: "Name"
+    - const: "Highlight"
+    - const: "Excel says"
+  - cells:
+    - null
+    - const: 5.0
+    - expr: =MDETERM( R[-10]C[-1] )
+    - null
+    - const: "M1x1"
+    - null
+    - const: "MDETERM"
+    - const: "MDETERM"
+  - cells:
+    - null
+    - const: -15.0
+    - expr: =MDETERM( R[-9]C[-1]:R[-8]C )
+    - null
+    - const: "M2x2"
+  - cells:
+    - null
+    - const: 93.0
+    - expr: =MDETERM( R[-7]C[-1]:R[-5]C[1] )
+    - null
+    - const: "M3x3"
+
+- name: Sheet2
+  rows:
+
+- name: Sheet3
+  rows:
+names:
+- name: BaseData
+  ref: R1C1:R8C4
+- name: M2x2
+  ref: R3C2:R4C3
+- name: M3x3
+  ref: R6C2:R8C4
+- name: TestHeader
+  ref: R10C2:R10C8

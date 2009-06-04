@@ -23,6 +23,7 @@ Since AFC only supports "Microsoft Excel":-excel spreadsheet semantics at the mo
 <%= summary 'Date Functions', 'datefuncs', ['DateFunctions'] %>
 <%= summary 'Conversion Functions', 'convfuncs', ['ConversionFunctions_en_US', 'ConversionFunctions'] %>
 <%= summary 'Type Functions', 'typefuncs', ['TypeFunctions'] %>
+<%= summary 'Matrix Functions', 'matrices', ['Matrices'] %>
 <%= summary 'Aggregators', 'aggregators', ['FunctionSUM', 'Aggregators'] %>
 <%= summary 'Database Table Aggregators', 'dbaggregators', ['DatabaseAggregators_de_CH'] %>
 <%= summary 'Lookup Functions', 'lookupfuncs', ['LookupFunctions'] %>
