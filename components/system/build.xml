@@ -27,6 +27,8 @@
 
 	<!-- global properties -->
 
+	<property name="root.dir" location="../.." />
+
 	<property file="../../build.properties" />
 	<property file="../../build.default.properties" />
 
