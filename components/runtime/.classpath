@@ -8,5 +8,6 @@
 	<classpathentry kind="src" path="temp/impl/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="lib" path="/afc/lib/test/junit.jar" sourcepath="/afc/lib/IDE/junit-src.jar"/>
+	<classpathentry kind="lib" path="lib/impl/colt-shrunk.jar"/>
 	<classpathentry kind="output" path="temp/eclipse"/>
 </classpath>
