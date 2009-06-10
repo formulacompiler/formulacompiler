@@ -1,40 +1,69 @@
-<div class="blurb">
 
-*Your users want to customize formulas. They know Excel or OpenOffice.*
+h1. Integrate Calculations Defined in Spreadsheets into Java Apps
+
+_Let your users model the calculation of key values in spreadsheets, but integrate the resulting computations natively into your Java applications. Users get familiar and versatile modelling. You get little effort, high performance, no deployment hassles, and a choice of GPL or a commercial license._
+
+In many applications, users have different and ever-changing ideas as to how certain key values should be calculated. For example:
+
+	* prices, rebates, and shipping rates in order processing,
+	* asset valuations and risk estimates in portfolio management,
+	* insurance premiums in sales force apps,
+	* wages in payroll.
+
+With AFC(Abacus Formula Compiler), you *give your users unprecedented freedom in modelling the calculcation* of these values using familiar tools ("Microsoft Excel":-excel or "OpenOffice Calc":-ooc, for instance). And you *unburden yourself from* having to support their different needs through *a multitude of configuration options*.
+
+<notextile>
+<div style="float: right; margin-left: 2em; margin-bottom: 2ex">
+<pre>[xc:org/formulacompiler/tutorials/BasicsCustom.xls]</pre>
+(Only the best category gets combined rebates.)
+</div>
+</notextile>
+
+Users model a calculation in a spreadsheet file with designated input and output cells. The input cells hold generic example values, the output cells are typically formula cells.
+
+From this spreadsheet file, *AFC compiles a plain Java class* that computes specific output values given a set of specific input values. For example, compute the value of the formula cell _B5_ given _B1=2%_, _B2=8%_, and _B3=1_ as inputs. The compiled class pulls values for input cells from methods on an input interface you define, and it implements the methods on a output interface you define as well. As such, it can *integrate very directly into your existing code* (see graphic below).
+
+<notextile>
+<div style="float: right">
+<img title="Overview" src="flow.png" alt="Overview" />
+<p align="center">
+(<span style="background:#91BAD0">user created</span>,
+<span style="background:#D1E3EB">your interfaces</span>,
+<span style="background:#CCCC00">AFC</span>,
+<span style="background:#E1FAC9">generated</span>)
+</p>
+</div>
+</notextile>
+
+Since AFC compiles the calculations directly down to plain, thread-safe Java classes, you can *use them in performance-critical code paths*, like recomputing the valuations of thousands of assets or the wages of thousands of employees.
+
+AFC also lets you choose between using @double@ and @BigDecimal@ for its internal calculations, so it *fits both scientific and financial applications*.
+
+Both when compiling the Java classes, and when running the compiled computations, AFC does not need Excel, OpenOffice, or a JDK to be installed. So you can *deploy it on any platform* supported by Java.
+
+AFC is "available":download/index.htm under the *GPL and a "commercial license":download/license.htm*.
+
+<div style="clear: both"></div>
+
+Our "Quick Start":quick.htm has you *up and running in just a few minutes*. It takes just a little more than these few lines of code:
 
 <pre><code
 >	[jc:org.formulacompiler.tutorials.QuickStart:---- Blurb; omit -]
 </code></pre>
 
-*Compile parametrized spreadsheets directly to bytecode.*
-
-	* No need to have Excel, OpenOffice, or a JDK installed.
-	* Native speed, thread safe execution.
-	* Bind directly to your computation strategy interfaces.
-	* Using double, or BigDecimal for financial applications.
-	* Available under the GPL and commercially ("details":download/license.htm).
-
-</div>
-
-h1. Abacus Formula Compiler for Java
-
-"Download":download/index.htm it now!
-
-"Quick start":quick.htm your first compiled spreadsheet. Has you up and running in just a few minutes.
-
-"Learn more":doc/index.htm about the goals, the design, the API, and the supported functions.
+"Download":download/index.htm AFC now, or "learn more":doc/index.htm about the goals, the design, the API, and the supported functions.
 
 
 <% @news= <<END
 <h2>News</h2>
 
+<h3><a href="download/releasenotes.htm">Release 1.3</a></h3>
+<p>adds logging of intermediate cell values.
+<br/><span class="when">June ?, 2009</span></p>
+
 <h3><a href="download/releasenotes.htm">Release 1.2</a></h3>
 <p>adds support for Microsoft Office Open XML (MS Excel 2007) spreadsheets.
 <br/><span class="when">November 4, 2008</span></p>
-
-<h3><a href="download/releasenotes.htm">Release 1.1</a></h3>
-<p>adds better support for OpenOffice Calc spreadsheets.
-<br/><span class="when">July 4, 2008</span></p>
 
 END
 %>
