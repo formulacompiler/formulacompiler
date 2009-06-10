@@ -1,0 +1,61 @@
+digraph "AFC Usage" {
+	fontname = "Helvetica";
+
+	node [ shape = box, fontname = "Helvetica" ];
+	edge [ fontname = "Helvetica" ];
+	
+	subgraph input {
+		
+		{ node [style = filled, color = "#91BAD0" ];
+		xls [ label = "Excel .xls File", shape=octagon ];
+		xml [ label = "Excel .xml File", shape=octagon ];
+		ods [ label = "OpenOffice .ods File", shape=octagon ];
+		}
+	}
+	
+	subgraph cluster_runtime {
+		label = "Your Application Compiling & Using Spreadsheet";
+		style = filled;
+		color = "#DFD8CB";
+
+		{ node [ style = filled, fillcolor = "#CCCC00" ];
+		comp [ label = "AFC Compiler" ];
+		run [ label = "AFC Runtime" ];
+		}
+		
+		{ node [ style = filled, fillcolor = "#E1FAC9" ];
+		bcfact [ label = "Factory Instance" ];
+		calc [ label = "Computation Instance" ];
+		}
+
+		{ node [ style = filled, fillcolor = "#D1E3EB" ];
+		inp [ label = "Input Instance" ];
+		outp [ label = "Output Interface" ];
+		fact [ label = "Factory Interface" ];
+		}
+				
+		{ rank = same; bcfact; fact; }
+		{ rank = same; calc; inp; outp; }
+	}
+
+	{ edge [ label = "input to" ];
+	xls -> comp;
+	xml -> comp;
+	ods -> comp;
+	inp -> calc;
+	}
+	
+	{ edge [ label = "builds a" ];
+	comp -> bcfact -> calc;
+	}
+
+	{ edge [ label = "implements", style=dotted ];
+	calc -> outp;
+	bcfact -> fact;
+	}
+
+	{ edge [ style = dotted, label = "uses" ];
+	calc -> run;
+	}
+
+}
