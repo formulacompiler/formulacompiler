@@ -59,6 +59,12 @@ public final class CellWithLazilyParsedExpression extends CellWithExpression
 		}
 	}
 
+	@Override
+	public void copyTo( final RowImpl _row )
+	{
+		new CellWithLazilyParsedExpression( _row, this.expressionParser );
+	}
+
 	public LazyExpressionParser getExpressionParser()
 	{
 		return this.expressionParser;
