@@ -101,10 +101,18 @@ public class BonusPerEmployee_LogComputation extends MultiFormatTestFactory.Spre
 
 		// ---- events
 		final List<SpreadsheetCellComputationEvent> computationEvents = listener.events;
-		assertEquals( 10, computationEvents.size() );
+		assertEquals( 18, computationEvents.size() );
 		assertEvents( new String[]{
+				"20000.0000 in Sheet1!B7(BonusTotal) in section: ROOT",
+				"5600.0000 in Sheet1!B2(BaseSalary) in section: Sheet1!A2:Sheet1!F4(Employees)[0]",
+				"20.0000 in Sheet1!C2(HoursOvertime) in section: Sheet1!A2:Sheet1!F4(Employees)[0]",
+				"50.0000 in Sheet1!B6(OvertimeSalaryPerHour) in section: ROOT",
 				"6600.0000 in Sheet1!D2 in section: Sheet1!A2:Sheet1!F4(Employees)[0]",
+				"5400.0000 in Sheet1!B2(BaseSalary) in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
+				"15.0000 in Sheet1!C2(HoursOvertime) in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
 				"6150.0000 in Sheet1!D2 in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
+				"5500.0000 in Sheet1!B2(BaseSalary) in section: Sheet1!A2:Sheet1!F4(Employees)[2]",
+				"0 in Sheet1!C2(HoursOvertime) in section: Sheet1!A2:Sheet1!F4(Employees)[2]",
 				"5500.0000 in Sheet1!D2 in section: Sheet1!A2:Sheet1!F4(Employees)[2]",
 				"18250.0000 in Sheet1!D5 in section: ROOT",
 				"0.3616 in Sheet1!E2 in section: Sheet1!A2:Sheet1!F4(Employees)[0]",

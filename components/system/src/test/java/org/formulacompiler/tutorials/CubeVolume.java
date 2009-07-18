@@ -66,9 +66,12 @@ public class CubeVolume extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		// ---- compute
 
 		// ---- checkComputationEvents
-		assertEquals( 2, listener.events.size() );
-		assertEvent( "77.0 in Sheet1!B4(Area)", listener.events.get( 0 ) );
-		assertEvent( "1001.0 in Sheet1!B5(Volume)", listener.events.get( 1 ) );
+		assertEquals( 5, listener.events.size() );
+		assertEvent( "7.0 in Sheet1!B1(Length)", listener.events.get( 0 ) );
+		assertEvent( "11.0 in Sheet1!B2(Width)", listener.events.get( 1 ) );
+		assertEvent( "77.0 in Sheet1!B4(Area)", listener.events.get( 2 ) );
+		assertEvent( "13.0 in Sheet1!B3(Height)", listener.events.get( 3 ) );
+		assertEvent( "1001.0 in Sheet1!B5(Volume)", listener.events.get( 4 ) );
 		// ---- checkComputationEvents
 	}
 
@@ -101,8 +104,9 @@ public class CubeVolume extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 
 		assertEquals( 102.0, c.getVolume(), 0.0001 );
 
-		assertEquals( 1, listener.events.size() );
-		assertEvent( "102.0 in Sheet1!B5(Volume)", listener.events.get( 0 ) );
+		assertEquals( 2, listener.events.size() );
+		assertEvent( "17.0 in Sheet1!B3(Height)", listener.events.get( 0 ) );
+		assertEvent( "102.0 in Sheet1!B5(Volume)", listener.events.get( 1 ) );
 	}
 
 	private String getPath()
