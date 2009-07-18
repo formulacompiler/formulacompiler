@@ -146,13 +146,13 @@ public abstract class ExpressionTemplatesForAll
 		return new SectionInfoImpl( _name, range, index );
 	}
 
-	void util_log( Object _value, String _sheetName, int _columnIndex, int _rowIndex, String _definedName )
+	void util_log( Object _value, String _sheetName, int _columnIndex, int _rowIndex, String _definedName, boolean _input, boolean _output )
 	{
 		final Object value = _value;
 		final CellComputationListener listener = this.environment.computationListener();
 		final CellAddress cellAddress = new CellAddressImpl( _sheetName, _columnIndex, _rowIndex );
 		final CellInfo cellInfo = new CellInfoImpl( cellAddress, _definedName );
-		final SpreadsheetCellComputationEvent event = new SpreadsheetCellComputationEvent( cellInfo, this.sectionInfo, value );
+		final SpreadsheetCellComputationEvent event = new SpreadsheetCellComputationEvent( cellInfo, this.sectionInfo, value, _input, _output );
 		listener.cellCalculated( event );
 	}
 

@@ -963,11 +963,13 @@ abstract class ExpressionCompiler
 		if (source instanceof CellAddress) {
 			final CellAddress cellAddress = (CellAddress) source;
 			final String definedName = _expressionNodeForLogging.getDefinedName();
-			compileLogging( cellAddress, definedName );
+			final boolean input = _expressionNodeForLogging.isInput();
+			final boolean output = _expressionNodeForLogging.isOutput();
+			compileLogging( cellAddress, definedName, input, output );
 		}
 	}
 
-	void compileLogging( final CellAddress _cellAddress, final String _name ) throws CompilerException
+	void compileLogging( final CellAddress _cellAddress, final String _name, boolean _input, boolean _output ) throws CompilerException
 	{
 		final GeneratorAdapter mv = mv();
 		final int valLocal = mv.newLocal( type() );
@@ -977,12 +979,13 @@ abstract class ExpressionCompiler
 			compileConversionTo( Number.class );
 		}
 
-		compile_util_log( _cellAddress.getSheetName(), _cellAddress.getColumnIndex(), _cellAddress.getRowIndex(), _name );
+		compile_util_log( _cellAddress.getSheetName(), _cellAddress.getColumnIndex(), _cellAddress.getRowIndex(), _name, _input, _output );
 
 		mv.loadLocal( valLocal );
 	}
 
-	protected abstract void compile_util_log( String _sheetName, int _columnIndex, int _rowIndex, final String _definedName ) throws CompilerException;
+	protected abstract void compile_util_log( String _sheetName, int _columnIndex, int _rowIndex,
+			String _definedName, boolean _input, boolean _output ) throws CompilerException;
 
 
 	static final boolean isSubSectionIn( Iterable<ExpressionNode> _elts )

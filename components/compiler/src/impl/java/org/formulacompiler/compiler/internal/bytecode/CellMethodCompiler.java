@@ -98,7 +98,7 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 			if (source instanceof CellAddress) {
 				final CellAddress cellAddress = (CellAddress) source;
 				final String name = cellModel.getName();
-				expressionCompiler().compileLogging( cellAddress, name );
+				expressionCompiler().compileLogging( cellAddress, name, true, cellModel.isOutput() );
 			}
 		}
 	}
