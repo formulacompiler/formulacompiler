@@ -42,10 +42,12 @@ public class SpreadsheetCellComputationEvent extends CellComputationEvent
 	 * @param _source  the cell which contains the computation.
 	 * @param _section the section which contains the cell.
 	 * @param _value   the computed value.
+	 * @param _input   {@code true} if the cell is bound to an input method, {@code false} otherwise.
+	 * @param _output  {@code true} if the cell is bound to an output method, {@code false} otherwise.
 	 */
-	public SpreadsheetCellComputationEvent( CellInfo _source, SectionInfo _section, Object _value )
+	public SpreadsheetCellComputationEvent( CellInfo _source, SectionInfo _section, Object _value, boolean _input, boolean _output )
 	{
-		super( _source, _value );
+		super( _source, _value, _input, _output );
 		this.sectionInfo = _section;
 	}
 
@@ -73,7 +75,13 @@ public class SpreadsheetCellComputationEvent extends CellComputationEvent
 	@Override
 	public String toString()
 	{
-		return getClass().getName() + "[cell=" + this.getCellInfo() + ",section=" + this.getSectionInfo() + ",value=" + this.getValue() + "]";
+		final StringBuilder sb = new StringBuilder( getClass().getName() );
+		sb.append( "[cell=" ).append( this.getCellInfo() ).append( ",section=" ).append( this.getSectionInfo() )
+				.append( ",value=" ).append( this.getValue() );
+		if (this.isInput()) sb.append( ",in" );
+		if (this.isOutput()) sb.append( ",out" );
+		sb.append( "]" );
+		return sb.toString();
 	}
 
 }
