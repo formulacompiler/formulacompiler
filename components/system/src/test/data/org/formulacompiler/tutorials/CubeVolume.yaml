@@ -1,0 +1,29 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Length"
+    - const: 2.0
+  - cells:
+    - const: "Width"
+    - const: 3.0
+  - cells:
+    - const: "Height"
+    - const: 5.0
+  - cells:
+    - const: "Area"
+    - expr: =(R[-3]C * R[-2]C)
+  - cells:
+    - const: "Volume"
+    - expr: =(R[-1]C * R[-2]C)
+
+- name: Sheet2
+  rows:
+
+- name: Sheet3
+  rows:

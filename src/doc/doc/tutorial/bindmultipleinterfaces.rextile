@@ -1,0 +1,67 @@
+
+h1. Binding To Multiple Interfaces
+
+
+AFC allows you to set only a single interface to provide inputs to or obtain outputs from a computation. How can you work around this?
+
+_The example code on this page, while syntactically checked, is not yet part of an automated test._
+
+<%= toc 2, 3 %>
+
+
+h2. Inputs
+
+To feed information to a computation from various sources, each with its own interface, you need to define a wrapper that gives access to the source interfaces.
+
+Consider these two source interfaces:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInterfaces:---- Inputs]
+
+The wrapper is a class with accessor properties returning instances the two source interfaces:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInterfaces:---- Input]
+
+You then bind cells to elements of a particular source interface by using a _call chain_. AFC allows you to bind cells to the result of calling a chain of methods:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInterfaces:---- bindInputs]
+
+h5. Note
+
+AFC does not support multiple input interfaces directly because this would add a part of the application logic to AFC that does not need to be customizable by spreadsheets. Therefore, it is better to leave this logic outside of AFC. This gives you full control over it and avoids adding more black box behaviour than necessary.
+
+
+
+h2. Outputs
+
+Assume a computation in a sheet must supply output values for two different interfaces:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInterfaces:---- Outputs]
+
+To achieve this, the simplest approach is to simply make your output class implement both of the target interfaces:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInterfaces:---- Output]
+
+You can then use your computation's output with both targets. However, this only works if name clashes are acceptable, that is, @OutputA.getResult()@ maps to the same spreadsheet cell as @OutputB.getResult()@.
+
+
+h3. Disambiguation
+
+If this is not the case, you have to do a little more work. You define your output class as follows:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInterfaces:---- Output2]
+
+Then, you define wrappers which implement the proper interfaces:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInterfaces:---- Output2A]
+
+and
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInterfaces:---- Output2B]
+
+h5. Note
+
+AFC does not support the following idiom:
+
+	[jc:org.formulacompiler.tutorials.BindingToMultipleInterfaces:---- Output3]
+
+as it did for inputs. This is because for outputs, it is AFC's responsibility to implement this interface. It only supports the approach with the least black box magic.

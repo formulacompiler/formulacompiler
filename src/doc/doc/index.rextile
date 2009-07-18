@@ -1,0 +1,17 @@
+
+h1. Documentation
+
+dt. "Design Overview":design.htm : Gives a high-level view of AFC's design, the goals we wanted to achieve, and how we think we achieved them.
+
+dt. "Tutorial":tutorial/index.htm : A step-by-step guide to AFC, from basics to advanced topics. Forms the basis of AFC's "documentation-driven":-tdd approach to development.
+
+dt. "Function Reference":reference/index.htm : Lists all of the spreadsheet functions supported by AFC, complete with reference tests and corresponding generated Java code. Generated directly from AFC's automated acceptance tests.
+
+dt. "API Reference":javadoc/index.html : The JavaDoc-style documentation of all of AFC's public API.
+
+dt. "Sample Applications":examples/index.htm : Lists the available full sample applications. Note that the test code for the tutorial also is a valuable source of samples.
+
+dt. "Implementation Details":impl/index.htm : Miscellaneous details on the implementation of some of the features of AFC. We flesh this out as needed. Another source of background information is in the "hacking docs":../contribute/hacking/index.htm.
+
+dt. "Limitations":limitations.htm : Notes on more or less fundamental known limitations of AFC. For day-to-day issues, refer to the "bug tracker":-bugs.
+

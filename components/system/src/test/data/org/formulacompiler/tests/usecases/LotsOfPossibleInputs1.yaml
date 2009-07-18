@@ -1,0 +1,73 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Input Block"
+    - const: "Actual"
+    - const: "Expected"
+    - const: "References"
+  - cells:
+    - const: "One"
+    - const: 100.0
+      names: [ One ]
+    - const: 13.0
+  - cells:
+    - const: "Two"
+    - const: 110.0
+      names: [ Two ]
+    - const: 14.0
+  - cells:
+    - const: "Aug 1, 1994"
+    - const: 36526.0
+      names: [ DATE_1994_8_1 ]
+    - const: 34547.0
+    - const: 34700.0
+  - cells:
+    - const: "Fact(5)"
+    - const: 100.0
+      names: [ FACT_5 ]
+    - expr: =FACT( 5.0 )
+  - cells:
+    - const: "Computation Block"
+  - cells:
+    - const: "DateIf"
+    - expr: =IF( (DATE_1994_8_1 < R[-3]C4), 100.0, 10.0 )
+    - expr: =IF( (R[-3]C < R[-3]C4), 100.0, 10.0 )
+  - cells:
+    - const: "Sum"
+    - expr: =SUM( R[-6]C:R[-5]C )
+    - expr: =SUM( R[-6]C:R[-5]C )
+  - cells:
+    - const: "Results Block"
+  - cells:
+    - const: "A"
+    - expr: =SUM( R[-3]C:R[-2]C )
+      names: [ A ]
+    - expr: =SUM( R[-3]C:R[-2]C )
+  - cells:
+    - const: "B"
+    - expr: =(R[-1]C + R[-6]C)
+      names: [ B ]
+    - expr: =(R[-1]C + R[-6]C)
+  - cells:
+    - const: "WHEN"
+    - expr: =(R[-8]C - 1.0)
+      names: [ WHEN ]
+    - expr: =(R[-8]C - 1.0)
+  - cells:
+    - const: "ISOK"
+    - expr: =IF( (R[-2]C = 247.0), 1.0, 0.0 )
+      names: [ ISOK ]
+    - expr: =IF( (R[-2]C = 247.0), 1.0, 0.0 )
+
+- name: Sheet2
+  rows:
+
+- name: Sheet3
+  rows:
+names:

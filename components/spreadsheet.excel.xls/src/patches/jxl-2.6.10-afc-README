@@ -1,0 +1,32 @@
+
+== How to build and update the patched version of JExcelAPI ==
+
+This guide applies to Unix only.
+
+Building the patched version:
+
+	* Download the appropriate version of JExcelAPI from
+
+		http://sourceforge.net/projects/jexcelapi/
+
+	* Unpack it. This will normally create a "jexcelapi" folder.
+
+	* Open a terminal and cd to this "jexcelapi" folder.
+
+	* Run /path/to/afc/components/spreadsheet.excel.xls/src/patches/jxl-2.6.8-afc-hg-init.sh
+
+	* Run /path/to/afc/components/spreadsheet.excel.xls/src/patches/jxl-2.6.8-afc-apply.sh
+
+
+Updating the patched version:
+
+	* Contribute your changes as additional Mercurial mq patches:
+		** Separate the patches into the actual code, and test code.
+		** The the code patches should end in .patch, the test patches in -tests.patch.
+		** The test patches should be guarded with "-no-tests".
+
+	* Commit the updated patch queue: hg qcommit -m "..."
+
+	* Run /path/to/afc/components/spreadsheet.excel.xls/src/patches/jxl-2.6.8-afc-update.sh
+
+	* This updates the files in afc, but does not add or commit them. Do this manually.

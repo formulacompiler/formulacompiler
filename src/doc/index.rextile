@@ -1,0 +1,41 @@
+<div class="blurb">
+
+*Your users want to customize formulas. They know Excel or OpenOffice.*
+
+<pre><code
+>	[jc:org.formulacompiler.tutorials.QuickStart:---- Blurb; omit -]
+</code></pre>
+
+*Compile parametrized spreadsheets directly to bytecode.*
+
+	* No need to have Excel, OpenOffice, or a JDK installed.
+	* Native speed, thread safe execution.
+	* Bind directly to your computation strategy interfaces.
+	* Using double, or BigDecimal for financial applications.
+	* Available under the GPL and commercially ("details":download/license.htm).
+
+</div>
+
+h1. Abacus Formula Compiler for Java
+
+"Download":download/index.htm it now!
+
+"Quick start":quick.htm your first compiled spreadsheet. Has you up and running in just a few minutes.
+
+"Learn more":doc/index.htm about the goals, the design, the API, and the supported functions.
+
+
+<% @news= <<END
+<h2>News</h2>
+
+<h3><a href="download/releasenotes.htm">Release 1.2</a></h3>
+<p>adds support for Microsoft Office Open XML (MS Excel 2007) spreadsheets.
+<br/><span class="when">November 4, 2008</span></p>
+
+<h3><a href="download/releasenotes.htm">Release 1.1</a></h3>
+<p>adds better support for OpenOffice Calc spreadsheets.
+<br/><span class="when">July 4, 2008</span></p>
+
+END
+%>
+

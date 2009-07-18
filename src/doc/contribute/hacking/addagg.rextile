@@ -1,0 +1,104 @@
+<% @html_name = html_name.chomp( '.htm' ) + '.xhtml' %>
+
+h1. Adding A New Aggregator Function To AFC
+
+An aggregator is a (typically statistical) function that computes a single value from a range of values. @SUM()@ is the prime example. Here, we shall look at how I implemented @VAR()@. So let's assume @VAR()@ has not been implemented yet.
+
+_Note: You must have read the topics on adding "primitive functions":-prim and "high-level functions":-high to understand this section._
+
+<%= toc 2, 4 %>
+
+
+h2. Docs and Tests
+
+As always, we start with the announcement in the release notes, and the tests:
+
+	[xc:org/formulacompiler/tests/reference/Aggregators.xls:CiteHeader,CiteVAR]
+
+	
+h2. Parsing
+
+Making @VAR()@ known to the parser is much like what we did for @ABS()@. Aggregators, however, need to accept range arguments, not just simple values. For the standard aggregators which treat all their arguments as a single range, we can mimick the definition of @SUM()@ as follows:
+
+	[text:ExpressionParser.jj:// citation: var]
+
+
+h2. Mathematical Definition
+	
+The function @VAR()@ is defined in the Excel help file as follows:
+
+<notextile><math xmlns='http://www.w3.org/1998/Math/MathML' display='block'>
+	<mfrac><mrow><mo lspace="thinmathspace" rspace="thinmathspace">&#8721;</mo>
+	<mrow><mo>(</mo>
+	<mi>x</mi><mo>-</mo><mover><mrow><mi>x</mi>
+	</mrow><mo>&#x000AF;</mo></mover><msup><mo>)</mo> <mn>2</mn></msup></mrow></mrow><mrow>
+	<mi>n</mi><mo>-</mo><mn>1</mn></mrow></mfrac>
+</math></notextile>
+
+Clearly, what we have here is a sum over a function on _all of the elements_ in the range. How can we rewrite this using Excel functions? We cannot. But AFC defines a couple of "functions of its own":-refrewrite that help.
+
+
+h2. Folding Functions
+
+For a quick example, let's look at how the rewrite rule for @SUM()@ is defined in AFC:
+
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: sum]
+
+This means that the result, @s@, is initially 0. Then, for every @xi@ in the range @xs@, we simply add @xi@ to @s@. In the argument specification, the @*@ indicates that @xs@ represents all remaining arguments as a list (much like @int... a@ in Java).
+
+So the "folding function":-funfold iterates over a list of arguments. For every value in the list, it executes a given computation involving a so-called _accumulator value_ (called @r@ here) and the current value from the list (called @xi@ here). The result becomes the new accumulator value. The final result is the accumulator value at the end of the list.
+
+h4. Special First Argument
+
+The version of @fold@ I used here, @fold/reduce@, is simply @fold@ with a hint that it is OK to directly use the first argument as the starting value, instead of the specified value 0. This is a performance optimization.
+
+
+h2. Rewriting It
+
+Let's recap the mathematical definition:
+
+<notextile><math xmlns='http://www.w3.org/1998/Math/MathML' display='block'>
+	<mfrac><mrow><mo lspace="thinmathspace" rspace="thinmathspace">&#8721;</mo>
+	<mo>(</mo><msub><mi>x</mi> <mi>i</mi></msub><mo>-</mo><mover><mrow><mi>x</mi>
+	</mrow><mo>&#x000AF;</mo></mover><msup><mo>)</mo> <mn>2</mn></msup></mrow><mrow><mi>n</mi>
+	<mo>-</mo><mn>1</mn></mrow></mfrac>
+</math></notextile>
+
+where the average is, of course, defined as:
+
+<notextile><math xmlns='http://www.w3.org/1998/Math/MathML' display='block'>
+	<mover><mi>x</mi><mo>&#x000AF;</mo></mover>
+	<mo>=</mo><mfrac><mrow><mo lspace="thinmathspace" rspace="thinmathspace">&#8721;</mo>
+	<msub><mi>x</mi> <mi>i</mi></msub></mrow><mrow><mi>n</mi>
+	</mrow></mfrac>
+</math></notextile>
+
+We could formulate this as a rewrite rule directly using a @fold@ as in @SUM@ above, with the help of @COUNT@ and @AVERAGE@. However, passing over the list of values only once is generally more efficient (especially once AFC supports cursor-style iteration over large repeating sections). A bit of algebra shows that the above is the same as:
+
+<notextile><math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+    <mfrac>
+    	<mrow>
+    		<mo rspace="thinmathspace" lspace="thinmathspace">&#8721;</mo>
+    		<msup><mi>x</mi> <mn>2</mn></msup>
+    		<mo>-</mo>
+			<mo>(</mo>
+			<mo rspace="thinmathspace" lspace="thinmathspace">&#8721;</mo>
+			<mi>x</mi>
+    		<msup><mo>)</mo> <mn>2</mn></msup>
+    		<mo>/</mo>
+			<mi>n</mi>
+		</mrow>
+		<mrow>
+			<mi>n</mi>
+			<mo>-</mo>
+			<mn>1</mn>
+		</mrow>
+	</mfrac>
+</math>
+</notextile>
+
+So we need both the sum and the sum of squares of the list of values. We do this using two parallel accumulators:
+
+	[text:org/formulacompiler/compiler/internal/build/rewriting/rewrite.rules:// citation: var]
+
+

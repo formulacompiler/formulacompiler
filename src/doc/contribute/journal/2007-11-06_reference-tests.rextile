@@ -1,0 +1,31 @@
+
+h1. Refactoring the Reference Tests
+
+Goals:
+
+	* Better reporting of tests run, and of failures.
+	* Better concurrent execution of tests.
+	* Easier to add new test variant dimensions.
+
+Dimensions today, and in the near future:
+
+	* Numeric type
+	* Caching
+	* Resettable
+	* Compatibility mode (Excel, OOo, etc.)
+	* Bound inputs
+
+Test structure:
+
+	* Run a test row with a given input binding spec and engine.
+	* Differentiate value results and exception results.
+	* Produce an engine for a row with a given input binding spec.
+	* Produce input and output values for a row (assuming full input binding).
+	* Setup tests for a test row varying bound inputs.
+	* Setup tests for a sheet.
+	* Setup tests varying the fixed dimensions; can drive either a sheet or a row test builder.
+
+Producing the documentation:
+
+	* Separate DocumentationBuilder.
+

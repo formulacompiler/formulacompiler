@@ -1,0 +1,58 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Category"
+    - const: "Amount"
+    - const: "Totals"
+  - cells:
+  - cells:
+    - const: "One"
+    - null
+    - expr: =SUM( R[1]C[-1]:R[3]C[-1] )
+      names: [ CategoryTotal ]
+  - cells:
+    - null
+    - const: 100.0
+      names: [ ElementAmount ]
+  - cells:
+    - null
+    - const: 200.0
+  - cells:
+    - null
+    - const: 300.0
+  - cells:
+  - cells:
+    - const: "Two"
+    - null
+    - expr: =SUM( R[1]C[-1]:R[3]C[-1] )
+  - cells:
+    - null
+    - const: 50.0
+  - cells:
+    - null
+    - const: 80.0
+  - cells:
+    - null
+    - const: 90.0
+  - cells:
+  - cells:
+    - const: "TOTAL"
+    - null
+    - expr: =SUM( R[-10]C:R[-1]C )
+      names: [ GrandTotal ]
+
+names:
+- name: Categories
+  ref: R3C1:R12C256
+- name: Category
+  ref: R3C1:R7C256
+- name: Element
+  ref: R4C1:R4C256
+- name: Elements
+  ref: R4C1:R6C256
