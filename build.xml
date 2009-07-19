@@ -353,6 +353,12 @@
 		<mkdir dir="${doc.dir}/contribute/hacking" />
 		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
 			<arg value="-Tpng" />
+			<arg value="-Gsize=5,5" />
+			<arg value="-odoc/flow.png" />
+			<arg file="${src.doc.dir}/flow.dot" />
+		</exec>
+		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
+			<arg value="-Tpng" />
 			<arg value="-Gsize=6,6" />
 			<arg value="-odoc/doc/compile_and_use.png" />
 			<arg file="${src.doc.dir}/doc/compile_and_use.dot" />
