@@ -14,15 +14,15 @@ Have you "downloaded":download/index.htm? Good. Now let's get your first compile
 
 h2. The Problem
 
-We will flesh out the blurb from the home page:
-
-	[jc:org.formulacompiler.tutorials.QuickStart:---- Blurb]
-
 This is a fictional example about finding the total price for a line item with
 
-	* a base article price, 
+	* a base article price,
 	* a count of items, and
 	* the customer category (for automatic rebates).
+
+We will flesh out the following bit of code:
+
+	[jc:org.formulacompiler.tutorials.QuickStart:---- Blurb]
 
 
 h2. The Spreadsheet
@@ -83,7 +83,7 @@ Also add a constant for the path where you saved the spreadsheet. In my code, it
 Let's go through this now:
 
 	* First, we get a new engine builder. It gives us a simplified API onto AFC.
-	
+
 	* We tell the builder to load the spreadsheet you created earlier on. AFC detects the appropriate loader to use by the file's extension. It currently supports Microsoft Excel (.xls) and OpenOffice Calc (.ods), and maybe others - check the "release notes":download/releasenotes.htm for details.
 
 	* We inform the builder of our factory class. It can usually infer from this the input interface, @LineItem@, and the output interface, @PriceFinder@, by itself (if not, you can given them explicitly; you can then also omit the factory interface altogether).
@@ -91,7 +91,7 @@ Let's go through this now:
 	* We tell the builder to bind spreadsheet cells to our interface methods _by name_. In short, any cell named after a method on the input interface, @LineItem@, gets its value from that method in the compiled formula. A cell named after a method on the output interface, @PriceFinder@, is used to implement that method. (The binder is smart about dropping the @get@ prefix on method names and is not case sensitive.)
 
 	* But wait, we don't have any cell names in this spreadsheet. What's going on? AFC automatically creates cell names from row titles (string values in column A are applied as names for corresponding cells in column B) when a sheet has no cell names and you use @bindAllByName()@.
-	
+
 	* That's it. We tell the builder to compile the thing. It returns a so-called _engine_ (which we'll later use to save, reload, and decompile), but the most important method on the engine is the one we use on our second method: @getComputationFactory()@.
 
 

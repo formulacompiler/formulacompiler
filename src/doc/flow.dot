@@ -1,61 +1,45 @@
 digraph "AFC Usage" {
-	fontname = "Helvetica";
+	fontname = "Helvetica"
 
-	node [ shape = box, fontname = "Helvetica" ];
-	edge [ fontname = "Helvetica" ];
-	
-	subgraph input {
-		
-		{ node [style = filled, color = "#91BAD0" ];
-		xls [ label = "Excel .xls File", shape=octagon ];
-		xml [ label = "Excel .xml File", shape=octagon ];
-		ods [ label = "OpenOffice .ods File", shape=octagon ];
-		}
-	}
-	
-	subgraph cluster_runtime {
-		label = "Your Application Compiling & Using Spreadsheet";
-		style = filled;
-		color = "#DFD8CB";
+	node [shape = octagon, style = filled, fillcolor="#91BAD0"]
+	file [label="Spreadsheet File\n.xls, .xml, .ods"]
 
-		{ node [ style = filled, fillcolor = "#CCCC00" ];
-		comp [ label = "AFC Compiler" ];
-		run [ label = "AFC Runtime" ];
-		}
-		
-		{ node [ style = filled, fillcolor = "#E1FAC9" ];
-		bcfact [ label = "Factory Instance" ];
-		calc [ label = "Computation Instance" ];
-		}
+	node [shape=plaintext, fillcolor = "#D1E3EB"]
+	inputs [label=<
+		<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" ALIGN="LEFT">
+			<TR><TD ALIGN="LEFT">class MyLineItem</TD></TR>
+			<TR><TD ALIGN="LEFT" PORT="cust">  double customerRebate()</TD></TR>
+			<TR><TD ALIGN="LEFT" PORT="art">  double articleRebate()</TD></TR>
+			<TR><TD ALIGN="LEFT" PORT="cat">  int customerCategory()</TD></TR>
+		</TABLE>
+	>]
 
-		{ node [ style = filled, fillcolor = "#D1E3EB" ];
-		inp [ label = "Input Instance" ];
-		outp [ label = "Output Interface" ];
-		fact [ label = "Factory Interface" ];
-		}
-				
-		{ rank = same; bcfact; fact; }
-		{ rank = same; calc; inp; outp; }
-	}
+	node [shape=plaintext, fillcolor = "#E1FAC9"]
+	impl [label=<
+		<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" ALIGN="LEFT">
+			<TR><TD ALIGN="LEFT">class GeneratedRebateFinder</TD></TR>
+			<TR><TD ALIGN="LEFT">  GeneratedRebateFinder(MyLineItem inputs)</TD></TR>
+			<TR><TD ALIGN="LEFT" PORT="reb">  double rebate()
+<BR ALIGN="LEFT"/>    double B3 = inputs.customerCategory();
+<BR ALIGN="LEFT"/>    double B1 = inputs.customerRebate();
+<BR ALIGN="LEFT"/>    double B2 = inputs.articleRebate();
+<BR ALIGN="LEFT"/>    return <FONT COLOR="red">B3==1.0 ? B1+B2 : Math.max(B1,B2)</FONT>;</TD></TR>
+		</TABLE>
+	>]
 
-	{ edge [ label = "input to" ];
-	xls -> comp;
-	xml -> comp;
-	ods -> comp;
-	inp -> calc;
-	}
-	
-	{ edge [ label = "builds a" ];
-	comp -> bcfact -> calc;
-	}
+	node [shape=plaintext, fillcolor = "#D1E3EB"]
+	intf [label=<
+		<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" ALIGN="LEFT">
+			<TR><TD ALIGN="LEFT">interface MyRebateFinder</TD></TR>
+			<TR><TD ALIGN="LEFT" PORT="reb">  double rebate()</TD></TR>
+		</TABLE>
+	>]
 
-	{ edge [ label = "implements", style=dotted ];
-	calc -> outp;
-	bcfact -> fact;
-	}
+	inputs -> impl [label="input to"]
 
-	{ edge [ style = dotted, label = "uses" ];
-	calc -> run;
-	}
+	edge [style = dotted]
+	file -> impl [label="defines"]
+	impl -> intf [label="implements"]
 
+	{rank=same; inputs; impl; intf }
 }

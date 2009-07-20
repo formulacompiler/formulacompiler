@@ -3,19 +3,19 @@
 	<description>Builds, tests, and packages the Abacus Formula Compiler. See doc/contribute/hacking/build.htm for details.</description>
 
 	<!--	Conventions used in this build script:
-	
+
 		All top-level targets are simple redirects to corresponding internal targets.
 		This gives a quick overview and ensures a clean separation between API and implementation.
-	
+
 		All targets that do something start with @.
 		They have no dependencies except for @init and are thus very reusable.
 		They are accessible to users for those who know what they are doing. :)
-		
+
 		Dependencies are managed by internal targets starting with -.
 		They use the @ targets to do the actual work.
-		
+
 		External configuration is initialized by build.default.properties.
-		Values in build.properties (if it exists) take precedence. 
+		Values in build.properties (if it exists) take precedence.
 	-->
 
 
@@ -136,7 +136,7 @@
 		<ant dir="${comps.dir}/spreadsheet.opendocument" target="${target}" inheritall="false">
 			<property name="@no-init" value="true" />
 		</ant>
-		
+
 		<echo>- system</echo>
 		<ant dir="${comps.dir}/system" target="${target}" inheritall="false">
 			<property name="@no-init" value="true" />
@@ -146,7 +146,7 @@
 	</target>
 
 	<!-- compile -->
-	
+
 	<target name="@compile" depends="@init">
 		<antcall target="--comps-do">
 			<param name="target" value="compile" />
@@ -353,7 +353,7 @@
 		<mkdir dir="${doc.dir}/contribute/hacking" />
 		<exec dir="${basedir}" executable="dot" vmlauncher="false" failonerror="true">
 			<arg value="-Tpng" />
-			<arg value="-Gsize=5,5" />
+			<arg value="-Gsize=7,5" />
 			<arg value="-odoc/flow.png" />
 			<arg file="${src.doc.dir}/flow.dot" />
 		</exec>
@@ -445,10 +445,10 @@
 
 	<target name="@cite-init" depends="@init">
 		<path id="jcite.classpath">
-			
+
 			<!-- Ensure we use AFC's patched version of JExcelAPI to parse .xls files. -->
 			<fileset dir="${comps.dir}/spreadsheet.excel.xls/lib/impl" includes="jxl.jar" />
-			
+
 			<fileset dir="${jcite.build.dir}" includes="*.jar" />
 			<fileset dir="${jcite.lib.dir}" includes="*.jar" />
 		</path>
@@ -484,7 +484,7 @@
 			<pathelement location="${comps.dir}/compiler/src/build/resources" />
 
 			<pathelement location="${comps.dir}/spreadsheet/src/test/java" />
-			
+
 			<pathelement location="${comps.dir}/system/src/examples/java" />
 			<pathelement location="${comps.dir}/system/src/examples/data" />
 
@@ -506,11 +506,11 @@
 
 		<jcite srcdir="${temp.doc.dir}" destdir="${doc.dir}"
 				projectpath="${basedir}"
-				sourcepathref="jcite.sourcepath" 
+				sourcepathref="jcite.sourcepath"
 				tripwireFile="${src.dir}/jcite-tripwires.txt"
 				tripwireNewLine="\n"
-				acceptChanges="${tripups.accept}" 
-				diffPath="${temp.dir}/tripups" 
+				acceptChanges="${tripups.accept}"
+				diffPath="${temp.dir}/tripups"
 				differ="${jcite.differ}">
 			<include name="**/*.htm" />
 			<include name="**/*.html" />
@@ -553,12 +553,12 @@
 		<property name="javadoc.cite.path" refid="javadoc.cite.path" />
 
 		<javadoc destdir="${javadoc.dir}"
-				public="true" 
-				windowtitle="${javadoc.title}" 
-				use="true" 
-				sourcepath="${javadoc.src.path}" 
-				additionalParam="-notimestamp -tagletPath ${jcite.classpath} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${javadoc.cite.path}" 
-				stylesheetfile="${src.doc.dir}/doc/javadoc/style.css" 
+				public="true"
+				windowtitle="${javadoc.title}"
+				use="true"
+				sourcepath="${javadoc.src.path}"
+				additionalParam="-notimestamp -tagletPath ${jcite.classpath} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${javadoc.cite.path}"
+				stylesheetfile="${src.doc.dir}/doc/javadoc/style.css"
 				overview="${src.doc.dir}/doc/javadoc/overview.html">
 			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
 		</javadoc>
@@ -716,7 +716,7 @@
 	<assertions id="test.assertions" enablesystemassertions="no">
 		<enable/>
 	</assertions>
-	
+
 	<target name="-cover" depends="-cover-cobertura" />
 	<target name="-cover-cobertura" depends="-build, @cover-cobertura" />
 	<target name="-cover-emma" depends="-build, @cover-emma" />

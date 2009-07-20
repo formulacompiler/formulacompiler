@@ -1,16 +1,9 @@
 
-h1. Integrate Calculations Defined in Spreadsheets into Java Apps
+h1. Integrate Calculations Defined In Spreadsheets Into Java Apps
 
-_Let your users model the calculation of key values in spreadsheets, but integrate the resulting computations natively into your Java applications. Users get familiar and versatile modelling. You get little effort, high performance, no deployment hassles, and a choice of GPL or a commercial license._
+_Let your users model the calculation of key values in spreadsheets, but integrate the computations natively into your Java applications. Users get familiar and versatile modelling. You get little effort, high performance, no deployment hassles, and GPL or commercial licensing._
 
-In many applications, users have different and ever-changing ideas as to how certain key values should be calculated. For example:
-
-	* prices, rebates, and shipping rates in order processing,
-	* asset valuations and risk estimates in portfolio management,
-	* insurance premiums in sales force apps,
-	* wages in payroll.
-
-With AFC(Abacus Formula Compiler), you *give your users unprecedented freedom in modelling the calculcation* of these values using familiar tools ("Microsoft Excel":-excel or "OpenOffice Calc":-ooc, for instance). And you *unburden yourself from* having to support their different needs through *a multitude of configuration options*.
+*Calculation of certain key values often varies* from user to user, and over time. For example prices and shipping rates in order entry, asset valuations in portfolio management, or insurance premiums in sales force apps.
 
 <notextile>
 <div style="float: right; margin-left: 2em; margin-bottom: 2ex">
@@ -19,39 +12,27 @@ With AFC(Abacus Formula Compiler), you *give your users unprecedented freedom in
 </div>
 </notextile>
 
-Users model a calculation in a spreadsheet file with designated input and output cells. The input cells hold generic example values, the output cells are typically formula cells.
+Don't add endless configuration options to your code for this. *Use the power and familiarity of spreadsheets* instead. Users model their calculations in "Microsoft Excel":-excel or "OpenOffice Calc":-ooc.
 
-From this spreadsheet file, *AFC compiles a plain Java class* that computes specific output values given a set of specific input values. For example, compute the value of the formula cell _B5_ given _B1=2%_, _B2=8%_, and _B3=1_ as inputs. The compiled class pulls values for input cells from methods on an input interface you define, and it implements the methods on a output interface you define as well. As such, it can *integrate very directly into your existing code* (see graphic below).
+Using AFC your application *compiles* the spreadsheet files into Java *classes that compute output values*, then uses them with actual input values within its business logic.
 
 <notextile>
-<div style="float: right">
+<div style="float: none">
 <img title="Overview" src="flow.png" alt="Overview" />
-<p align="center">
-(<span style="background:#91BAD0">user created</span>,
-<span style="background:#D1E3EB">your interfaces</span>,
-<span style="background:#CCCC00">AFC</span>,
-<span style="background:#E1FAC9">generated</span>)
-</p>
 </div>
 </notextile>
 
-Since AFC compiles the calculations directly down to plain, thread-safe Java classes, you can *use them in performance-critical code paths*, like recomputing the valuations of thousands of assets or the wages of thousands of employees.
+The classes are *plain, thread-safe, and high-performance* so you can recompute the valuations of thousands of assets or the wages of thousands of employees. And for *financial applications* you can compile for *@BigDecimal@* instead of @double@.
 
-AFC also lets you choose between using @double@ and @BigDecimal@ for its internal calculations, so it *fits both scientific and financial applications*.
-
-Both when compiling the Java classes, and when running the compiled computations, AFC does not need Excel, OpenOffice, or a JDK to be installed. So you can *deploy it on any platform* supported by Java.
-
-AFC is "available":download/index.htm under the *GPL and a "commercial license":download/license.htm*.
+AFC does not need Excel, OpenOffice, or a JDK to be installed, so you can *deploy on any platform* supported by Java. It is "available":download/index.htm under the *GPL and a commercial license* ("details":download/license.htm).
 
 <div style="clear: both"></div>
 
-Our "Quick Start":quick.htm has you *up and running in just a few minutes*. It takes just a little more than these few lines of code:
+h3. What now?
 
-<pre><code
->	[jc:org.formulacompiler.tutorials.QuickStart:---- Blurb; omit -]
-</code></pre>
-
-"Download":download/index.htm AFC now, or "learn more":doc/index.htm about the goals, the design, the API, and the supported functions.
+	* "Download":download/index.htm Abacus Formula Compiler for Java.
+	* "Try a full example":quick.htm with our quick start guide.
+	* "Learn more":doc/index.htm about the goals, the design, the API, and the supported functions.
 
 
 <% @news= <<END

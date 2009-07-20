@@ -3475,21 +3475,6 @@ __@@__
 		PriceFinder priceFinder = factory./**/newInstance/**/( item );
 		BigDecimal price = priceFinder./**/getPrice/**/();
 ___@_@___
-jc:org.formulacompiler.tutorials.QuickStart:---- Blurb; omit -
-__@@__
-// Compile price finding factory and strategy implementation from spreadsheet:
-		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder./**/loadSpreadsheet/**/( new File( PATH, /**/"CustomPriceFormula.xls"/**/ ) );
-		builder.setFactoryClass( PriceFinderFactory.class );
-		builder.bindAllByName();
-		Engine engine = builder./**/compile/**/();
-		PriceFinderFactory factory = (PriceFinderFactory) engine.getComputationFactory();
-
-		// Use it to compute a line item price:
-		LineItem item = getCurrentLineItem();
-		PriceFinder priceFinder = factory./**/newInstance/**/( item );
-		BigDecimal price = priceFinder./**/getPrice/**/();
-___@_@___
 jc:org.formulacompiler.tutorials.QuickStart:---- Compile
 __@@__
 private SaveableEngine compile() throws FileNotFoundException, IOException, CompilerException, EngineException
