@@ -962,22 +962,30 @@ abstract class ExpressionCompiler
 		final Object source = _expressionNodeForLogging.getSource();
 		if (source instanceof CellAddress) {
 			final CellAddress cellAddress = (CellAddress) source;
-			final GeneratorAdapter mv = mv();
-			final int valLocal = mv.newLocal( type() );
-			mv.storeLocal( valLocal );
-			mv.loadLocal( valLocal );
-			if (DataType.NUMERIC.equals( dataType() )) {
-				compileConversionTo( Number.class );
-			}
-
 			final String definedName = _expressionNodeForLogging.getDefinedName();
-			compile_util_log( cellAddress.getSheetName(), cellAddress.getColumnIndex(), cellAddress.getRowIndex(), definedName );
-
-			mv.loadLocal( valLocal );
+			final boolean input = _expressionNodeForLogging.isInput();
+			final boolean output = _expressionNodeForLogging.isOutput();
+			compileLogging( cellAddress, definedName, input, output );
 		}
 	}
 
-	protected abstract void compile_util_log( String _sheetName, int _columnIndex, int _rowIndex, final String _definedName ) throws CompilerException;
+	void compileLogging( final CellAddress _cellAddress, final String _name, boolean _input, boolean _output ) throws CompilerException
+	{
+		final GeneratorAdapter mv = mv();
+		final int valLocal = mv.newLocal( type() );
+		mv.storeLocal( valLocal );
+		mv.loadLocal( valLocal );
+		if (DataType.NUMERIC.equals( dataType() )) {
+			compileConversionTo( Number.class );
+		}
+
+		compile_util_log( _cellAddress.getSheetName(), _cellAddress.getColumnIndex(), _cellAddress.getRowIndex(), _name, _input, _output );
+
+		mv.loadLocal( valLocal );
+	}
+
+	protected abstract void compile_util_log( String _sheetName, int _columnIndex, int _rowIndex,
+			String _definedName, boolean _input, boolean _output ) throws CompilerException;
 
 
 	static final boolean isSubSectionIn( Iterable<ExpressionNode> _elts )

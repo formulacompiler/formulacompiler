@@ -101,18 +101,26 @@ public class BonusPerEmployee_LogComputation extends MultiFormatTestFactory.Spre
 
 		// ---- events
 		final List<SpreadsheetCellComputationEvent> computationEvents = listener.events;
-		assertEquals( 10, computationEvents.size() );
+		assertEquals( 18, computationEvents.size() );
 		assertEvents( new String[]{
+				"-> 20000.0000 in Sheet1!B7(BonusTotal) in section: ROOT",
+				"-> 5600.0000 in Sheet1!B2(BaseSalary) in section: Sheet1!A2:Sheet1!F4(Employees)[0]",
+				"-> 20.0000 in Sheet1!C2(HoursOvertime) in section: Sheet1!A2:Sheet1!F4(Employees)[0]",
+				"-> 50.0000 in Sheet1!B6(OvertimeSalaryPerHour) in section: ROOT",
 				"6600.0000 in Sheet1!D2 in section: Sheet1!A2:Sheet1!F4(Employees)[0]",
+				"-> 5400.0000 in Sheet1!B2(BaseSalary) in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
+				"-> 15.0000 in Sheet1!C2(HoursOvertime) in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
 				"6150.0000 in Sheet1!D2 in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
+				"-> 5500.0000 in Sheet1!B2(BaseSalary) in section: Sheet1!A2:Sheet1!F4(Employees)[2]",
+				"-> 0 in Sheet1!C2(HoursOvertime) in section: Sheet1!A2:Sheet1!F4(Employees)[2]",
 				"5500.0000 in Sheet1!D2 in section: Sheet1!A2:Sheet1!F4(Employees)[2]",
 				"18250.0000 in Sheet1!D5 in section: ROOT",
 				"0.3616 in Sheet1!E2 in section: Sheet1!A2:Sheet1!F4(Employees)[0]",
-				"7232.0000 in Sheet1!F2(BonusAmount) in section: Sheet1!A2:Sheet1!F4(Employees)[0]",
+				"<- 7232.0000 in Sheet1!F2(BonusAmount) in section: Sheet1!A2:Sheet1!F4(Employees)[0]",
 				"0.3369 in Sheet1!E2 in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
-				"6738.0000 in Sheet1!F2(BonusAmount) in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
+				"<- 6738.0000 in Sheet1!F2(BonusAmount) in section: Sheet1!A2:Sheet1!F4(Employees)[1]",
 				"0.3013 in Sheet1!E2 in section: Sheet1!A2:Sheet1!F4(Employees)[2]",
-				"6026.0000 in Sheet1!F2(BonusAmount) in section: Sheet1!A2:Sheet1!F4(Employees)[2]"
+				"<- 6026.0000 in Sheet1!F2(BonusAmount) in section: Sheet1!A2:Sheet1!F4(Employees)[2]"
 		}, computationEvents );
 		// ---- events
 	}
@@ -158,7 +166,8 @@ public class BonusPerEmployee_LogComputation extends MultiFormatTestFactory.Spre
 
 	private static void assertEvent( int eventNo, String _expected, SpreadsheetCellComputationEvent _event )
 	{
-		String actual = String.format( Locale.ENGLISH, "%s in %s in section: %s",
+		final String actual = String.format( Locale.ENGLISH, "%s%s in %s in section: %s",
+				_event.isInput() ? "-> " : _event.isOutput() ? "<- " : "",
 				_event.getValue(), _event.getCellInfo(), _event.getSectionInfo() );
 		assertEquals( "Event #" + eventNo, _expected, actual );
 	}

@@ -44,7 +44,7 @@ public class ConstantExpressionCellListenerSupportImpl implements ConstantExpres
 		this.listener = _listener;
 	}
 
-	public void constantExpressionEliminated( final CellModel _cell, final Object value )
+	public void constantExpressionEliminated( final CellModel _cell, final Object _value )
 	{
 		final Object cellSource = _cell.getSource();
 		if (cellSource instanceof CellAddress) {
@@ -54,7 +54,10 @@ public class ConstantExpressionCellListenerSupportImpl implements ConstantExpres
 			final Object sectionSource = sectionModel.getSource();
 			final RangeAddress range = sectionSource instanceof RangeAddress ? (RangeAddress) sectionSource : null;
 			final SectionInfo sectionInfo = new SectionInfoImpl( sectionModel.getName(), range, -1 );
-			final SpreadsheetCellComputationEvent event = new SpreadsheetCellComputationEvent( cellInfo, sectionInfo, value );
+			final boolean input = _cell.isInput();
+			final boolean output = _cell.isOutput();
+			final SpreadsheetCellComputationEvent event = new SpreadsheetCellComputationEvent( cellInfo, sectionInfo,
+					_value, input, output );
 			this.listener.constantCellCalculated( event );
 		}
 	}

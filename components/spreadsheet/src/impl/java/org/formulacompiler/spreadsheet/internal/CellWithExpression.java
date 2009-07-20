@@ -75,6 +75,12 @@ public class CellWithExpression extends CellInstance
 		return exp != null ? exp.toString() : null;
 	}
 
+	@Override
+	public void copyTo( final RowImpl _row )
+	{
+		throw new UnsupportedOperationException( "copyTo is not supported in " + getClass().getName() );
+	}
+
 	private Object getDescribableExpression()
 	{
 		try {

@@ -125,6 +125,9 @@ public abstract class CellInstance extends AbstractStyledElement
 	}
 
 
+	public abstract void copyTo( RowImpl _row );
+
+
 	@Override
 	public void yamlTo( YamlBuilder _to )
 	{

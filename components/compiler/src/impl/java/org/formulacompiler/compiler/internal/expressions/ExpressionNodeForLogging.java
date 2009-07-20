@@ -33,19 +33,25 @@ public class ExpressionNodeForLogging extends ExpressionNode
 {
 	private final Object source;
 	private final String definedName;
+	private final boolean input;
+	private final boolean output;
 
-	private ExpressionNodeForLogging( final Object _source, final String _definedName )
+	private ExpressionNodeForLogging( Object _source, String _definedName, boolean _input, boolean _output )
 	{
 		super();
 		this.source = _source;
 		this.definedName = _definedName;
+		this.input = _input;
+		this.output = _output;
 	}
 
-	public ExpressionNodeForLogging( final ExpressionNode _exp, final Object _source, final String _definedName )
+	public ExpressionNodeForLogging( final ExpressionNode _exp, final Object _source, final String _definedName, boolean _input, boolean _output )
 	{
 		super( _exp );
 		this.source = _source;
 		this.definedName = _definedName;
+		this.input = _input;
+		this.output = _output;
 	}
 
 	public Object getSource()
@@ -58,10 +64,20 @@ public class ExpressionNodeForLogging extends ExpressionNode
 		return this.definedName;
 	}
 
+	public boolean isInput()
+	{
+		return this.input;
+	}
+
+	public boolean isOutput()
+	{
+		return this.output;
+	}
+
 	@Override
 	protected ExpressionNode innerCloneWithoutArguments()
 	{
-		return new ExpressionNodeForLogging( this.source, this.definedName );
+		return new ExpressionNodeForLogging( this.source, this.definedName, this.input, this.output );
 	}
 
 	@Override

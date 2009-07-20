@@ -55,6 +55,16 @@ public final class RowImpl extends AbstractStyledElement implements Spreadsheet.
 	}
 
 
+	public void copy()
+	{
+		final RowImpl row = new RowImpl( getSheet() );
+		for (CellInstance cell : this.cells) {
+			if (cell != null) cell.copyTo( row );
+			else row.getCellList().add( null );
+		}
+	}
+	
+
 	public SheetImpl getSheet()
 	{
 		return this.sheet;
@@ -70,12 +80,9 @@ public final class RowImpl extends AbstractStyledElement implements Spreadsheet.
 		final Cell[] result = new Cell[ this.cells.size() ];
 		for (int i = 0; i < this.cells.size(); i++) {
 			final CellInstance cellInst = this.cells.get( i );
-			if (cellInst == null) {
-				result[ i ] = new CellIndex( spreadsheet, sheetIndex, i, rowIndex );
-			}
-			else {
-				result[ i ] = cellInst.getCellIndex();
-			}
+			result[ i ] = new CellIndex( spreadsheet, sheetIndex, i, rowIndex );
+			assert cellInst == null || result[ i ].equals( cellInst.getCellIndex() )
+					: "Expected " + result[ i ] + " but was " + cellInst.getCellIndex();
 		}
 		return result;
 	}
