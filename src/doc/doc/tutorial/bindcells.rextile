@@ -1,0 +1,104 @@
+
+h1. Binding Cells
+
+
+Input and output cells of a computation defined through a spreadsheet are bound to methods of plain Java interfaces or classes.
+
+<%= toc 2, 3 %>
+
+
+h2. Inputs
+
+To bind spreadsheet cells to variable input values, you must have an interface or a class defining getters for your input values. This is typically a public static inner type, defined explicitly for this purpose:
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- Input]
+
+In order for the interface to be accessible to the generated engine, it must be @public@. This is because the engine is not loaded by the same class loader as your own classes (read "why this matters":http://www.artima.com/insidejvm/ed2/security2.html).
+
+You have to provide this type to the engine builder:
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- setupBuilder; highlight -in-; strip -out-]
+
+In the "simple usage scenario":basics.htm, you just passed a factory, and AFC inferred the input and output types by itself. Furthermore, AFC did all the cell binding automatically for you. Now you want to get full control over binding. To do this, you access the loaded spreadsheet, and the so called _root section binder_. This interface controls the binding of cells for the entire spreadsheet (as opposed to contained "sections of variable extent":repeatingsections.htm).
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- getBinder]
+
+You then tell the binder which cells are input cells, and to which getter methods they should be bound:
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainInputs1]
+
+Since we already told the binder about @Input.class@, there is a shorter version for this:
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainInputs2]
+
+
+h3. Parameters
+
+You can also bind to parametrized methods. The arguments to the method are either constant values determined at compile-time of the engine, or else cell values computed by the engine. First, an example with only constant parameters:
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- bindParamInputs]
+
+Binding to cell values computed at run-time is equally easy (you can use any of the spreadsheet methods returning a cell reference):
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- bindDynamicParamInputs]
+
+By supplying a @CallFrame@ instead of just a method, you can even chain calls. In this example, we do the equivalent of @getName().length()@, where @getName()@ returns a @String@:
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- bindChainedInputs]
+
+The range of supported parameter data types is documented in the topic on "binding by name":bindbyname.htm.
+
+
+h3. Exceptions
+
+You cannot, as of the current version, bind to input methods throwing checked exceptions. We are thinking about extending AFC to support this in the future, provided that _all_ bound output methods declare _all_ the checked exceptions declared by the bound input methods.
+
+
+h2. Outputs
+
+Outputs that the spreadsheet computes are bound to methods of an interface or a dedicated abstract class you define. This type is implemented or subclassed by the generated computation engine, which overrides all methods bound to output cells so they perform the computation specified in the spreadsheet.
+
+Your output type is typically a static inner type. In order for it to be accessible to the generated computation, it must be @public@.
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- Output]
+
+Like the input type, you also provide to the engine builder prior to using it:
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- setupBuilder; highlight -out-; strip -in-]
+
+Now that the type is in place, we can bind output cells to it (again, there is a longer and a shorter version):
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- bindPlainOutputs]
+
+
+h3. Parameters
+
+Like inputs, you can also bind outputs to parametrized methods. This is explained in detail in the topic on "binding by name":bindbyname.htm.
+
+
+h2. <a name="Defaults">Defaults</a>
+
+If you supply implementations for your output methods, they serve as defaults in case they are not bound to an output cell of the spreadsheet. This is mainly useful when outputs are bound generically (by cell name, for instance).
+
+To access input values when computing default output values, you can define a constructor that takes the input type as its sole parameter. AFC then automatically calls that constructor with the current inputs. You can also access other output values by calling their corresponding methods, of course.
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- OutputWithDefaults]
+
+When used together with a factory class, you often want the factory method to use the base output interface (@Output@) as its return type, not the type of the implementation that provides the defaults (@OutputWithDefaults@). Like so:
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- Factory]
+
+AFC supports this. Simply override the output class in the @EngineBuilder@ so it does not get inferred from the factory method. Like this:
+
+	[jc:org.formulacompiler.tutorials.BindingCells:---- setupBuilderWithDefaults]
+
+
+h2. Generated Code
+
+The above bindings, together with this spreadsheet:
+
+	[xc:org/formulacompiler/tutorials/BindingCells.xls]
+
+result in the following compiled code (when not using defaults for the outputs):
+
+	[jc:binding/org.formulacompiler.gen.$Root]

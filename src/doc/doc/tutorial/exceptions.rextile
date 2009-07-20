@@ -1,0 +1,169 @@
+
+h1. Exceptions Thrown By Computations
+
+In spreadsheet applications, error situations are flagged by the affected cells showing special error values, like @#VALUE!@. This is very much like throwing an exception in Java, so this is what AFC does in compiled computations.
+
+<%= toc %>
+
+
+
+h2. Errors (@#VALUE!@ etc.)
+
+
+In AFC, computations that result in _errors_ like @#VALUE!@, @#NUM!@, @#DIV/0!@, etc. do:
+
+	* throw a @FormulaException@ where AFC tries to give a little more information about the cause of the error in the message,
+	* throw Java's own @ArithmeticException@, or
+	* return one of Java's own @Double.POSITIVE_INFINITY@, @Double.NEGATIVE_INFINITY@, or @Double.NaN@.
+
+This means AFC uses Java's own arithmetic semantics wherever possible. So when we bind cells from this sheet:
+
+	[xc:org/formulacompiler/tutorials/Exceptions.xls:Cite_Errors]
+
+B3 yields (using a bunch of test-specific helper methods whose name should make clear what they do - if not, look at the @org.formulacompiler.tutorials.Exceptions@ test class):
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- NUM]
+
+B4, likewise, yields:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- VAL]
+
+B5 yields:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- DIV]
+
+
+h5. Compile-time
+
+If we compile B3 without any bound inputs, meaning the result will _always_ be @#NUM!@, AFC still raises the error when the computation is run, not during compilation of the engine (which in principle it could):
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- NUM_fold]
+
+h5. Caching
+
+If we enable "caching":caching.htm, repeated executions still repeatedly throw the error:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- NUM_cached]
+
+However, AFC makes no guarantee that the failure is cached, nor that it always returns the same error instance. But it will always return the same error type and description. In fact, in the current version, AFC will not cache it but re-compute faulting expression(s) on every access.
+
+
+h3. Error Propagation
+
+As in spreadsheet applications, errors are propagated to other cells referencing them (which, of course, is what you'd expect from Java exceptions), so in:
+
+	[xc:org/formulacompiler/tutorials/Exceptions.xls:Cite_ErrorPropagation]
+
+B6, like cell B3 before, yields:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- errProp]
+
+
+h3. Handling Errors In Expressions
+
+Errors can be detected and handled in spreadsheet formulas using the @ISERR(exp)@ function, so in:
+
+	[xc:org/formulacompiler/tutorials/Exceptions.xls:Cite_IsErr]
+
+B7 yields:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- isErr]
+
+which compiles to:
+
+	[jc:exceptions/iserr/org.formulacompiler.gen.$Root]
+
+
+h3. Throwing Errors
+
+You can also throw your own errors in input getter methods:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- throwingInput]
+
+which yields:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- throwErr]
+
+You can, in fact, throw any unchecked exception. Throwing checked exceptions is currently not supported (because AFC would have to make sure that _all_ bound output methods support _all_ of the checked exceptions thrown by any bound input method).
+
+
+
+h2. Missing Values (@#N/A@)
+
+
+Spreadsheets also have a special function, @NA()@, that is similar to throwing an exception in Java code. It returns @#N/A@, which propagates to other cells like errors. You can also enter #N/A directly in cells, which AFC also supports. AFC throws a @NotAvailableException@ when encountering any of these forms of @#N/A@. So in:
+
+	[xc:org/formulacompiler/tutorials/Exceptions.xls:Cite_NA]
+
+B9 and B10 yield:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- NA]
+
+
+h3. Throwing @#N/A@
+
+Like errors, you can throw @NotAvailableException@ in input getter methods to signal data that is not available:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- inputNA]
+
+which yields:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- throwNA]
+
+
+h3. Handling @#N/A@ In Expressions
+
+Again like errors, you can handle @#N/A@, but using @ISNA(exp)@, as in:
+
+	[xc:org/formulacompiler/tutorials/Exceptions.xls:Cite_IsNA]
+
+B7 yields:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- isNA]
+
+which compiles to:
+
+	[jc:exceptions/isna/org.formulacompiler.gen.$Root]
+
+
+h2. Interplay
+
+
+h3. Precedence
+
+When you evaluate something like:
+
+	[xc:org/formulacompiler/tutorials/Exceptions.xls:Cite_Precedence]
+
+the result depends on the order in which the arguments to the functions or operators are evaluated. While mostly compatible with the way spreadsheet applications behave for this, AFC makes no guarantee that this is always so. This is because the constant folder can change the order in which operands are evaluated.
+
+
+h3. Handling @#N/A@ And Errors In Parallel
+
+The @ISERROR(exp)@ function is like @OR(ISNA(exp), ISERR(exp))@, but evaluates @exp@ only once. So in:
+
+	[xc:org/formulacompiler/tutorials/Exceptions.xls:Cite_IsError]
+
+B16 and B17 yield:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- isError]
+
+This is implemented by handling @ComputationException@, from which both @FormulaException@ and @NotAvailableException@ are derived. The Excel function @ERROR.TYPE(exp)@ is currently not supported by AFC.
+
+And, for the sake of completeness, for B18 and B19 we get:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- isXonY]
+
+
+h3. Effect on @COUNT()@ and @COUNTA()@
+
+In spreadsheet applications, the function @COUNT()@ _ignores_ error values and @#N/A@ (does not count them), while @COUNTA()@ does. Both do _not propagate_ the exception.
+
+In AFC, this is similar, except that because of a known limitation, @COUNT()@ behaves exactly like @COUNTA()@, meaning it counts exception values. So in:
+
+	[xc:org/formulacompiler/tutorials/Exceptions.xls:Cite_Count]
+
+B21 and B22 yield:
+
+	[jc:org.formulacompiler.tutorials.Exceptions:---- count]
+

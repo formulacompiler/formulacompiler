@@ -1,0 +1,71 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Name"
+    - const: "Base salary"
+    - const: "Overtime"
+    - const: "Total"
+    - const: "Bonus %"
+    - const: "Bonus amt"
+  - cells:
+    - const: "Ann"
+    - const: 5600.0
+    - const: 20.0
+    - expr: =(BaseSalary + (Overtime * OvertimeRate))
+    - expr: =(Salary / SalaryTotal)
+    - expr: =(BonusTotal * BonusPercentage)
+  - cells:
+    - const: "Beth"
+    - const: 5400.0
+    - const: 15.0
+    - expr: =(BaseSalary + (Overtime * OvertimeRate))
+    - expr: =(Salary / SalaryTotal)
+    - expr: =(BonusTotal * BonusPercentage)
+  - cells:
+    - const: "Charlie"
+    - const: 5500.0
+    - const: 0.0
+    - expr: =(BaseSalary + (Overtime * OvertimeRate))
+    - expr: =(Salary / SalaryTotal)
+    - expr: =(BonusTotal * BonusPercentage)
+  - cells:
+    - const: "Total"
+    - null
+    - null
+    - expr: =SUM( Salary )
+      names: [ SalaryTotal ]
+  - cells:
+    - const: "Overtime rate"
+    - const: 50.0
+      names: [ OvertimeRate ]
+  - cells:
+    - const: "Bonus total"
+    - const: 20000.0
+      names: [ BonusTotal ]
+
+- name: Sheet2
+  rows:
+
+- name: Sheet3
+  rows:
+names:
+- name: BaseSalary
+  ref: R2C2:R4C2
+- name: BonusAmount
+  ref: R2C6:R4C6
+- name: BonusPercentage
+  ref: R2C5:R4C5
+- name: Employees
+  ref: R2C1:R4C6
+- name: Name
+  ref: R2C1:R4C1
+- name: Overtime
+  ref: R2C3:R4C3
+- name: Salary
+  ref: R2C4:R4C4

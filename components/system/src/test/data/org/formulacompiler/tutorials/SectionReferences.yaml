@@ -1,0 +1,198 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Vertically repeating section:"
+    - const: "Name"
+    - const: "Value"
+    - const: "RepValue"
+    - const: "SubName"
+    - const: "SubValue"
+    - const: "SubRef"
+    - const: "InnerRef"
+    - const: "InnerSum"
+    - const: "SelfSum"
+    - const: "OuterSum"
+    - const: "Value2"
+    - const: "Outer cells"
+  - cells:
+    - const: "Outer cells:"
+    - null
+    - const: -1.0
+    - const: -1.0
+    - null
+    - const: -10.0
+  - cells:
+    - null
+    - const: "One"
+    - const: 1.0
+    - const: 1.0
+    - const: "One.A"
+    - const: 10.0
+    - expr: =(RC[-1] + RC[-4])
+    - expr: =(RC[-5] + 1.0)
+    - expr: =SUM( RC[-3]:R[1]C[-2] )
+    - expr: =(SUM( R3C[-7]:R6C[-7] ) + RC[-7])
+    - expr: =(SUM( R2C[-5]:R11C[-5] ) + RC[-8])
+    - const: 3.0
+    - const: 4711.0
+  - cells:
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "One.B"
+    - const: 20.0
+    - expr: =(RC[-1] + R[-1]C[-4])
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 4712.0
+  - cells:
+    - null
+    - const: "Two"
+    - const: 2.0
+    - const: 2.0
+    - const: "Two.A"
+    - const: 30.0
+    - expr: =(RC[-1] + RC[-4])
+    - expr: =(RC[-5] + 1.0)
+    - expr: =SUM( RC[-3]:RC[-2] )
+    - expr: =(SUM( R3C[-7]:R6C[-7] ) + RC[-7])
+    - expr: =(SUM( R2C[-5]:R11C[-5] ) + RC[-8])
+    - const: 2.0
+    - const: 4713.0
+  - cells:
+    - null
+    - const: "Three"
+    - const: 3.0
+    - const: 3.0
+    - const: "Three.A"
+    - const: 40.0
+    - expr: =(RC[-1] + RC[-4])
+    - expr: =(RC[-5] + 1.0)
+    - expr: =SUM( RC[-3]:RC[-2] )
+    - expr: =(SUM( R3C[-7]:R6C[-7] ) + RC[-7])
+    - expr: =(SUM( R2C[-5]:R11C[-5] ) + RC[-8])
+    - const: 1.0
+    - const: 4714.0
+  - cells:
+    - const: "Outer cells:"
+    - null
+    - const: 4.0
+    - const: 4.0
+    - null
+    - const: 50.0
+  - cells:
+    - const: "Another vertical section:"
+    - const: "Eins"
+    - const: 1.0
+    - const: 1.0
+    - null
+    - const: 10.0
+    - const: 1.0
+    - const: 2.0
+    - const: 3.0
+  - cells:
+    - const: "with horizontal section to the right:"
+    - const: "Zwei"
+    - const: 2.0
+    - const: 2.0
+    - null
+    - const: 20.0
+    - const: 0.1
+    - const: 0.2
+    - const: 0.3
+  - cells:
+    - null
+    - const: "Drei"
+    - const: 3.0
+    - const: 3.0
+    - null
+    - const: 30.0
+    - const: 0.01
+    - const: 0.02
+    - const: 0.03
+  - cells:
+    - const: "Outer cells:"
+    - null
+    - const: 5.0
+    - const: 5.0
+    - null
+    - const: 40.0
+  - cells:
+  - cells:
+  - cells:
+    - const: "This works:"
+  - cells:
+    - const: "Nested sum"
+    - expr: =SUM( R[-12]C[4]:R[-9]C[4] )
+  - cells:
+    - const: "Sum spanning multiple sections"
+    - expr: =SUM( R[-14]C[1]:R[-5]C[1] )
+  - cells:
+    - const: "Sum spanning multiple sections (shaped)"
+    - expr: =SUM( R[-15]C[1]:R[-6]C[2] )
+  - cells:
+    - const: "Sum spanning multiple and nested sections"
+    - expr: =SUM( R[-16]C[4]:R[-7]C[4] )
+  - cells:
+    - const: "Sum over inner refs"
+    - expr: =SUM( R[-16]C[6]:R[-13]C[6] )
+  - cells:
+    - const: "Sum over inner sums"
+    - expr: =SUM( R[-17]C[7]:R[-14]C[7] )
+  - cells:
+    - const: "Sum over inner self sums"
+    - expr: =SUM( R[-18]C[8]:R[-15]C[8] )
+  - cells:
+    - const: "Sum over inner outer nested sums"
+    - expr: =SUM( R[-19]C[9]:R[-16]C[9] )
+  - cells:
+    - const: "Sum over nested and inner section in parallel"
+    - expr: =SUM( R[-20]C[5]:R[-17]C[6] )
+  - cells:
+    - const: "Sum over section and cells in parallel"
+    - expr: =SUM( R[-21]C[10]:R[-18]C[11] )
+  - cells:
+    - const: "Sum over mixed section extents"
+    - expr: =SUM( R[-17]C[4]:R[-15]C[7] )
+  - cells:
+  - cells:
+    - const: "Errors:"
+  - cells:
+    - const: "Only nested inner section summed"
+    - expr: =SUM( R[-25]C[4]:R[-24]C[4] )
+  - cells:
+    - const: "Only part of section summed"
+    - expr: =SUM( R[-27]C[1]:R[-24]C[1] )
+  - cells:
+    - const: "... Again"
+    - expr: =SUM( R[-26]C[1]:R[-23]C[1] )
+  - cells:
+    - const: "Mixed sections not fully covered"
+    - expr: =SUM( R[-23]C[4]:R[-23]C[7] )
+  - cells:
+    - const: "... Again"
+    - expr: =SUM( R[-24]C[4]:R[-22]C[5] )
+
+names:
+- name: Data
+  ref: R1C1:R11C13
+- name: Section
+  ref: R3C2:R6C12
+- name: Section2
+  ref: R8C2:R10C6
+- name: Section3
+  ref: R8C7:R10C9
+- name: Subsection
+  ref: R3C5:R4C7
+- name: Tests
+  ref: R14C1:R30C2

@@ -1,0 +1,45 @@
+digraph "AFC Usage" {
+	fontname = "Helvetica"
+
+	node [shape = octagon, style = filled, fillcolor="#91BAD0"]
+	file [label="Spreadsheet File\n.xls, .xml, .ods"]
+
+	node [shape=plaintext, fillcolor = "#D1E3EB"]
+	inputs [label=<
+		<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" ALIGN="LEFT">
+			<TR><TD ALIGN="LEFT">class MyLineItem</TD></TR>
+			<TR><TD ALIGN="LEFT" PORT="cust">  double customerRebate()</TD></TR>
+			<TR><TD ALIGN="LEFT" PORT="art">  double articleRebate()</TD></TR>
+			<TR><TD ALIGN="LEFT" PORT="cat">  int customerCategory()</TD></TR>
+		</TABLE>
+	>]
+
+	node [shape=plaintext, fillcolor = "#E1FAC9"]
+	impl [label=<
+		<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" ALIGN="LEFT">
+			<TR><TD ALIGN="LEFT">class GeneratedRebateFinder</TD></TR>
+			<TR><TD ALIGN="LEFT">  GeneratedRebateFinder(MyLineItem inputs)</TD></TR>
+			<TR><TD ALIGN="LEFT" PORT="reb">  double rebate()
+<BR ALIGN="LEFT"/>    double B3 = inputs.customerCategory();
+<BR ALIGN="LEFT"/>    double B1 = inputs.customerRebate();
+<BR ALIGN="LEFT"/>    double B2 = inputs.articleRebate();
+<BR ALIGN="LEFT"/>    return <FONT COLOR="red">B3==1.0 ? B1+B2 : Math.max(B1,B2)</FONT>;</TD></TR>
+		</TABLE>
+	>]
+
+	node [shape=plaintext, fillcolor = "#D1E3EB"]
+	intf [label=<
+		<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" ALIGN="LEFT">
+			<TR><TD ALIGN="LEFT">interface MyRebateFinder</TD></TR>
+			<TR><TD ALIGN="LEFT" PORT="reb">  double rebate()</TD></TR>
+		</TABLE>
+	>]
+
+	inputs -> impl [label="input to"]
+
+	edge [style = dotted]
+	file -> impl [label="defines"]
+	impl -> intf [label="implements"]
+
+	{rank=same; inputs; impl; intf }
+}

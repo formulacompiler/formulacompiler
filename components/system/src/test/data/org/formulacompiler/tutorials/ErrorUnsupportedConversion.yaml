@@ -1,0 +1,20 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - expr: =LOWER( RC[1] )
+      names: [ stringOutput ]
+    - const: "Hello WORLD!"
+      names: [ stringInput ]
+  - cells:
+    - expr: =(RC[1] * 2.0)
+      names: [ numOutput ]
+    - const: 30.0
+      names: [ numInput ]
+
+names:

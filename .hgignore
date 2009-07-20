@@ -1,0 +1,11 @@
+syntax: regexp
+
+^(build|temp|dist)/.*
+^components/[a-z\.]*/(build|temp)/.*
+^doc/.*
+^tools/.*
+^build\.properties
+^afc\.iws$
+^components/runtime/lib/impl/colt-shrunk.jar$
+^components/system/src/test-reference/java-debug/org/formulacompiler/tests/reference/[^/]*\.java$
+

@@ -1,0 +1,78 @@
+
+h1. Array Functions
+
+I am implementing @IRR( values [, guess] )@ and similar functions to see what new expression language and/or template function constructs are needed to support this kind of function. IRR(Internal Rate of Return) is a function that takes a range of values in its first argument, has a second, optional argument, and is, internally, an iterative solver. This poses a number of new (or not so new) problems.
+
+<%= toc %>
+
+
+h2. NPV(Net Present Value)
+
+@NPV()@ is quite simple, but requires one additional feature that @_FOLD()@ does not yet support: the loop index. So I'll add that to the syntax:
+
+	NPV( rate, vs ) = _LET( rate1: `rate + 1;
+		_FOLD_1STOK( r: 0; vi, i: `r + `vi / `rate1 ^ `i; `vs ))
+
+The @_FOLD()@ functions are always unrolled right now (except for dynamic sections). For @NPV()@, where the folding step is already fairly complex, this seems inappropriate. On the other hand, one will hardly see @NPV()@ called on a large range. So @NPV()@ would benefit from having its range argument converted into a proper array first so the main loop can iterate the array. So, using @vs#@ as the notation indicating this:
+
+	NPV( rate, vs# ) = _LET( rate1: `rate + 1;
+		_FOLD_ARRAY( r: 0; vi, i: `r + `vi / `rate1 ^ `i; `vs ))
+
+Since @vs#@ is an array of values, there is no reason to compile the body of @NPV()@ inline. It should really be implemented once in the runtime. However, the runtime is specific for every numeric type. So I'd like to be able to define the runtime method as an expression and have it compiled to a static runtime method for me. That I do by setting a flag on the definition of @NPV()@ above.
+
+
+h2. MIRR(Modified Internal Rate of Return)
+
+@MIRR()@ is like @NPV()@. Its implementation makes use of @NPV()@. So I would like to write:
+
+	MIRR( vs#, frate, rrate ) =
+		_LET( n: COUNT( `vs );
+			((-NPV( `rrate, _MAP_ARRAY( vi: IF( `vi > 0, `vi, 0 ))) * (1 + `rrate) ^ `n)
+			 / (NPV( `frate, _MAP_ARRAY( vi: IF( `vi < 0, `vi, 0 ))) * (1 + `frate)))
+			^ (1 / (`n - 1))
+			- 1 )
+
+Note that SEJ will have to properly determine that the result of the new function @_MAP_ARRAY()@ already is an array when passing it to @NPV()@. A little bit of math, however, shows that this can be formulated more efficiently as:
+
+	MIRR( vs#, frate, rrate ) = 
+		_LET( n: COUNT( `vs );
+		_LET( rrate1: `rrate + 1;
+		_LET( frate1: `frate + 1;
+			((-_FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi > 0, `vi, 0 ) * `rrate1 ^ (`n - `i); `vs ))
+			 / _FOLD_ARRAY( r: 0; vi, i: `r + IF( `vi < 0, `vi, 0 ) / `frate1 ^ (`i - 1); `vs ))
+			^ (1 / (`n - 1))
+			- 1 )))
+
+
+h2. IRR(Internal Rate of Return)
+
+@IRR()@ uses "Newton's method":http://en.wikipedia.org/wiki/Newton's_method to solve @NPV()@ for the rate of return given a fixed result of 0. That gives us
+
+	x[i + 1] = x[i] - NPV( x[i] ) / NPV'( x[i] )
+	
+where @NPV'()@ is the first derivative of @NPV()@. We repeat this until the difference between @x[i+1]@ and @x[i]@ is less than some given epsilon.
+
+So I'd like to write this for the default guess (an alternative would be to put the default guess into the parser):
+
+	IRR( vs ) = IRR( `vs, 0.1 )
+
+and this to implement @IRR()@:
+	
+	IRR( vs#, guess ) = _NEWTON( x0: `guess;
+		xi, vs: _LET( xi1: `xi + 1;
+			xi - NPV( `xi, `vs )
+				+ _FOLD_1STOK( r: 0; vi: `r - `i * `vi / `xi ^ (`i + 1); `vs ) );
+		0.0000001;
+		20;
+		`vs )
+
+So I am reusing @NPV()@ here again. Its first derivative is given inline.
+
+Of course, if I were to implement a proper "Scheme":-scheme dialect with recursive @let@ and tail-calls, I could formulate @NEWTON()@ directly in the language. However, in all of the OpenOffice source I find only two references to Newton's method: for @IRR()@ and for @RATE()@. Other functions like @FINV()@ use the _regula falsi_. So this would be overkill. Given the paucity of similar cases, I might even consider implementing @IRR()@ and @RATE()@ directly in Java as template methods with runtime backing.
+
+
+h2. Range Parameters
+
+So far, SEJ's templates and rewrite rules only had to handle functions where ranges occurred as the only parameter to a functions, as in @SUM()@. Of course, @MATCH()@ et al. are different, but they are so far handled internally with specifically tailored code. And they don't support dynamic sections. Since @SUM()@ et al. don't need to know the shape of the range they get passed, SEJ simply passes them all the range elements as individual arguments, mixed with arguments that iterate over a section.
+
+@INDEX()@, however, needs the range shape. So it gets passed a @RangeValue@ which describes the range and contains the range elements as a list of subnodes. I could simply use the same approach for @IRR()@ et al.

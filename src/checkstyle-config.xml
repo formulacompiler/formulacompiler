@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE module PUBLIC
+		"-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+		"http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+
+<module name="Checker">
+
+	<module name="Header">
+		<property name="headerFile" value="${checkstyle.header.file}" />
+	</module>
+
+	<module name="TreeWalker">
+
+		<module name="TodoComment">
+		    <property name="format" value="TODO"/>
+    	</module>
+
+		<module name="TodoComment">
+		    <property name="format" value="FIXME"/>
+    	</module>
+
+		<module name="ParenPad">
+			<property name="tokens" value="CTOR_CALL, METHOD_CALL, SUPER_CTOR_CALL"/>
+			<property name="option" value="space"/>
+		</module>
+
+		<module name="WhitespaceAfter">
+			<property name="tokens" value="COMMA, TYPECAST"/>
+		</module>
+
+		<module name="WhitespaceAround">
+			<property name="tokens" value="QUESTION"/>
+		</module>
+
+    </module>
+
+</module>

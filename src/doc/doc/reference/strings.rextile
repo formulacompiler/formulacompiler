@@ -1,0 +1,16 @@
+
+h1. Strings In AFC
+
+
+<%= toc 2, 5 %>
+
+h3. String Functions
+
+<%= gen_doc "Strings_en_US" %>
+<%= gen_doc "Strings" %>
+
+	
+h3. String Comparisons
+
+<%= gen_doc "StringComparisons" %>
+

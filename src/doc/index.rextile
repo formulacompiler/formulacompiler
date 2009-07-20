@@ -1,0 +1,51 @@
+
+h1. Integrate Calculations Defined In Spreadsheets Into Java Apps
+
+_Let your users model the calculation of key values in spreadsheets, but integrate the computations natively into your Java applications. Users get familiar and versatile modelling. You get little effort, high performance, no deployment hassles, and GPL or commercial licensing._
+
+*Calculation of certain key values often varies* from user to user, and over time. For example prices and shipping rates in order entry, asset valuations in portfolio management, or insurance premiums in sales force apps.
+
+<notextile>
+<div style="float: right; margin-left: 2em; margin-bottom: 2ex">
+<pre>[xc:org/formulacompiler/tutorials/BasicsCustom.xls]</pre>
+(Only the best category gets combined rebates.)
+</div>
+</notextile>
+
+Don't add endless configuration options to your code for this. *Use the power and familiarity of spreadsheets* instead. Users model their calculations in "Microsoft Excel":-excel or "OpenOffice Calc":-ooc.
+
+Using AFC your application *compiles* the spreadsheet files into Java *classes that compute output values*, then uses them with actual input values within its business logic.
+
+<notextile>
+<div style="float: none">
+<img title="Overview" src="flow.png" alt="Overview" />
+</div>
+</notextile>
+
+The classes are *plain, thread-safe, and high-performance* so you can recompute the valuations of thousands of assets or the wages of thousands of employees. And for *financial applications* you can compile for *@BigDecimal@* instead of @double@.
+
+AFC does not need Excel, OpenOffice, or a JDK to be installed, so you can *deploy on any platform* supported by Java. It is "available":download/index.htm under the *GPL and a commercial license* ("details":download/license.htm).
+
+<div style="clear: both"></div>
+
+h3. What now?
+
+	* "Download":download/index.htm Abacus Formula Compiler for Java.
+	* "Try a full example":quick.htm with our quick start guide.
+	* "Learn more":doc/index.htm about the goals, the design, the API, and the supported functions.
+
+
+<% @news= <<END
+<h2>News</h2>
+
+<h3><a href="download/releasenotes.htm">Release 1.3</a></h3>
+<p>adds logging of intermediate cell values.
+<br/><span class="when">June ?, 2009</span></p>
+
+<h3><a href="download/releasenotes.htm">Release 1.2</a></h3>
+<p>adds support for Microsoft Office Open XML (MS Excel 2007) spreadsheets.
+<br/><span class="when">November 4, 2008</span></p>
+
+END
+%>
+
