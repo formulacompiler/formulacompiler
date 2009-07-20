@@ -174,4 +174,23 @@ public class LoadTest extends TestCase
 		assertEquals( "Sheet1!$F$#REF!:$G$#REF!", rangeNames.get( "Range3" ).toString() );
 	}
 
+	public void testSameRowsAndColumns()
+	{
+		final Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
+		final Row[] rows = sheet.getRows();
+		assertEquals( 3, rows.length );
+		for (int i = 0; i < rows.length; i++) {
+			final Row row = rows[ i ];
+			assertEquals( i, row.getRowIndex() );
+			assertEquals( sheet, row.getSheet() );
+			final Cell[] cells = row.getCells();
+			assertEquals( 3, cells.length );
+			for (int j = 0; j < cells.length; j++) {
+				Cell cell = cells[ j ];
+				assertEquals( j, cell.getColumnIndex() );
+				assertEquals( row, cell.getRow() );
+				assertEquals( 1.0, cell.getConstantValue() );
+			}
+		}
+	}
 }
