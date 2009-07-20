@@ -28,6 +28,7 @@ import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.model.CellModel;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -90,6 +91,16 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 	{
 		compileInputGetterCall( _callChainToCall );
 		expressionCompiler().compileConversionFromResultOf( _callChainToCall.getMethod() );
+
+		if (section().isComputationListenerEnabled()) {
+			final CellModel cellModel = this.cellComputation.getCell();
+			final Object source = cellModel.getSource();
+			if (source instanceof CellAddress) {
+				final CellAddress cellAddress = (CellAddress) source;
+				final String name = cellModel.getName();
+				expressionCompiler().compileLogging( cellAddress, name, true, cellModel.isOutput() );
+			}
+		}
 	}
 
 

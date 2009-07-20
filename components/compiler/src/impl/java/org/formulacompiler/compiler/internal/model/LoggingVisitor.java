@@ -38,7 +38,9 @@ public class LoggingVisitor extends AbstractComputationModelVisitor
 		if (expr != null) {
 			final Object source = _cell.getSource();
 			final String definedName = _cell.getName();
-			final ExpressionNodeForLogging loggingExpr = new ExpressionNodeForLogging( expr, source, definedName );
+			final boolean input = _cell.isInput();
+			final boolean output = _cell.isOutput();
+			final ExpressionNodeForLogging loggingExpr = new ExpressionNodeForLogging( expr, source, definedName, input, output );
 			_cell.setExpression( loggingExpr );
 		}
 		return true;

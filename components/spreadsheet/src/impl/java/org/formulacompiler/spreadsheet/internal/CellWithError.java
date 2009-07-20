@@ -47,6 +47,12 @@ public final class CellWithError extends CellInstance
 
 
 	@Override
+	public void copyTo( final RowImpl _row )
+	{
+		new CellWithError( _row, getError() );
+	}
+
+	@Override
 	public void yamlTo( YamlBuilder _to )
 	{
 		_to.vn( "err" ).v( getError() ).lf();

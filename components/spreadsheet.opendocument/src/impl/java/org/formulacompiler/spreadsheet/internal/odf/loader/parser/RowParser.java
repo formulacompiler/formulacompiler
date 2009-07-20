@@ -25,6 +25,7 @@ package org.formulacompiler.spreadsheet.internal.odf.loader.parser;
 import java.util.Map;
 import javax.xml.namespace.QName;
 import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
@@ -41,6 +42,8 @@ class RowParser extends ElementHandler
 {
 	private final SheetImpl sheet;
 	private final SpreadsheetLoader.Config config;
+	private int numberRowsRepeated;
+	private RowImpl row;
 
 	public RowParser( SheetImpl _sheet, SpreadsheetLoader.Config _config )
 	{
@@ -51,28 +54,17 @@ class RowParser extends ElementHandler
 	@Override
 	public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
 	{
-		final int numberRowsRepeated;
-		{
-			final Attribute attribute = _startElement.getAttributeByName( XMLConstants.Table.NUMBER_ROWS_REPEATED );
-			if (attribute != null) {
-				numberRowsRepeated = Integer.parseInt( attribute.getValue() );
-			}
-			else {
-				numberRowsRepeated = 1;
-			}
-		}
-		final RowImpl row = createRow( numberRowsRepeated );
-		final CellParser cellParser = new CellParser( row, this.config );
+		final Attribute attribute = _startElement.getAttributeByName( XMLConstants.Table.NUMBER_ROWS_REPEATED );
+		this.numberRowsRepeated = attribute == null ? 1 : Integer.parseInt( attribute.getValue() );
+		this.row = new RowImpl( this.sheet );
+		final CellParser cellParser = new CellParser( this.row, this.config );
 		_handlers.put( XMLConstants.Table.TABLE_CELL, cellParser );
 		_handlers.put( XMLConstants.Table.COVERED_TABLE_CELL, cellParser );
 	}
 
-	private RowImpl createRow( int _numberRowsRepeated )
+	@Override
+	public void elementEnded( final EndElement _endElement )
 	{
-		final RowImpl row = new RowImpl( this.sheet );
-		for (int i = 1; i < _numberRowsRepeated; i++) {
-			new RowImpl( row );
-		}
-		return row;
+		for (int i = 1; i < this.numberRowsRepeated; i++) this.row.copy();
 	}
 }
