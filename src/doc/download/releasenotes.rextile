@@ -21,6 +21,9 @@ h5. Better
 	* Upgraded to "Ant 1.7.1":http://archive.apache.org/dist/ant/RELEASE-NOTES-1.7.1.html.
 	* Upgraded to "Checkstyle 5.0":http://checkstyle.sourceforge.net/releasenotes.html#Release%205.0.
 	* Cell name case is preserved when compiling to readable code.
+	* "@EngineLoader.Config.parentClassLoader@":-parentClassLoader is set to @Thread.currentThread().getContextClassLoader()@ by default.
+
+[-parentClassLoader]../doc/javadoc/org/formulacompiler/runtime/EngineLoader.Config.html#parentClassLoader
 
 h5. Fixed
 
@@ -28,7 +31,10 @@ h5. Fixed
 	* Fixed loading saved engines when AFC classes are loaded not by system classloader.
 	* Fixed getting named ranges defined in the spreadsheet after defining an additional range name.
 	* Fixed generating identifiers when compiling to readable code.
+	* Fixed incorrect "@Row.getRowIndex()@":-getrowindex return value when parsing ODF spreadsheets.
 	* Scripts now have UNIX executable file permisson in the build tools package.
+
+[-getrowindex]../doc/javadoc/org/formulacompiler/spreadsheet/Spreadsheet.Row.html#getRowIndex()
 
 
 h2. Release 1.2
