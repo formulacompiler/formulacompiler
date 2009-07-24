@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2008 by Abacus Research AG, Switzerland.
+ * Copyright (c) 2006-2009 by Abacus Research AG, Switzerland.
  * All rights reserved.
  *
  * This file is part of the Abacus Formula Compiler (AFC).
