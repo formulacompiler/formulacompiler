@@ -10,6 +10,10 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test-reference/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test-reference/java-debug" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/temp/examples/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/temp/test-reference/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/temp/test-reference/doc" />
+      <excludeFolder url="file://$MODULE_DIR$/temp/test/classes" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
