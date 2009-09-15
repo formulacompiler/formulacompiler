@@ -14,6 +14,11 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/temp/impl/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/temp/impl/java-1.5" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/temp/build" />
+      <excludeFolder url="file://$MODULE_DIR$/temp/impl/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/temp/intf/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/temp/test/classes" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
