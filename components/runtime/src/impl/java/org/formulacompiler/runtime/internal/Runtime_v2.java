@@ -63,8 +63,6 @@ public abstract class Runtime_v2
 	static final long MS_PER_SEC = 1000;
 	static final long MS_PER_DAY = SECS_PER_DAY * MS_PER_SEC;
 	static final int UTC_OFFSET_DAYS = 25569;
-	static final int UTC_OFFSET_DAYS_1904 = 24107;
-	static final boolean BASED_ON_1904 = false;
 	static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone( "GMT" );
 	protected static Random generator = new Random();
 
@@ -308,12 +306,12 @@ public abstract class Runtime_v2
 		// called the 29th Feb, 1900 - but in actual fact this was not a leap year.
 		// Therefore for values less than 61 in the 1900 date system,
 		// add one to the numeric value
-		if (_excelCompatible && !BASED_ON_1904 && !time && numValue < NON_LEAP_DAY) {
+		if (_excelCompatible && !time && numValue < NON_LEAP_DAY) {
 			numValue += 1;
 		}
 
 		// Convert this to the number of days since 01 Jan 1970
-		final int offsetDays = BASED_ON_1904 ? UTC_OFFSET_DAYS_1904 : UTC_OFFSET_DAYS;
+		final int offsetDays = UTC_OFFSET_DAYS;
 		final double utcDays = numValue - offsetDays;
 
 		// Convert this into utc by multiplying by the number of milliseconds
