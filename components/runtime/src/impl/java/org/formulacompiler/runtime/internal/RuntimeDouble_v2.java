@@ -759,14 +759,16 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		}
 	}
 
-	interface StatisticDistFunc
+	private interface StatisticDistFunc
 	{
-		public double GetValue( double x );
+		double apply( double x );
 	}
 
 	private static class BetaDistFunction implements StatisticDistFunc
 	{
-		double x0, alpha, beta;
+		private double x0;
+		private double alpha;
+		private double beta;
 
 		BetaDistFunction( double x0, double alpha, double beta )
 		{
@@ -775,25 +777,34 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			this.beta = beta;
 		}
 
-		public double GetValue( double x )
+		public double apply( double x )
 		{
 			return this.x0 - fun_BETADIST( x, this.alpha, this.beta );
 		}
 	}
 
+	/**
+	 * Iteration for inverse distributions.
+	 * Converted from <a href="http://docs.go-oo.org/sc/html/interpr3_8cxx-source.html">OpenOffice.org source</a>
+	 * under the terms of the GNU Lesser General Public License version 3.
+	 *
+	 * @param func distribution function.
+	 * @param _x0  lower bound.
+	 * @param _x1  upper bound.
+	 */
 	private static double iterateInverse( StatisticDistFunc func, double _x0, double _x1 )
 			throws IllegalArgumentException, ArithmeticException
 	{
 		double x0 = _x0;
 		double x1 = _x1;
 		if (x0 >= x1) {
-			// IterateInverse: wrong interval
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException( "Wrong interval" );
 		}
 		double fEps = 1E-7;
+
 		// find enclosing interval
-		double f0 = func.GetValue( x0 );
-		double f1 = func.GetValue( x1 );
+		double f0 = func.apply( x0 );
+		double f1 = func.apply( x1 );
 		double xs;
 		int i;
 		for (i = 0; i < 1000 & f0 * f1 > 0; i++) {
@@ -803,14 +814,14 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 				if (x0 < 0) x0 = 0;
 				x1 = xs;
 				f1 = f0;
-				f0 = func.GetValue( x0 );
+				f0 = func.apply( x0 );
 			}
 			else {
 				xs = x1;
 				x1 += 2 * (x1 - x0);
 				x0 = xs;
 				f0 = f1;
-				f1 = func.GetValue( x1 );
+				f1 = func.apply( x1 );
 			}
 		}
 		if (f0 == 0) return x0;
@@ -818,11 +829,11 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		// simple iteration
 		double x00 = x0;
 		double x11 = x1;
-		double fs = func.GetValue( 0.5 * (x0 + x1) );
+		double fs = func.apply( 0.5 * (x0 + x1) );
 		for (i = 0; i < 100; i++) {
 			xs = 0.5 * (x0 + x1);
 			if (Math.abs( f1 - f0 ) >= fEps) {
-				fs = func.GetValue( xs );
+				fs = func.apply( xs );
 				if (f0 * fs <= 0) {
 					x1 = xs;
 					f1 = fs;
@@ -839,7 +850,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 					if (regxs != 0) {
 						double regx = x1 - f1 / regxs;
 						if (regx >= x00 && regx <= x11) {
-							double regfs = func.GetValue( regx );
+							double regfs = func.apply( regx );
 							if (Math.abs( regfs ) < Math.abs( fs )) xs = regx;
 						}
 					}
@@ -870,7 +881,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	private static class ChiDistFunction implements StatisticDistFunc
 	{
-		double x0, degrees;
+		private double x0;
+		private double degrees;
 
 		ChiDistFunction( double x0, double degrees )
 		{
@@ -878,7 +890,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			this.degrees = degrees;
 		}
 
-		public double GetValue( double x )
+		public double apply( double x )
 		{
 			return this.x0 - fun_CHIDIST( x, this.degrees );
 		}
@@ -894,6 +906,11 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return res;
 	}
 
+	/**
+	 * Computes CRITBINOM function.
+	 * Converted from <a href="http://docs.go-oo.org/sc/html/interpr3_8cxx-source.html">OpenOffice.org source</a>
+	 * under the terms of the GNU Lesser General Public License version 3.
+	 */
 	public static double fun_CRITBINOM( double _n, double _p, double _alpha )
 	{
 		// p <= 0 is contrary to Excel's docs where it says p < 0; but the test case says otherwise.
@@ -939,7 +956,9 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	private static class FDistFunction implements StatisticDistFunc
 	{
-		double p, f1, f2;
+		private double p;
+		private double f1;
+		private double f2;
 
 		FDistFunction( double p, double f1, double f2 )
 		{
@@ -948,7 +967,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			this.f2 = f2;
 		}
 
-		public double GetValue( double x )
+		public double apply( double x )
 		{
 			return this.p - getFDist( x, this.f1, this.f2 );
 		}
@@ -970,7 +989,9 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	private static class GammaDistFunction implements StatisticDistFunc
 	{
-		double p, alpha, beta;
+		private double p;
+		private double alpha;
+		private double beta;
 
 		GammaDistFunction( double p, double alpha, double beta )
 		{
@@ -979,7 +1000,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			this.beta = beta;
 		}
 
-		public double GetValue( double x )
+		public double apply( double x )
 		{
 			return this.p - gammaCumulative( x, this.alpha, this.beta );
 		}
@@ -1007,7 +1028,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			fun_ERROR( "#NUM! because x <= 0 in GAMMALN" );
 		}
 		boolean bReflect;
-		double c[] = { 76.18009173, -86.50532033, 24.01409822, -1.231739516, 0.120858003E-2, -0.536382E-5 };
+		double[] c = { 76.18009173, -86.50532033, 24.01409822, -1.231739516, 0.120858003E-2, -0.536382E-5 };
 		if (x >= 1) {
 			bReflect = false;
 			x -= 1;
@@ -1016,9 +1037,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			bReflect = true;
 			x = 1 - x;
 		}
-		double g, anum;
-		g = 1.0;
-		anum = x;
+		double g = 1.0;
+		double anum = x;
 		for (int i = 0; i < 6; i++) {
 			anum += 1.0;
 			g += c[ i ] / anum;
@@ -1098,7 +1118,8 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	private static class TDistFunction implements StatisticDistFunc
 	{
-		double p, degFreedom;
+		private double p;
+		private double degFreedom;
 
 		TDistFunction( double p, double degFreedom )
 		{
@@ -1106,7 +1127,7 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			this.degFreedom = degFreedom;
 		}
 
-		public double GetValue( double x )
+		public double apply( double x )
 		{
 			return this.p - getTDist( x, this.degFreedom ) * 2;
 		}
@@ -1192,14 +1213,16 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	/**
 	 * Computes IRR using Newton's method, where x[i+1] = x[i] - f( x[i] ) / f'( x[i] )
+	 * Converted from <a href="http://docs.go-oo.org/sc/html/interpr2_8cxx-source.html">OpenOffice.org source</a>
+	 * under the terms of the GNU Lesser General Public License version 3.
 	 */
 	public static double fun_IRR( double[] _values, double _guess )
 	{
-		final int EXCEL_MAX_ITER = 20;
+		final int MAX_ITER = 20;
 
 		double x = _guess;
 		int iter = 0;
-		while (iter++ < EXCEL_MAX_ITER) {
+		while (iter++ < MAX_ITER) {
 
 			final double x1 = 1.0 + x;
 			double fx = 0.0;
@@ -1224,9 +1247,14 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			}
 			x = new_x;
 		}
-		throw new FormulaException( "#NUM! because result not found in " + EXCEL_MAX_ITER + " tries in IRR" );
+		throw new FormulaException( "#NUM! because result not found in " + MAX_ITER + " tries in IRR" );
 	}
 
+	/**
+	 * Computes DB function.
+	 * Converted from <a href="http://docs.go-oo.org/sc/html/interpr2_8cxx-source.html">OpenOffice.org source</a>
+	 * under the terms of the GNU Lesser General Public License version 3.
+	 */
 	public static double fun_DB( double _cost, double _salvage, double _life, double _period, double _month )
 	{
 		final double month = Math.floor( _month );
@@ -1247,6 +1275,11 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return depreciation;
 	}
 
+	/**
+	 * Computes DDB function.
+	 * Converted from <a href="http://docs.go-oo.org/sc/html/interpr2_8cxx-source.html">OpenOffice.org source</a>
+	 * under the terms of the GNU Lesser General Public License version 3.
+	 */
 	public static double fun_DDB( double _cost, double _salvage, double _life, double _period, double _factor )
 	{
 		final double remainingCost;
@@ -1303,6 +1336,11 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return rate0;
 	}
 
+	/**
+	 * Computes VDB function.
+	 * Converted from <a href="http://docs.go-oo.org/sc/html/interpr2_8cxx-source.html">OpenOffice.org source</a>
+	 * under the terms of the GNU Lesser General Public License version 3.
+	 */
 	public static double fun_VDB( double _cost, double _salvage, double _life, double _start_period, double _end_period,
 			double _factor, boolean _no_switch )
 	{
@@ -1351,6 +1389,11 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return valVDB;
 	}
 
+	/**
+	 * Computes VDB helper function.
+	 * Converted from <a href="http://docs.go-oo.org/sc/html/interpr2_8cxx-source.html">OpenOffice.org source</a>
+	 * under the terms of the GNU Lesser General Public License version 3.
+	 */
 	private static double interVDB( double _cost, double _salvage, double _life, double _life2, double _period,
 			double _factor )
 	{
@@ -1358,11 +1401,11 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		int loopEnd = (int) Math.ceil( _period );
 		double salvageCost = _cost - _salvage;
 		boolean flagSLN = false;
-		double valDDB, valTmpRes;
+		double valTmpRes;
 		double valSLN = 0;
 		for (int i = 1; i <= loopEnd; i++) {
 			if (!flagSLN) {
-				valDDB = fun_DDB( _cost, _salvage, _life, i, _factor );
+				double valDDB = fun_DDB( _cost, _salvage, _life, i, _factor );
 				valSLN = salvageCost / (_life2 - i + 1);
 				if (valSLN > valDDB) {
 					valTmpRes = valSLN;
