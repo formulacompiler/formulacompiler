@@ -1,0 +1,51 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0" is_locked="false">
+    <option name="myName" value="Project Default" />
+    <option name="myLocal" value="false" />
+    <inspection_tool class="JavadocReference" level="WARNING" enabled="true" />
+    <inspection_tool class="FinalPrivateMethod" level="WARNING" enabled="false" />
+    <inspection_tool class="UnqualifiedFieldAccess" level="WARNING" enabled="true" />
+    <inspection_tool class="ReuseOfLocalVariable" level="WARNING" enabled="true" />
+    <inspection_tool class="UnnecessaryLocalVariable" level="WARNING" enabled="true">
+      <option name="m_ignoreImmediatelyReturnedVariables" value="true" />
+      <option name="m_ignoreAnnotatedVariables" value="true" />
+    </inspection_tool>
+    <inspection_tool class="CheckTagEmptyBody" level="WARNING" enabled="false" />
+    <inspection_tool class="CStyleArrayDeclaration" level="WARNING" enabled="true" />
+    <inspection_tool class="MultipleDeclaration" level="WARNING" enabled="true" />
+    <inspection_tool class="UnnecessaryUnboxing" level="WARNING" enabled="false" />
+    <inspection_tool class="IndexOfReplaceableByContains" level="WARNING" enabled="true" />
+    <inspection_tool class="AssertEqualsBetweenInconvertibleTypes" level="WARNING" enabled="false" />
+    <inspection_tool class="BeforeOrAfterIsPublicVoidNoArg" level="WARNING" enabled="true" />
+    <inspection_tool class="BeforeClassOrAfterClassIsPublicStaticVoidNoArg" level="WARNING" enabled="true" />
+    <inspection_tool class="JavaDoc" level="WARNING" enabled="true">
+      <option name="TOP_LEVEL_CLASS_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="INNER_CLASS_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="METHOD_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="FIELD_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="IGNORE_DEPRECATED" value="false" />
+      <option name="IGNORE_JAVADOC_PERIOD" value="true" />
+      <option name="myAdditionalJavadocTags" value="" />
+    </inspection_tool>
+  </profile>
+</component>

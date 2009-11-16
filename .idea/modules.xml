@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project relativePaths="false" version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/afc.iml" filepath="$PROJECT_DIR$/afc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/components/compiler/afc-compiler.iml" filepath="$PROJECT_DIR$/components/compiler/afc-compiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/components/decompiler/afc-decompiler.iml" filepath="$PROJECT_DIR$/components/decompiler/afc-decompiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/components/runtime/afc-runtime.iml" filepath="$PROJECT_DIR$/components/runtime/afc-runtime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/components/spreadsheet/afc-spreadsheet.iml" filepath="$PROJECT_DIR$/components/spreadsheet/afc-spreadsheet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/components/spreadsheet.excel.xls/afc-spreadsheet-excel-xls.iml" filepath="$PROJECT_DIR$/components/spreadsheet.excel.xls/afc-spreadsheet-excel-xls.iml" />
+      <module fileurl="file://$PROJECT_DIR$/components/spreadsheet.excel.xlsx/afc-spreadsheet-excel-xlsx.iml" filepath="$PROJECT_DIR$/components/spreadsheet.excel.xlsx/afc-spreadsheet-excel-xlsx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/components/spreadsheet.opendocument/afc-spreadsheet-opendocument.iml" filepath="$PROJECT_DIR$/components/spreadsheet.opendocument/afc-spreadsheet-opendocument.iml" />
+      <module fileurl="file://$PROJECT_DIR$/components/system/afc-system.iml" filepath="$PROJECT_DIR$/components/system/afc-system.iml" />
+    </modules>
+  </component>
+</project>
+
