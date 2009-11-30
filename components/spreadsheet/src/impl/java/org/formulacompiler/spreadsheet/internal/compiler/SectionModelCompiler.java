@@ -261,8 +261,7 @@ public final class SectionModelCompiler
 				range = ((ExpressionNodeForRange) expressionNode).getRange();
 			}
 			else if (expressionNode instanceof ExpressionNodeForCell) {
-				final CellIndex cellIndex = ((ExpressionNodeForCell) expressionNode).getCellIndex();
-				range = CellRange.getCellRange( cellIndex, cellIndex );
+				range = ((ExpressionNodeForCell) expressionNode).getCellIndex();
 			}
 			else {
 				throw new IllegalArgumentException();
@@ -294,7 +293,7 @@ public final class SectionModelCompiler
 		if (this.sectionDef.contains( _cellIndex )) {
 			final SectionBinding containingSection = this.sectionDef.getContainingSection( _cellIndex );
 			if (null != containingSection) {
-				return new RangeExpressionBuilder( CellRange.getCellRange( _cellIndex, _cellIndex ), false ).build();
+				return new RangeExpressionBuilder( _cellIndex, false ).build();
 			}
 			return buildExpressionModelForLocalCell( _cellIndex );
 		}
