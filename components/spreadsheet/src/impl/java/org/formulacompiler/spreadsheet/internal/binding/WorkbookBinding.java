@@ -44,7 +44,6 @@ public class WorkbookBinding implements SpreadsheetBinding
 	private final Map<CellIndex, InputCellBinding> inputs = New.map();
 	private final List<OutputCellBinding> outputs = New.list();
 	private final Set<CellIndex> outputCells = New.set();
-	private final List<SectionBinding> sections = New.list();
 
 
 	public WorkbookBinding( SpreadsheetImpl _workbook, Class _inputClass, Class _outputClass,
@@ -119,12 +118,6 @@ public class WorkbookBinding implements SpreadsheetBinding
 	}
 
 
-	public List<SectionBinding> getSections()
-	{
-		return this.sections;
-	}
-
-
 	public SectionBinding getSectionFor( CellIndex _index )
 	{
 		return this.root.getSectionFor( _index );
@@ -140,11 +133,6 @@ public class WorkbookBinding implements SpreadsheetBinding
 	{
 		this.outputs.add( _binding );
 		this.outputCells.add( _binding.getIndex() );
-	}
-
-	public void add( SectionBinding _binding )
-	{
-		this.sections.add( _binding );
 	}
 
 

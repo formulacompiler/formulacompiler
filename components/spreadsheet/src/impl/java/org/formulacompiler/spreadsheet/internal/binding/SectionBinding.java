@@ -197,7 +197,6 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		SectionBinding result = new SectionBinding( this, _inputCallChainReturningIterable, _inputClass,
 				_outputCallToImplementIterable, _outputClass, cellRange, _orientation );
 		this.sections.add( result );
-		this.workbook.add( result );
 		return result;
 	}
 
