@@ -60,12 +60,6 @@ public final class ExpressionNodeForCell extends ExpressionNode
 	}
 
 
-	public CellInstance getCell()
-	{
-		return this.cellIndex.getCell();
-	}
-
-
 	public String getName()
 	{
 		return this.name;
