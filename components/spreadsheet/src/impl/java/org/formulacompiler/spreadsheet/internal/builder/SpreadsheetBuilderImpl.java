@@ -116,14 +116,14 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 
 	public CellRef currentCell()
 	{
-		return new CellRefImpl( this.cell );
+		return new CellRefImpl( this.cell.getCellIndex() );
 	}
 
 
 	public RangeRef range( CellRef _oneCorner, CellRef _otherCorner )
 	{
-		final CellIndex a = cellOf( _oneCorner ).getCellIndex();
-		final CellIndex b = cellOf( _otherCorner ).getCellIndex();
+		final CellIndex a = cellOf( _oneCorner );
+		final CellIndex b = cellOf( _otherCorner );
 
 		int sheetMin = Math.min( a.getSheetIndex(), b.getSheetIndex() );
 		int sheetMax = Math.max( a.getSheetIndex(), b.getSheetIndex() );
@@ -252,16 +252,16 @@ public class SpreadsheetBuilderImpl implements SpreadsheetBuilder
 	}
 
 
-	private CellInstance cellOf( CellRef _expr )
+	private CellIndex cellOf( CellRef _expr )
 	{
 		return ((CellRefImpl) _expr).cell;
 	}
 
 	private static class CellRefImpl implements CellRef
 	{
-		final CellInstance cell;
+		final CellIndex cell;
 
-		CellRefImpl( CellInstance _cell )
+		CellRefImpl( CellIndex _cell )
 		{
 			super();
 			this.cell = _cell;
