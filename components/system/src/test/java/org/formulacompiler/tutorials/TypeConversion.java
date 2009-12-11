@@ -34,7 +34,7 @@ import org.formulacompiler.runtime.MillisecondsSinceUTC1970;
 import org.formulacompiler.runtime.ScaledLong;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormatTestFactory;
 import org.formulacompiler.tests.utils.Util;
 
 import junit.framework.Test;

@@ -34,7 +34,7 @@ import org.formulacompiler.runtime.FormulaCompilerException;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormatTestFactory;
 
 import junit.framework.Test;
 

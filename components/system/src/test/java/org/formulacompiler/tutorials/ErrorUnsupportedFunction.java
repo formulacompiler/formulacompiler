@@ -27,7 +27,7 @@ import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormatTestFactory;
 
 import junit.framework.Test;
 

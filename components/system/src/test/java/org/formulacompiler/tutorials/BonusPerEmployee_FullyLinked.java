@@ -32,7 +32,7 @@ import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormatTestFactory;
 import org.formulacompiler.tutorials.BonusPerEmployee.BonusData;
 import org.formulacompiler.tutorials.BonusPerEmployee.BonusDataImpl;
 import org.formulacompiler.tutorials.BonusPerEmployee.EmployeeBonusData;

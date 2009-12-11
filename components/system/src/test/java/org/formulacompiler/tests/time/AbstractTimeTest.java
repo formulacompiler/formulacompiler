@@ -29,7 +29,7 @@ import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormatTestFactory;
 
 
 public abstract class AbstractTimeTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase

@@ -24,7 +24,7 @@ package org.formulacompiler.tutorials;
 
 import java.math.BigDecimal;
 
-import org.formulacompiler.tests.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormatTestFactory;
 
 public abstract class AbstractUsingBigDecimalTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {

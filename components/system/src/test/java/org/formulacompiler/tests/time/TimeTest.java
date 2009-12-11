@@ -23,7 +23,7 @@
 package org.formulacompiler.tests.time;
 
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormatTestFactory;
 
 import junit.extensions.ActiveTestSuite;
 import junit.framework.Test;
