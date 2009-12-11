@@ -76,6 +76,23 @@ public class SpreadsheetAssert extends Assert
 		assertEquals( _expected.describe(), actual.describe() );
 	}
 
+	public static void verify( InputStream inputStream, String _fileExtension ) throws Exception
+	{
+		final SpreadsheetVerifier spreadsheetVerifier = getSpreadsheetVerifier( _fileExtension );
+		spreadsheetVerifier.verify( inputStream );
+	}
+
+	private static SpreadsheetVerifier getSpreadsheetVerifier( String _fileExtension ) throws Exception
+	{
+		final Collection<SpreadsheetVerifier.Factory> factories = ImplementationLocator.getInstances( SpreadsheetVerifier.Factory.class );
+		for (SpreadsheetVerifier.Factory factory : factories) {
+			if (factory.canHandle( _fileExtension )) {
+				return factory.getInstance();
+			}
+		}
+		throw new SpreadsheetException.UnsupportedFormat( "No verifier found for file " + _fileExtension );
+	}
+
 	private static void touchExpressions( Spreadsheet _ss ) throws Exception
 	{
 		for (Spreadsheet.Sheet s : _ss.getSheets()) {

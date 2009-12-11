@@ -35,11 +35,12 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.formulacompiler.tests.utils.SpreadsheetVerifier;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-public class FormatVerifier
+public class XlsxSpreadsheetVerifier implements SpreadsheetVerifier
 {
     private static final class XMLErrorHandler implements ErrorHandler {
 
@@ -68,7 +69,7 @@ public class FormatVerifier
 		}
 	}
 	
-	public static void verify( InputStream _odsInputStream ) throws Exception
+	public void verify( InputStream _odsInputStream ) throws Exception
 	{
 		final Validator workbookValidator = getValidator( "sml-workbook.xsd" );
 		final Validator worksheetValidator = getValidator( "sml-sheet.xsd" );
@@ -97,5 +98,18 @@ public class FormatVerifier
 		final Validator validator = schema.newValidator();
 		validator.setErrorHandler( new XMLErrorHandler() );
 		return validator;
+	}
+
+	public static final class Factory implements SpreadsheetVerifier.Factory
+	{
+		public SpreadsheetVerifier getInstance()
+		{
+			return new XlsxSpreadsheetVerifier();
+		}
+
+		public boolean canHandle( String _fileExtension )
+		{
+			return _fileExtension.equalsIgnoreCase( ".xlsx" );
+		}
 	}
 }
