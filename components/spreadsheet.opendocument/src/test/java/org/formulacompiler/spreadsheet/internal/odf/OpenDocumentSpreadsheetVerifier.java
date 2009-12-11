@@ -29,6 +29,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.formulacompiler.spreadsheet.internal.odf.saver.io.NonClosableInputStream;
+import org.formulacompiler.tests.utils.SpreadsheetVerifier;
 import org.iso_relax.verifier.Schema;
 import org.iso_relax.verifier.Verifier;
 import org.iso_relax.verifier.VerifierConfigurationException;
@@ -36,11 +37,11 @@ import org.iso_relax.verifier.VerifierFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class OpenDocumentFormatVerifier
+public class OpenDocumentSpreadsheetVerifier implements SpreadsheetVerifier
 {
 	private static final String RELAXNG_NS_URI = "http://relaxng.org/ns/structure/1.0";
 
-	public static void verify( InputStream _odsInputStream ) throws Exception
+	public void verify( InputStream _odsInputStream ) throws Exception
 	{
 		final VerifierFactory factory = VerifierFactory.newInstance( RELAXNG_NS_URI );
 		final Verifier manifestVerifier = newVerifier( factory, "OpenDocument-manifest-schema-v1.1.rng" );
@@ -70,4 +71,16 @@ public class OpenDocumentFormatVerifier
 	}
 
 
+	public static final class Factory implements SpreadsheetVerifier.Factory
+	{
+		public SpreadsheetVerifier getInstance()
+		{
+			return new OpenDocumentSpreadsheetVerifier();
+		}
+
+		public boolean canHandle( String _fileExtension )
+		{
+			return _fileExtension.equalsIgnoreCase( ".ods" );
+		}
+	}
 }

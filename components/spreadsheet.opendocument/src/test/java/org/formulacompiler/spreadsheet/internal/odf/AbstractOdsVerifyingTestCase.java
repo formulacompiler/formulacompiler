@@ -81,7 +81,7 @@ public abstract class AbstractOdsVerifyingTestCase extends TestCase
 			final InputStream expectedInputStream = new FileInputStream( savedFile );
 			final InputStream actualInputStream = new ByteArrayInputStream( generatedDocument );
 			try {
-				SpreadsheetAssert.assertEqualSpreadsheets( expectedInputStream, actualInputStream, ".ods" );
+				SpreadsheetAssert.assertEqualSpreadsheets( expectedInputStream, actualInputStream, FILE_EXTENSION );
 			} catch (AssertionFailedError e) {
 				final File actualFile = new File( getDataDirectory(), this.getName() + "_saved-actual" + FILE_EXTENSION );
 				final OutputStream outputStream = new FileOutputStream( actualFile );
@@ -91,7 +91,7 @@ public abstract class AbstractOdsVerifyingTestCase extends TestCase
 		}
 
 		final InputStream inputStream = new ByteArrayInputStream( generatedDocument );
-		OpenDocumentFormatVerifier.verify( inputStream );
+		SpreadsheetAssert.verify( inputStream, FILE_EXTENSION );
 	}
 
 	protected abstract File getDataDirectory();

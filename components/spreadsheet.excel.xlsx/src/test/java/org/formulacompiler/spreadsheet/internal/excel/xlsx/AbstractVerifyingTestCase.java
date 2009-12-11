@@ -33,7 +33,6 @@ import java.io.OutputStream;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
-import org.formulacompiler.spreadsheet.internal.excel.xlsx.FormatVerifier;
 import org.formulacompiler.tests.utils.SpreadsheetAssert;
 
 import junit.framework.AssertionFailedError;
@@ -82,7 +81,7 @@ public abstract class AbstractVerifyingTestCase extends TestCase
 			final InputStream expectedInputStream = new FileInputStream( savedFile );
 			final InputStream actualInputStream = new ByteArrayInputStream( generatedDocument );
 			try {
-				SpreadsheetAssert.assertEqualSpreadsheets( expectedInputStream, actualInputStream, ".xlsx" );
+				SpreadsheetAssert.assertEqualSpreadsheets( expectedInputStream, actualInputStream, FILE_EXTENSION );
 			} catch (AssertionFailedError e) {
 				final File actualFile = new File( getDataDirectory(), this.getName() + "_saved-actual" + FILE_EXTENSION );
 				final OutputStream outputStream = new FileOutputStream( actualFile );
@@ -92,7 +91,7 @@ public abstract class AbstractVerifyingTestCase extends TestCase
 		}
 
 		final InputStream inputStream = new ByteArrayInputStream( generatedDocument );
-		FormatVerifier.verify( inputStream );
+		SpreadsheetAssert.verify( inputStream, FILE_EXTENSION );
 	}
 
 	protected abstract File getDataDirectory();
