@@ -31,7 +31,7 @@ import org.formulacompiler.runtime.EngineLoader;
 import org.formulacompiler.runtime.FormulaRuntime;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormatTestFactory;
 
 import junit.framework.Test;
 

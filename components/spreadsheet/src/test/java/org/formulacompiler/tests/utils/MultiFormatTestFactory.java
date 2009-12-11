@@ -20,7 +20,7 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.tests;
+package org.formulacompiler.tests.utils;
 
 import java.util.Enumeration;
 
