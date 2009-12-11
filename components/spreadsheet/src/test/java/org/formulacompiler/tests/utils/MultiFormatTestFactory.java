@@ -34,21 +34,22 @@ public final class MultiFormatTestFactory
 	public static Test testSuite( final Class<? extends SpreadsheetFormatTest> _testCaseClass )
 	{
 		final TestSuite suite = new TestSuite( _testCaseClass.getName() );
-		suite.addTest( new MultiFormatTestSuite( _testCaseClass, ".xls" ) );
-		suite.addTest( new MultiFormatTestSuite( _testCaseClass, ".xlsx" ) );
-		suite.addTest( new MultiFormatTestSuite( _testCaseClass, ".ods" ) );
+		suite.addTest( new MultiFormatTestSuite( _testCaseClass, ".xls", ".xlt" ) );
+		suite.addTest( new MultiFormatTestSuite( _testCaseClass, ".xlsx", ".xltx" ) );
+		suite.addTest( new MultiFormatTestSuite( _testCaseClass, ".ods", ".ots" ) );
 		return suite;
 	}
 
 	private static class MultiFormatTestSuite extends TestSuite
 	{
-		public MultiFormatTestSuite( final Class<? extends SpreadsheetFormatTest> _class, final String _spreadsheetExtension )
+		public MultiFormatTestSuite( final Class<? extends SpreadsheetFormatTest> _class, final String _spreadsheetExtension, final String _templateExtension )
 		{
 			super( _class, _spreadsheetExtension );
 			final Enumeration tests = tests();
 			while (tests.hasMoreElements()) {
 				SpreadsheetFormatTest testCase = (SpreadsheetFormatTest) tests.nextElement();
 				testCase.setSpreadsheetExtension( _spreadsheetExtension );
+				testCase.setSpreadsheetTemplateExtension( _templateExtension );
 			}
 		}
 
@@ -57,11 +58,15 @@ public final class MultiFormatTestFactory
 	public static interface SpreadsheetFormatTest
 	{
 		public void setSpreadsheetExtension( final String _spreadsheetExtension );
+
+		public void setSpreadsheetTemplateExtension( final String _extension );
 	}
 
 	public static abstract class SpreadsheetFormatTestCase extends TestCase implements SpreadsheetFormatTest
 	{
 		private String spreadsheetExtension;
+
+		private String spreadsheetTemplateExtension;
 
 		protected SpreadsheetFormatTestCase()
 		{
@@ -78,9 +83,19 @@ public final class MultiFormatTestFactory
 			return this.spreadsheetExtension;
 		}
 
+		public String getSpreadsheetTemplateExtension()
+		{
+			return this.spreadsheetTemplateExtension;
+		}
+
 		public void setSpreadsheetExtension( final String _spreadsheetExtension )
 		{
 			this.spreadsheetExtension = _spreadsheetExtension;
+		}
+
+		public void setSpreadsheetTemplateExtension( final String _extension )
+		{
+			this.spreadsheetTemplateExtension = _extension;
 		}
 	}
 }
