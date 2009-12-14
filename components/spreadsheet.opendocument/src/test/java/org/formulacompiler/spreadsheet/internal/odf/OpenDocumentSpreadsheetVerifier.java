@@ -22,9 +22,9 @@
 
 package org.formulacompiler.spreadsheet.internal.odf;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -65,8 +65,9 @@ public class OpenDocumentSpreadsheetVerifier implements SpreadsheetVerifier
 	private static Verifier newVerifier( final VerifierFactory _factory, final String _schemaName )
 			throws VerifierConfigurationException, SAXException, IOException
 	{
-		final File file = new File( "src/test/data/schema/" + _schemaName );
-		final Schema schema = _factory.compileSchema( file );
+		final ClassLoader classLoader = OpenDocumentSpreadsheetVerifier.class.getClassLoader();
+		final URL url = classLoader.getResource( "schema/" + _schemaName );
+		final Schema schema = _factory.compileSchema( url.toString() );
 		return schema.newVerifier();
 	}
 

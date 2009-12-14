@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.net.URL;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
@@ -92,9 +93,10 @@ public class XlsxSpreadsheetVerifier implements SpreadsheetVerifier
 	
 	private static Validator getValidator( String _schema ) throws SAXException
 	{
-		final File file = new File( "src/test/data/schema", _schema ); 
+		final ClassLoader classLoader = XlsxSpreadsheetVerifier.class.getClassLoader();
+		final URL url = classLoader.getResource( "schema/" + _schema );
 		final SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
-		final Schema schema = factory.newSchema( file );
+		final Schema schema = factory.newSchema( url );
 		final Validator validator = schema.newValidator();
 		validator.setErrorHandler( new XMLErrorHandler() );
 		return validator;
