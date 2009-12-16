@@ -36,9 +36,9 @@ import junit.framework.TestCase;
 
 public class SpreadsheetExpressionParserTest extends TestCase
 {
-	SpreadsheetImpl workbook = new SpreadsheetImpl();
-	SheetImpl sheet = new SheetImpl( this.workbook, "One" );
-	CellIndex parseRelativeTo = new CellIndex( this.workbook, 0, 1, 1 );
+	private final SpreadsheetImpl workbook = new SpreadsheetImpl();
+	private final SheetImpl sheet = new SheetImpl( this.workbook, "One" );
+	private CellIndex parseRelativeTo = new CellIndex( this.workbook, 0, 1, 1 );
 
 
 	@Override
@@ -93,6 +93,15 @@ public class SpreadsheetExpressionParserTest extends TestCase
 		} catch (CellRefParseException e) {
 			assertEquals( "Invalid A1-style range or cell reference: R1C1", e.getMessage() );
 		}
+	}
+
+	public void testRangesA1() throws Exception
+	{
+		new SheetImpl( this.workbook, "Two" );
+		assertRangeRef( "One!A1:B1", "A1:B1", CellRefFormat.A1 );
+		assertRangeRef( "One!$A$1:$B$1", "$A$1:$B$1", CellRefFormat.A1 );
+		assertRangeRef( "Two!A1:B1", "Two!A1:B1", CellRefFormat.A1 );
+		assertRangeRef( "One!A1:Two!B1", "One:Two!A1:B1", CellRefFormat.A1 );
 	}
 
 	public void testA1OOXML() throws Exception
