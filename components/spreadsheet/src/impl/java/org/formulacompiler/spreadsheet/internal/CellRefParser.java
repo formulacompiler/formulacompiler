@@ -282,7 +282,7 @@ public abstract class CellRefParser
 		}
 
 		private static final Pattern RANGE_PATTERN = Pattern.compile(
-				"^" + FQ_CELL_REGEXP + "(?::" + FQ_CELL_REGEXP + ")?$" );
+				"^(?:" + SHEET_NAME_REGEXP + "(?::" + SHEET_NAME_REGEXP + ")?!)?(?:" + CELL_OR_RANGE_REGEXP + ")$" );
 
 		public static CellRange parseCellRangeA1( String _range, CellIndex _relativeTo )
 		{
@@ -292,9 +292,9 @@ public abstract class CellRefParser
 			}
 			final SpreadsheetImpl spreadsheet = _relativeTo.spreadsheet;
 			final int fromSheetIndex = getSheetIndex( matcher, 1, _relativeTo.sheetIndex, spreadsheet );
-			final CellIndex fromCellIndex = getCellIndex( matcher, 3, fromSheetIndex, spreadsheet );
+			final int toSheetIndex = getSheetIndex( matcher, 3, fromSheetIndex, spreadsheet );
+			final CellIndex fromCellIndex = getCellIndex( matcher, 5, fromSheetIndex, spreadsheet );
 			if (fromCellIndex != null) {
-				final int toSheetIndex = getSheetIndex( matcher, 7, fromSheetIndex, spreadsheet );
 				final CellIndex toCellIndex = getCellIndex( matcher, 9, toSheetIndex, spreadsheet );
 				if (toCellIndex != null) {
 					return CellRange.getCellRange( fromCellIndex, toCellIndex );
