@@ -1,7 +1,7 @@
 
 h1. The Basics
 
-AFC(Abacus Formula Compiler) makes it possible to use computations defined in spreadsheet files within Java applications. AFC reads the spreadsheet files and compiles Java-based formula evaluation engines from them. Such an engine computes output values given a set of input values. For example, compute the value of the cell _B3_ given the values of the cells _B1_ and _B2_ as inputs. The original spreadsheet files can be created, for example, in "Microsoft Excel":-excel or "OpenOffice Calc":-ooc.
+AFC(Abacus Formula Compiler) makes it possible to use computations defined in spreadsheet files within Java applications. AFC reads the spreadsheet files and compiles Java-based formula evaluation engines from them. Such an engine computes output values given a set of input values. For example, compute the value of the cell _B4_ given the values of the cells _B1_ and _B2_ as inputs. The original spreadsheet files can be created, for example, in "Microsoft Excel":-excel or "OpenOffice Calc":-ooc.
 
 <%= toc 2, 3 %>
 
