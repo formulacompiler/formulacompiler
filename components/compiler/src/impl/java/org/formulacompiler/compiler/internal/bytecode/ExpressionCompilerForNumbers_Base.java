@@ -644,6 +644,9 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 					if (typeVal instanceof Number) {
 						compileMatch( _node, ((Number) typeVal).intValue() );
 					}
+					else if (typeVal instanceof Boolean) {
+						compileMatch( _node, (Boolean) typeVal ? 1 : 0 );
+					}
 					else {
 						compileMatch( _node, 1 );
 					}
