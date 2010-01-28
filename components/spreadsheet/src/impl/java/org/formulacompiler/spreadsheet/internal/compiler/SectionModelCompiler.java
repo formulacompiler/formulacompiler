@@ -30,6 +30,8 @@ import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.err;
+
+import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
@@ -206,11 +208,15 @@ public final class SectionModelCompiler
 
 	private void buildCellModel( CellModel _cellModel, CellWithError _cell )
 	{
+		/*
+		 * Invalid values assume a numeric data type. This will lead to errors if they occur in string
+		 * expressions. We cannot handle these yet.
+		 */
 		if (CellWithError.NA.equals( _cell.getValue() )) {
 			_cellModel.setExpression( new ExpressionNodeForFunction( Function.NA ) );
 		}
 		else {
-			_cellModel.setExpression( err( _cell.getError() ) );
+			_cellModel.setExpression( err( _cell.getError(), DataType.NUMERIC ) );
 		}
 	}
 

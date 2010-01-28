@@ -267,6 +267,9 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 				// ---- typeOfFun
 				return DataType.STRING;
 
+			case ERROR:
+				return null; // must be provided by surrounding context, like a CASE statement
+
 			default:
 				return DataType.NUMERIC;
 		}

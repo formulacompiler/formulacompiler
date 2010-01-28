@@ -100,6 +100,12 @@ public final class ExpressionTemplatesForStrings
 		return b.toString();
 	}
 
+	public String fun_ERROR( String _message )
+	{
+		Runtime_v2.fun_ERROR( _message );
+		return null;
+	}
+
 	public String fun_CLEAN( String a )
 	{
 		return Runtime_v2.fun_CLEAN( a );
