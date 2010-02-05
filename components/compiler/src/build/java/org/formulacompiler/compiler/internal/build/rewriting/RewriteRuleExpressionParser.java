@@ -31,6 +31,7 @@ import java.util.Stack;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.internal.build.rewriting.AbstractDef.Param;
+import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldList;
@@ -428,4 +429,10 @@ final class RewriteRuleExpressionParser extends ExpressionParser
 		pushNode( new ExpressionNodeForFoldVectors( def, vecs ) );
 	}
 
+	@Override
+	protected void setExprType( final Token _type )
+	{
+		final String type = _type.image.substring( 2 );
+		peekNode().setDeclaredDataType( Enum.valueOf( DataType.class, type ) );
+	}
 }

@@ -1138,9 +1138,10 @@ void niceApply():
 		)
 	}
 
-void niceExpr(): {}
+void niceExpr():
+	{	Token type = null; }
 	{	nice()
-	|	expr()
+	|	expr() [ type=<TYPE> {	setExprType( type ); } ]
 	}
 
 
@@ -1192,4 +1193,8 @@ TOKEN: /* Names */
 
 TOKEN: /* Separators */
 	{	<SEP: "," | ";" >
+	}
+
+TOKEN: /* TYPES */
+	{	<TYPE: "::" ("NUMERIC" | "STRING") >
 	}

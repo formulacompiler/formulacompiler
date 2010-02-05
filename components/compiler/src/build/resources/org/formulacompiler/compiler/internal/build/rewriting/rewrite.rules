@@ -576,7 +576,7 @@ rules {
 //				if errVal <> 0 then err( "#NUM! because prob_range < 0 or prob_range > 1 in PROB" ) else 
 				if ABS(sum - 1) > 0.0000001 then err( "#NUM! because the sum of probabilities != 1 in PROB" )
 				else res
-			when empty err( "#DIV/0! because list doesn't contain numbers in PROB" )
+			when empty err( "#DIV/0! because list doesn't contain numbers in PROB" ) ::NUMERIC
 			end
 		to vectors {ws, ps}
 
@@ -902,7 +902,7 @@ rules {
 				sxy = sxy + xi * yi
 			with count n into
 				(sxy - sx*sy/n) / n
-			when empty err( "#DIV/0! because list doesn't contain numbers in COVAR" )                                 
+			when empty err( "#DIV/0! because list doesn't contain numbers in COVAR" ) ::NUMERIC
 			end
 		to vectors {xs, ys}
 	// citation: covar

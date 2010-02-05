@@ -301,6 +301,11 @@ abstract class ExpressionParserBase
 		throw new IllegalStateException();
 	}
 
+	protected void setExprType( final Token _type )
+	{
+		throw new IllegalStateException();
+	}
+
 
 	protected static final class InnerParserException extends RuntimeException
 	{
