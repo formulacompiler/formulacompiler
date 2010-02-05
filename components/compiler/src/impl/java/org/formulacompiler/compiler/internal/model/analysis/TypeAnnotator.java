@@ -22,6 +22,7 @@
 
 package org.formulacompiler.compiler.internal.model.analysis;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.formulacompiler.compiler.CompilerException;
@@ -227,8 +228,15 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 			// ---- typeOfFun
 
 			case IF:
-				if (_expr.arguments().size() >= 2) {
-					return _expr.arguments().get( 1 ).getDataType();
+				final ExpressionNode thenArg = _expr.argumentOrNull( 1 );
+				if (null != thenArg) {
+					final ExpressionNode elseArg = _expr.argumentOrNull( 2 );
+					if (null != elseArg) {
+						return commonTypeOf( _expr, thenArg, elseArg );
+					}
+					else {
+						return commonTypeOf( _expr, thenArg );
+					}
 				}
 				else {
 					unsupported( _expr );
@@ -279,7 +287,10 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 	private DataType typeOf( ExpressionNodeForSwitch _expr ) throws CompilerException
 	{
 		annotateArgs( _expr );
-		return _expr.defaultValue().getDataType();
+		final Collection<ExpressionNodeForSwitchCase> cases = _expr.cases();
+		final ExpressionNode[] expressions = cases.toArray( new ExpressionNode[cases.size() + 1] );
+		expressions[ expressions.length - 1 ] = _expr.defaultValue();
+		return commonTypeOf( _expr, expressions );
 	}
 
 	private DataType typeOf( ExpressionNodeForSwitchCase _expr ) throws CompilerException
@@ -401,6 +412,39 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 	{
 		final ExpressionNode exp = _expr.argument( 0 );
 		return annotate( exp );
+	}
+
+	private DataType commonTypeOf( ExpressionNode _parent, ExpressionNode... _args ) throws CompilerException
+	{
+		DataType refType = null;
+		ExpressionNode refExpr = null;
+		for (ExpressionNode arg : _args) {
+			final DataType type = arg.getDataType();
+			if (type != null) {
+				refType = type;
+				refExpr = arg;
+				break;
+			}
+		}
+		if (refType == null) {
+			throw new CompilerException.DataTypeError( "Cannot determine type of expression " + _parent
+					+ " because its argument(s) are untyped." );
+		}
+		for (ExpressionNode arg : _args) {
+			final DataType type = arg.getDataType();
+			if (type != null) {
+				if (refType != type) {
+					throw new CompilerException.DataTypeError( "Arguments of expression " + _parent
+							+ " must have the same type."
+							+ "\nExpression " + arg + " has type " + type + "."
+							+ "\nExpression " + refExpr + " has type " + refType + "." );
+				}
+			}
+			else {
+				arg.setDataType( refType );
+			}
+		}
+		return refType;
 	}
 
 	private void unsupported( ExpressionNode _expr ) throws CompilerException

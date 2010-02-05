@@ -168,6 +168,23 @@ public class CompilerException extends FormulaCompilerException
 
 
 	/**
+	 * You attempted to combine incompatible types in an expression; or you attempted to use
+	 * an expression which type cannot be determined.
+	 *
+	 * @author Vladimir Korenev
+	 */
+	public static class DataTypeError extends CompilerException
+	{
+
+		public DataTypeError( String _message )
+		{
+			super( _message );
+		}
+
+	}
+
+
+	/**
 	 * You specified a factory or output class with no suitable constructor for AFC to call. Note
 	 * that the constructors must be {@code public}.
 	 * 

@@ -26,12 +26,15 @@ import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilde
 
 import java.util.Calendar;
 
+import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitchCase;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
@@ -89,6 +92,21 @@ public class TypeAnnotatorTest extends TestCase
 			assertSame( _type, _cell.getDataType() );
 		}
 
+	}
+
+
+	private static class IFTester extends ConstantTester
+	{
+		@Override
+		protected void checkCell( DataType _type, CellModel _cell )
+		{
+			final ExpressionNode e = _cell.getExpression();
+			assertSame( _type, e.getDataType() );
+			assertSame( DataType.NUMERIC, e.arguments().get( 0 ).getDataType() );
+			assertSame( _type, e.arguments().get( 1 ).getDataType() );
+			assertSame( _type, e.arguments().get( 2 ).getDataType() );
+			super.checkCell( _type, _cell );
+		}
 	}
 
 
@@ -228,13 +246,89 @@ public class TypeAnnotatorTest extends TestCase
 
 	public void testIF() throws Exception
 	{
-		new ConstantTester()
+		new IFTester()
 		{
 
 			@Override
 			protected void defineCell( SectionModel _root, CellModel _cell, Object _value )
 			{
 				_cell.setExpression( fun( Function.IF, cst( 1 ), cst( _value ), cst( _value ) ) );
+			}
+
+		}.run();
+	}
+
+	public void testIFWithUntypedThen() throws Exception
+	{
+		new IFTester()
+		{
+
+			@Override
+			protected void defineCell( SectionModel _root, CellModel _cell, Object _value )
+			{
+				_cell.setExpression( fun( Function.IF, cst( 1 ), err( "Error!" ), cst( _value ) ) );
+			}
+
+		}.run();
+	}
+
+	public void testIFWithUntypedElse() throws Exception
+	{
+		new IFTester()
+		{
+
+			@Override
+			protected void defineCell( SectionModel _root, CellModel _cell, Object _value )
+			{
+				_cell.setExpression( fun( Function.IF, cst( 1 ), cst( _value ), err( "Error!" ) ) );
+			}
+
+		}.run();
+	}
+
+	public void testIFWithIncompatibleTypes() throws Exception
+	{
+		ComputationModel m = new ComputationModel( In.class, Out.class );
+		CellModel c = new CellModel( m.getRoot(), "Result" );
+		c.setExpression( fun( Function.IF, cst( 1 ), cst( 2 ), cst( "str" ) ) );
+
+		try {
+			m.traverse( new TypeAnnotator() );
+		} catch (CompilerException.DataTypeError e) {
+			assertEquals( "Arguments of expression IF( 1, 2, \"str\" ) must have the same type.\n" +
+					"Expression \"str\" has type STRING.\n" +
+					"Expression 2 has type NUMERIC.\n" +
+					"Cell containing expression is Result.\n" +
+					"Referenced by cell Result.", e.getMessage() );
+		}
+	}
+
+	public void testIFWithUndefinedTypes() throws Exception
+	{
+		ComputationModel m = new ComputationModel( In.class, Out.class );
+		CellModel c = new CellModel( m.getRoot(), "Result" );
+		c.setExpression( fun( Function.IF, cst( 1 ), err( "1" ), err( "2" ) ) );
+
+		try {
+			m.traverse( new TypeAnnotator() );
+		} catch (CompilerException.DataTypeError e) {
+			assertEquals( "Cannot determine type of expression IF( 1, ERROR( \"1\" ), ERROR( \"2\" ) ) because its argument(s) are untyped.\n" +
+					"Cell containing expression is Result.\n" +
+					"Referenced by cell Result.", e.getMessage() );
+		}
+	}
+
+	public void testSwitchWithUntypedDefaultValue() throws Exception
+	{
+		new ConstantTester()
+		{
+
+			@Override
+			protected void defineCell( final SectionModel _root, final CellModel _cell, final Object _value )
+			{
+				_cell.setExpression( new ExpressionNodeForSwitch( cst( 0 ), err( "Error!" ),
+						new ExpressionNodeForSwitchCase( cst( _value ), 0 ),
+						new ExpressionNodeForSwitchCase( cst( _value ), 1 ) ) );
 			}
 
 			@Override
@@ -245,10 +339,73 @@ public class TypeAnnotatorTest extends TestCase
 				assertSame( DataType.NUMERIC, e.arguments().get( 0 ).getDataType() );
 				assertSame( _type, e.arguments().get( 1 ).getDataType() );
 				assertSame( _type, e.arguments().get( 2 ).getDataType() );
+				assertSame( _type, e.arguments().get( 3 ).getDataType() );
 				super.checkCell( _type, _cell );
 			}
 
 		}.run();
+	}
+
+	public void testSwitchWithUntypedValues() throws Exception
+	{
+		new ConstantTester()
+		{
+
+			@Override
+			protected void defineCell( final SectionModel _root, final CellModel _cell, final Object _value )
+			{
+				_cell.setExpression( new ExpressionNodeForSwitch( cst( 0 ), cst( _value ),
+						new ExpressionNodeForSwitchCase( err( "Error!" ), 0 ),
+						new ExpressionNodeForSwitchCase( err( "Error!" ), 1 ) ) );
+			}
+
+			@Override
+			protected void checkCell( DataType _type, CellModel _cell )
+			{
+				final ExpressionNode e = _cell.getExpression();
+				assertSame( _type, e.getDataType() );
+				assertSame( DataType.NUMERIC, e.arguments().get( 0 ).getDataType() );
+				assertSame( _type, e.arguments().get( 1 ).getDataType() );
+				assertSame( _type, e.arguments().get( 2 ).getDataType() );
+				assertSame( _type, e.arguments().get( 3 ).getDataType() );
+				super.checkCell( _type, _cell );
+			}
+
+		}.run();
+	}
+
+	public void testSwitchWithIncompatibleTypes() throws Exception
+	{
+		ComputationModel m = new ComputationModel( In.class, Out.class );
+		CellModel c = new CellModel( m.getRoot(), "Result" );
+		c.setExpression( new ExpressionNodeForSwitch( cst( 0 ), cst( 1 ),
+				new ExpressionNodeForSwitchCase( cst( "str" ), 0 ) ) );
+
+		try {
+			m.traverse( new TypeAnnotator() );
+		} catch (CompilerException.DataTypeError e) {
+			assertEquals( "Arguments of expression SWITCH( 0, CASE( 0 ): \"str\", DEFAULT: 1 ) must have the same type.\n" +
+					"Expression 1 has type NUMERIC.\n" +
+					"Expression CASE( 0 ): \"str\" has type STRING.\n" +
+					"Cell containing expression is Result.\n" +
+					"Referenced by cell Result.", e.getMessage() );
+		}
+	}
+
+	public void testSwitchWithUndefinedTypes() throws Exception
+	{
+		ComputationModel m = new ComputationModel( In.class, Out.class );
+		CellModel c = new CellModel( m.getRoot(), "Result" );
+		c.setExpression( new ExpressionNodeForSwitch( cst( 0 ), err( "1" ),
+				new ExpressionNodeForSwitchCase( err( "2" ), 0 ) ) );
+
+		try {
+			m.traverse( new TypeAnnotator() );
+		} catch (CompilerException.DataTypeError e) {
+			assertEquals( "Cannot determine type of expression SWITCH( 0, CASE( 0 ): ERROR( \"2\" ), DEFAULT: ERROR( \"1\" ) ) because its argument(s) are untyped.\n" +
+					"Cell containing expression is Result.\n" +
+					"Referenced by cell Result.", e.getMessage() );
+		}
 	}
 
 	public void testINDEX() throws Exception
