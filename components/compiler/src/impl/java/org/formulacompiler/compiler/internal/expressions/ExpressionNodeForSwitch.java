@@ -22,6 +22,7 @@
 
 package org.formulacompiler.compiler.internal.expressions;
 
+import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -54,11 +55,12 @@ public final class ExpressionNodeForSwitch extends ExpressionNode
 		return argument( 1 );
 	}
 
-	public Iterable<ExpressionNodeForSwitchCase> cases()
+	public Collection<ExpressionNodeForSwitchCase> cases()
 	{
-		return new Iterable<ExpressionNodeForSwitchCase>()
+		return new AbstractCollection<ExpressionNodeForSwitchCase>()
 		{
 
+			@Override
 			public Iterator<ExpressionNodeForSwitchCase> iterator()
 			{
 				final Iterator<ExpressionNode> args = arguments().iterator();
@@ -86,6 +88,11 @@ public final class ExpressionNodeForSwitch extends ExpressionNode
 				};
 			}
 
+			@Override
+			public int size()
+			{
+				return arguments().size() - offsetOfCasesInArguments();
+			}
 		};
 	}
 

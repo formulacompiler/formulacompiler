@@ -11,9 +11,10 @@ Lists the new features, improvements, and fixes for each release of AFC. Note th
 h2. Release 1.4
 
 h5. Fixed
-    
+
 	* Fixed parsing multisheet ranges in .xls files ("issue 21":http://code.google.com/p/formulacompiler/issues/detail?id=21).
 	* Fixed processing of HLOOKUP and VLOOKUP fourth parameter ("issue 24":http://code.google.com/p/formulacompiler/issues/detail?id=24).
+	* Fixed inferring type of IF and ExpressionNodeForSwitch ("issue 25":http://code.google.com/p/formulacompiler/issues/detail?id=25).
 
 
 h2. Release 1.3
