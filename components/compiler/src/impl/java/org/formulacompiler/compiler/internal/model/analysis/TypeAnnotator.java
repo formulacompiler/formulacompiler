@@ -115,7 +115,18 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 				return type;
 			}
 			else {
-				_expr.setDataType( dispatch( _expr ) );
+				final DataType inferredDataType = dispatch( _expr );
+				final DataType declaredDataType = _expr.getDeclaredDataType();
+				if (declaredDataType != null) {
+					if (inferredDataType != null && inferredDataType != declaredDataType) {
+						throw new CompilerException.DataTypeError( "The declared type " + declaredDataType
+								+ " of expression " + _expr + " does not match its inferred type " + inferredDataType + "." );
+					}
+					_expr.setDataType( declaredDataType );
+				}
+				else {
+					_expr.setDataType( inferredDataType );
+				}
 				return _expr.getDataType();
 			}
 		}

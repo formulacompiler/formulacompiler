@@ -34,6 +34,7 @@ import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.IOUtil;
 import org.formulacompiler.compiler.internal.build.rewriting.AbstractDef.Param;
+import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldApply;
@@ -467,23 +468,30 @@ public final class RewriteRulesCompiler
 		private final void compileExpr( ExpressionNode _node, DescriptionBuilder _b ) throws Exception
 		{
 			if (null == _node) _b.append( "null" );
+			else {
+				if (_node instanceof ExpressionNodeForConstantValue) compileConst(
+						(ExpressionNodeForConstantValue) _node, _b );
+				else if (_node instanceof ExpressionNodeForMinValue) compileExtremum( false, _b );
+				else if (_node instanceof ExpressionNodeForMaxValue) compileExtremum( true, _b );
+				else if (_node instanceof ExpressionNodeForOperator) compileOp( (ExpressionNodeForOperator) _node, _b );
+				else if (_node instanceof ExpressionNodeForFunction)
+					compileFun( (ExpressionNodeForFunction) _node, _b );
+				else if (_node instanceof ExpressionNodeForLetVar) compileLetVar( (ExpressionNodeForLetVar) _node, _b );
+				else if (_node instanceof ExpressionNodeForLet) compileLet( (ExpressionNodeForLet) _node, _b );
 
-			else if (_node instanceof ExpressionNodeForConstantValue) compileConst(
-					(ExpressionNodeForConstantValue) _node, _b );
-			else if (_node instanceof ExpressionNodeForMinValue) compileExtremum( false, _b );
-			else if (_node instanceof ExpressionNodeForMaxValue) compileExtremum( true, _b );
-			else if (_node instanceof ExpressionNodeForOperator) compileOp( (ExpressionNodeForOperator) _node, _b );
-			else if (_node instanceof ExpressionNodeForFunction) compileFun( (ExpressionNodeForFunction) _node, _b );
-			else if (_node instanceof ExpressionNodeForLetVar) compileLetVar( (ExpressionNodeForLetVar) _node, _b );
-			else if (_node instanceof ExpressionNodeForLet) compileLet( (ExpressionNodeForLet) _node, _b );
+				else if (_node instanceof ExpressionNodeForFoldDefinition) compileFoldDef(
+						(ExpressionNodeForFoldDefinition) _node, _b );
+				else if (_node instanceof ExpressionNodeForFoldList)
+					compileFoldApply( (ExpressionNodeForFoldList) _node, _b );
+				else if (_node instanceof ExpressionNodeForFoldVectors) compileFoldApply(
+						(ExpressionNodeForFoldVectors) _node, _b );
 
-			else if (_node instanceof ExpressionNodeForFoldDefinition) compileFoldDef(
-					(ExpressionNodeForFoldDefinition) _node, _b );
-			else if (_node instanceof ExpressionNodeForFoldList) compileFoldApply( (ExpressionNodeForFoldList) _node, _b );
-			else if (_node instanceof ExpressionNodeForFoldVectors) compileFoldApply(
-					(ExpressionNodeForFoldVectors) _node, _b );
-
-			else throw new Exception( "Unsupported expression: " + _node.toString() );
+				else throw new Exception( "Unsupported expression: " + _node.toString() );
+				final DataType declaredDataType = _node.getDeclaredDataType();
+				if (declaredDataType != null) {
+					compileDeclaredDataType( declaredDataType, _b );
+				}
+			}
 		}
 
 
@@ -657,6 +665,10 @@ public final class RewriteRulesCompiler
 			_b.append( " )" );
 		}
 
+		private void compileDeclaredDataType( final DataType _declaredDataType, final DescriptionBuilder _b )
+		{
+			_b.append( ".withDeclaredDataType( DataType." ).append( _declaredDataType ).append( ")" );
+		}
 	}
 
 

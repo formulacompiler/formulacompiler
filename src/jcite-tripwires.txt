@@ -4335,7 +4335,7 @@ rewrite covar( xs#, ys# ) =
 				sxy = sxy + xi * yi
 			with count n into
 				(sxy - sx*sy/n) / n
-			when empty err( "#DIV/0! because list doesn't contain numbers in COVAR" )                                 
+			when empty err( "#DIV/0! because list doesn't contain numbers in COVAR" ) ::NUMERIC
 			end
 		to vectors {xs, ys}
 ___@_@___

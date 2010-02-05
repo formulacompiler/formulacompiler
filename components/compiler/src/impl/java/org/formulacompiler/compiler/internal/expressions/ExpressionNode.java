@@ -35,6 +35,7 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 {
 	private List<ExpressionNode> arguments = New.list();
 	private DataType dataType;
+	private DataType declaredDataType;
 	private ExpressionNode derivedFrom;
 	private ExpressionContextProvider contextProvider;
 
@@ -105,6 +106,22 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 	public final void setDataType( DataType _dataType )
 	{
 		this.dataType = _dataType;
+	}
+
+	public DataType getDeclaredDataType()
+	{
+		return this.declaredDataType;
+	}
+
+	public void setDeclaredDataType( final DataType _dataType )
+	{
+		this.declaredDataType = _dataType;
+	}
+
+	public final ExpressionNode withDeclaredDataType( DataType _dataType )
+	{
+		setDeclaredDataType( _dataType );
+		return this;
 	}
 
 
