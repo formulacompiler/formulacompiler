@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -125,7 +126,7 @@ public final class TimeZones extends TestCase
 			throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/TimeZones.xls" );
+		builder.loadSpreadsheet( new File( "src/test/data/org/formulacompiler/tutorials/TimeZones.xls" ) );
 		builder.setInputClass( DateInput.class );
 		builder.setOutputClass( Demarcation.class );
 
@@ -196,7 +197,7 @@ public final class TimeZones extends TestCase
 	public void testDLSInSheet() throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/TimeZones.xls" );
+		builder.loadSpreadsheet( new File( "src/test/data/org/formulacompiler/tutorials/TimeZones.xls" ) );
 		builder.setInputClass( DLSInput.class );
 		builder.setOutputClass( DLSOutput.class );
 

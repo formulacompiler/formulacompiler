@@ -48,7 +48,7 @@ public class BindingCells extends MultiFormatTestFactory.SpreadsheetFormatTestCa
 
 		// ---- setupBuilder
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( new File( path ) );
 		/* -in- */builder.setInputClass( Input.class );/* -in- */
 		/* -out- */builder.setOutputClass( Output.class );/* -out- */
 		// ---- setupBuilder
@@ -176,7 +176,7 @@ public class BindingCells extends MultiFormatTestFactory.SpreadsheetFormatTestCa
 
 		// ---- setupBuilderWithDefaults
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( new File( path ) );
 		/**/builder.setFactoryClass( Factory.class );/**/
 		/**/builder.setOutputClass( OutputWithDefault.class );/**/
 		// ---- setupBuilderWithDefaults

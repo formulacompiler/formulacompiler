@@ -21,6 +21,8 @@
  */
 package org.formulacompiler.tests.regression;
 
+import java.io.File;
+
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.spreadsheet.EngineBuilder;
@@ -36,7 +38,7 @@ public class SumRangeOnDifferentSheet extends MultiFormatTestFactory.Spreadsheet
 	public void testSheet1() throws Exception
 	{
 		EngineBuilder b = SpreadsheetCompiler.newEngineBuilder();
-		b.loadSpreadsheet( DATA_FILE_PATH + getSpreadsheetExtension() );
+		b.loadSpreadsheet( new File( DATA_FILE_PATH + getSpreadsheetExtension() ) );
 		b.setInputClass( Inputs.class );
 		b.setOutputClass( Outputs.class );
 		b.getRootBinder().defineOutputCell( b.getSpreadsheet().getCellA1( "A1" ),
@@ -50,7 +52,7 @@ public class SumRangeOnDifferentSheet extends MultiFormatTestFactory.Spreadsheet
 	public void testSheet2() throws Exception
 	{
 		EngineBuilder b = SpreadsheetCompiler.newEngineBuilder();
-		b.loadSpreadsheet( DATA_FILE_PATH + getSpreadsheetExtension() );
+		b.loadSpreadsheet( new File( DATA_FILE_PATH + getSpreadsheetExtension() ) );
 		b.setInputClass( Inputs.class );
 		b.setOutputClass( Outputs.class );
 		b.getRootBinder().defineOutputCell( b.getSpreadsheet().getCellA1( "Sheet2!A1" ),

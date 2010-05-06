@@ -136,12 +136,6 @@ public class EngineBuilderImpl implements EngineBuilder
 	}
 
 
-	public void loadSpreadsheet( String _fileName ) throws FileNotFoundException, IOException, SpreadsheetException
-	{
-		loadSpreadsheet( new File( _fileName ) );
-	}
-
-
 	// ------------------------------------------------ Classes
 
 

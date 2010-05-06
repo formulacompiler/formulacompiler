@@ -22,6 +22,8 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
+
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.Resettable;
@@ -47,7 +49,7 @@ public class BonusPerEmployee_Linked extends MultiFormatTestFactory.SpreadsheetF
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.setNumericType( SpreadsheetCompiler.LONG_SCALE4 );
-		builder.loadSpreadsheet( getPath() );
+		builder.loadSpreadsheet( getFile() );
 		builder.setFactoryClass( BonusComputationFactory.class );
 
 		// builder.bindAllByName();
@@ -67,9 +69,9 @@ public class BonusPerEmployee_Linked extends MultiFormatTestFactory.SpreadsheetF
 	}
 
 
-	private String getPath()
+	private File getFile()
 	{
-		return "src/test/data/org/formulacompiler/tutorials/BonusPerEmployee" + getSpreadsheetExtension();
+		return new File( "src/test/data/org/formulacompiler/tutorials/BonusPerEmployee" + getSpreadsheetExtension() );
 	}
 
 

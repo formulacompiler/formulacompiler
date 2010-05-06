@@ -38,9 +38,9 @@ public class UnicodeTest extends AbstractSpreadsheetTestCase
 	@Override
 	protected void setUp() throws Exception
 	{
-		final String path = "src/test/data/UnicodeTest.xls";
+		final File file = new File( "src/test/data/UnicodeTest.xls" );
 		final EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( file );
 		builder.createCellNamesFromRowTitles();
 		spreadsheet = builder.getSpreadsheet();
 	}

@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
@@ -70,10 +71,10 @@ public class TypeConversion extends MultiFormatTestFactory.SpreadsheetFormatTest
 
 	private void testAllTypesWith( final NumericType _numericType ) throws Exception
 	{
-		String path = "src/test/data/org/formulacompiler/tutorials/TypeConversion" + getSpreadsheetExtension();
+		File file = new File( "src/test/data/org/formulacompiler/tutorials/TypeConversion" + getSpreadsheetExtension() );
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( AllTypesFactory.class );
 		builder.setNumericType( _numericType );
 		builder.bindAllByName();

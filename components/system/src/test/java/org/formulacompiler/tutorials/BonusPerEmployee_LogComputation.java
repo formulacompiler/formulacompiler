@@ -24,6 +24,7 @@ package org.formulacompiler.tutorials;
 
 import static org.formulacompiler.tutorials.BonusPerEmployee.*;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
@@ -56,7 +57,7 @@ public class BonusPerEmployee_LogComputation extends MultiFormatTestFactory.Spre
 		// ---- compileEngine
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.setNumericType( SpreadsheetCompiler.LONG_SCALE4 );
-		builder.loadSpreadsheet( getPath() );
+		builder.loadSpreadsheet( getFile() );
 		builder.setFactoryClass( BonusComputationFactory.class );
 		builder.setOutputClass( BonusComputationDefaults.class );
 		builder./**/setComputationListenerEnabled( true )/**/;
@@ -66,7 +67,7 @@ public class BonusPerEmployee_LogComputation extends MultiFormatTestFactory.Spre
 		SaveableEngine engine = builder.compile();
 		// ---- compileEngine
 
-		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/bonusPerEmployee_withLogging" );
+		FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/bonusPerEmployee_withLogging" ) );
 
 		// ---- setListener
 		TestComputationListener listener = new TestComputationListener();
@@ -125,9 +126,9 @@ public class BonusPerEmployee_LogComputation extends MultiFormatTestFactory.Spre
 		// ---- events
 	}
 
-	private String getPath()
+	private File getFile()
 	{
-		return "src/test/data/org/formulacompiler/tutorials/BonusPerEmployee" + getSpreadsheetExtension();
+		return new File( "src/test/data/org/formulacompiler/tutorials/BonusPerEmployee" + getSpreadsheetExtension() );
 	}
 
 

@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -197,7 +198,7 @@ public class Caching extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		// DO NOT REFORMAT BELOW THIS LINE
 		// ---- compile
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( getPath() );
+		builder.loadSpreadsheet( getFile() );
 		builder.setInputClass( Input.class );
 		builder.setOutputClass( Output.class );
 		builder.setNumericType( unboundedBigDecimal );
@@ -210,15 +211,15 @@ public class Caching extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		// ---- compile
 		// DO NOT REFORMAT ABOVE THIS LINE
 		if (null != _path) {
-			FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/caching/" + _path );
+			FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/caching/" + _path ) );
 		}
 		return engine.getComputationFactory();
 	}
 
 
-	private String getPath()
+	private File getFile()
 	{
-		return "src/test/data/org/formulacompiler/tutorials/Caching" + getSpreadsheetExtension();
+		return new File( "src/test/data/org/formulacompiler/tutorials/Caching" + getSpreadsheetExtension() );
 	}
 
 

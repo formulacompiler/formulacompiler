@@ -87,12 +87,12 @@ public class EngineSerializationDemo extends MultiFormatTestFactory.SpreadsheetF
 	}
 
 
-	private static final String DATA_PATH = "src/test/data/org/formulacompiler/examples/";
+	private static final File DATA_PATH = new File( "src/test/data/org/formulacompiler/examples/" );
 	private static final String TEMP_ENGINE_JAR = "temp/Engine.jar";
 
-	private String getSpreadsheetFile()
+	private File getSpreadsheetFile()
 	{
-		return DATA_PATH + "test" + getSpreadsheetExtension();
+		return new File( DATA_PATH, "test" + getSpreadsheetExtension() );
 	}
 
 	public static Test suite()

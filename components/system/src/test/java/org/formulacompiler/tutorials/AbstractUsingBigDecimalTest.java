@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.math.BigDecimal;
 
 import org.formulacompiler.tests.utils.MultiFormatTestFactory;
@@ -29,9 +30,9 @@ import org.formulacompiler.tests.utils.MultiFormatTestFactory;
 public abstract class AbstractUsingBigDecimalTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 {
 
-	protected String getPath()
+	protected File getFile()
 	{
-		return "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes" + getSpreadsheetExtension();
+		return new File( "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes" + getSpreadsheetExtension() );
 	}
 
 

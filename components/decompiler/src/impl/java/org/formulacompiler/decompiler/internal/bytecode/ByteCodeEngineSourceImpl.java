@@ -85,9 +85,4 @@ public final class ByteCodeEngineSourceImpl implements ByteCodeEngineSource
 		}
 	}
 
-	public void saveTo( String _targetPath ) throws IOException
-	{
-		saveTo( new File( _targetPath ) );
-	}
-
 }

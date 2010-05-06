@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -40,10 +41,10 @@ public class UsingPrecisionBigDecimal extends AbstractUsingBigDecimalTest
 
 	public void testUsingBigDecimal34() throws Exception
 	{
-		String path = getPath();
+		File file = getFile();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( Factory.class );
 		// ---- buildCompiler34
 		builder.setNumericType( /**/SpreadsheetCompiler.BIGDECIMAL128/**/ );
@@ -73,16 +74,16 @@ public class UsingPrecisionBigDecimal extends AbstractUsingBigDecimalTest
 			// ---- checkResult34c
 		}
 
-		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/bigdecimal_prec34" );
+		FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/numeric_type/bigdecimal_prec34" ) );
 	}
 
 
 	public void testUsingBigDecimal4() throws Exception
 	{
-		String path = getPath();
+		File file = getFile();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( Factory.class );
 		// ---- buildCompiler4
 		MathContext mathContext = /**/new MathContext( 4, RoundingMode.HALF_UP )/**/;
@@ -113,7 +114,7 @@ public class UsingPrecisionBigDecimal extends AbstractUsingBigDecimalTest
 			// ---- checkResult4c
 		}
 
-		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/bigdecimal_prec4" );
+		FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/numeric_type/bigdecimal_prec4" ) );
 	}
 
 

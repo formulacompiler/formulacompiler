@@ -22,6 +22,7 @@
 
 package org.formulacompiler.debug.tester;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -36,17 +37,17 @@ import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 
 public abstract class AbstractTester
 {
 
 
-	protected abstract String sourceFileName();
+	protected abstract File sourceFile();
 	protected abstract void define() throws Exception;
 
 
@@ -69,7 +70,7 @@ public abstract class AbstractTester
 	private final void run() throws Exception
 	{
 		this.builder = SpreadsheetCompiler.newEngineBuilder();
-		this.builder.loadSpreadsheet( sourceFileName() );
+		this.builder.loadSpreadsheet( sourceFile() );
 		this.builder.setInputClass( Inputs.class );
 		this.builder.setOutputClass( Outputs.class );
 		this.root = new SectionDef();

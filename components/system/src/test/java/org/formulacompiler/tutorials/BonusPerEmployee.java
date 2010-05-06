@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
@@ -77,7 +78,7 @@ public class BonusPerEmployee extends MultiFormatTestFactory.SpreadsheetFormatTe
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.setNumericType( SpreadsheetCompiler.LONG_SCALE4 );
-		builder.loadSpreadsheet( getPath() );
+		builder.loadSpreadsheet( getFile() );
 		builder.setFactoryClass( BonusComputationFactory.class );
 		builder.setOutputClass( BonusComputationDefaults.class );
 
@@ -86,7 +87,7 @@ public class BonusPerEmployee extends MultiFormatTestFactory.SpreadsheetFormatTe
 
 		SaveableEngine engine = builder.compile();
 		if (_version == AccessorVersion.ARRAY) {
-			FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/bonusPerEmployee" );
+			FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/bonusPerEmployee" ) );
 		}
 
 		BonusComputationFactory factory = (BonusComputationFactory) engine.getComputationFactory();
@@ -103,9 +104,9 @@ public class BonusPerEmployee extends MultiFormatTestFactory.SpreadsheetFormatTe
 		}
 	}
 
-	private String getPath()
+	private File getFile()
 	{
-		return "src/test/data/org/formulacompiler/tutorials/BonusPerEmployee" + getSpreadsheetExtension();
+		return new File( "src/test/data/org/formulacompiler/tutorials/BonusPerEmployee" + getSpreadsheetExtension() );
 	}
 
 

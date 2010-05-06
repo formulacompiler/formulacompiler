@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
 import org.formulacompiler.spreadsheet.EngineBuilder;
@@ -36,10 +37,10 @@ public class BindingToMultipleInterfaces
 
 	public void bindingToMultipleInputs() throws Exception
 	{
-		final String path = "src/test-system/data/tutorials/BindingToMultipleInputs.xls";
+		final File file = new File( "src/test-system/data/tutorials/BindingToMultipleInputs.xls" );
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( file );
 		builder.setInputClass( Input.class );
 		builder.setOutputClass( Output.class );
 		Spreadsheet spreadsheet = builder.getSpreadsheet();

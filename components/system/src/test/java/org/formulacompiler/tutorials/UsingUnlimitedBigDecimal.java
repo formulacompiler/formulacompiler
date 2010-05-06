@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.math.BigDecimal;
 
 import org.formulacompiler.decompiler.FormulaDecompiler;
@@ -38,9 +39,9 @@ public class UsingUnlimitedBigDecimal extends AbstractUsingBigDecimalTest
 
 	public void testUsingBigDecimalN() throws Exception
 	{
-		String path = getPath();
+		File file = getFile();
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( Factory.class );
 		// ---- buildCompilerN
 		builder.setNumericType( /**/SpreadsheetCompiler.getNumericType( BigDecimal.class )/**/ );
@@ -69,7 +70,7 @@ public class UsingUnlimitedBigDecimal extends AbstractUsingBigDecimalTest
 			// ---- checkResultNb
 		}
 
-		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/bigdecimal0" );
+		FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/numeric_type/bigdecimal0" ) );
 	}
 
 

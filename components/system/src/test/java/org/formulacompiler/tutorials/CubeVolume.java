@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.util.List;
 
 import org.formulacompiler.compiler.SaveableEngine;
@@ -44,7 +45,7 @@ public class CubeVolume extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	{
 		// ---- compileEngine
 		final EngineBuilder b = SpreadsheetCompiler.newEngineBuilder();
-		b.loadSpreadsheet( getPath() );
+		b.loadSpreadsheet( getFile() );
 		b.setInputClass( Inputs.class );
 		b.setOutputClass( Outputs.class );
 		b.createCellNamesFromRowTitles();
@@ -79,7 +80,7 @@ public class CubeVolume extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	{
 		// ---- createBuilder
 		final EngineBuilder b = SpreadsheetCompiler.newEngineBuilder();
-		b.loadSpreadsheet( getPath() );
+		b.loadSpreadsheet( getFile() );
 		b.setInputClass( Inputs2.class );
 		b.setOutputClass( Outputs.class );
 		b.createCellNamesFromRowTitles();
@@ -109,9 +110,9 @@ public class CubeVolume extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		assertEvent( "<- 102.0 in Sheet1!B5(Volume)", listener.events.get( 1 ) );
 	}
 
-	private String getPath()
+	private File getFile()
 	{
-		return "src/test/data/org/formulacompiler/tutorials/CubeVolume" + getSpreadsheetExtension();
+		return new File( "src/test/data/org/formulacompiler/tutorials/CubeVolume" + getSpreadsheetExtension() );
 	}
 
 	private static void assertEvent( String _expected, SpreadsheetCellComputationEvent _actual )

@@ -102,7 +102,7 @@ public class QuickStart extends org.formulacompiler.tests.utils.AbstractSpreadsh
 	private void decompile( SaveableEngine engine ) throws Exception
 	{
 		ByteCodeEngineSource source = FormulaDecompiler.decompile( engine );
-		source.saveTo( "temp/test/decompiled/quickstart" );
+		source.saveTo( new File( "temp/test/decompiled/quickstart" ) );
 	}
 	// ---- Decompile
 

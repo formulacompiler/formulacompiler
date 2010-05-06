@@ -22,6 +22,7 @@
 
 package org.formulacompiler.examples.interactive.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -63,12 +64,12 @@ public class MainWindowController
 	}
 
 
-	public void loadSpreadsheetFrom( String _fileName ) throws SpreadsheetException
+	public void loadSpreadsheetFrom( File _file ) throws SpreadsheetException
 	{
 		getInputsModel().clear();
 		getOutputsModel().clear();
 		try {
-			getSpreadsheetModel().setSpreadsheet( SpreadsheetCompiler.loadSpreadsheet( _fileName ) );
+			getSpreadsheetModel().setSpreadsheet( SpreadsheetCompiler.loadSpreadsheet( _file ) );
 		}
 		catch (IOException e) {
 			e.printStackTrace();

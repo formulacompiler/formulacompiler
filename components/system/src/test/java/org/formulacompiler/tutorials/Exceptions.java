@@ -283,7 +283,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 		f = null;
 		e = null;
 		b = SpreadsheetCompiler.newEngineBuilder();
-		b.loadSpreadsheet( "src/test/data/org/formulacompiler/tutorials/Exceptions" + getSpreadsheetExtension() );
+		b.loadSpreadsheet( new File( "src/test/data/org/formulacompiler/tutorials/Exceptions" + getSpreadsheetExtension() ) );
 		b.setFactoryClass( Factory.class );
 	}
 

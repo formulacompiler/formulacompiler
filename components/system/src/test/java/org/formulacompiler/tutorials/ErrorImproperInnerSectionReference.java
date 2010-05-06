@@ -22,6 +22,8 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
+
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
@@ -133,8 +135,8 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		String path = "src/test/data/org/formulacompiler/tutorials/ErrorImproperInnerSectionReference" + getSpreadsheetExtension();
-		builder.loadSpreadsheet( path );
+		File file = new File( "src/test/data/org/formulacompiler/tutorials/ErrorImproperInnerSectionReference" + getSpreadsheetExtension() );
+		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( MyFactory.class );
 		Spreadsheet sheet = builder.getSpreadsheet();
 		Section root = builder.getRootBinder();

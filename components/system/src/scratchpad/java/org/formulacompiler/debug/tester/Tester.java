@@ -22,6 +22,8 @@
 
 package org.formulacompiler.debug.tester;
 
+import java.io.File;
+
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 public final class Tester extends AbstractTester
@@ -34,9 +36,9 @@ public final class Tester extends AbstractTester
 
 
 	@Override
-	protected String sourceFileName()
+	protected File sourceFile()
 	{
-		return "/downloads/min_enterprise_fv.xls";
+		return new File( "/downloads/min_enterprise_fv.xls" );
 	}
 
 

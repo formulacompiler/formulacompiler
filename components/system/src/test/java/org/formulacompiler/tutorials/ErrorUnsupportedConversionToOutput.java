@@ -22,6 +22,8 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
+
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
@@ -56,8 +58,8 @@ public class ErrorUnsupportedConversionToOutput extends MultiFormatTestFactory.S
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		String path = "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedConversion" + getSpreadsheetExtension();
-		builder.loadSpreadsheet( path );
+		File file = new File( "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedConversion" + getSpreadsheetExtension() );
+		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( MyFactory.class );
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
 		builder.getRootBinder().defineOutputCell( cell, MyComputation.class.getMethod( "result" ) );

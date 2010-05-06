@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,10 +66,10 @@ public class CustomerRatingWithOrdersComplex extends MultiFormatTestFactory.Spre
 
 	public void testCustomerRating() throws Exception
 	{
-		String path = "src/test/data/org/formulacompiler/tutorials/CustomerRatingComplex" + getSpreadsheetExtension();
+		File file = new File( "src/test/data/org/formulacompiler/tutorials/CustomerRatingComplex" + getSpreadsheetExtension() );
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( CustomerRatingFactory.class );
 
 		// LATER Make orders for last N days bindable automatically
