@@ -26,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import org.formulacompiler.compiler.SaveableEngine;
+import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.EngineLoader;
 import org.formulacompiler.runtime.FormulaRuntime;
@@ -50,7 +51,8 @@ public class CustomClassLoader extends MultiFormatTestFactory.SpreadsheetFormatT
 		// ---- compile
 		builder./**/setParentClassLoaderForEngine/**/( myClassLoader );
 		SaveableEngine compiledEngine = builder.compile();
-		assertSame( myClassLoader, ((ClassLoader) compiledEngine).getParent() );
+		ComputationFactory compiledFactory = compiledEngine.getComputationFactory();
+		assertSame( myClassLoader, compiledFactory.getClass().getClassLoader().getParent() );
 		// ---- compile
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -61,7 +63,8 @@ public class CustomClassLoader extends MultiFormatTestFactory.SpreadsheetFormatT
 		EngineLoader.Config cfg = new EngineLoader.Config();
 		cfg./**/parentClassLoader/**/ = myClassLoader;
 		Engine loadedEngine = FormulaRuntime.loadEngine( cfg, new ByteArrayInputStream( bytes ) );
-		assertSame( myClassLoader, ((ClassLoader) loadedEngine).getParent() );
+		ComputationFactory loadedFactory = loadedEngine.getComputationFactory();
+		assertSame( myClassLoader, loadedFactory.getClass().getClassLoader().getParent() );
 		// ---- load
 	}
 

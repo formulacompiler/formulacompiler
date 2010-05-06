@@ -35,7 +35,7 @@ import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.internal.Environment;
 
 
-public class ByteCodeEngine extends ClassLoader implements Engine
+public class ByteCodeEngine implements Engine
 {
 	public static final String GEN_PACKAGE_NAME = "org.formulacompiler.gen.";
 	public static final String GEN_FACTORY_NAME = "$Factory";
@@ -45,14 +45,39 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 	private final Constructor<ComputationFactory> factoryConstructor;
 	private final ComputationFactory defaultFactory;
 
+	
+	private final class EngineClassLoader extends ClassLoader
+	{
+
+		private EngineClassLoader( ClassLoader _parent )
+		{
+			super( _parent );
+		}
+
+		@Override
+		public Class<?> findClass( String _name ) throws ClassNotFoundException
+		{
+			final byte[] bytes = getClassNamesAndBytes().get( _name );
+			if (bytes != null) {
+				return defineClass( _name, bytes, 0, bytes.length );
+			}
+			else {
+				return super.findClass( _name );
+			}
+		}
+
+	}
+
 
 	@SuppressWarnings( "unchecked" )
 	public ByteCodeEngine( ClassLoader _parentClassLoader, Map<String, byte[]> _classNamesAndBytes )
 			throws EngineException
 	{
-		super( _parentClassLoader );
+		super();
 		assert _classNamesAndBytes != null;
 		this.classNamesAndBytes.putAll( _classNamesAndBytes );
+
+		final EngineClassLoader classLoader = new EngineClassLoader( _parentClassLoader );
 		try {
 
 			/*
@@ -60,12 +85,12 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 			 * the parent class loader.
 			 */
 			for (String className : _classNamesAndBytes.keySet()) {
-				findClass( className );
+				classLoader.findClass( className );
 			}
 
 			final String factoryClassName = GEN_PACKAGE_NAME + GEN_FACTORY_NAME;
-			this.factoryClass = (Class<ComputationFactory>) loadClass( factoryClassName );
-			assert this.factoryClass.getClassLoader() == this: "Class loader mismatch";
+			this.factoryClass = (Class<ComputationFactory>) classLoader.loadClass( factoryClassName );
+			assert this.factoryClass.getClassLoader() == classLoader: "Class loader mismatch";
 			this.factoryConstructor = this.factoryClass.getDeclaredConstructor( Environment.class );
 			this.defaultFactory = this.factoryConstructor.newInstance( Environment.DEFAULT );
 		}
@@ -122,17 +147,5 @@ public class ByteCodeEngine extends ClassLoader implements Engine
 		return Collections.unmodifiableMap( this.classNamesAndBytes );
 	}
 
-
-	@Override
-	protected Class<?> findClass( String _name ) throws ClassNotFoundException
-	{
-		final byte[] bytes = this.classNamesAndBytes.get( _name );
-		if (bytes != null) {
-			return defineClass( _name, bytes, 0, bytes.length );
-		}
-		else {
-			return super.findClass( _name );
-		}
-	}
 
 }

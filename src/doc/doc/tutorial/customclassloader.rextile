@@ -14,8 +14,4 @@ To set it for loading engines, you have to allocate a special configuration obje
 
 	[jc:org.formulacompiler.tutorials.CustomClassLoader:---- load]
 
-h5. Warning
 
-Please note that the cast from AFC's @Engine@ to @ClassLoader@ is an implementation detail that you must *not rely on*. It is shown here only to let you see the _current effect_ of setting the custom parent class loader.
-
-In particular, AFC only guarantees that if you set the custom parent class loader, then it will be used as the parent class loader for any of class loader AFC might instantiate internally for an engine.
