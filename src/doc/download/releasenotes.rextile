@@ -10,6 +10,11 @@ Lists the new features, improvements, and fixes for each release of AFC. Note th
 
 h2. Release 1.4
 
+h5. *Changed!*
+
+	* All public APIs taking a @String@ argument where they really should take a @File@ have been dropped.
+	* The internal implementation of @Engine@ is no longer a subclass of @ClassLoader@. We warned you not to rely on this.
+
 h5. Fixed
 
 	* Fixed parsing multisheet ranges in .xls files ("issue 21":http://code.google.com/p/formulacompiler/issues/detail?id=21).
