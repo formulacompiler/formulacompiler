@@ -43,8 +43,8 @@ You might think that the following interface definition would be much nicer:
 
 	[jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- Output2]
 
-I agree. Unfortunately, AFC does not directly support it (again a consequence of keeping the black box magic in AFC at a minimum). You are, however, free to put such a façade on top of the original interface:
+I agree. Unfortunately, AFC does not directly support it (again a consequence of keeping the black box magic in AFC at a minimum). You are, however, free to put such a facade on top of the original interface:
 
 	[jc:org.formulacompiler.tutorials.BindingToMultipleInstances:---- OutputFacade]
 
-You might for example need to do this if you have to feed the sheet's output to some other system that expects its input in the above form. The façade would then have to implement the other system's input interfaces, of course.
+You might for example need to do this if you have to feed the sheet's output to some other system that expects its input in the above form. The facade would then have to implement the other system's input interfaces, of course.
