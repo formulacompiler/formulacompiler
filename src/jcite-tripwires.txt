@@ -1645,10 +1645,10 @@ final String CAPTION = "Caption";
 ___@_@___
 jc:org.formulacompiler.tutorials.Basics:---- CompileFactory
 __@@__
-private RebateComputationFactory compileFactoryFromSpreadsheet( String _sheetName ) throws Exception
+private RebateComputationFactory compileFactoryFromSpreadsheet( File _sheetFile ) throws Exception
 	{
 		EngineBuilder builder = /**/SpreadsheetCompiler.newEngineBuilder()/**/;
-		builder./**/loadSpreadsheet/**/( _sheetName );
+		builder./**/loadSpreadsheet/**/( _sheetFile );
 		builder./**/setFactoryClass/**/( RebateComputationFactory.class );
 		builder./**/bindAllByName/**/();
 		builder./**/failIfByNameBindingLeftNamedCellsUnbound/**/();
@@ -1814,7 +1814,7 @@ __@@__
 public void testAFC() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
-		/**/RebateComputation.factory = compileFactoryFromSpreadsheet( getCustomSheetFileName() );/**/
+		/**/RebateComputation.factory = compileFactoryFromSpreadsheet( getCustomSheetFile() );/**/
 		double rebate = item.computeRebate();
 		assertEquals( 0.15, rebate, 0.00001 );
 	}
@@ -1931,21 +1931,21 @@ ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- setupBuilder; highlight -in-; strip -out-
 __@@__
 EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( new File( path ) );
 		/* -in- */builder.setInputClass( Input.class );/* -in- */
 		/* -out- */builder.setOutputClass( Output.class );/* -out- */
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- setupBuilder; highlight -out-; strip -in-
 __@@__
 EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( new File( path ) );
 		/* -in- */builder.setInputClass( Input.class );/* -in- */
 		/* -out- */builder.setOutputClass( Output.class );/* -out- */
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- setupBuilderWithDefaults
 __@@__
 EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( new File( path ) );
 		/**/builder.setFactoryClass( Factory.class );/**/
 		/**/builder.setOutputClass( OutputWithDefault.class );/**/
 ___@_@___
@@ -2695,7 +2695,7 @@ ___@_@___
 jc:org.formulacompiler.tutorials.Caching:---- compile
 __@@__
 EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( getPath() );
+		builder.loadSpreadsheet( getFile() );
 		builder.setInputClass( Input.class );
 		builder.setOutputClass( Output.class );
 		builder.setNumericType( unboundedBigDecimal );
@@ -2974,7 +2974,7 @@ Locale oldLocale = Locale.getDefault();
 			assertEquals( ',', decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() );
 
 			EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-			builder.loadSpreadsheet( path );
+			builder.loadSpreadsheet( file );
 			builder.setFactoryClass( ValueFactory.class );
 			builder.getByNameBinder().outputs().bindAllMethodsToNamedCells();
 			builder.getByNameBinder()./**/inputs().bindAllMethodsToNamedCells()/**/;
@@ -3000,7 +3000,7 @@ Locale oldLocale = Locale.getDefault();
 			assertEquals( /**/','/**/, decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() );
 
 			EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-			builder.loadSpreadsheet( filePath );
+			builder.loadSpreadsheet( file );
 			/**/builder.getCompileTimeConfig().locale = Locale.US;/**/
 			builder.setFactoryClass( ValueFactory.class );
 			builder.getByNameBinder().outputs().bindAllMethodsToNamedCells();
@@ -3509,7 +3509,7 @@ __@@__
 private void decompile( SaveableEngine engine ) throws Exception
 	{
 		ByteCodeEngineSource source = FormulaDecompiler.decompile( engine );
-		source.saveTo( "temp/test/decompiled/quickstart" );
+		source.saveTo( new File( "temp/test/decompiled/quickstart" ) );
 	}
 ___@_@___
 jc:org.formulacompiler.tutorials.QuickStart:---- Imports
@@ -3765,7 +3765,7 @@ ___@_@___
 jc:org.formulacompiler.tutorials.UsingDouble:---- buildCompiler
 __@@__
 EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( Factory.class );
 		/**/builder.setNumericType( SpreadsheetCompiler.DOUBLE );/**/
 		builder.bindAllByName();
@@ -3915,7 +3915,7 @@ jc:org/formulacompiler/tutorials/BonusPerEmployee_LogComputation:---- compileEng
 __@@__
 EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.setNumericType( SpreadsheetCompiler.LONG_SCALE4 );
-		builder.loadSpreadsheet( getPath() );
+		builder.loadSpreadsheet( getFile() );
 		builder.setFactoryClass( BonusComputationFactory.class );
 		builder.setOutputClass( BonusComputationDefaults.class );
 		builder./**/setComputationListenerEnabled( true )/**/;
@@ -3999,7 +3999,7 @@ ___@_@___
 jc:org/formulacompiler/tutorials/CubeVolume:---- compileEngine
 __@@__
 final EngineBuilder b = SpreadsheetCompiler.newEngineBuilder();
-		b.loadSpreadsheet( getPath() );
+		b.loadSpreadsheet( getFile() );
 		b.setInputClass( Inputs.class );
 		b.setOutputClass( Outputs.class );
 		b.createCellNamesFromRowTitles();
@@ -4015,7 +4015,7 @@ ___@_@___
 jc:org/formulacompiler/tutorials/CubeVolume:---- createBuilder
 __@@__
 final EngineBuilder b = SpreadsheetCompiler.newEngineBuilder();
-		b.loadSpreadsheet( getPath() );
+		b.loadSpreadsheet( getFile() );
 		b.setInputClass( Inputs2.class );
 		b.setOutputClass( Outputs.class );
 		b.createCellNamesFromRowTitles();
