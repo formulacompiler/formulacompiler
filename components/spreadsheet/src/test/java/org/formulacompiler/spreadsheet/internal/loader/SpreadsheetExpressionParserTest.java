@@ -37,6 +37,7 @@ import junit.framework.TestCase;
 public class SpreadsheetExpressionParserTest extends TestCase
 {
 	private final SpreadsheetImpl workbook = new SpreadsheetImpl();
+	@SuppressWarnings( "unused" ) // used to create the sheet into which we place cells
 	private final SheetImpl sheet = new SheetImpl( this.workbook, "One" );
 	private CellIndex parseRelativeTo = new CellIndex( this.workbook, 0, 1, 1 );
 
