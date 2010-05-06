@@ -114,27 +114,12 @@ public interface EngineBuilder
 	 */
 	public void loadSpreadsheet( File _file ) throws FileNotFoundException, IOException, SpreadsheetException;
 
-	/**
-	 * Loads the input spreadsheet from a file.
-	 * 
-	 * @param _fileName is the name of the spreadsheet file to load.
-	 * 
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws SpreadsheetException
-	 * 
-	 * @see #setSpreadsheet(Spreadsheet)
-	 * @see #setLoadAllCellValues(boolean)
-	 */
-	public void loadSpreadsheet( String _fileName ) throws FileNotFoundException, IOException, SpreadsheetException;
-
 
 	/**
 	 * Controls whether {@link Cell#getValue()} should return valid values instead of {@code null}
 	 * for computed cells. The default is {@code false}.
 	 * 
 	 * @see #loadSpreadsheet(File)
-	 * @see #loadSpreadsheet(String)
 	 */
 	public void setLoadAllCellValues( boolean _value );
 

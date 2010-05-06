@@ -22,6 +22,8 @@
 
 package org.formulacompiler.devjournal.cse;
 
+import java.io.File;
+
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.compiler.internal.Debug;
 import org.formulacompiler.runtime.ComputationFactory;
@@ -40,7 +42,7 @@ public final class InsuranceModel
 	private final void run() throws Exception
 	{
 		EngineBuilder b = SpreadsheetCompiler.newEngineBuilder();
-		b.loadSpreadsheet( "src/scratchpad/java/org/formulacompiler/devjournal/cse/InsuranceModel.xls" );
+		b.loadSpreadsheet( new File( "src/scratchpad/java/org/formulacompiler/devjournal/cse/InsuranceModel.xls" ) );
 		b.setInputClass( Inputs.class );
 		b.setOutputClass( Outputs.class );
 		b.getByNameBinder().inputs().bindAllMethodsToNamedCells();

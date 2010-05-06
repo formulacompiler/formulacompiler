@@ -22,6 +22,8 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
+
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
@@ -93,8 +95,8 @@ public class ErrorUnsupportedFunctionVariant extends MultiFormatTestFactory.Spre
 	private EngineBuilder builderForComputationOfCellNamed( String _cellName ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		String path = "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedFunctionVariant" + getSpreadsheetExtension();
-		builder.loadSpreadsheet( path );
+		File file = new File( "src/test/data/org/formulacompiler/tutorials/ErrorUnsupportedFunctionVariant" + getSpreadsheetExtension() );
+		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( MyFactory.class );
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
 		builder.getRootBinder().defineOutputCell( cell, MyComputation.class.getMethod( "result" ) );

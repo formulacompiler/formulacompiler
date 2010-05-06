@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
@@ -70,7 +71,7 @@ public class CustomerRatingWithOrders extends MultiFormatTestFactory.Spreadsheet
 	public void doTestCustomerRating( AccessorVersion _version ) throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( getPath() );
+		builder.loadSpreadsheet( getFile() );
 		builder.setFactoryClass( CustomerRatingFactory.class );
 
 		// LATER Make orders for last N days bindable automatically
@@ -79,7 +80,7 @@ public class CustomerRatingWithOrders extends MultiFormatTestFactory.Spreadsheet
 
 		Engine engine = builder.compile();
 		if (_version == AccessorVersion.ARRAY) {
-			FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/customerRatingWithOrders" );
+			FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/customerRatingWithOrders" ) );
 		}
 		CustomerRatingFactory factory = (CustomerRatingFactory) engine.getComputationFactory();
 
@@ -94,9 +95,9 @@ public class CustomerRatingWithOrders extends MultiFormatTestFactory.Spreadsheet
 	}
 
 
-	private String getPath()
+	private File getFile()
 	{
-		return "src/test/data/org/formulacompiler/tutorials/CustomerRating" + getSpreadsheetExtension();
+		return new File( "src/test/data/org/formulacompiler/tutorials/CustomerRating" + getSpreadsheetExtension() );
 	}
 
 

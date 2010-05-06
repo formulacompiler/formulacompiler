@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tests.time;
 
+import java.io.File;
 import java.util.Date;
 
 import org.formulacompiler.compiler.NumericType;
@@ -49,7 +50,8 @@ public abstract class AbstractTimeTest extends MultiFormatTestFactory.Spreadshee
 	protected void setUp() throws Exception
 	{
 		final EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tests/time/TimeTest" + getSpreadsheetExtension() );
+		builder.loadSpreadsheet( new File( "src/test/data/org/formulacompiler/tests/time/TimeTest"
+				+ getSpreadsheetExtension() ) );
 		builder.setNumericType( this.numericType );
 		builder.setInputClass( Object.class );
 		builder.setOutputClass( this.outputClass );

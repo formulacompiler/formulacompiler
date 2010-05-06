@@ -22,6 +22,8 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
+
 import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Engine;
@@ -38,10 +40,10 @@ public class UsingScaledLong extends MultiFormatTestFactory.SpreadsheetFormatTes
 
 	public void testUsingScaledLong() throws Exception
 	{
-		String path = getPath();
+		File file = getFile();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( Factory.class );
 		// ---- buildCompiler
 		builder.setNumericType( /**/SpreadsheetCompiler.getNumericType( Long.TYPE, 3 )/**/ );
@@ -55,16 +57,16 @@ public class UsingScaledLong extends MultiFormatTestFactory.SpreadsheetFormatTes
 		assertEquals( /**/1166L/**/, output.getResult() );
 		// ---- checkResult
 
-		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/scaledlong3" );
+		FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/numeric_type/scaledlong3" ) );
 	}
 
 
 	public void testUsingLong() throws Exception
 	{
-		String path = getPath();
+		File file = getFile();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( file );
 		builder.setInputClass( Input.class );
 		builder.setOutputClass( Output0.class );
 		// ---- buildCompiler0
@@ -79,12 +81,12 @@ public class UsingScaledLong extends MultiFormatTestFactory.SpreadsheetFormatTes
 		assertEquals( /**/1L/**/, output.getResult() );
 		// ---- checkResult0
 
-		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/long" );
+		FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/numeric_type/long" ) );
 	}
 
-	private String getPath()
+	private File getFile()
 	{
-		return "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes" + getSpreadsheetExtension();
+		return new File( "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes" + getSpreadsheetExtension() );
 	}
 
 

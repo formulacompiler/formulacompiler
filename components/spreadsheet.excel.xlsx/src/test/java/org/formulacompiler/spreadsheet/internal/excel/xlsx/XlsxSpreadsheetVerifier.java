@@ -22,7 +22,6 @@
 
 package org.formulacompiler.spreadsheet.internal.excel.xlsx;
 
-import java.io.File;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;

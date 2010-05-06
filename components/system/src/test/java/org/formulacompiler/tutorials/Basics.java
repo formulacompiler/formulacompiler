@@ -257,21 +257,21 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	// ------------------------------------------------ Using AFC
 
 
-	protected String getStdSheetFileName()
+	protected File getStdSheetFile()
 	{
-		return "src/test/data/org/formulacompiler/tutorials/Basics" + getSpreadsheetExtension();
+		return new File( "src/test/data/org/formulacompiler/tutorials/Basics" + getSpreadsheetExtension() );
 	}
 
-	protected String getCustomSheetFileName()
+	protected File getCustomSheetFile()
 	{
-		return "src/test/data/org/formulacompiler/tutorials/BasicsCustom" + getSpreadsheetExtension();
+		return new File( "src/test/data/org/formulacompiler/tutorials/BasicsCustom" + getSpreadsheetExtension() );
 	}
 
 
 	public void testAFCStd() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
-		RebateComputation.factory = compileFactoryFromSpreadsheet( getStdSheetFileName() );
+		RebateComputation.factory = compileFactoryFromSpreadsheet( getStdSheetFile() );
 		double rebate = item.computeRebate();
 		assertEquals( 0.1, rebate, 0.00001 );
 	}
@@ -281,7 +281,7 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	public void testAFC() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
-		/**/RebateComputation.factory = compileFactoryFromSpreadsheet( getCustomSheetFileName() );/**/
+		/**/RebateComputation.factory = compileFactoryFromSpreadsheet( getCustomSheetFile() );/**/
 		double rebate = item.computeRebate();
 		assertEquals( 0.15, rebate, 0.00001 );
 	}
@@ -289,10 +289,10 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 
 
 	// ---- CompileFactory
-	private RebateComputationFactory compileFactoryFromSpreadsheet( String _sheetName ) throws Exception
+	private RebateComputationFactory compileFactoryFromSpreadsheet( File _sheetFile ) throws Exception
 	{
 		EngineBuilder builder = /**/SpreadsheetCompiler.newEngineBuilder()/**/;
-		builder./**/loadSpreadsheet/**/( _sheetName );
+		builder./**/loadSpreadsheet/**/( _sheetFile );
 		builder./**/setFactoryClass/**/( RebateComputationFactory.class );
 		builder./**/bindAllByName/**/();
 		builder./**/failIfByNameBindingLeftNamedCellsUnbound/**/();

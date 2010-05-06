@@ -23,6 +23,7 @@
 package org.formulacompiler.tests.serialization;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
@@ -30,8 +31,8 @@ import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 
 
 public abstract class AbstractSerializationTest extends AbstractTestBase
@@ -49,7 +50,8 @@ public abstract class AbstractSerializationTest extends AbstractTestBase
 		final Class<Inputs> inp = Inputs.class;
 		final Class<Outputs> outp = Outputs.class;
 		final EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tests/serialization/SerializationTest.xls" );
+		builder
+				.loadSpreadsheet( new File( "src/test/data/org/formulacompiler/tests/serialization/SerializationTest.xls" ) );
 		builder.setInputClass( inp );
 		builder.setOutputClass( outp );
 		builder.setNumericType( getNumericType() );

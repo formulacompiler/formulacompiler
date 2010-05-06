@@ -22,6 +22,8 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
+
 import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
@@ -35,11 +37,11 @@ public class UsingDouble extends MultiFormatTestFactory.SpreadsheetFormatTestCas
 
 	public void testUsingDouble() throws Exception
 	{
-		String path = "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes" + getSpreadsheetExtension();
+		File file = new File( "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes" + getSpreadsheetExtension() );
 
 		// ---- buildCompiler
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( Factory.class );
 		/**/builder.setNumericType( SpreadsheetCompiler.DOUBLE );/**/
 		builder.bindAllByName();
@@ -52,7 +54,7 @@ public class UsingDouble extends MultiFormatTestFactory.SpreadsheetFormatTestCas
 		assertEquals( /**/"1.1666666666666667"/**/, String.valueOf( output.getResult() ) );
 		// ---- checkResult
 
-		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/double" );
+		FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/numeric_type/double" ) );
 	}
 
 

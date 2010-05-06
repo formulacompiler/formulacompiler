@@ -22,6 +22,8 @@
 
 package org.formulacompiler.examples;
 
+import java.io.File;
+
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
@@ -77,11 +79,11 @@ public class BasicUsageDemo extends MultiFormatTestFactory.SpreadsheetFormatTest
 	}
 
 
-	private static final String DATA_PATH = "src/test/data/org/formulacompiler/examples/";
+	private static final File DATA_PATH = new File( "src/test/data/org/formulacompiler/examples/" );
 
-	private String getSpreadsheetFile()
+	private File getSpreadsheetFile()
 	{
-		return DATA_PATH + "test" + getSpreadsheetExtension();
+		return new File( DATA_PATH, "test" + getSpreadsheetExtension() );
 	}
 
 	public static Test suite()

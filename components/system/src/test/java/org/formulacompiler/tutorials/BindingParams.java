@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -45,7 +46,7 @@ public class BindingParams extends MultiFormatTestFactory.SpreadsheetFormatTestC
 		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams" + getSpreadsheetExtension();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( new File( path ) );
 		builder.setInputClass( Input.class );
 		builder.setOutputClass( Output.class );
 		Spreadsheet spreadsheet = builder.getSpreadsheet();
@@ -200,7 +201,7 @@ public class BindingParams extends MultiFormatTestFactory.SpreadsheetFormatTestC
 		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams_InputVariants" + getSpreadsheetExtension();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( new File( path ) );
 		builder.setInputClass( InputVariants.class );
 		builder.setOutputClass( SimpleOutput.class );
 
@@ -364,7 +365,7 @@ public class BindingParams extends MultiFormatTestFactory.SpreadsheetFormatTestC
 		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams" + getSpreadsheetExtension();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( new File( path ) );
 		builder.setInputClass( Input.class );
 		builder.setOutputClass( ComplexOutput.class );
 		Spreadsheet spreadsheet = builder.getSpreadsheet();

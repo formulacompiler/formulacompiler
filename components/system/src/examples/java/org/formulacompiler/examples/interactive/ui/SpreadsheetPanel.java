@@ -167,7 +167,7 @@ public class SpreadsheetPanel extends BottomButtonsPanel
 					if (retval == JFileChooser.APPROVE_OPTION) {
 						final File file = fc.getSelectedFile();
 						try {
-							getController().loadSpreadsheetFrom( file.getAbsolutePath() );
+							getController().loadSpreadsheetFrom( file );
 						}
 						catch (SpreadsheetException ex) {
 							throw new RuntimeException( ex );

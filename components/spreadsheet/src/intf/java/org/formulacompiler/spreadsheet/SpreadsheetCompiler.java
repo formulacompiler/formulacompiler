@@ -72,22 +72,6 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	/**
 	 * Loads a spreadsheet from a file and constructs an internal representation of it.
 	 * 
-	 * @param _fileName is the name of the spreadsheet file to load.
-	 * @return the loaded spreadsheet representation.
-	 * 
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws SpreadsheetException
-	 */
-	public static Spreadsheet loadSpreadsheet( String _fileName ) throws FileNotFoundException, IOException,
-			SpreadsheetException
-	{
-		return loadSpreadsheet( new File( _fileName ) );
-	}
-
-	/**
-	 * Loads a spreadsheet from a file and constructs an internal representation of it.
-	 * 
 	 * @param _file is the file to load.
 	 * @return the loaded spreadsheet representation.
 	 * 
@@ -103,17 +87,17 @@ public class SpreadsheetCompiler extends FormulaCompiler
 
 	/**
 	 * Loads a spreadsheet from a file and constructs an internal representation of it.
-	 *
-	 * @param _file   is the file to load.
+	 * 
+	 * @param _file is the file to load.
 	 * @param _config configures the loader; can be set to {@code null}.
 	 * @return the loaded spreadsheet representation.
-	 *
+	 * 
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws SpreadsheetException
 	 */
-	public static Spreadsheet loadSpreadsheet( File _file, SpreadsheetLoader.Config _config ) throws FileNotFoundException, IOException,
-			SpreadsheetException
+	public static Spreadsheet loadSpreadsheet( File _file, SpreadsheetLoader.Config _config )
+			throws FileNotFoundException, IOException, SpreadsheetException
 	{
 		return loadSpreadsheet( _file.getName(), new FileInputStream( _file ), _config );
 	}
@@ -183,24 +167,10 @@ public class SpreadsheetCompiler extends FormulaCompiler
 	 * 
 	 * @param _model is the internal spreadsheet model that defines the file to be written. Use
 	 *           {@link #newSpreadsheetBuilder()} to build this model.
-	 * @param _outputFileName is the name of the spreadsheet file to be written. Its extension is
-	 *           used to determine the file format to write (.xls for Excel, etc.).
-	 * @param _templateFileNameOrNull is an optional name of a template file. If given, AFC uses it
-	 *           to format the generated cells (again, see the tutorial for details).
-	 * @throws IOException
-	 * @throws SpreadsheetException
-	 */
-	public static void saveSpreadsheet( Spreadsheet _model, String _outputFileName, String _templateFileNameOrNull )
-			throws IOException, SpreadsheetException
-	{
-		saveSpreadsheet( _model, new File( _outputFileName ), (null == _templateFileNameOrNull) ? null : new File(
-				_templateFileNameOrNull ) );
-	}
-
-	/**
-	 * Like {@link #saveSpreadsheet(Spreadsheet, String, String)}, but taking {@code File}s instead
-	 * of {@code String}s as input.
-	 * 
+	 * @param _outputFile is the spreadsheet file to be written. Its extension is used to determine
+	 *           the file format to write (.xls for Excel, etc.).
+	 * @param _templateFileOrNull is an optional template file. If not null, AFC uses it to format
+	 *           the generated cells (again, see the tutorial for details).
 	 * @throws IOException
 	 * @throws SpreadsheetException
 	 */

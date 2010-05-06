@@ -24,6 +24,7 @@ package org.formulacompiler.tutorials;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -51,12 +52,12 @@ public final class EnvironmentConfig extends MultiFormatTestFactory.SpreadsheetF
 {
 
 
-	private static final String DATA_PATH = "src/test/data/org/formulacompiler/tutorials/";
+	private static final File DATA_PATH = new File( "src/test/data/org/formulacompiler/tutorials/" );
 
 	public void testCustomLocaleTZ() throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( DATA_PATH + "LocaleAndTimeZone" + getSpreadsheetExtension() );
+		builder.loadSpreadsheet( new File( DATA_PATH, "LocaleAndTimeZone" + getSpreadsheetExtension() ) );
 		builder.setFactoryClass( MyFactory.class );
 		builder.bindAllByName();
 		SaveableEngine compiledEngine = builder.compile();
@@ -141,7 +142,7 @@ public final class EnvironmentConfig extends MultiFormatTestFactory.SpreadsheetF
 
 	public void testCompilerConversion() throws Exception
 	{
-		final String filePath = DATA_PATH + "Locale_en_US" + getSpreadsheetExtension();
+		final File file = new File( DATA_PATH, "Locale_en_US" + getSpreadsheetExtension() );
 		// ---- constantValue
 		Locale oldLocale = Locale.getDefault();
 		Locale./**/setDefault( Locale.GERMANY )/**/;
@@ -150,7 +151,7 @@ public final class EnvironmentConfig extends MultiFormatTestFactory.SpreadsheetF
 			assertEquals( /**/','/**/, decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() );
 
 			EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-			builder.loadSpreadsheet( filePath );
+			builder.loadSpreadsheet( file );
 			/**/builder.getCompileTimeConfig().locale = Locale.US;/**/
 			builder.setFactoryClass( ValueFactory.class );
 			builder.getByNameBinder().outputs().bindAllMethodsToNamedCells();
@@ -167,7 +168,7 @@ public final class EnvironmentConfig extends MultiFormatTestFactory.SpreadsheetF
 
 	public void testRuntimeConversion() throws Exception
 	{
-		final String path = DATA_PATH + "Locale_en_US" + getSpreadsheetExtension();
+		final File file = new File( DATA_PATH, "Locale_en_US" + getSpreadsheetExtension() );
 		// ---- boundValue
 		Locale oldLocale = Locale.getDefault();
 		Locale.setDefault( Locale.GERMANY );
@@ -176,7 +177,7 @@ public final class EnvironmentConfig extends MultiFormatTestFactory.SpreadsheetF
 			assertEquals( ',', decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() );
 
 			EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-			builder.loadSpreadsheet( path );
+			builder.loadSpreadsheet( file );
 			builder.setFactoryClass( ValueFactory.class );
 			builder.getByNameBinder().outputs().bindAllMethodsToNamedCells();
 			builder.getByNameBinder()./**/inputs().bindAllMethodsToNamedCells()/**/;

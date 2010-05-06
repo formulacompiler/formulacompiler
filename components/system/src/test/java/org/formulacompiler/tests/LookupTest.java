@@ -154,7 +154,7 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	{
 		final EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.setLoadAllCellValues( true );
-		builder.loadSpreadsheet( "src/test/data/org/formulacompiler/tests/LookupTest" + getSpreadsheetExtension() );
+		builder.loadSpreadsheet( new File( "src/test/data/org/formulacompiler/tests/LookupTest" + getSpreadsheetExtension() ) );
 		builder.setInputClass( Inputs.class );
 		builder.setOutputClass( Outputs.class );
 

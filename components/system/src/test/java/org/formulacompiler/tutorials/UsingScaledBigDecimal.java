@@ -22,6 +22,7 @@
 
 package org.formulacompiler.tutorials;
 
+import java.io.File;
 import java.math.BigDecimal;
 
 import org.formulacompiler.decompiler.FormulaDecompiler;
@@ -38,10 +39,10 @@ public class UsingScaledBigDecimal extends AbstractUsingBigDecimalTest
 
 	public void testUsingBigDecimal() throws Exception
 	{
-		String path = getPath();
+		File file = getFile();
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( Factory.class );
 		// ---- buildCompiler
 		builder.setNumericType( /**/SpreadsheetCompiler.getNumericType( BigDecimal.class, 4, BigDecimal.ROUND_UP )/**/ );
@@ -71,7 +72,7 @@ public class UsingScaledBigDecimal extends AbstractUsingBigDecimalTest
 			// ---- checkResult4c
 		}
 
-		FormulaDecompiler.decompile( engine ).saveTo( "temp/test/decompiled/numeric_type/bigdecimal_scale4" );
+		FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/numeric_type/bigdecimal_scale4" ) );
 	}
 
 

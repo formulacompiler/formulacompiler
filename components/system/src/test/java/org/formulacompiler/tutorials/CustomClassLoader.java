@@ -24,6 +24,7 @@ package org.formulacompiler.tutorials;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.ComputationFactory;
@@ -45,7 +46,7 @@ public class CustomClassLoader extends MultiFormatTestFactory.SpreadsheetFormatT
 
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		final String path = "src/test/data/org/formulacompiler/tutorials/CustomClassLoader" + getSpreadsheetExtension();
-		builder.loadSpreadsheet( path );
+		builder.loadSpreadsheet( new File( path ) );
 		builder.setFactoryClass( MyFactory.class );
 		builder.bindAllByName();
 		// ---- compile
