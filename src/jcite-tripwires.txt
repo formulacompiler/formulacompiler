@@ -2844,14 +2844,16 @@ jc:org.formulacompiler.tutorials.CustomClassLoader:---- compile
 __@@__
 builder./**/setParentClassLoaderForEngine/**/( myClassLoader );
 		SaveableEngine compiledEngine = builder.compile();
-		assertSame( myClassLoader, ((ClassLoader) compiledEngine).getParent() );
+		ComputationFactory compiledFactory = compiledEngine.getComputationFactory();
+		assertSame( myClassLoader, compiledFactory.getClass().getClassLoader().getParent() );
 ___@_@___
 jc:org.formulacompiler.tutorials.CustomClassLoader:---- load
 __@@__
 EngineLoader.Config cfg = new EngineLoader.Config();
 		cfg./**/parentClassLoader/**/ = myClassLoader;
 		Engine loadedEngine = FormulaRuntime.loadEngine( cfg, new ByteArrayInputStream( bytes ) );
-		assertSame( myClassLoader, ((ClassLoader) loadedEngine).getParent() );
+		ComputationFactory loadedFactory = loadedEngine.getComputationFactory();
+		assertSame( myClassLoader, loadedFactory.getClass().getClassLoader().getParent() );
 ___@_@___
 jc:org.formulacompiler.tutorials.CustomerRatingWithOrders:-- CustomerDataAlternatives
 __@@__
