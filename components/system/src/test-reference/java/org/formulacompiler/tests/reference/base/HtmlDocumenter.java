@@ -296,7 +296,7 @@ public class HtmlDocumenter implements Documenter
 										htmlPrecision( inputCell ) ).append( "</td>" );
 							}
 							else {
-								final String inputExpr = ((CellWithExpression) inputCell).getExpressionText();
+								final String inputExpr = ((CellWithExpression) inputCell).getExpressionTextOrError();
 								h.append( "<td>" ).append( htmlValue( inputExpr ) ).append( htmlPrecision( inputCell ) )
 										.append( "</td>" );
 							}

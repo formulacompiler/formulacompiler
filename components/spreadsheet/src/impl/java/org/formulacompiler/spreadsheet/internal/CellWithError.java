@@ -45,6 +45,11 @@ public final class CellWithError extends CellInstance
 		return (String) getValue();
 	}
 
+	@Override
+	public String getErrorText()
+	{
+		return getError();
+	}
 
 	@Override
 	public void copyTo( final RowImpl _row )

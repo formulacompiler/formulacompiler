@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.YamlBuilder;
+import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 
 public abstract class CellInstance extends AbstractStyledElement
@@ -106,6 +107,22 @@ public abstract class CellInstance extends AbstractStyledElement
 	public void setValue( Object _value )
 	{
 		this.value = _value;
+	}
+
+	@SuppressWarnings( "unused" )
+	public String getExpressionText() throws SpreadsheetException
+	{
+		return null;
+	}
+
+	public Object getConstantValue()
+	{
+		return null;
+	}
+
+	public String getErrorText()
+	{
+		return null;
 	}
 
 

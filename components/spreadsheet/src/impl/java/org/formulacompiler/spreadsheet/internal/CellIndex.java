@@ -173,23 +173,13 @@ public final class CellIndex extends CellRange implements Cell
 	public Object getConstantValue()
 	{
 		final CellInstance cell = getCell();
-		if (cell instanceof CellWithConstant) {
-			return cell.getValue();
-		}
-		else {
-			return null;
-		}
+		return cell == null ? null : cell.getConstantValue();
 	}
 
 	public String getErrorText()
 	{
 		final CellInstance cell = getCell();
-		if (cell instanceof CellWithError) {
-			return (String) cell.getValue();
-		}
-		else {
-			return null;
-		}
+		return cell == null ? null : cell.getErrorText();
 	}
 
 
@@ -203,12 +193,7 @@ public final class CellIndex extends CellRange implements Cell
 	public String getExpressionText() throws SpreadsheetException
 	{
 		final CellInstance cell = getCell();
-		if (cell instanceof CellWithExpression) {
-			return ((CellWithExpression) cell).getExpression().toString();
-		}
-		else {
-			return null;
-		}
+		return cell == null ? null : cell.getExpressionText();
 	}
 
 
