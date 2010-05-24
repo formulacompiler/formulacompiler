@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project relativePaths="false" version="4">
+<project version="4">
   <component name="CodeStyleSettingsManager">
     <option name="PER_PROJECT_SETTINGS">
       <value>
@@ -33,13 +33,15 @@
         </option>
         <option name="IMPORT_LAYOUT_TABLE">
           <value>
-            <package name="java" withSubpackages="true" />
-            <package name="javax" withSubpackages="true" />
+            <package name="java" withSubpackages="true" static="false" />
+            <package name="javax" withSubpackages="true" static="false" />
             <emptyLine />
-            <package name="org.formulacompiler" withSubpackages="true" />
-            <package name="" withSubpackages="true" />
+            <package name="org.formulacompiler" withSubpackages="true" static="false" />
+            <package name="" withSubpackages="true" static="false" />
             <emptyLine />
-            <package name="junit" withSubpackages="true" />
+            <package name="junit" withSubpackages="true" static="false" />
+            <emptyLine />
+            <package name="" withSubpackages="true" static="true" />
           </value>
         </option>
         <option name="XML_SPACE_INSIDE_EMPTY_TAG" value="true" />

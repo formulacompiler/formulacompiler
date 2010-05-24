@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="org.formulacompiler.tests.reference in afc-system" type="JUnit" factoryName="JUnit" enabled="false" merge="false" sample_coverage="true" runner="emma">
+  <configuration default="false" name="org.formulacompiler.tests.reference in afc-system" type="JUnit" factoryName="JUnit">
     <module name="afc-system" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
     <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -12,15 +12,12 @@
     <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/components/system" />
     <option name="ENV_VARIABLES" />
     <option name="PASS_PARENT_ENVS" value="true" />
-    <option name="ADDITIONAL_CLASS_PATH" />
     <option name="TEST_SEARCH_SCOPE">
       <value defaultName="singleModule" />
     </option>
     <envs />
     <RunnerSettings RunnerId="Run" />
     <ConfigurationWrapper RunnerId="Run" />
-    <method>
-      <option name="Make" value="true" />
-    </method>
+    <method />
   </configuration>
 </component>
