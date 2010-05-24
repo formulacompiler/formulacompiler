@@ -69,7 +69,14 @@ public class CellWithExpression extends CellInstance
 	}
 
 
-	public String getExpressionText()
+	@Override
+	public String getExpressionText() throws SpreadsheetException
+	{
+		final ExpressionNode exp = getExpression();
+		return exp != null ? exp.toString() : null;
+	}
+	
+	public String getExpressionTextOrError()
 	{
 		final Object exp = getDescribableExpression();
 		return exp != null ? exp.toString() : null;

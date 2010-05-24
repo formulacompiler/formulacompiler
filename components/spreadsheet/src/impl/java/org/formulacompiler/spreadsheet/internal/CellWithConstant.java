@@ -42,6 +42,12 @@ public final class CellWithConstant extends CellInstance
 	}
 
 	@Override
+	public Object getConstantValue()
+	{
+		return getValue();
+	}
+
+	@Override
 	public void yamlTo( YamlBuilder _to )
 	{
 		_to.vn( "const" ).v( getValue(), true ).lf();
