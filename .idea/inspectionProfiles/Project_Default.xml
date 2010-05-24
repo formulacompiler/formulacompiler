@@ -2,23 +2,14 @@
   <profile version="1.0" is_locked="false">
     <option name="myName" value="Project Default" />
     <option name="myLocal" value="false" />
-    <inspection_tool class="JavadocReference" level="WARNING" enabled="true" />
-    <inspection_tool class="FinalPrivateMethod" level="WARNING" enabled="false" />
-    <inspection_tool class="UnqualifiedFieldAccess" level="WARNING" enabled="true" />
-    <inspection_tool class="ReuseOfLocalVariable" level="WARNING" enabled="true" />
-    <inspection_tool class="UnnecessaryLocalVariable" level="WARNING" enabled="true">
-      <option name="m_ignoreImmediatelyReturnedVariables" value="true" />
-      <option name="m_ignoreAnnotatedVariables" value="true" />
-    </inspection_tool>
-    <inspection_tool class="CheckTagEmptyBody" level="WARNING" enabled="false" />
-    <inspection_tool class="CStyleArrayDeclaration" level="WARNING" enabled="true" />
-    <inspection_tool class="MultipleDeclaration" level="WARNING" enabled="true" />
-    <inspection_tool class="UnnecessaryUnboxing" level="WARNING" enabled="false" />
-    <inspection_tool class="IndexOfReplaceableByContains" level="WARNING" enabled="true" />
-    <inspection_tool class="AssertEqualsBetweenInconvertibleTypes" level="WARNING" enabled="false" />
-    <inspection_tool class="BeforeOrAfterIsPublicVoidNoArg" level="WARNING" enabled="true" />
-    <inspection_tool class="BeforeClassOrAfterClassIsPublicStaticVoidNoArg" level="WARNING" enabled="true" />
-    <inspection_tool class="JavaDoc" level="WARNING" enabled="true">
+    <inspection_tool class="AssertEqualsBetweenInconvertibleTypes" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="BeforeClassOrAfterClassIsPublicStaticVoidNoArg" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="BeforeOrAfterIsPublicVoidNoArg" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="CStyleArrayDeclaration" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="CheckTagEmptyBody" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="FinalPrivateMethod" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="IndexOfReplaceableByContains" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="JavaDoc" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="TOP_LEVEL_CLASS_OPTIONS">
         <value>
           <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
@@ -45,7 +36,17 @@
       </option>
       <option name="IGNORE_DEPRECATED" value="false" />
       <option name="IGNORE_JAVADOC_PERIOD" value="true" />
+      <option name="IGNORE_DUPLICATED_THROWS" value="false" />
       <option name="myAdditionalJavadocTags" value="" />
     </inspection_tool>
+    <inspection_tool class="JavadocReference" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="MultipleDeclaration" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ReuseOfLocalVariable" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="UnnecessaryLocalVariable" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="m_ignoreImmediatelyReturnedVariables" value="true" />
+      <option name="m_ignoreAnnotatedVariables" value="true" />
+    </inspection_tool>
+    <inspection_tool class="UnnecessaryUnboxing" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="UnqualifiedFieldAccess" enabled="true" level="WARNING" enabled_by_default="true" />
   </profile>
 </component>

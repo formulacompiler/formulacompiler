@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project relativePaths="false" version="4">
+<project version="4">
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
@@ -23,7 +23,6 @@
   <component name="ProjectDetails">
     <option name="projectName" value="afc" />
   </component>
-  <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectKey">
     <option name="state" value="project://b7b0ca4d-240f-4739-9c1c-e084bbbd87f1" />
   </component>
