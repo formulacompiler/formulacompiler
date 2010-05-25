@@ -33,6 +33,7 @@ import org.formulacompiler.compiler.internal.expressions.parser.ExpressionParser
 import org.formulacompiler.compiler.internal.expressions.parser.Token;
 import org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
@@ -40,11 +41,10 @@ import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeIntersection;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeShape;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeUnion;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public abstract class SpreadsheetExpressionParser extends ExpressionParser
 {
-	private final SpreadsheetImpl workbook;
+	private final BaseSpreadsheet workbook;
 	protected final CellIndex cellIndex;
 
 	protected SpreadsheetExpressionParser( String _exprText, CellIndex _parseRelativeTo, CellRefFormat _cellRefFormat )
@@ -54,7 +54,7 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 		this.workbook = this.cellIndex.spreadsheet;
 	}
 
-	protected SpreadsheetExpressionParser( String _exprText, SpreadsheetImpl _workbook, CellRefFormat _cellRefFormat )
+	protected SpreadsheetExpressionParser( String _exprText, BaseSpreadsheet _workbook, CellRefFormat _cellRefFormat )
 	{
 		super( _exprText, _cellRefFormat );
 		this.workbook = _workbook;

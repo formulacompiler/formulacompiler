@@ -24,98 +24,42 @@ package org.formulacompiler.spreadsheet.internal;
 
 import java.util.List;
 
-import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.runtime.New;
-import org.formulacompiler.spreadsheet.Spreadsheet;
-import org.formulacompiler.spreadsheet.Spreadsheet.Row;
 
 
-public final class SheetImpl extends AbstractStyledElement implements Spreadsheet.Sheet
+public final class SheetImpl extends BaseSheet
 {
-	private final SpreadsheetImpl spreadsheet;
-	private final int sheetIndex;
-	private final String name;
 	private final List<RowImpl> rows = New.list();
-
 
 	public SheetImpl( SpreadsheetImpl _spreadsheet )
 	{
 		this( _spreadsheet, "Sheet" + (_spreadsheet.getSheetList().size() + 1) );
 	}
 
-
 	public SheetImpl( SpreadsheetImpl _spreadsheet, String _name )
 	{
-		this.spreadsheet = _spreadsheet;
-		this.sheetIndex = _spreadsheet.getSheetList().size();
-		this.name = _name;
+		super( _spreadsheet, _name, _spreadsheet.getSheetList().size() );
 		_spreadsheet.getSheetList().add( this );
 	}
 
-
-	public SpreadsheetImpl getSpreadsheet()
-	{
-		return this.spreadsheet;
-	}
-
-
-	public final String getName()
-	{
-		return this.name;
-	}
-
-
-	public Row[] getRows()
-	{
-		return this.rows.toArray( new Row[this.rows.size()] );
-	}
-
-
-	public int getSheetIndex()
-	{
-		return this.sheetIndex;
-	}
-
-
+	@Override
 	public List<RowImpl> getRowList()
 	{
 		return this.rows;
 	}
 
-
-	public int getMaxColumnCount()
-	{
-		int result = 0;
-		for (RowImpl row : getRowList()) {
-			final int colCount = row.getCellList().size();
-			if (colCount > result) result = colCount;
-		}
-		return result;
-	}
-
-
-	public void trim()
+	void trim()
 	{
 		boolean canRemove = true;
-		for (int i = getRowList().size() - 1; i >= 0; i--) {
-			RowImpl row = getRowList().get( i );
+		for (int i = this.rows.size() - 1; i >= 0; i--) {
+			RowImpl row = this.rows.get( i );
 			row.trim();
 			if (canRemove) {
 				if (row.getCellList().size() == 0) {
-					getRowList().remove( i );
+					this.rows.remove( i );
 				}
 				else canRemove = false;
 			}
 		}
 	}
-
-
-	@Override
-	public void yamlTo( YamlBuilder _to )
-	{
-		_to.vn( "name" ).v( getName() ).lf();
-		_to.ln( "rows" ).l( getRowList() );
-	}
-
-
 }

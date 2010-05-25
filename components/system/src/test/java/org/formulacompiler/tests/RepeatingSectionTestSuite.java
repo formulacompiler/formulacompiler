@@ -33,13 +33,13 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.spreadsheet.internal.BaseRow;
+import org.formulacompiler.spreadsheet.internal.BaseSheet;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.CellWithExpression;
-import org.formulacompiler.spreadsheet.internal.RowImpl;
-import org.formulacompiler.spreadsheet.internal.SheetImpl;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -64,9 +64,9 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 	}
 
 
-	private SpreadsheetImpl workbook;
-	private SheetImpl sheet;
-	private List<RowImpl> rows;
+	private BaseSpreadsheet workbook;
+	private BaseSheet sheet;
+	private List<? extends BaseRow> rows;
 
 
 	@Override
@@ -77,13 +77,13 @@ public class RepeatingSectionTestSuite extends AbstractTestSuite
 		this.addTest( fileSuite );
 
 		final String filePath = "src/test/data/org/formulacompiler/tests/" + "SectionTests.xls";
-		workbook = (SpreadsheetImpl) SpreadsheetCompiler.loadSpreadsheet( new File( filePath ) );
+		workbook = (BaseSpreadsheet) SpreadsheetCompiler.loadSpreadsheet( new File( filePath ) );
 		sheet = workbook.getSheetList().get( 0 );
 		rows = sheet.getRowList();
 
 		for (int iRow = FIRST_TEST_ROW; iRow < rows.size(); iRow++) {
-			final RowImpl row = rows.get( iRow );
-			final List<CellInstance> cells = row.getCellList();
+			final BaseRow row = rows.get( iRow );
+			final List<? extends CellInstance> cells = row.getCellList();
 			if (cells.size() > RANGE_NAME_COL) {
 				final CellInstance rangeNameCell = cells.get( RANGE_NAME_COL );
 				if (rangeNameCell != null) {

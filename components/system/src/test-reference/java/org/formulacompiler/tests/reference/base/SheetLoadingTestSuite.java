@@ -27,7 +27,7 @@ import java.io.FileInputStream;
 
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 
 public class SheetLoadingTestSuite extends AbstractContextTestSuite
 {
@@ -60,7 +60,7 @@ public class SheetLoadingTestSuite extends AbstractContextTestSuite
 		final FileInputStream stream = new FileInputStream( file );
 		final SpreadsheetLoader.Config cfg = new SpreadsheetLoader.Config();
 		cfg.loadAllCellValues = true;
-		_cx.setSpreadsheet( (SpreadsheetImpl) SpreadsheetCompiler.loadSpreadsheet( name, stream, cfg ) );
+		_cx.setSpreadsheet( (BaseSpreadsheet) SpreadsheetCompiler.loadSpreadsheet( name, stream, cfg ) );
 	}
 
 	@Override

@@ -33,8 +33,8 @@ import javax.xml.stream.XMLStreamException;
 
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.spreadsheet.internal.RowImpl;
-import org.formulacompiler.spreadsheet.internal.SheetImpl;
+import org.formulacompiler.spreadsheet.internal.BaseRow;
+import org.formulacompiler.spreadsheet.internal.BaseSheet;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.odf.saver.Style;
 import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementWriter;
@@ -52,7 +52,7 @@ class SheetWriter extends ElementWriter
 		this.styles = _styles;
 	}
 
-	public void write( final SheetImpl _sheet ) throws XMLStreamException, SpreadsheetException
+	public void write( final BaseSheet _sheet ) throws XMLStreamException, SpreadsheetException
 	{
 		final Map<QName, String> attributes = New.map();
 		if (_sheet != null) {
@@ -76,8 +76,8 @@ class SheetWriter extends ElementWriter
 		final RowWriter rowWriter = new RowWriter( getXmlEventFactory(), getXmlEventWriter(), this.timeZone, this.styles );
 		boolean rowWritten = false;
 		if (_sheet != null) {
-			final List<RowImpl> rows = _sheet.getRowList();
-			for (RowImpl row : rows) {
+			final List<? extends BaseRow> rows = _sheet.getRowList();
+			for (BaseRow row : rows) {
 				rowWriter.write( row );
 				rowWritten = true;
 			}

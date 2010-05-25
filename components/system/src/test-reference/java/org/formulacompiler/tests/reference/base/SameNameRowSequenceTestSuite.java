@@ -24,7 +24,7 @@ package org.formulacompiler.tests.reference.base;
 
 import java.util.List;
 
-import org.formulacompiler.spreadsheet.internal.RowImpl;
+import org.formulacompiler.spreadsheet.internal.BaseRow;
 
 public class SameNameRowSequenceTestSuite extends AbstractContextTestSuite
 {
@@ -47,7 +47,7 @@ public class SameNameRowSequenceTestSuite extends AbstractContextTestSuite
 	protected void addTests() throws Exception
 	{
 		int iRow = addTestFor( new Context( cx() ) );
-		final List<RowImpl> rows = cx().getSheetRows();
+		final List<? extends BaseRow> rows = cx().getSheetRows();
 		while (iRow < rows.size()) {
 			final Context childRowCx = new Context( cx() );
 			childRowCx.setRow( iRow );

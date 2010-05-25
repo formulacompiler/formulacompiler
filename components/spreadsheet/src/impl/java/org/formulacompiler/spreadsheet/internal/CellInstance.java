@@ -33,13 +33,13 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
 
 public abstract class CellInstance extends AbstractStyledElement
 {
-	private final RowImpl row;
+	private final BaseRow row;
 	private final int columnIndex;
 	private int maxFractionalDigits = NumericType.UNLIMITED_FRACTIONAL_DIGITS;
 	private Object value;
 
 
-	public CellInstance( RowImpl _row )
+	protected CellInstance( RowImpl _row )
 	{
 		this.row = _row;
 		this.columnIndex = _row.getCellList().size();
@@ -47,7 +47,7 @@ public abstract class CellInstance extends AbstractStyledElement
 	}
 
 
-	public RowImpl getRow()
+	public BaseRow getRow()
 	{
 		return this.row;
 	}
@@ -136,7 +136,7 @@ public abstract class CellInstance extends AbstractStyledElement
 	{
 		int iCol = getColumnIndex();
 		int iRow = this.row.getRowIndex();
-		SheetImpl sheet = this.row.getSheet();
+		BaseSheet sheet = this.row.getSheet();
 		int iSheet = sheet.getSheetIndex();
 		return new CellIndex( sheet.getSpreadsheet(), iSheet, iCol, iRow );
 	}

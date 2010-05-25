@@ -34,6 +34,7 @@ import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
+import org.formulacompiler.spreadsheet.internal.BaseSheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellRefParser;
 import org.formulacompiler.spreadsheet.internal.CellWithConstant;
@@ -140,7 +141,7 @@ final class WorksheetParser extends XmlParser
 		final Attribute dataType = _cell.getAttributeByName( XMLConstants.Main.CELL_TYPE );
 		final Attribute styleIndex = _cell.getAttributeByName( XMLConstants.Main.CELL_STYLE );
 
-		final SheetImpl sheet = _row.getSheet();
+		final BaseSheet sheet = _row.getSheet();
 		final CellIndex upperLeftCellIndex = new CellIndex( sheet.getSpreadsheet(), sheet.getSheetIndex(), 0, 0 );
 		final CellIndex cellIndex = CellRefParser.A1.parseCellA1( reference.getValue(), upperLeftCellIndex );
 

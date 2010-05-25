@@ -40,7 +40,7 @@ public final class CellIndex extends CellRange implements Cell
 {
 	static final int MAX_INDEX = Integer.MAX_VALUE - 1;
 
-	public final SpreadsheetImpl spreadsheet;
+	public final BaseSpreadsheet spreadsheet;
 	public final int sheetIndex;
 	public final int columnIndex;
 	public final int rowIndex;
@@ -48,7 +48,7 @@ public final class CellIndex extends CellRange implements Cell
 	public final boolean isRowIndexAbsolute;
 
 
-	public CellIndex( SpreadsheetImpl _spreadsheet, int _sheetIndex, int _columnIndex, boolean _columnIndexAbsolute,
+	public CellIndex( BaseSpreadsheet _spreadsheet, int _sheetIndex, int _columnIndex, boolean _columnIndexAbsolute,
 			int _rowIndex, boolean _rowIndexAbsolute )
 	{
 		assert _sheetIndex < _spreadsheet.getSheetList().size();
@@ -64,7 +64,7 @@ public final class CellIndex extends CellRange implements Cell
 	}
 
 
-	public CellIndex( SpreadsheetImpl _spreadsheet, int _sheetIndex, int _columnIndex, int _rowIndex )
+	public CellIndex( BaseSpreadsheet _spreadsheet, int _sheetIndex, int _columnIndex, int _rowIndex )
 	{
 		this( _spreadsheet, _sheetIndex, _columnIndex, false, _rowIndex, false );
 	}
@@ -88,12 +88,12 @@ public final class CellIndex extends CellRange implements Cell
 	}
 
 
-	public static final CellIndex getTopLeft( SpreadsheetImpl _spreadsheet )
+	public static final CellIndex getTopLeft( BaseSpreadsheet _spreadsheet )
 	{
 		return new CellIndex( _spreadsheet, 0, 0, 0 );
 	}
 
-	public static final CellIndex getBottomRight( SpreadsheetImpl _spreadsheet )
+	public static final CellIndex getBottomRight( BaseSpreadsheet _spreadsheet )
 	{
 		final int lastSheetIndex = _spreadsheet.getSheetList().size() - 1;
 		return new CellIndex( _spreadsheet, lastSheetIndex, MAX_INDEX, MAX_INDEX );
@@ -133,7 +133,7 @@ public final class CellIndex extends CellRange implements Cell
 	private transient int hashCode;
 
 
-	public SheetImpl getSheet()
+	public BaseSheet getSheet()
 	{
 		return this.spreadsheet.getSheetList().get( getSheetIndex() );
 	}
@@ -146,9 +146,9 @@ public final class CellIndex extends CellRange implements Cell
 		return this.sheetIndex;
 	}
 
-	public RowImpl getRow()
+	public BaseRow getRow()
 	{
-		SheetImpl sheet = getSheet();
+		final BaseSheet sheet = getSheet();
 		if (getRowIndex() < sheet.getRowList().size()) {
 			return sheet.getRowList().get( getRowIndex() );
 		}
@@ -160,7 +160,7 @@ public final class CellIndex extends CellRange implements Cell
 
 	public CellInstance getCell()
 	{
-		RowImpl row = getRow();
+		final BaseRow row = getRow();
 		if (null != row && getColumnIndex() < row.getCellList().size()) {
 			return row.getCellList().get( getColumnIndex() );
 		}
@@ -238,7 +238,7 @@ public final class CellIndex extends CellRange implements Cell
 			final boolean shortStyle = _to.getContext( DescribeShortStyle.class ) != null;
 			final boolean columnIndexAbsolute = this.isColumnIndexAbsolute && !shortStyle;
 			final boolean rowIndexAbsolute = this.isRowIndexAbsolute && !shortStyle;
-			final SheetImpl contextSheet = _to.getContext( SheetImpl.class );
+			final BaseSheet contextSheet = _to.getContext( BaseSheet.class );
 			_to.append( getNameA1ForCellIndex( columnIndexAbsolute, rowIndexAbsolute, contextSheet ) );
 		}
 		else {
@@ -268,14 +268,14 @@ public final class CellIndex extends CellRange implements Cell
 		}
 	}
 
-	String getNameA1ForCellIndex( boolean _columnIndexAbsolute, boolean _rowIndexAbsolute, SheetImpl _contextSheet )
+	String getNameA1ForCellIndex( boolean _columnIndexAbsolute, boolean _rowIndexAbsolute, BaseSheet _contextSheet )
 	{
 		final StringBuilder result = new StringBuilder();
 		if (this.sheetIndex == BROKEN_REF) {
 			result.append( "#REF!" );
 		}
 		else if (_contextSheet == null || this.sheetIndex != _contextSheet.getSheetIndex()) {
-			final SheetImpl sheet = getSheet();
+			final BaseSheet sheet = getSheet();
 			final String name = sheet.getName();
 			final boolean quoted = name.contains( " " ) || name.contains( "'" ) || name.contains( "-" );
 			if (quoted) {
@@ -380,7 +380,7 @@ public final class CellIndex extends CellRange implements Cell
 		final int colIndex = this.isColumnIndexAbsolute ? this.columnIndex : (this.columnIndex + _colOffset);
 		final int rowIndex = this.isRowIndexAbsolute ? this.rowIndex : (this.rowIndex + _rowOffset);
 		return new CellIndex( this.spreadsheet, this.sheetIndex,
-				colIndex, this.isColumnIndexAbsolute, rowIndex, this.isRowIndexAbsolute);
+				colIndex, this.isColumnIndexAbsolute, rowIndex, this.isRowIndexAbsolute );
 	}
 
 	public CellAddress getCellAddress()

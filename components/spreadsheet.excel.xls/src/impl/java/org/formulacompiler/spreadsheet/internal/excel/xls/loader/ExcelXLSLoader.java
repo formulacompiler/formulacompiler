@@ -36,6 +36,8 @@ import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
+import org.formulacompiler.spreadsheet.internal.BaseSheet;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
@@ -180,7 +182,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 				expression = xlsFormulaCell.getFormula();
 			}
 			catch (jxl.biff.formula.FormulaException e) {
-				final SheetImpl sheet = _row.getSheet();
+				final BaseSheet sheet = _row.getSheet();
 				final CellIndex cellIndex = new CellIndex( sheet.getSpreadsheet(), sheet.getSheetIndex(),
 						_xlsCell.getColumn(), _xlsCell.getRow() );
 				throw new SpreadsheetException.LoadError( "Error parsing cell " + cellIndex, e );
@@ -260,7 +262,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 	}
 
 
-	private void loadNames( jxl.Workbook _xlsWorkbook, SpreadsheetImpl _workbook )
+	private void loadNames( jxl.Workbook _xlsWorkbook, BaseSpreadsheet _workbook )
 	{
 		for (final String name : _xlsWorkbook.getRangeNames()) {
 			final jxl.Range[] xlsRange = _xlsWorkbook.findByName( name );

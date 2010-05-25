@@ -34,18 +34,18 @@ import javax.xml.stream.events.StartElement;
 
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.odf.saver.Style;
 import org.formulacompiler.spreadsheet.internal.odf.xml.stream.DocumentWriter;
 
 public class DocumentContentWriter extends DocumentWriter
 {
-	private final SpreadsheetImpl spreadsheet;
+	private final BaseSpreadsheet spreadsheet;
 	private final TimeZone timeZone;
 	private final Set<Style> styles = New.sortedSet();
 
-	public DocumentContentWriter( final SpreadsheetImpl _spreadsheet, final TimeZone _timeZone )
+	public DocumentContentWriter( final BaseSpreadsheet _spreadsheet, final TimeZone _timeZone )
 	{
 		this.spreadsheet = _spreadsheet;
 		this.timeZone = _timeZone;

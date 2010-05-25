@@ -44,7 +44,7 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 		}
 	}
 
-	public static CellRange getEntireWorkbook( SpreadsheetImpl _spreadsheet )
+	public static CellRange getEntireWorkbook( BaseSpreadsheet _spreadsheet )
 	{
 		return getCellRange( CellIndex.getTopLeft( _spreadsheet ), CellIndex.getBottomRight( _spreadsheet ) );
 	}
@@ -199,7 +199,7 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 		private final CellIndex i_br;
 		private final CellIndex t_tl;
 		private final CellIndex t_br;
-		private final SpreadsheetImpl ss;
+		private final BaseSpreadsheet ss;
 		private final int si;
 		private final CellRange[] results;
 

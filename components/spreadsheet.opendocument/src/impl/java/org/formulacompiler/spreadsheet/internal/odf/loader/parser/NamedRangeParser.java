@@ -29,8 +29,8 @@ import javax.xml.stream.events.StartElement;
 
 import org.formulacompiler.compiler.internal.expressions.parser.ExpressionParser;
 import org.formulacompiler.compiler.internal.expressions.parser.GeneratedExpressionParserConstants;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellRange;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementHandler;
 import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
@@ -41,9 +41,9 @@ import org.formulacompiler.spreadsheet.internal.parser.SpreadsheetExpressionPars
  */
 class NamedRangeParser extends ElementHandler
 {
-	private final SpreadsheetImpl spreadsheet;
+	private final BaseSpreadsheet spreadsheet;
 
-	public NamedRangeParser( SpreadsheetImpl _spreadsheet )
+	public NamedRangeParser( BaseSpreadsheet _spreadsheet )
 	{
 		this.spreadsheet = _spreadsheet;
 	}

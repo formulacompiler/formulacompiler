@@ -37,10 +37,10 @@ import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
+import org.formulacompiler.spreadsheet.internal.BaseRow;
+import org.formulacompiler.spreadsheet.internal.BaseSheet;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellWithExpression;
-import org.formulacompiler.spreadsheet.internal.RowImpl;
-import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.excel.xlsx.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.excel.xlsx.loader.template.Stylesheet;
 
@@ -189,9 +189,9 @@ class WorksheetWriter extends ContentXmlWriter
 		}
 		writeStartElement( XMLConstants.Main.SHEET_DATA );
 		if (_sheet != null) {
-			final List<RowImpl> rows = ((SheetImpl) _sheet).getRowList();
+			final List<? extends BaseRow> rows = ((BaseSheet) _sheet).getRowList();
 			for (int ri = 0; ri != rows.size(); ri++) {
-				final RowImpl row = rows.get( ri );
+				final BaseRow row = rows.get( ri );
 				writeStartElement( XMLConstants.Main.ROW );
 				writeAttribute( XMLConstants.Main.ROW_INDEX, String.valueOf( ri + 1 ) );
 
@@ -199,7 +199,7 @@ class WorksheetWriter extends ContentXmlWriter
 					if (this.template != null)
 						writeRowStyle( row.getStyleName() );
 
-					final List<CellInstance> cells = row.getCellList();
+					final List<? extends CellInstance> cells = row.getCellList();
 					for (int ci = 0; ci != cells.size(); ci++) {
 						final CellInstance cell = cells.get( ci );
 						writeStartElement( XMLConstants.Main.CELL );
