@@ -37,13 +37,13 @@ import org.formulacompiler.runtime.internal.Runtime_v2;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
+import org.formulacompiler.spreadsheet.internal.BaseRow;
+import org.formulacompiler.spreadsheet.internal.BaseSheet;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.CellWithExpression;
-import org.formulacompiler.spreadsheet.internal.RowImpl;
-import org.formulacompiler.spreadsheet.internal.SheetImpl;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.saver.SpreadsheetSaverDispatcher;
 
 import jxl.Cell;
@@ -100,7 +100,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		this.template = (null == this.templateInputStream) ? null : loadTemplate( this.templateInputStream );
 		this.templateSheet = (null == this.template) ? null : this.template.getSheet( 0 );
 
-		final SpreadsheetImpl wb = (SpreadsheetImpl) this.model;
+		final BaseSpreadsheet wb = (BaseSpreadsheet) this.model;
 		final WritableWorkbook xwb = createWorkbook();
 		try {
 			saveWorkbook( wb, xwb );
@@ -153,14 +153,14 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	}
 
 
-	private void saveWorkbook( SpreadsheetImpl _wb, WritableWorkbook _xwb ) throws JXLException, SpreadsheetException
+	private void saveWorkbook( BaseSpreadsheet _wb, WritableWorkbook _xwb ) throws JXLException, SpreadsheetException
 	{
 		saveSheets( _wb, _xwb );
 		saveNames( _wb, _xwb );
 	}
 
 
-	private void saveNames( SpreadsheetImpl _wb, WritableWorkbook _xwb )
+	private void saveNames( BaseSpreadsheet _wb, WritableWorkbook _xwb )
 	{
 		for (final Entry<String, CellRange> nd : _wb.getModelRangeNames().entrySet()) {
 			final String name = nd.getKey();
@@ -175,25 +175,25 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	}
 
 
-	private void saveSheets( SpreadsheetImpl _wb, WritableWorkbook _xwb ) throws JXLException, SpreadsheetException
+	private void saveSheets( BaseSpreadsheet _wb, WritableWorkbook _xwb ) throws JXLException, SpreadsheetException
 	{
-		for (final SheetImpl s : _wb.getSheetList()) {
+		for (final BaseSheet s : _wb.getSheetList()) {
 			final WritableSheet xs = _xwb.createSheet( s.getName(), s.getSheetIndex() );
 			saveSheet( s, _xwb, xs );
 		}
 	}
 
 
-	private void saveSheet( SheetImpl _s, WritableWorkbook _xwb, WritableSheet _xs ) throws JXLException,
+	private void saveSheet( BaseSheet _s, WritableWorkbook _xwb, WritableSheet _xs ) throws JXLException,
 			SpreadsheetException
 	{
-		for (final RowImpl r : _s.getRowList()) {
+		for (final BaseRow r : _s.getRowList()) {
 			saveRow( r, _xwb, _xs );
 		}
 	}
 
 
-	private void saveRow( RowImpl _r, WritableWorkbook _xwb, WritableSheet _xs ) throws JXLException,
+	private void saveRow( BaseRow _r, WritableWorkbook _xwb, WritableSheet _xs ) throws JXLException,
 			SpreadsheetException
 	{
 		final int row = _r.getRowIndex();

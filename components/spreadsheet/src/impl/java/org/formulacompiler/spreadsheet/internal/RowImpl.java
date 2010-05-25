@@ -24,96 +24,36 @@ package org.formulacompiler.spreadsheet.internal;
 
 import java.util.List;
 
-import org.formulacompiler.compiler.internal.YamlBuilder;
 import org.formulacompiler.runtime.New;
-import org.formulacompiler.spreadsheet.Spreadsheet;
-import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 
-public final class RowImpl extends AbstractStyledElement implements Spreadsheet.Row
+
+public final class RowImpl extends BaseRow
 {
-	private final SheetImpl sheet;
-	private final int rowIndex;
 	private final List<CellInstance> cells;
-
-
-	private RowImpl( final SheetImpl _sheet, final List<CellInstance> _cells )
-	{
-		this.sheet = _sheet;
-		this.rowIndex = _sheet.getRowList().size();
-		this.cells = _cells;
-		_sheet.getRowList().add( this );
-	}
 
 	public RowImpl( SheetImpl _sheet )
 	{
-		this( _sheet, New.<CellInstance>list() );
+		super( _sheet, _sheet.getRowList().size() );
+		_sheet.getRowList().add( this );
+		this.cells = New.list();
 	}
-
-	public RowImpl( RowImpl _sameRow )
-	{
-		this( _sameRow.sheet, _sameRow.cells );
-	}
-
 
 	public void copy()
 	{
-		final RowImpl row = new RowImpl( getSheet() );
+		final RowImpl row = new RowImpl( (SheetImpl) getSheet() );
 		for (CellInstance cell : this.cells) {
 			if (cell != null) cell.copyTo( row );
 			else row.getCellList().add( null );
 		}
 	}
-	
 
-	public SheetImpl getSheet()
-	{
-		return this.sheet;
-	}
-
-
-	public Cell[] getCells()
-	{
-		final SpreadsheetImpl spreadsheet = getSheet().getSpreadsheet();
-		final int sheetIndex = getSheet().getSheetIndex();
-		final int rowIndex = getRowIndex();
-
-		final Cell[] result = new Cell[ this.cells.size() ];
-		for (int i = 0; i < this.cells.size(); i++) {
-			final CellInstance cellInst = this.cells.get( i );
-			result[ i ] = new CellIndex( spreadsheet, sheetIndex, i, rowIndex );
-			assert cellInst == null || result[ i ].equals( cellInst.getCellIndex() )
-					: "Expected " + result[ i ] + " but was " + cellInst.getCellIndex();
-		}
-		return result;
-	}
-
-
-	public int getRowIndex()
-	{
-		return this.rowIndex;
-	}
-
-
+	@Override
 	public List<CellInstance> getCellList()
 	{
 		return this.cells;
 	}
 
-
-	public CellInstance getCellOrNull( int _columnIndex )
-	{
-		if (_columnIndex < getCellList().size()) return getCellList().get( _columnIndex );
-		else return null;
-	}
-
-
-	public CellIndex getCellIndex( int _columnIndex )
-	{
-		return new CellIndex( getSheet().getSpreadsheet(), getSheet().getSheetIndex(), _columnIndex, getRowIndex() );
-	}
-
-
-	public void trim()
+	void trim()
 	{
 		boolean canRemove = true;
 		for (int i = getCellList().size() - 1; i >= 0; i--) {
@@ -126,13 +66,5 @@ public final class RowImpl extends AbstractStyledElement implements Spreadsheet.
 			}
 		}
 	}
-
-
-	@Override
-	public void yamlTo( YamlBuilder _to )
-	{
-		_to.ln( "cells" ).l( getCellList() );
-	}
-
 
 }

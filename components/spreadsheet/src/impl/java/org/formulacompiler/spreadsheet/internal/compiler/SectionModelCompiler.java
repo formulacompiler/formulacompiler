@@ -45,6 +45,7 @@ import org.formulacompiler.runtime.spreadsheet.CellAddress;
 import org.formulacompiler.runtime.spreadsheet.RangeAddress;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
@@ -54,7 +55,6 @@ import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForCell;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRange;
 import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeShape;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.binding.CellBinding;
 import org.formulacompiler.spreadsheet.internal.binding.InputCellBinding;
 import org.formulacompiler.spreadsheet.internal.binding.SectionBinding;
@@ -170,7 +170,7 @@ public final class SectionModelCompiler
 	SectionModelCompiler createSectionCompiler( SectionBinding _sectionDef )
 	{
 		final CellRange range = _sectionDef.getRange();
-		final SpreadsheetImpl spreadsheet = range.getFrom().getSheet().getSpreadsheet();
+		final BaseSpreadsheet spreadsheet = range.getFrom().getSheet().getSpreadsheet();
 		final Set<String> names = spreadsheet.getNamesFor( range );
 		final String name = names != null && !names.isEmpty() ? names.iterator().next() : null;
 		final RangeAddress rangeAddress = range.getRangeAddress();

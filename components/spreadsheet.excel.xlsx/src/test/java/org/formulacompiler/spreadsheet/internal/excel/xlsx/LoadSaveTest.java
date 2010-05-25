@@ -32,8 +32,8 @@ import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.SpreadsheetNameCreator;
+import org.formulacompiler.spreadsheet.internal.BaseRow;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
-import org.formulacompiler.spreadsheet.internal.RowImpl;
 
 public class LoadSaveTest extends AbstractVerifyingTestCase
 {
@@ -82,7 +82,7 @@ public class LoadSaveTest extends AbstractVerifyingTestCase
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
 		final Spreadsheet.Row row = sheet.getRows()[ 0 ];
-		final List<CellInstance> cells = ((RowImpl) row).getCellList();
+		final List<? extends CellInstance> cells = ((BaseRow) row).getCellList();
 		assertEquals( 5, cells.size() );
 		assertNull( cells.get( 0 ) );
 		assertNotNull( cells.get( 1 ) );

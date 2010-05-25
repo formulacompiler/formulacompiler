@@ -79,7 +79,7 @@ public class CellRangeTest extends TestCase
 		CellIndex end = newCellIndex( _toCol, _toRow );
 		CellRange range = CellRange.getCellRange( start, end );
 		DescriptionBuilder cells = new DescriptionBuilder();
-		cells.pushContext( this.workbook.getSheetList().get( 0 ) );
+		cells.pushContext( this.workbook.getSheetList().get( 0 ), BaseSheet.class );
 		for (CellIndex ix : range) {
 			ix.describeTo( cells );
 		}

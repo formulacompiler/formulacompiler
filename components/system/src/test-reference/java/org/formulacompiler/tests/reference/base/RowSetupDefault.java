@@ -22,9 +22,9 @@
 
 package org.formulacompiler.tests.reference.base;
 
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public final class RowSetupDefault extends RowSetup
 {
@@ -88,7 +88,7 @@ public final class RowSetupDefault extends RowSetup
 		final Context cx = cx();
 		final int n = cx.getInputCellCount();
 		final CellIndex[] inputCells = new CellIndex[ n ];
-		final SpreadsheetImpl ss = cx.getSpreadsheet();
+		final BaseSpreadsheet ss = cx.getSpreadsheet();
 		final int r = cx.getRowIndex();
 		int c = inputStartCol();
 		for (int i = 0; i < n; i++)

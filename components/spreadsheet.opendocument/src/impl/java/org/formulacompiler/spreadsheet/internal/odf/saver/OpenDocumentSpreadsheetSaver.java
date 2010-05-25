@@ -36,7 +36,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.odf.saver.copying.ManifestCopyingParser;
 import org.formulacompiler.spreadsheet.internal.odf.saver.copying.StylesCopyingParser;
 import org.formulacompiler.spreadsheet.internal.odf.saver.io.NonClosableInputStream;
@@ -55,7 +55,7 @@ public class OpenDocumentSpreadsheetSaver implements SpreadsheetSaver
 	private static final String MANIFEST_XML = "META-INF/manifest.xml";
 	private static final String MIMETYPE = "mimetype";
 
-	private final SpreadsheetImpl spreadsheet;
+	private final BaseSpreadsheet spreadsheet;
 	private final OutputStream outputStream;
 	private final InputStream templateInputStream;
 	private final TimeZone timeZone;
@@ -63,7 +63,7 @@ public class OpenDocumentSpreadsheetSaver implements SpreadsheetSaver
 	private OpenDocumentSpreadsheetSaver( Config _config )
 	{
 		super();
-		this.spreadsheet = (SpreadsheetImpl) _config.spreadsheet;
+		this.spreadsheet = (BaseSpreadsheet) _config.spreadsheet;
 		this.outputStream = _config.outputStream;
 		this.templateInputStream = _config.templateInputStream;
 		this.timeZone = (_config.timeZone != null) ? _config.timeZone : TimeZone.getDefault();

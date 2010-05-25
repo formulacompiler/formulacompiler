@@ -58,7 +58,7 @@ public class SpreadsheetTest extends AbstractStandardInputsOutputsTestCase
 		assertCell( wb, 0, 0, 0, wb.getCellA1( "A1" ) );
 	}
 
-	private void assertCell( SpreadsheetImpl _wb, int _sheet, int _col, int _row, Cell _have )
+	private void assertCell( BaseSpreadsheet _wb, int _sheet, int _col, int _row, Cell _have )
 	{
 		Cell want = _wb.getCell( _sheet, _col, _row );
 		assertEquals( want.describe(), _have.describe() );
@@ -296,7 +296,7 @@ public class SpreadsheetTest extends AbstractStandardInputsOutputsTestCase
 		final Set<Range> knownRanges = New.set();
 
 
-		public void assertNames( SpreadsheetImpl _spreadsheet )
+		public void assertNames( BaseSpreadsheet _spreadsheet )
 		{
 			assertEquals( this.expectedModelRanges, _spreadsheet.getModelRangeNames() );
 			assertEquals( this.expectedRanges, _spreadsheet.getRangeNames() );

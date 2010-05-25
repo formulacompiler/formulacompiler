@@ -35,11 +35,11 @@ import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.Computation.Config;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
+import org.formulacompiler.spreadsheet.internal.BaseRow;
+import org.formulacompiler.spreadsheet.internal.BaseSheet;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
-import org.formulacompiler.spreadsheet.internal.RowImpl;
-import org.formulacompiler.spreadsheet.internal.SheetImpl;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 import junit.framework.Test;
 
@@ -63,8 +63,8 @@ public final class Context
 	{
 		String spreadsheetFileBaseName;
 		File spreadsheetFile;
-		SpreadsheetImpl spreadsheet;
-		SheetImpl sheet;
+		BaseSpreadsheet spreadsheet;
+		BaseSheet sheet;
 		RowSetup.Builder rowSetupBuilder;
 		Computation.Config computationConfig;
 		FailedEngineReporter failedEngineReporter;
@@ -75,7 +75,7 @@ public final class Context
 
 	private static final class RowInfo implements Cloneable
 	{
-		RowImpl row;
+		BaseRow row;
 		CellIndex expectedCell;
 		CellIndex outputCell;
 		Integer inputCellCount;
@@ -178,26 +178,26 @@ public final class Context
 	}
 
 
-	public SpreadsheetImpl getSpreadsheet()
+	public BaseSpreadsheet getSpreadsheet()
 	{
 		return ss().spreadsheet;
 	}
 
-	public void setSpreadsheet( SpreadsheetImpl _spreadsheet )
+	public void setSpreadsheet( BaseSpreadsheet _spreadsheet )
 	{
 		final SpreadsheetInfo ss = ss();
 		ss.spreadsheet = _spreadsheet;
 		ss.sheet = _spreadsheet.getSheetList().get( 0 );
 	}
 
-	public List<RowImpl> getSheetRows()
+	public List<? extends BaseRow> getSheetRows()
 	{
 		return ss().sheet.getRowList();
 	}
 
-	public RowImpl getSheetRow( int _rowIndex )
+	public BaseRow getSheetRow( int _rowIndex )
 	{
-		List<RowImpl> rows = getSheetRows();
+		List<? extends BaseRow> rows = getSheetRows();
 		if (_rowIndex < 0 && _rowIndex >= rows.size()) return null;
 		return rows.get( _rowIndex );
 	}
@@ -288,7 +288,7 @@ public final class Context
 	}
 
 
-	public RowImpl getRow()
+	public BaseRow getRow()
 	{
 		final RowInfo rowInfo = row();
 		return (null == rowInfo) ? null : rowInfo.row;
@@ -296,7 +296,7 @@ public final class Context
 
 	public int getRowIndex()
 	{
-		final RowImpl row = getRow();
+		final BaseRow row = getRow();
 		return (null == row) ? -1 : row.getRowIndex();
 	}
 
@@ -305,14 +305,14 @@ public final class Context
 		setRow( getSheetRow( _rowIndex ) );
 	}
 
-	public void setRow( RowImpl _row )
+	public void setRow( BaseRow _row )
 	{
 		rowPut().row = _row;
 	}
 
-	public List<CellInstance> getRowCells()
+	public List<? extends CellInstance> getRowCells()
 	{
-		RowImpl row = getRow();
+		BaseRow row = getRow();
 		if (row == null) return NO_CELLS;
 		return row.getCellList();
 	}
@@ -320,7 +320,7 @@ public final class Context
 
 	public CellInstance getRowCell( int _columnIndex )
 	{
-		List<CellInstance> cells = getRowCells();
+		List<? extends CellInstance> cells = getRowCells();
 		if (_columnIndex < 0 || _columnIndex >= cells.size()) return null;
 		return cells.get( _columnIndex );
 	}

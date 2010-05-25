@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.formulacompiler.runtime.Computation;
-import org.formulacompiler.spreadsheet.internal.RowImpl;
+import org.formulacompiler.spreadsheet.internal.BaseRow;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -171,7 +171,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 
 	static void addSheetRowSequenceTo( Context _cx, TestSuite _suite, final RowTestSetup _setup ) throws Exception
 	{
-		final List<RowImpl> rows = _cx.getSheetRows();
+		final List<? extends BaseRow> rows = _cx.getSheetRows();
 		int iRow = _cx.getRowSetup().startingRow();
 		while (iRow < rows.size()) {
 			final Context cx = new Context( _cx );

@@ -31,6 +31,7 @@ import javax.xml.stream.events.StartElement;
 import org.formulacompiler.compiler.internal.expressions.parser.ExpressionParser;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
@@ -132,7 +133,7 @@ final class WorkbookParser extends XmlParser
 		}
 	}
 
-	private void parseDefinedNames( final SpreadsheetImpl _spreadsheet ) throws XMLStreamException, SpreadsheetException
+	private void parseDefinedNames( final BaseSpreadsheet _spreadsheet ) throws XMLStreamException, SpreadsheetException
 	{
 		StartElement se = find( XMLConstants.WORKBOOK_DEFINED_NAMES_PATH );
 		if (se != null) {

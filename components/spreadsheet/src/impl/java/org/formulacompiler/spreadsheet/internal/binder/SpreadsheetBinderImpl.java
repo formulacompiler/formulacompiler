@@ -33,7 +33,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetBinding;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.binding.SectionBinding;
 import org.formulacompiler.spreadsheet.internal.binding.WorkbookBinding;
 
@@ -48,7 +48,7 @@ public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 		super();
 		_config.validate();
 		this.spreadsheet = _config.spreadsheet;
-		this.binding = new WorkbookBinding( (SpreadsheetImpl) _config.spreadsheet, _config.inputClass,
+		this.binding = new WorkbookBinding( (BaseSpreadsheet) _config.spreadsheet, _config.inputClass,
 				_config.outputClass, _config.compileTimeConfig );
 		this.root = new SectionBinderImpl( this.binding.getRoot() );
 	}

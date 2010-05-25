@@ -51,7 +51,7 @@ public abstract class CellRefParser
 			final String ciAbs = matcher.group( 5 );
 			final String ciRel = matcher.group( 6 );
 
-			final SpreadsheetImpl spreadsheet = _relativeTo.getSheet().getSpreadsheet();
+			final BaseSpreadsheet spreadsheet = _relativeTo.getSheet().getSpreadsheet();
 			final int sheetIndex = getSheetIndex( matcher, 1, _relativeTo.sheetIndex, spreadsheet );
 
 			final int colIndex;
@@ -113,7 +113,7 @@ public abstract class CellRefParser
 			if (!matcher.matches()) {
 				throw new CellRefParseException( "Invalid A1-style cell reference: " + _cellRef );
 			}
-			final SpreadsheetImpl spreadsheet = _relativeTo.spreadsheet;
+			final BaseSpreadsheet spreadsheet = _relativeTo.spreadsheet;
 			final int sheetIndex = getSheetIndex( matcher, 1, _relativeTo.sheetIndex, spreadsheet );
 			final CellIndex cellIndex = getCellIndex( matcher, 3, sheetIndex, spreadsheet );
 			if (cellIndex != null) {
@@ -122,7 +122,7 @@ public abstract class CellRefParser
 			throw new CellRefParseException.InternalParserError( _cellRef );
 		}
 
-		private static CellIndex getCellIndex( Matcher _matcher, int _group, int _sheetIndex, final SpreadsheetImpl _spreadsheet )
+		private static CellIndex getCellIndex( Matcher _matcher, int _group, int _sheetIndex, final BaseSpreadsheet _spreadsheet )
 		{
 			final String ciAbs = _matcher.group( _group );
 			final String ci = _matcher.group( _group + 1 );
@@ -142,7 +142,7 @@ public abstract class CellRefParser
 					colIndex, colIndexAbsolute, rowIndex, rowIndexAbsolute );
 		}
 
-		private static CellRange getColRange( Matcher _matcher, int _group, int _fromSheetIndex, int _toSheetIndex, final SpreadsheetImpl _spreadsheet )
+		private static CellRange getColRange( Matcher _matcher, int _group, int _fromSheetIndex, int _toSheetIndex, final BaseSpreadsheet _spreadsheet )
 		{
 			final String fromAbs = _matcher.group( _group );
 			final String from = _matcher.group( _group + 1 );
@@ -162,7 +162,7 @@ public abstract class CellRefParser
 			return CellRange.getCellRange( fromCell, toCell );
 		}
 
-		private static CellRange getRowRange( Matcher _matcher, int _group, int _fromSheetIndex, int _toSheetIndex, final SpreadsheetImpl _spreadsheet )
+		private static CellRange getRowRange( Matcher _matcher, int _group, int _fromSheetIndex, int _toSheetIndex, final BaseSpreadsheet _spreadsheet )
 		{
 			final String fromAbs = _matcher.group( _group );
 			final String from = _matcher.group( _group + 1 );
@@ -182,7 +182,7 @@ public abstract class CellRefParser
 			return CellRange.getCellRange( fromCell, toCell );
 		}
 
-		private static CellRange getBrokenRange( Matcher _matcher, int _group, int _fromSheetIndex, int _toSheetIndex, final SpreadsheetImpl _spreadsheet )
+		private static CellRange getBrokenRange( Matcher _matcher, int _group, int _fromSheetIndex, int _toSheetIndex, final BaseSpreadsheet _spreadsheet )
 		{
 			if (BROKEN_REF_ERR.equals( _matcher.group( _group ) )) {
 				final CellIndex fromCellIndex = new CellIndex( _spreadsheet, _fromSheetIndex, BROKEN_REF, BROKEN_REF );
@@ -241,7 +241,7 @@ public abstract class CellRefParser
 			if (!matcher.matches()) {
 				throw new CellRefParseException( "Invalid OOXML A1-style range or cell reference: " + _range );
 			}
-			final SpreadsheetImpl spreadsheet = _relativeTo.spreadsheet;
+			final BaseSpreadsheet spreadsheet = _relativeTo.spreadsheet;
 			final int fromSheetIndex;
 			final int toSheetIndex;
 			if (BROKEN_REF_ERR.equals( matcher.group( 5 ) )) {
@@ -290,7 +290,7 @@ public abstract class CellRefParser
 			if (!matcher.matches()) {
 				throw new CellRefParseException( "Invalid A1-style range or cell reference: " + _range );
 			}
-			final SpreadsheetImpl spreadsheet = _relativeTo.spreadsheet;
+			final BaseSpreadsheet spreadsheet = _relativeTo.spreadsheet;
 			final int fromSheetIndex = getSheetIndex( matcher, 1, _relativeTo.sheetIndex, spreadsheet );
 			final int toSheetIndex = getSheetIndex( matcher, 3, fromSheetIndex, spreadsheet );
 			final CellIndex fromCellIndex = getCellIndex( matcher, 5, fromSheetIndex, spreadsheet );
@@ -308,7 +308,7 @@ public abstract class CellRefParser
 		}
 	}
 
-	private static int getSheetIndex( Matcher _matcher, int _group, int _defaultSheetIndex, SpreadsheetImpl _spreadsheet )
+	private static int getSheetIndex( Matcher _matcher, int _group, int _defaultSheetIndex, BaseSpreadsheet _spreadsheet )
 	{
 		final String nameUnquoted = _matcher.group( _group );
 		final String nameQuoted = _matcher.group( _group + 1 );

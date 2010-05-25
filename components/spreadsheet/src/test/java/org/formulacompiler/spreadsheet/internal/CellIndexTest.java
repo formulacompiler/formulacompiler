@@ -32,8 +32,8 @@ public class CellIndexTest extends TestCase
 	public void testGetCellNameForCellIndex()
 	{
 		final SpreadsheetImpl spreadsheet = new SpreadsheetImpl();
-		SheetImpl sheet1 = new SheetImpl( spreadsheet );
-		SheetImpl sheet2 = new SheetImpl( spreadsheet );
+		BaseSheet sheet1 = new SheetImpl( spreadsheet );
+		BaseSheet sheet2 = new SheetImpl( spreadsheet );
 		assertEquals( "A1", getNameA1( sheet1, 0, false, 0, false, sheet1 ) );
 		assertEquals( "Sheet1!A1", getNameA1( sheet1, 0, false, 0, false, sheet2 ) );
 		assertEquals( "Sheet2!A1", getNameA1( sheet2, 0, false, 0, false, sheet1 ) );
@@ -51,12 +51,12 @@ public class CellIndexTest extends TestCase
 		assertEquals( "XFD1", getNameA1( sheet1, 16383, false, 0, false, sheet1 ) );
 	}
 
-	private String getNameA1( SheetImpl _sheet, int _col, boolean _colAbs, int _row, boolean _rowAbs,
-			SheetImpl _contextSheet )
+	private String getNameA1( BaseSheet _sheet, int _col, boolean _colAbs, int _row, boolean _rowAbs,
+			BaseSheet _contextSheet )
 	{
 		final CellIndex cellIndex = new CellIndex( _sheet.getSpreadsheet(), _sheet.getSheetIndex(), _col, _colAbs, _row, _rowAbs );
 		final DescriptionBuilder builder = new DescriptionBuilder();
-		builder.pushContext( _contextSheet );
+		builder.pushContext( _contextSheet, BaseSheet.class );
 		cellIndex.describeTo( builder );
 		return builder.toString();
 	}

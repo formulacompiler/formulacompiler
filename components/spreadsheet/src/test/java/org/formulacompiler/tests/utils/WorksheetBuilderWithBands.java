@@ -152,7 +152,7 @@ public class WorksheetBuilderWithBands
 
 	CellInstance buildRowSum( CellInstance _r1c1, CellInstance _r1c2, CellInstance _factor )
 	{
-		CellWithExpression sum = new CellWithExpression( _r1c1.getRow() );
+		CellWithExpression sum = new CellWithExpression( (RowImpl) _r1c1.getRow() );
 		final CellIndex factorRef = _factor.getCellIndex().getAbsoluteIndex( false, true );
 		final ExpressionNode aggregation = new ExpressionNodeForFunction( Function.SUM, new ExpressionNodeForRange(
 				CellRange.getCellRange( _r1c1.getCellIndex(), _r1c2.getCellIndex() ) ) );

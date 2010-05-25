@@ -47,7 +47,7 @@ final class CellExpressionContextProvider extends ExpressionSourceAsContextProvi
 	@Override
 	public void setUpContext( DescriptionBuilder _builder )
 	{
-		_builder.pushContext( this.cell.getRow().getSheet() );
+		_builder.pushContext( this.cell.getRow().getSheet(), BaseSheet.class );
 	}
 
 	@Override

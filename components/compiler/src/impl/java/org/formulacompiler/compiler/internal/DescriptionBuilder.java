@@ -263,9 +263,21 @@ public class DescriptionBuilder
 	public final DescriptionBuilder pushContext( Object _context )
 	{
 		assert null != _context;
-		this.contextStack.push( getContext( _context.getClass() ) );
-		this.contextStack.push( _context.getClass() );
-		this.contextMap.put( _context.getClass(), _context );
+		return internalPushContext( _context, _context.getClass() );
+	}
+
+	public final <C> DescriptionBuilder pushContext( C _context, Class<? super C> _class )
+	{
+		return internalPushContext( _context, _class );
+	}
+
+	private final DescriptionBuilder internalPushContext( Object
+			_context, Class<?> _class )
+	{
+		assert null != _context;
+		this.contextStack.push( getContext( _class ) );
+		this.contextStack.push( _class );
+		this.contextMap.put( _class, _context );
 		return this;
 	}
 

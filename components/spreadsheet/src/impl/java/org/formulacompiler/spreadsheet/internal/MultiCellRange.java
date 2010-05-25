@@ -197,7 +197,7 @@ public final class MultiCellRange extends CellRange
 	{
 		final CellIndex from = getFrom();
 		_to.append( from );
-		_to.pushContext( from.getSheet() );
+		_to.pushContext( from.getSheet(), BaseSheet.class );
 		try {
 			_to.append( ":" ).append( getTo() );
 		} finally {

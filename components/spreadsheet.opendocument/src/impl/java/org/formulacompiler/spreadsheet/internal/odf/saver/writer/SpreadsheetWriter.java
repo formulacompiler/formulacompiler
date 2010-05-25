@@ -31,9 +31,9 @@ import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 
 import org.formulacompiler.spreadsheet.SpreadsheetException;
+import org.formulacompiler.spreadsheet.internal.BaseSheet;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellRange;
-import org.formulacompiler.spreadsheet.internal.SheetImpl;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.odf.saver.Style;
 import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementWriter;
@@ -52,14 +52,14 @@ class SpreadsheetWriter extends ElementWriter
 		this.styles = _styles;
 	}
 
-	public void write( final SpreadsheetImpl _spreadsheet ) throws XMLStreamException, SpreadsheetException
+	public void write( final BaseSpreadsheet _spreadsheet ) throws XMLStreamException, SpreadsheetException
 	{
 		startElement( null );
 
-		final List<SheetImpl> sheets = _spreadsheet.getSheetList();
+		final List<? extends BaseSheet> sheets = _spreadsheet.getSheetList();
 		if (sheets.size() > 0) {
 			final SheetWriter sheetWriter = new SheetWriter( getXmlEventFactory(), getXmlEventWriter(), this.timeZone, this.styles );
-			for (SheetImpl sheet : sheets) {
+			for (BaseSheet sheet : sheets) {
 				sheetWriter.write( sheet );
 			}
 		}

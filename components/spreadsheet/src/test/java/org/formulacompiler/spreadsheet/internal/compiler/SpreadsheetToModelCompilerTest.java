@@ -37,9 +37,10 @@ import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.compiler.internal.model.optimizer.ReferenceCounter;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
+import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
@@ -378,7 +379,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 	}
 
 
-	private void failForRangeNotCoveringBandExtent( SpreadsheetImpl workbook, CellInstance output, CellRange rng )
+	private void failForRangeNotCoveringBandExtent( BaseSpreadsheet workbook, CellInstance output, CellRange rng )
 			throws Exception
 	{
 		SpreadsheetBinder def = newBinder( workbook );
@@ -462,7 +463,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 	}
 
 
-	private SpreadsheetBinder newBinder( SpreadsheetImpl _workbook )
+	private SpreadsheetBinder newBinder( BaseSpreadsheet _workbook )
 	{
 		return SpreadsheetCompiler.newSpreadsheetBinder( _workbook, Inputs.class, Outputs.class );
 	}
@@ -486,7 +487,7 @@ public class SpreadsheetToModelCompilerTest extends AbstractStandardInputsOutput
 	}
 
 
-	private ExpressionNode ix( SpreadsheetImpl _s, int _col, int _row )
+	private ExpressionNode ix( BaseSpreadsheet _s, int _col, int _row )
 	{
 		return new ExpressionNodeForCell( new CellIndex( _s, 0, _col, _row ) );
 	}

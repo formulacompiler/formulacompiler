@@ -24,9 +24,9 @@ package org.formulacompiler.spreadsheet.internal.parser;
 
 import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.compiler.internal.expressions.parser.Token;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellRefParser;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public class SpreadsheetExpressionParserA1ODF extends SpreadsheetExpressionParser
 {
@@ -36,7 +36,7 @@ public class SpreadsheetExpressionParserA1ODF extends SpreadsheetExpressionParse
 		super( _exprText, _parseRelativeTo, CellRefFormat.A1_ODF );
 	}
 
-	public SpreadsheetExpressionParserA1ODF( String _exprText, SpreadsheetImpl _workbook )
+	public SpreadsheetExpressionParserA1ODF( String _exprText, BaseSpreadsheet _workbook )
 	{
 		super( _exprText, _workbook, CellRefFormat.A1_ODF );
 	}

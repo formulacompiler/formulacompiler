@@ -33,12 +33,12 @@ import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinding;
+import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 
 public class WorkbookBinding implements SpreadsheetBinding
 {
-	private final SpreadsheetImpl workbook;
+	private final BaseSpreadsheet workbook;
 	private final SectionBinding root;
 	private final Environment environment;
 	private final Map<CellIndex, InputCellBinding> inputs = New.map();
@@ -46,7 +46,7 @@ public class WorkbookBinding implements SpreadsheetBinding
 	private final Set<CellIndex> outputCells = New.set();
 
 
-	public WorkbookBinding( SpreadsheetImpl _workbook, Class _inputClass, Class _outputClass,
+	public WorkbookBinding( BaseSpreadsheet _workbook, Class _inputClass, Class _outputClass,
 			Computation.Config _compileTimeConfig )
 	{
 		super();
@@ -95,7 +95,7 @@ public class WorkbookBinding implements SpreadsheetBinding
 	}
 
 
-	public SpreadsheetImpl getWorkbook()
+	public BaseSpreadsheet getWorkbook()
 	{
 		return this.workbook;
 	}
