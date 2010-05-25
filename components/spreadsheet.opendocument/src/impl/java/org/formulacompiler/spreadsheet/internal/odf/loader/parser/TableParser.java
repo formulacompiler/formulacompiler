@@ -24,12 +24,14 @@ package org.formulacompiler.spreadsheet.internal.odf.loader.parser;
 
 import java.util.Map;
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
-import org.formulacompiler.spreadsheet.internal.SheetImpl;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
+import org.formulacompiler.spreadsheet.internal.loader.builder.SheetBuilder;
+import org.formulacompiler.spreadsheet.internal.loader.builder.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementHandler;
 import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
@@ -39,30 +41,35 @@ import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
  */
 class TableParser extends ElementHandler
 {
-	private final SpreadsheetImpl spreadsheet;
+	private final SpreadsheetBuilder spreadsheetBuilder;
 	private final SpreadsheetLoader.Config config;
 
-	public TableParser( SpreadsheetImpl _spreadsheet, SpreadsheetLoader.Config _config )
+	public TableParser( SpreadsheetBuilder _spreadsheetBuilder, SpreadsheetLoader.Config _config )
 	{
-		this.spreadsheet = _spreadsheet;
+		this.spreadsheetBuilder = _spreadsheetBuilder;
 		this.config = _config;
 	}
 
 	@Override
 	public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
 	{
-		final SheetImpl sheet;
+		final SheetBuilder sheetBuilder;
 		{
 			final Attribute attribute = _startElement.getAttributeByName( XMLConstants.Table.NAME );
 			if (attribute != null) {
 				final String tableName = attribute.getValue();
-				sheet = new SheetImpl( this.spreadsheet, tableName );
+				sheetBuilder = spreadsheetBuilder.beginSheet( tableName );
 			}
 			else {
-				sheet = new SheetImpl( this.spreadsheet );
+				sheetBuilder = spreadsheetBuilder.beginSheet();
 			}
 		}
-		_handlers.put( XMLConstants.Table.TABLE_ROW, new RowParser( sheet, this.config ) );
+		_handlers.put( XMLConstants.Table.TABLE_ROW, new RowParser( sheetBuilder, this.config ) );
 	}
 
+	@Override
+	public void elementEnded( final EndElement _endElement ) throws XMLStreamException
+	{
+		spreadsheetBuilder.endSheet();
+	}
 }

@@ -33,21 +33,18 @@ import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
+import org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
-import org.formulacompiler.spreadsheet.internal.BaseSheet;
 import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
-import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
-import org.formulacompiler.spreadsheet.internal.CellWithConstant;
 import org.formulacompiler.spreadsheet.internal.CellWithError;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
-import org.formulacompiler.spreadsheet.internal.RowImpl;
-import org.formulacompiler.spreadsheet.internal.SheetImpl;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.loader.SpreadsheetLoaderDispatcher;
+import org.formulacompiler.spreadsheet.internal.loader.builder.RowBuilder;
+import org.formulacompiler.spreadsheet.internal.loader.builder.SheetBuilder;
+import org.formulacompiler.spreadsheet.internal.loader.builder.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.internal.parser.LazySpreadsheetExpressionParser;
 import jxl.BooleanFormulaCell;
 import jxl.Cell;
@@ -63,7 +60,7 @@ import jxl.WorkbookSettings;
 /**
  * Spreadsheet file loader implementation for the Microsoft Excel .xls format. Call the
  * {@code register()} method to register the loader with the central {@link SpreadsheetLoader}.
- * 
+ *
  * @author peo
  */
 public final class ExcelXLSLoader implements SpreadsheetLoader
@@ -109,18 +106,18 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		xlsSettings.setSuppressWarnings( true );
 		try {
 			final jxl.Workbook xlsWorkbook = jxl.Workbook.getWorkbook( _stream, xlsSettings );
-			final SpreadsheetImpl workbook = new SpreadsheetImpl( ComputationMode.EXCEL );
+			final SpreadsheetBuilder spreadsheetBuilder = new SpreadsheetBuilder( ComputationMode.EXCEL );
 
 			loadConfig( xlsWorkbook );
 
 			for (final jxl.Sheet xlsSheet : xlsWorkbook.getSheets()) {
-				final SheetImpl sheet = new SheetImpl( workbook, xlsSheet.getName() );
-				loadRows( xlsSheet, sheet );
+				final SheetBuilder sheetBuilder = spreadsheetBuilder.beginSheet( xlsSheet.getName() );
+				loadRows( xlsSheet, sheetBuilder );
+				sheetBuilder.endSheet();
 			}
 
+			final BaseSpreadsheet workbook = spreadsheetBuilder.getSpreadsheet();
 			loadNames( xlsWorkbook, workbook );
-			workbook.trim();
-
 			return workbook;
 		}
 		catch (jxl.read.biff.BiffException e) {
@@ -148,30 +145,27 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 	}
 
 
-	private void loadRows( jxl.Sheet _xlsSheet, SheetImpl _sheet ) throws SpreadsheetException
+	private void loadRows( jxl.Sheet _xlsSheet, SheetBuilder _sheetBuilder ) throws SpreadsheetException
 	{
 		for (int iRow = 0; iRow < _xlsSheet.getRows(); iRow++) {
+			final RowBuilder rowBuilder = _sheetBuilder.beginRow();
 			final jxl.Cell[] xlsRow = _xlsSheet.getRow( iRow );
-			if (null == xlsRow) {
-				_sheet.getRowList().add( null );
-			}
-			else {
-				final RowImpl row = new RowImpl( _sheet );
-				for (int iCell = 0; iCell < xlsRow.length; iCell++) {
-					final jxl.Cell xlsCell = xlsRow[ iCell ];
+			if (xlsRow != null) {
+				for (final Cell xlsCell : xlsRow) {
 					if (null == xlsCell) {
-						row.getCellList().add( null );
+						rowBuilder.addEmptyCell();
 					}
 					else {
-						loadCell( xlsCell, row );
+						loadCell( _xlsSheet.getName(), xlsCell, rowBuilder );
 					}
 				}
 			}
+			rowBuilder.endRow();
 		}
 	}
 
 
-	private void loadCell( jxl.Cell _xlsCell, RowImpl _row ) throws SpreadsheetException
+	private void loadCell( final String _sheetName, Cell _xlsCell, RowBuilder _rowBuilder ) throws SpreadsheetException
 	{
 		final jxl.CellType xlsType = _xlsCell.getType();
 
@@ -182,42 +176,39 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 				expression = xlsFormulaCell.getFormula();
 			}
 			catch (jxl.biff.formula.FormulaException e) {
-				final BaseSheet sheet = _row.getSheet();
-				final CellIndex cellIndex = new CellIndex( sheet.getSpreadsheet(), sheet.getSheetIndex(),
-						_xlsCell.getColumn(), _xlsCell.getRow() );
+				final CellAddressImpl cellIndex = new CellAddressImpl( _sheetName, _xlsCell.getColumn(), _xlsCell.getRow() );
 				throw new SpreadsheetException.LoadError( "Error parsing cell " + cellIndex, e );
 			}
-			final CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression(
-					_row, new LazySpreadsheetExpressionParser( expression, CellRefFormat.A1 ) );
+			_rowBuilder.addCellWithExpression( new LazySpreadsheetExpressionParser( expression, CellRefFormat.A1 ) );
 			if (xlsFormulaCell instanceof NumberFormulaCell) {
 				final NumberFormulaCell xlsNumFormulaCell = ((NumberFormulaCell) xlsFormulaCell);
-				exprCell.applyNumberFormat( convertNumberFormat( xlsNumFormulaCell, xlsNumFormulaCell.getNumberFormat() ) );
+				_rowBuilder.applyNumberFormat( convertNumberFormat( xlsNumFormulaCell, xlsNumFormulaCell.getNumberFormat() ) );
 			}
 			if (this.config.loadAllCellValues) {
 				if (xlsFormulaCell instanceof NumberFormulaCell) {
-					exprCell.setValue( ((NumberFormulaCell) xlsFormulaCell).getValue() );
+					_rowBuilder.setValue( ((NumberFormulaCell) xlsFormulaCell).getValue() );
 				}
 				else if (xlsFormulaCell instanceof DateFormulaCell) {
-					exprCell.setValue( ((DateFormulaCell) xlsFormulaCell).getValue() );
+					_rowBuilder.setValue( ((DateFormulaCell) xlsFormulaCell).getValue() );
 				}
 				else if (xlsFormulaCell instanceof BooleanFormulaCell) {
-					exprCell.setValue( ((BooleanFormulaCell) xlsFormulaCell).getValue() );
+					_rowBuilder.setValue( ((BooleanFormulaCell) xlsFormulaCell).getValue() );
 				}
 				else if (xlsFormulaCell instanceof StringFormulaCell) {
-					exprCell.setValue( ((StringFormulaCell) xlsFormulaCell).getString() );
+					_rowBuilder.setValue( ((StringFormulaCell) xlsFormulaCell).getString() );
 				}
 			}
 		}
 		else if (jxl.CellType.EMPTY == xlsType) {
-			_row.getCellList().add( null );
+			_rowBuilder.addEmptyCell();
 		}
 		else if (jxl.CellType.BOOLEAN == xlsType) {
-			new CellWithConstant( _row, ((jxl.BooleanCell) _xlsCell).getValue() );
+			_rowBuilder.addCellWithConstant( ((jxl.BooleanCell) _xlsCell).getValue() );
 		}
 		else if (jxl.CellType.NUMBER == xlsType) {
 			final jxl.NumberCell xlsNumCell = (jxl.NumberCell) _xlsCell;
-			final CellInstance numCell = new CellWithConstant( _row, xlsNumCell.getValue() );
-			numCell.applyNumberFormat( convertNumberFormat( xlsNumCell, xlsNumCell.getNumberFormat() ) );
+			_rowBuilder.addCellWithConstant( xlsNumCell.getValue() )
+					.applyNumberFormat( convertNumberFormat( xlsNumCell, xlsNumCell.getNumberFormat() ) );
 		}
 		else if (CellType.DATE == xlsType) {
 			final DateCell xlsDateCell = (jxl.DateCell) _xlsCell;
@@ -232,31 +223,31 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 			else {
 				value = new LocalDate( xlsDateCell.getValue() );
 			}
-			new CellWithConstant( _row, value );
+			_rowBuilder.addCellWithConstant( value );
 		}
 		else if (jxl.CellType.LABEL == xlsType) {
-			new CellWithConstant( _row, ((jxl.LabelCell) _xlsCell).getString() );
+			_rowBuilder.addCellWithConstant( ((jxl.LabelCell) _xlsCell).getString() );
 		}
 		else if (jxl.CellType.ERROR == xlsType) {
 			final int errorCode = ((jxl.ErrorCell) _xlsCell).getErrorCode();
 			switch (errorCode) {
 				case 7:
-					new CellWithError( _row, CellWithError.DIV0 );
+					_rowBuilder.addCellWithError( CellWithError.DIV0 );
 					break;
 				case 15:
-					new CellWithError( _row, CellWithError.VALUE );
+					_rowBuilder.addCellWithError( CellWithError.VALUE );
 					break;
 				case 23:
-					new CellWithError( _row, CellWithError.REF );
+					_rowBuilder.addCellWithError( CellWithError.REF );
 					break;
 				case 36:
-					new CellWithError( _row, CellWithError.NUM );
+					_rowBuilder.addCellWithError( CellWithError.NUM );
 					break;
 				case 42:
-					new CellWithError( _row, CellWithError.NA );
+					_rowBuilder.addCellWithError( CellWithError.NA );
 					break;
 				default:
-					new CellWithError( _row, "#ERR:" + errorCode );
+					_rowBuilder.addCellWithError( "#ERR:" + errorCode );
 			}
 		}
 	}

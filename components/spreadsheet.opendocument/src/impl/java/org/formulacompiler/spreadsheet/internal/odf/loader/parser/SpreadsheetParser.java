@@ -24,11 +24,10 @@ package org.formulacompiler.spreadsheet.internal.odf.loader.parser;
 
 import java.util.Map;
 import javax.xml.namespace.QName;
-import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
+import org.formulacompiler.spreadsheet.internal.loader.builder.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementHandler;
 import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
@@ -36,32 +35,27 @@ import org.formulacompiler.spreadsheet.internal.odf.xml.stream.ElementListener;
 /**
  * @author Vladimir Korenev
  */
-public class SpreadsheetParser implements ElementListener
+public class SpreadsheetParser extends ElementHandler
 {
-	private final SpreadsheetImpl spreadsheet;
+	private final SpreadsheetBuilder spreadsheetBuilder;
 	private final SpreadsheetLoader.Config config;
 
-	public SpreadsheetParser( final SpreadsheetImpl _spreadsheet, final SpreadsheetLoader.Config _config )
+	public SpreadsheetParser( final SpreadsheetBuilder _spreadsheetBuilder, final SpreadsheetLoader.Config _config )
 	{
-		this.spreadsheet = _spreadsheet;
+		this.spreadsheetBuilder = _spreadsheetBuilder;
 		this.config = _config;
 	}
 
 	public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
 	{
-		_handlers.put( XMLConstants.Table.TABLE, new TableParser( this.spreadsheet, this.config ) );
+		_handlers.put( XMLConstants.Table.TABLE, new TableParser( this.spreadsheetBuilder, this.config ) );
 		_handlers.put( XMLConstants.Table.NAMED_EXPRESSIONS, new ElementHandler()
 		{
 			@Override
 			public void elementStarted( final StartElement _startElement, final Map<QName, ElementListener> _handlers )
 			{
-				_handlers.put( XMLConstants.Table.NAMED_RANGE, new NamedRangeParser( SpreadsheetParser.this.spreadsheet ) );
+				_handlers.put( XMLConstants.Table.NAMED_RANGE, new NamedRangeParser( SpreadsheetParser.this.spreadsheetBuilder.getSpreadsheet() ) );
 			}
 		} );
-	}
-
-	public void elementEnded( final EndElement _endElement )
-	{
-		this.spreadsheet.trim();
 	}
 }
