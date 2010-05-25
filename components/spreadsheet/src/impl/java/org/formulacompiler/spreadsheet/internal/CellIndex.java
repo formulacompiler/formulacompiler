@@ -277,15 +277,7 @@ public final class CellIndex extends CellRange implements Cell
 		else if (_contextSheet == null || this.sheetIndex != _contextSheet.getSheetIndex()) {
 			final BaseSheet sheet = getSheet();
 			final String name = sheet.getName();
-			final boolean quoted = name.contains( " " ) || name.contains( "'" ) || name.contains( "-" );
-			if (quoted) {
-				result.append( '\'' );
-			}
-			result.append( sheet.getName().replace( "'", "''" ) );
-			if (quoted) {
-				result.append( '\'' );
-			}
-			result.append( "!" );
+			CellAddressImpl.appendQuotedSheetName( result, name );
 		}
 		CellAddressImpl.appendNameA1ForCellIndex( result, this.columnIndex, _columnIndexAbsolute, this.rowIndex, _rowIndexAbsolute );
 		return result.toString();
