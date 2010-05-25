@@ -33,8 +33,8 @@ import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
-import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
 import org.formulacompiler.spreadsheet.internal.loader.SpreadsheetLoaderDispatcher;
+import org.formulacompiler.spreadsheet.internal.loader.builder.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.odf.loader.parser.SpreadsheetParser;
 import org.formulacompiler.spreadsheet.internal.odf.xml.stream.Parser;
@@ -84,10 +84,10 @@ public class OpenDocumentSpreadsheetLoader implements SpreadsheetLoader
 
 	private Spreadsheet readContent( String _fileName, InputStream _inputStream ) throws SpreadsheetException
 	{
-		final SpreadsheetImpl workbook = new SpreadsheetImpl( ComputationMode.OPEN_OFFICE_CALC );
+		final SpreadsheetBuilder spreadsheetBuilder = new SpreadsheetBuilder( ComputationMode.OPEN_OFFICE_CALC );
 
 		try {
-			final SpreadsheetParser spreadsheetParser = new SpreadsheetParser( workbook, this.config );
+			final SpreadsheetParser spreadsheetParser = new SpreadsheetParser( spreadsheetBuilder, this.config );
 			final Parser parser = new Parser( Collections.singletonMap( XMLConstants.Office.SPREADSHEET, spreadsheetParser ) );
 			parser.parse( _inputStream );
 		}
@@ -99,7 +99,7 @@ public class OpenDocumentSpreadsheetLoader implements SpreadsheetLoader
 			throw new SpreadsheetException.LoadError( "Error loading " + _fileName, e );
 		}
 
-		return workbook;
+		return spreadsheetBuilder.getSpreadsheet();
 	}
 
 }

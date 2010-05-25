@@ -193,4 +193,18 @@ public class LoadTest extends TestCase
 			}
 		}
 	}
+
+	public void testEmpty()
+	{
+		{
+			final Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
+			final Row[] rows = sheet.getRows();
+			assertEquals( 0, rows.length );
+		}
+		{
+			final Sheet sheet = this.spreadsheet.getSheets()[ 1 ];
+			final Row[] rows = sheet.getRows();
+			assertEquals( 0, rows.length );
+		}
+	}
 }

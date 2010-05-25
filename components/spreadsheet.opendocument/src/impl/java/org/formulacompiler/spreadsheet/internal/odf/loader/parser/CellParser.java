@@ -41,9 +41,7 @@ import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
-import org.formulacompiler.spreadsheet.internal.CellWithConstant;
-import org.formulacompiler.spreadsheet.internal.CellWithLazilyParsedExpression;
-import org.formulacompiler.spreadsheet.internal.RowImpl;
+import org.formulacompiler.spreadsheet.internal.loader.builder.RowBuilder;
 import org.formulacompiler.spreadsheet.internal.odf.ValueTypes;
 import org.formulacompiler.spreadsheet.internal.odf.XMLConstants;
 import org.formulacompiler.spreadsheet.internal.odf.xml.DataTypeUtil;
@@ -59,13 +57,13 @@ class CellParser implements ElementListener
 {
 	private static final Pattern FORMULA_PATTERN = Pattern.compile( "(?:(\\w+):)?=(.*)" );
 
-	private final RowImpl row;
+	private final RowBuilder rowBuilder;
 	private final SpreadsheetLoader.Config config;
 	private TableCell tableCell;
 
-	public CellParser( RowImpl _row, SpreadsheetLoader.Config _config )
+	public CellParser( RowBuilder _rowBuilder, SpreadsheetLoader.Config _config )
 	{
-		this.row = _row;
+		this.rowBuilder = _rowBuilder;
 		this.config = _config;
 	}
 
@@ -149,16 +147,12 @@ class CellParser implements ElementListener
 					final String expression = matcher.group( 2 );
 					if ("\"\"".equals( expression )) {
 						// Replace ="" by empty string constant.
-						new CellWithConstant( this.row, "" );
+						rowBuilder.addCellWithConstant( "" );
 					}
 					else {
-						final CellWithLazilyParsedExpression exprCell = new CellWithLazilyParsedExpression(
-								this.row, new LazySpreadsheetExpressionParser( expression, CellRefFormat.A1_ODF ) );
+						rowBuilder.addCellWithExpression( new LazySpreadsheetExpressionParser( expression, CellRefFormat.A1_ODF ) );
 						if (this.config.loadAllCellValues) {
-							final Object value = getValue();
-							if (value != null) {
-								exprCell.setValue( value );
-							}
+							rowBuilder.setValue( getValue() );
 						}
 					}
 				}
@@ -169,10 +163,10 @@ class CellParser implements ElementListener
 			else {
 				final Object value = getValue();
 				if (value != null) {
-					new CellWithConstant( this.row, value );
+					this.rowBuilder.addCellWithConstant( value );
 				}
 				else {
-					this.row.getCellList().add( null );
+					this.rowBuilder.addEmptyCell();
 				}
 			}
 		}
