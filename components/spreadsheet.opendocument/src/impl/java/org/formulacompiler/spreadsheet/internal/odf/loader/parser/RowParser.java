@@ -55,7 +55,7 @@ class RowParser extends ElementHandler
 	{
 		final Attribute attribute = _startElement.getAttributeByName( XMLConstants.Table.NUMBER_ROWS_REPEATED );
 		this.numberRowsRepeated = attribute == null ? 1 : Integer.parseInt( attribute.getValue() );
-		final RowBuilder rowBuilder = sheetBuilder.beginRow();
+		final RowBuilder rowBuilder = this.sheetBuilder.beginRow();
 		final CellParser cellParser = new CellParser( rowBuilder, this.config );
 		_handlers.put( XMLConstants.Table.TABLE_CELL, cellParser );
 		_handlers.put( XMLConstants.Table.COVERED_TABLE_CELL, cellParser );
@@ -64,6 +64,6 @@ class RowParser extends ElementHandler
 	@Override
 	public void elementEnded( final EndElement _endElement )
 	{
-		sheetBuilder.endRow( this.numberRowsRepeated );
+		this.sheetBuilder.endRow( this.numberRowsRepeated );
 	}
 }

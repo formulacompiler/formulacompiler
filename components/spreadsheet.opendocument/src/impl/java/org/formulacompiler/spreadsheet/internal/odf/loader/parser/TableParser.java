@@ -58,10 +58,10 @@ class TableParser extends ElementHandler
 			final Attribute attribute = _startElement.getAttributeByName( XMLConstants.Table.NAME );
 			if (attribute != null) {
 				final String tableName = attribute.getValue();
-				sheetBuilder = spreadsheetBuilder.beginSheet( tableName );
+				sheetBuilder = this.spreadsheetBuilder.beginSheet( tableName );
 			}
 			else {
-				sheetBuilder = spreadsheetBuilder.beginSheet();
+				sheetBuilder = this.spreadsheetBuilder.beginSheet();
 			}
 		}
 		_handlers.put( XMLConstants.Table.TABLE_ROW, new RowParser( sheetBuilder, this.config ) );
@@ -70,6 +70,6 @@ class TableParser extends ElementHandler
 	@Override
 	public void elementEnded( final EndElement _endElement ) throws XMLStreamException
 	{
-		spreadsheetBuilder.endSheet();
+		this.spreadsheetBuilder.endSheet();
 	}
 }

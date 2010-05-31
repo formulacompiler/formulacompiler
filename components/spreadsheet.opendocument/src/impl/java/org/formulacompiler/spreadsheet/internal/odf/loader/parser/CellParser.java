@@ -147,12 +147,12 @@ class CellParser implements ElementListener
 					final String expression = matcher.group( 2 );
 					if ("\"\"".equals( expression )) {
 						// Replace ="" by empty string constant.
-						rowBuilder.addCellWithConstant( "" );
+						this.rowBuilder.addCellWithConstant( "" );
 					}
 					else {
-						rowBuilder.addCellWithExpression( new LazySpreadsheetExpressionParser( expression, CellRefFormat.A1_ODF ) );
+						this.rowBuilder.addCellWithExpression( new LazySpreadsheetExpressionParser( expression, CellRefFormat.A1_ODF ) );
 						if (this.config.loadAllCellValues) {
-							rowBuilder.setValue( getValue() );
+							this.rowBuilder.setValue( getValue() );
 						}
 					}
 				}

@@ -25,6 +25,7 @@ package temp;
 import java.math.BigDecimal;
 
 
+@SuppressWarnings( "unused" )
 public class SpeedTest
 {
 	private static final int MAXROUNDS = 10000000;
@@ -149,7 +150,6 @@ public class SpeedTest
 		@Override
 		public void run()
 		{
-			@SuppressWarnings( "unused" )
 			double result = getA() + getA() * getB();
 			// if (result != 132.8322) throw new RuntimeException( "Wrong double" );
 		}
@@ -188,7 +188,6 @@ public class SpeedTest
 		@Override
 		public void run()
 		{
-			@SuppressWarnings( "unused" )
 			double result = DoubleRuntime.opPLUS( getA(), DoubleRuntime.opTIMES( getA(), getB() ) );
 			// if (result != 132.8322) throw new RuntimeException( "Wrong double" );
 		}
@@ -211,7 +210,6 @@ public class SpeedTest
 		@Override
 		public void run()
 		{
-			@SuppressWarnings( "unused" )
 			long result = getA() + getA() * getB() / 10000L;
 			// if (result != 1328322L) throw new RuntimeException( "Wrong scaled long" );
 		}
@@ -234,7 +232,6 @@ public class SpeedTest
 		@Override
 		public void run()
 		{
-			@SuppressWarnings( "unused" )
 			int result = getA() + getA() * getB() / 10000;
 			// if (result != 1328322) throw new RuntimeException( "Wrong scaled int" );
 		}
@@ -259,7 +256,6 @@ public class SpeedTest
 		@Override
 		public void run()
 		{
-			@SuppressWarnings( "unused" )
 			BigDecimal result = getA().add( getA().multiply( getB() ) );
 		}
 
