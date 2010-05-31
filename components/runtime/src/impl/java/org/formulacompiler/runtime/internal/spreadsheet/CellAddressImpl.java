@@ -37,6 +37,8 @@ public class CellAddressImpl implements CellAddress
 
 	public CellAddressImpl( String _sheetName, int _columnIndex, int _rowIndex )
 	{
+		if (null == _sheetName)
+			throw new IllegalArgumentException();
 		this.sheetName = _sheetName;
 		this.columnIndex = _columnIndex;
 		this.rowIndex = _rowIndex;
