@@ -412,17 +412,7 @@ public class ExpressionParserTest extends TestCase
 		private abstract class TestExpressionNode extends ExpressionNode
 		{
 
-			protected TestExpressionNode()
-			{
-				super();
-			}
-
 			protected TestExpressionNode( Collection<ExpressionNode> _args )
-			{
-				super( _args );
-			}
-
-			protected TestExpressionNode( ExpressionNode... _args )
 			{
 				super( _args );
 			}
