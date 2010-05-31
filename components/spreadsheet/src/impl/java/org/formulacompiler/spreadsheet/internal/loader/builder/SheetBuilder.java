@@ -54,7 +54,7 @@ public class SheetBuilder
 	{
 		if (this.rowBuilder == null) throw new IllegalStateException();
 
-		if (rowBuilder.isEmpty()) {
+		if (this.rowBuilder.isEmpty()) {
 			this.emptyRows++;
 		}
 
@@ -67,7 +67,7 @@ public class SheetBuilder
 	{
 		if (this.rowBuilder == null) throw new IllegalStateException();
 
-		if (rowBuilder.isEmpty()) {
+		if (this.rowBuilder.isEmpty()) {
 			this.emptyRows += numberRowsRepeated;
 		}
 		else {
@@ -81,7 +81,7 @@ public class SheetBuilder
 
 	public SpreadsheetBuilder endSheet()
 	{
-		spreadsheetBuilder.endSheet();
+		this.spreadsheetBuilder.endSheet();
 		return this.spreadsheetBuilder;
 	}
 

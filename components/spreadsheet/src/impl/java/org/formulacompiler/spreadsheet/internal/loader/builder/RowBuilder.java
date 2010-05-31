@@ -75,19 +75,19 @@ public class RowBuilder
 
 	public RowBuilder applyNumberFormat( NumberFormat _numberFormat )
 	{
-		if (this.lastAddedCell != null) lastAddedCell.applyNumberFormat( _numberFormat );
+		if (this.lastAddedCell != null) this.lastAddedCell.applyNumberFormat( _numberFormat );
 		return this;
 	}
 
 	public RowBuilder setValue( Object _value )
 	{
-		if (this.lastAddedCell != null) lastAddedCell.setValue( _value );
+		if (this.lastAddedCell != null) this.lastAddedCell.setValue( _value );
 		return this;
 	}
 
 	public SheetBuilder endRow()
 	{
-		sheetBuilder.endRow();
+		this.sheetBuilder.endRow();
 		return this.sheetBuilder;
 	}
 
@@ -98,14 +98,14 @@ public class RowBuilder
 
 	void copy()
 	{
-		row.copy();
+		this.row.copy();
 	}
 
 	private RowImpl getRow()
 	{
-		if (this.row == null) this.row = new RowImpl( sheetBuilder.getSheet() );
+		if (this.row == null) this.row = new RowImpl( this.sheetBuilder.getSheet() );
 
-		final List<CellInstance> cellList = row.getCellList();
+		final List<CellInstance> cellList = this.row.getCellList();
 		for (int i = 0; i < this.emptyCells; i++) {
 			cellList.add( null );
 		}

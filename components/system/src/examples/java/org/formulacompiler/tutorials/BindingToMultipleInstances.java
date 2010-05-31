@@ -132,6 +132,7 @@ public class BindingToMultipleInstances
 
 	// ---- Output2
 
+	@SuppressWarnings( "unused" )
 	// ---- OutputFacade
 	public static class OutputFacade
 	{
