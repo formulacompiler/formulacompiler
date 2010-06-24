@@ -27,6 +27,7 @@ import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.CallFrameImpl;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
+import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
@@ -36,6 +37,7 @@ import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
+import org.formulacompiler.compiler.internal.model.analysis.ModelIsTypedChecker;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.tests.utils.Inputs;
 import org.formulacompiler.tests.utils.OutputsWithoutReset;
@@ -112,6 +114,42 @@ public class ModelRewriterTest extends TestCase
 	}
 
 
+	/**
+	 * Tests that rewrites with need type annotations don't cause typed cells with untyped
+	 * expressions in them. This used to happen when a typed rewrite (SUMIF) references and - thus -
+	 * typed expression cells (SUM), which later get rewritten themselves, but to as-yet untyped
+	 * expressions.
+	 *
+	 * See http://code.google.com/p/formulacompiler/issues/detail?id=27
+	 */
+	public void testSUMIFWithSubExprs() throws Exception
+	{
+		final CellModel r = new CellModel( rootModel, "r" ); // must come first so it gets rewritten first
+
+		final CellModel s1 = makeCell( rootModel, "s1", 1 );
+		final CellModel s2 = makeCell( rootModel, "s2", 2 );
+		final CellModel s3 = makeCell( rootModel, "s3", //
+				new ExpressionNodeForFunction( Function.SUM, makeNode( s1 ), makeNode( s2 ) ) );
+
+		final CellModel c1 = makeCell( rootModel, "c1", 1 );
+		final CellModel c2 = makeCell( rootModel, "c2", 2 );
+		final CellModel c3 = makeCell( rootModel, "c3", //
+				new ExpressionNodeForFunction( Function.SUM, makeNode( c1 ), makeNode( c2 ) ) );
+
+		final ExpressionNode summed = makeRange( new Object[][] { new Object[] { s1, s2, s3 } } );
+		final ExpressionNode crit = makeRange( new Object[][] { new Object[] { c1, c2, c3 } } );
+		r.setExpression( new ExpressionNodeForFunction( Function.SUMIF, summed, makeNode( ">0" ), crit ) );
+
+		engineModel.traverse( new ModelRewriter( InterpretedNumericType.typeFor( FormulaCompiler.DOUBLE ) ) );
+
+		assertNull( r.getDataType() );
+		assertSame( DataType.NUMERIC, s3.getDataType() );
+		new ModelIsTypedChecker().visit( s3 );
+		assertSame( DataType.NUMERIC, c3.getDataType() );
+		new ModelIsTypedChecker().visit( c3 );
+	}
+
+
 	private static void assertBeginsWith( String _expected, String _actual )
 	{
 		final int expLen = _expected.length();
@@ -120,6 +158,13 @@ public class ModelRewriterTest extends TestCase
 		assertEquals( _expected, _actual.substring( 0, compLen ) );
 	}
 
+	private final CellModel makeCell( SectionModel _section, String _name, Object _value )
+	{
+		final CellModel c = new CellModel( _section, _name );
+		if (_value instanceof ExpressionNode) c.setExpression( (ExpressionNode) _value );
+		else c.setConstantValue( _value );
+		return c;
+	}
 
 	private final ExpressionNodeForArrayReference makeRange( Object[][] _rows ) throws Exception
 	{
@@ -149,6 +194,9 @@ public class ModelRewriterTest extends TestCase
 		if (_value instanceof ExpressionNode) {
 			return (ExpressionNode) _value;
 		}
+		if (_value instanceof CellModel) {
+			return new ExpressionNodeForCellModel( (CellModel) _value );
+		}
 		if (_value instanceof String) {
 			String str = (String) _value;
 			if (str.startsWith( "#" )) {
@@ -163,6 +211,5 @@ public class ModelRewriterTest extends TestCase
 		cellModel.setConstantValue( _value );
 		return new ExpressionNodeForCellModel( cellModel );
 	}
-
 
 }
