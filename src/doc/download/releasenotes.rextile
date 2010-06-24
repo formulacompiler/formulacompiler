@@ -15,12 +15,17 @@ h5. *Changed!*
 	* All public APIs taking a @String@ argument where they really should take a @File@ have been dropped.
 	* The internal implementation of @Engine@ is no longer a subclass of @ClassLoader@. We warned you not to rely on this.
 
+h5. Better
+
+	* During constant folding, AFC now caches values for cells it has already computed. This can speed up compilation times of certain sheets dramatically.
+
 h5. Fixed
 
 	* Fixed parsing multisheet ranges in .xls files ("issue 21":http://code.google.com/p/formulacompiler/issues/detail?id=21).
 	* Fixed processing of HLOOKUP and VLOOKUP fourth parameter ("issue 24":http://code.google.com/p/formulacompiler/issues/detail?id=24).
 	* Fixed inferring type of IF and ExpressionNodeForSwitch ("issue 25":http://code.google.com/p/formulacompiler/issues/detail?id=25).
 	* Fixed parsing .ods files with lots of trailing empty rows ("issue 26":http://code.google.com/p/formulacompiler/issues/detail?id=26).
+	* Fixed a bug in rewriter/annotator interplay ("issue 27":http://code.google.com/p/formulacompiler/issues/detail?id=27).
 
 
 h2. Release 1.3

@@ -38,13 +38,13 @@ h3. What now?
 <% @news= <<END
 <h2>News</h2>
 
+<h3><a href="download/releasenotes.htm">Release 1.4</a></h3>
+<p>cleans up API a bit and can speed up compilation of sheets.
+<br/><span class="when">?, 2010</span></p>
+
 <h3><a href="download/releasenotes.htm">Release 1.3</a></h3>
 <p>adds logging of intermediate cell values.
 <br/><span class="when">July 24, 2009</span></p>
-
-<h3><a href="download/releasenotes.htm">Release 1.2</a></h3>
-<p>adds support for Microsoft Office Open XML (MS Excel 2007) spreadsheets.
-<br/><span class="when">November 4, 2008</span></p>
 
 END
 %>
