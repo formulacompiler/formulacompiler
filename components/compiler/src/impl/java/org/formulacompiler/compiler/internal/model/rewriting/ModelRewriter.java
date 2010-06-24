@@ -27,6 +27,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.model.AbstractComputationModelVisitor;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ComputationModel;
+import org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
@@ -63,6 +64,9 @@ public final class ModelRewriter extends AbstractComputationModelVisitor
 		final ExpressionNode expr = _cell.getExpression();
 		if (null != expr) {
 			_cell.setExpression( this.rewriter.rewrite( this.model, expr ) );
+			// Re-establish invariant: everything within a typed cell is fully typed.
+			if (null != _cell.getDataType())
+				TypeAnnotator.annotateExpr( _cell.getExpression() );
 		}
 		return true;
 	}
