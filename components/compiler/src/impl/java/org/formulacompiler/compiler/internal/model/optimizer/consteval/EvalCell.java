@@ -32,6 +32,7 @@ import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumeri
 
 public class EvalCell extends EvalShadow
 {
+	private TypedResult cached = null;
 
 	public EvalCell( ExpressionNode _node, InterpretedNumericType _type )
 	{
@@ -40,6 +41,14 @@ public class EvalCell extends EvalShadow
 
 	@Override
 	protected TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException
+	{
+		if (null == this.cached) {
+			this.cached = compute();
+		}
+		return this.cached;
+	}
+
+	private TypedResult compute() throws CompilerException
 	{
 		final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) node();
 		final CellModel cellModel = cellNode.getCellModel();
