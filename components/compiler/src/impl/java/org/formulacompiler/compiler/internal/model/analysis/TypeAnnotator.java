@@ -91,7 +91,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 				_cell.setDataType( typeOfConstant( cst ) );
 			}
 			else {
-				ExpressionNode expr = _cell.getExpression();
+				final ExpressionNode expr = _cell.getExpression();
 				if (null != expr) {
 					_cell.setDataType( annotate( expr ) );
 				}

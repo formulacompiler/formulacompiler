@@ -29,7 +29,6 @@ import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-
 public class EvalCell extends EvalShadow
 {
 	private TypedResult cached = null;
@@ -65,8 +64,8 @@ public class EvalCell extends EvalShadow
 		if (null != constantValue) {
 			if (constantValue instanceof Boolean) {
 				boolean bool = ((Boolean) constantValue).booleanValue();
-				return new ConstResult( type().adjustConstantValue( Double.valueOf( bool ? 1 : 0 ) ), cellModel
-						.getDataType() );
+				return new ConstResult( type().adjustConstantValue( Double.valueOf( bool ? 1 : 0 ) ),
+						cellModel.getDataType() );
 			}
 			return cellModel;
 		}
