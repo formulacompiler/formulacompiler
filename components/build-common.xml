@@ -162,7 +162,7 @@
 
 		<echo>${comp}: compiling classes...</echo>
 		<mkdir dir="${temp.comp}/classes" />
-		<javac srcdir="${src.comp}/java" destdir="${temp.comp}/classes" classpath="${comp.classpath}:${cp.comp}" debug="${javac.debug}" deprecation="on" source="${javac.source}" target="${javac.target}">
+		<javac srcdir="${src.comp}/java" destdir="${temp.comp}/classes" classpath="${comp.classpath}:${cp.comp}" debug="${javac.debug}" deprecation="on" source="${javac.source}" target="${javac.target}" includeantruntime="false">
 		</javac>
 
 	</target>
