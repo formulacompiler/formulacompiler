@@ -27,6 +27,7 @@ import java.util.Collection;
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 
 public final class ExpressionNodeForCell extends ExpressionNode
@@ -63,6 +64,13 @@ public final class ExpressionNodeForCell extends ExpressionNode
 	public String getName()
 	{
 		return this.name;
+	}
+
+
+	@Override
+	protected CellAddress getCellAddress()
+	{
+		return cellIndex.getCellAddress();
 	}
 
 

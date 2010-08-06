@@ -28,6 +28,7 @@ import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 public class EvalCell extends EvalShadow
 {
@@ -72,7 +73,9 @@ public class EvalCell extends EvalShadow
 
 		final ExpressionNode expression = cellModel.getExpression();
 		if (null != expression) {
-			final TypedResult constResult = EvalShadow.evaluate( expression, type() );
+			final Object source = cellModel.getSource();
+			final CellAddress cellAddress = source instanceof CellAddress ? (CellAddress) source : null;
+			final TypedResult constResult = EvalShadow.evaluate( expression, type(), cellAddress );
 			if (constResult instanceof ExpressionNode) {
 
 				// Do not need to clone leaf node.

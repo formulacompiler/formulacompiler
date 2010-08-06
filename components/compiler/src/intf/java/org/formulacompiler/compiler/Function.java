@@ -68,9 +68,9 @@ public enum Function {
 
 	NOW( true ), TODAY( true ),
 
-	// Lookup
+	// Lookup and reference
 
-	CHOOSE, MATCH, INDEX, LOOKUP, HLOOKUP, VLOOKUP,
+	CHOOSE, MATCH, INDEX, LOOKUP, HLOOKUP, VLOOKUP, ROW, COLUMN,
 
 	INTERNAL_MATCH_INT( false, true ),
 

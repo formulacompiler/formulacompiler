@@ -35,6 +35,7 @@ import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionMo
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 import org.formulacompiler.runtime.ComputationException;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 
 public abstract class EvalShadow extends ExpressionNodeShadow
@@ -42,10 +43,10 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 	public static final Log LOG = Settings.LOG_CONSTEVAL;
 
 
-	public static TypedResult evaluate( ExpressionNode _expr, InterpretedNumericType _type ) throws CompilerException
+	public static TypedResult evaluate( ExpressionNode _expr, InterpretedNumericType _type, CellAddress _cellAddress ) throws CompilerException
 	{
 		EvalShadow shadow = shadow( _expr, _type );
-		return shadow.evalIn( new EvalShadowContext() );
+		return shadow.evalIn( new EvalShadowContext( _cellAddress ) );
 	}
 
 	protected static EvalShadow shadow( ExpressionNode _expr, InterpretedNumericType _type )

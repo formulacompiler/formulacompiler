@@ -30,6 +30,7 @@ import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
+import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCount;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
@@ -37,6 +38,7 @@ import org.formulacompiler.compiler.internal.model.interpreter.EvalNotPossibleEx
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 import org.formulacompiler.runtime.New;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 
 public class EvalFunction extends EvalShadow
@@ -86,6 +88,16 @@ public class EvalFunction extends EvalShadow
 				}
 			}
 
+			case COLUMN: {
+				final CellAddress cellAddress = getCellAddress();
+				return new ConstResult( cellAddress.getColumnIndex() + 1, DataType.NUMERIC );
+			}
+
+			case ROW: {
+				final CellAddress cellAddress = getCellAddress();
+				return new ConstResult( cellAddress.getRowIndex() + 1, DataType.NUMERIC );
+			}
+
 			default:
 				return super.eval();
 
@@ -118,6 +130,24 @@ public class EvalFunction extends EvalShadow
 		else {
 			return ConstResult.valueOf( !_returnThisIfFound );
 		}
+	}
+
+
+	private CellAddress getCellAddress() throws CompilerException
+	{
+		if (node().arguments() == null || node().arguments().size() == 0) {
+			final CellAddress cellAddress = context().cellAddress;
+			if (cellAddress != null) {
+				return cellAddress;
+			}
+		}
+		else {
+			final ExpressionNode arg0 = node().argument( 0 );
+			if (arg0 instanceof ExpressionNodeForCellModel) {
+				return arg0.getOriginCellAddress();
+			}
+		}
+		throw new CompilerException.UnsupportedExpression( "ROW/COLUMN is not supported for such arguments" );
 	}
 
 

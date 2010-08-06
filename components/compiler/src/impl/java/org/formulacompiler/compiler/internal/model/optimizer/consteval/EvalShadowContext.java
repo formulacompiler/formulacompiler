@@ -23,8 +23,16 @@
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 final class EvalShadowContext
 {
 	public final LetDictionary letDict = new LetDictionary();
+
+	public final CellAddress cellAddress;
+
+	public EvalShadowContext( final CellAddress _cellAddress )
+	{
+		this.cellAddress = _cellAddress;
+	}
 }
