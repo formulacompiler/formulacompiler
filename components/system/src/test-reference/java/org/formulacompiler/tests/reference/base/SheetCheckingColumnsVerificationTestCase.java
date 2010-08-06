@@ -52,7 +52,11 @@ public class SheetCheckingColumnsVerificationTestCase extends AbstractContextTes
 		final CellIndex indicatorCell = cx.getRowCellIndex( rowSetup.expectedCol() );
 
 		assertCheck( "AND( Q2:Q10000 )", andingCell );
-		assertCheck( "IF( Q1, \"Expected\", \"FAILED!\" )", indicatorCell );
+		if (cx.getSpreadsheetFile().getName().endsWith( ".ods" )) {
+			assertCheck( "IF( ISERROR( Q1 ), \"ERROR!\", IF( Q1, \"Expected\", \"FAILED!\" ) )", indicatorCell );
+		} else {
+			assertCheck( "IF( Q1, \"Expected\", \"FAILED!\" )", indicatorCell );
+		}
 
 		if (!cx.getSpreadsheetFileBaseName().startsWith( "Bad" )) {
 			assertTrue( "Sheet contains invalid data.", (Boolean) andingCell.getValue() );

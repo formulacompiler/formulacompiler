@@ -7,7 +7,7 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - expr: =IF( RC[16], "Expected", "FAILED!" )
+    - expr: =IF( ISERROR( RC[16] ), "ERROR!", IF( RC[16], "Expected", "FAILED!" ) )
     - const: "Actual"
     - const: "Inputs"
     - null
@@ -41,7 +41,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "II"
     - expr: =ROMAN( RC[1] )
@@ -59,7 +59,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "XII"
     - expr: =ROMAN( RC[1] )
@@ -77,7 +77,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "IX"
     - expr: =ROMAN( RC[1] )
@@ -95,7 +95,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "XI"
     - expr: =ROMAN( RC[1] )
@@ -113,7 +113,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "XL"
     - expr: =ROMAN( RC[1] )
@@ -131,7 +131,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "XLIX"
     - expr: =ROMAN( RC[1] )
@@ -149,7 +149,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "XCIX"
     - expr: =ROMAN( RC[1] )
@@ -167,7 +167,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "C"
     - expr: =ROMAN( RC[1] )
@@ -185,7 +185,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "CLIX"
     - expr: =ROMAN( RC[1] )
@@ -203,7 +203,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "MCXXIII"
     - expr: =ROMAN( RC[1] )
@@ -221,7 +221,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "MMMCMXCIX"
     - expr: =ROMAN( RC[1] )
@@ -239,7 +239,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "CDXCIX"
     - expr: =ROMAN( RC[1] )
@@ -257,7 +257,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "CDXCIX"
     - expr: =ROMAN( RC[1], RC[2] )
@@ -275,7 +275,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "LDVLIV"
     - expr: =ROMAN( RC[1], RC[2] )
@@ -293,7 +293,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "XDIX"
     - expr: =ROMAN( RC[1], RC[2] )
@@ -311,7 +311,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "VDIV"
     - expr: =ROMAN( RC[1], RC[2] )
@@ -329,7 +329,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "ID"
     - expr: =ROMAN( RC[1], RC[2] )
@@ -347,7 +347,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "MMXIII"
     - expr: =ROMAN( RC[1], RC[2] )
@@ -365,7 +365,7 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
   - cells:
     - const: "!STR:FE"
     - expr: =ROMAN( RC[1] )
@@ -383,4 +383,4 @@ sheets:
     - null
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
-    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )

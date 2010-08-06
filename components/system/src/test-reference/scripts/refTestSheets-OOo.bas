@@ -51,12 +51,12 @@ Sub ApplyConditionalFormatting(oDocument, oSheet)
 	
 	cellRange = oSheet.getCellRangeByName("A1")
 	conditionalFormat = cellRange.ConditionalFormat
-	AddNewConditionalFormat(conditionalFormat, "NOT(AND($Q$2:$Q$10000))", "Error")
+	AddNewConditionalFormat(conditionalFormat, "NOT(IF(NOT(ISERROR($Q1));$Q1))", "Error")
 	cellRange.ConditionalFormat = conditionalFormat
 	
 	cellRange = oSheet.getCellRangeByName("A2:A10000")
 	conditionalFormat = cellRange.ConditionalFormat
-	AddNewConditionalFormat(conditionalFormat, "NOT(OR(ISBLANK($Q1);$Q1))", "Error")
+	AddNewConditionalFormat(conditionalFormat, "NOT(OR(ISBLANK($Q1);IF(NOT(ISERROR($Q1));$Q1)))", "Error")
 	AddNewConditionalFormat(conditionalFormat, "NOT(AND(ISBLANK($M1);ISBLANK($O1)))", "Attention")
 	cellRange.ConditionalFormat = conditionalFormat
 	
@@ -87,7 +87,7 @@ Sub AddCheckingCells(oSheet)
 			oSheet.getCellByPosition(15, i).Formula = "=IF(ISBLANK(" + m + ");" + exp + ";" + m + ")"
 			o = "O" & row
 			p = "P" & row
-			oSheet.getCellByPosition(16, i).Formula = "=IF(ISBLANK(" + o + ");IF(ISERROR(" + act + ");""Err:""&ERRORTYPE(" + act + ")=" + m + ";OR(" + p + "=" + act + ";AND(ISNUMBER(" + p + ");ISNUMBER(" + act + ");OR(AND(" + p + "=0;ABS(" + act + ")<1E-307);""""&" + act + "=""""&" + p + "))));" + o + ")"
+			oSheet.getCellByPosition(16, i).Formula = "=IF(ISBLANK(" + o + ");IF(ISERROR(" + act + ");""Err:""&ERRORTYPE(" + act + ")=" + m + ";OR(" + p + "=" + act + ";IF(AND(ISNUMBER(" + p + ");ISNUMBER(" + act + "));OR(AND(" + p + "=0;ABS(" + act + ")<1E-307);""""&" + act + "=""""&" + p + "))));" + o + ")"
 		End If
 	Next i
 End Sub
@@ -99,7 +99,7 @@ Sub FillCellHeaders(oSheet)
 	row1.VertJustify = com.sun.star.table.CellVertJustify.CENTER
 	row1.Height = 800
 	
-	oSheet.getCellRangeByName("A1").Formula = "=IF(Q1;""Expected"";""FAILED!"")"
+	oSheet.getCellRangeByName("A1").Formula = "=IF(ISERROR(Q1);""ERROR!"";IF(Q1;""Expected"";""FAILED!""))"
 	oSheet.getCellRangeByName("B1").setString("Actual")
 	oSheet.getCellRangeByName("C1").setString("Inputs")
 	oSheet.getCellRangeByName("J1").setString("# of Inputs")
