@@ -31,12 +31,12 @@ import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.AbstractComputationModelVisitor;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ConstantExpressionCellListenerSupport;
-import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.optimizer.consteval.ConstResult;
 import org.formulacompiler.compiler.internal.model.optimizer.consteval.EvalShadow;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 
 final public class ConstantSubExpressionEliminator extends AbstractComputationModelVisitor
@@ -77,7 +77,7 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 		ExpressionNode sourceExpr = _cell.getExpression();
 		if (null != sourceExpr) {
 			try {
-				TypedResult optimizedResult = eliminateConstantsFrom( sourceExpr, _cell.getSection() );
+				TypedResult optimizedResult = eliminateConstantsFrom( sourceExpr, _cell );
 				assert (optimizedResult.getDataType() == _cell.getDataType() || optimizedResult.getDataType() == DataType.NULL);
 				if (optimizedResult.hasConstantValue()) {
 					_cell.setExpression( null );
@@ -99,10 +99,12 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 		return true;
 	}
 
-	private TypedResult eliminateConstantsFrom( ExpressionNode _expr, SectionModel _section ) throws CompilerException
+	private TypedResult eliminateConstantsFrom( ExpressionNode _expr, CellModel _cell ) throws CompilerException
 	{
 		if (null == _expr) return ConstResult.NULL;
-		return EvalShadow.evaluate( _expr, getNumericType() );
+		final Object source = _cell.getSource();
+		final CellAddress cellAddress = source instanceof CellAddress ? (CellAddress) source : null;
+		return EvalShadow.evaluate( _expr, getNumericType(), cellAddress );
 	}
 
 

@@ -536,6 +536,7 @@ void fun(): {}
 	|	"CHOOSE" open() expr() commaExprs() closeFun( Function.CHOOSE )
 	|	"CLEAN" fun1( Function.CLEAN )
 	|	"CODE" fun1( Function.CODE )
+	|	"COLUMN" open() [rangeExpr()] closeFun( Function.COLUMN )
 
 	// citation: combin
 	|	"COMBIN" fun2( Function.COMBIN )
@@ -687,6 +688,7 @@ void fun(): {}
 	// citation: round
 	|	"ROUNDDOWN" fun2( Function.ROUNDDOWN )
 	|	"ROUNDUP" fun2( Function.ROUNDUP )
+	|	"ROW" open() [rangeExpr()] closeFun( Function.ROW )
 	|	"RSQ" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.RSQ )
 	|	"SEARCH" fun2to3( Function.SEARCH )
 	|	"SECOND" fun1( Function.SECOND )

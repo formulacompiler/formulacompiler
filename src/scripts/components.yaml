@@ -142,6 +142,7 @@ groups:
               - org.formulacompiler.compiler.internal.expressions
             api_deps:
               - core.compiler.core
+              - core.runtime.api.spreadsheet
 
           - id: expressions.parser
             pkgs:
@@ -217,6 +218,7 @@ groups:
               - org.formulacompiler.compiler.internal.model.optimizer.consteval
             api_deps:
               - core.compiler.model
+              - core.runtime.api.spreadsheet
             deps:
               - core.compiler.interpreter
               - core.runtime.core

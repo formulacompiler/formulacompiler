@@ -29,6 +29,7 @@ import java.util.List;
 import org.formulacompiler.compiler.internal.AbstractDescribable;
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
+import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 
 public abstract class ExpressionNode extends AbstractDescribable implements TypedResult
@@ -162,6 +163,14 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 	public final ExpressionNode getOrigin()
 	{
 		return (this.derivedFrom == null) ? this : this.derivedFrom.getOrigin();
+	}
+
+	public final CellAddress getOriginCellAddress() {
+		return getOrigin().getCellAddress();
+	}
+
+	protected CellAddress getCellAddress() {
+		return null;
 	}
 
 
