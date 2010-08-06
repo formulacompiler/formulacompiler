@@ -282,7 +282,7 @@ public abstract class SheetSuiteSetup extends AbstractSuiteSetup
 				_suite.addTest( new ExpressionVerificationTestCase( _cx, checkingCol,
 						"IF( ISBLANK( Mn ), An, Mn )" ) );
 				_suite.addTest( new ExpressionVerificationTestCase( _cx, checkingCol + 1,
-						"IF( ISBLANK( On ), IF( ISERROR( Bn ), ((\"Err:\" & ERRORTYPE( Bn )) = Mn), OR( (Pn = Bn), AND( ISNUMBER( Pn ), ISNUMBER( Bn ), OR( AND( (Pn = 0.0), (ABS( Bn ) < 1.0E-307) ), ((\"\" & Bn) = (\"\" & Pn)) ) ) ) ), On )" ) );
+						"IF( ISBLANK( On ), IF( ISERROR( Bn ), ((\"Err:\" & ERRORTYPE( Bn )) = Mn), OR( (Pn = Bn), IF( AND( ISNUMBER( Pn ), ISNUMBER( Bn ) ), OR( AND( (Pn = 0.0), (ABS( Bn ) < 1.0E-307) ), ((\"\" & Bn) = (\"\" & Pn)) ) ) ) ), On )" ) );
 				if (!_cx.getSpreadsheetFileBaseName().startsWith( "Bad" )) {
 					_suite.addTest( new ValueVerificationTestCase( _cx, checkingCol + 1, Boolean.TRUE ) );
 				}

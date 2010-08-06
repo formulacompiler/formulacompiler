@@ -602,7 +602,7 @@ void fun(): {}
 	|	"HLOOKUP" hvLookup( Function.HLOOKUP )
 	|	"HOUR" fun1( Function.HOUR )
 	|	"HYPGEOMDIST" fun4( Function.HYPGEOMDIST )
-	|	"IF" fun3( Function.IF )
+	|	"IF" fun2to3( Function.IF )
 	|	"INDEX" open() shapedRangeExpr() <SEP> exprOrNull() optCommaExpr() closeFun( Function.INDEX )
 	|	"INT" fun1( Function.INT )
 	|	"INTERCEPT" open() shapedRangeExpr() <SEP> shapedRangeExpr() closeFun( Function.INTERCEPT )
