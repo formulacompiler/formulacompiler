@@ -55,14 +55,24 @@ public final class MultiFormatTestFactory
 
 	}
 
-	public static interface SpreadsheetFormatTest
+	public static abstract class SpreadsheetFormatTest extends TestCase
 	{
-		public void setSpreadsheetExtension( final String _spreadsheetExtension );
+		protected SpreadsheetFormatTest()
+		{
+			// Nothing to do here.
+		}
 
-		public void setSpreadsheetTemplateExtension( final String _extension );
+		protected SpreadsheetFormatTest( final String name )
+		{
+			super( name );
+		}
+
+		public abstract void setSpreadsheetExtension( final String _spreadsheetExtension );
+
+		public abstract void setSpreadsheetTemplateExtension( final String _extension );
 	}
 
-	public static abstract class SpreadsheetFormatTestCase extends TestCase implements SpreadsheetFormatTest
+	public static abstract class SpreadsheetFormatTestCase extends SpreadsheetFormatTest
 	{
 		private String spreadsheetExtension;
 
@@ -70,7 +80,7 @@ public final class MultiFormatTestFactory
 
 		protected SpreadsheetFormatTestCase()
 		{
-			// Nothing here.
+			// Nothing to do here.
 		}
 
 		protected SpreadsheetFormatTestCase( final String name )
