@@ -29,6 +29,7 @@ import org.formulacompiler.spreadsheet.internal.CellWithConstant;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
+import org.formulacompiler.tests.utils.IgnoreFormat;
 import org.formulacompiler.tests.utils.MultiFormat;
 import org.formulacompiler.tests.utils.SpreadsheetVerificationRule;
 import org.junit.Rule;
@@ -83,6 +84,7 @@ public class SaveTest
 	}
 
 	@Test
+	@IgnoreFormat( ".xls" )
 	public void testCellStyles() throws Exception
 	{
 		final SpreadsheetImpl s = new SpreadsheetImpl();
