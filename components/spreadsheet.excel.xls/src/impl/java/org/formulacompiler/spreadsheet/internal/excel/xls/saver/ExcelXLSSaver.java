@@ -188,7 +188,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 			SpreadsheetException
 	{
 		for (final BaseRow r : _s.getRowList()) {
-			saveRow( r, _xwb, _xs );
+			if (r != null) saveRow( r, _xwb, _xs );
 		}
 	}
 
@@ -198,7 +198,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	{
 		final int row = _r.getRowIndex();
 		for (final CellInstance c : _r.getCellList()) {
-			saveCell( c, _xwb, _xs, row );
+			if (c != null) saveCell( c, _xwb, _xs, row );
 		}
 		styleRow( _r.getStyleName(), _xwb, _xs, row );
 	}
