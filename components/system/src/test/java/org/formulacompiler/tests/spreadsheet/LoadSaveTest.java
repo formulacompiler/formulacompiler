@@ -34,6 +34,7 @@ import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.SpreadsheetNameCreator;
 import org.formulacompiler.spreadsheet.internal.BaseRow;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
+import org.formulacompiler.tests.utils.IgnoreFormat;
 import org.formulacompiler.tests.utils.MultiFormat;
 import org.formulacompiler.tests.utils.SpreadsheetVerificationRule;
 import org.junit.Before;
@@ -151,6 +152,7 @@ public class LoadSaveTest
 	}
 
 	@Test
+	@IgnoreFormat( ".xls" )
 	public void testExpressions() throws Exception
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
@@ -165,6 +167,7 @@ public class LoadSaveTest
 	}
 
 	@Test
+	@IgnoreFormat( ".xls" )
 	public void testOperators() throws Exception
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
@@ -191,6 +194,7 @@ public class LoadSaveTest
 	}
 
 	@Test
+	@IgnoreFormat( ".xls" )
 	public void testRangeNames()
 	{
 		final Map<String, Spreadsheet.Range> definedNames = this.spreadsheet.getRangeNames();
@@ -216,6 +220,7 @@ public class LoadSaveTest
 	}
 
 	@Test
+	@IgnoreFormat( ".xls" )
 	public void testRangeNamesUsage() throws Exception
 	{
 		final Map<String, Spreadsheet.Range> definedNames = this.spreadsheet.getRangeNames();
@@ -286,6 +291,7 @@ public class LoadSaveTest
 	}
 
 	@Test
+	@IgnoreFormat( ".xls" )
 	public void testIntersections() throws Exception
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];

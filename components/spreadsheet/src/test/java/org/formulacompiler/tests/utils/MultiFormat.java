@@ -27,7 +27,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.runner.Description;
 import org.junit.runner.Runner;
+import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.Suite;
 import org.junit.runners.model.FrameworkMethod;
@@ -83,6 +85,22 @@ public class MultiFormat extends Suite
 			else {
 				return constructor.newInstance( this.spreadsheetExtension, this.templateExtension );
 			}
+		}
+
+		@Override
+		protected void runChild( final FrameworkMethod method, final RunNotifier notifier )
+		{
+			final IgnoreFormat ignoreFormat = method.getAnnotation( IgnoreFormat.class );
+			if (ignoreFormat != null) {
+				for (String format : ignoreFormat.value()) {
+					if (format.equals( this.spreadsheetExtension )) {
+						final Description description = describeChild( method );
+						notifier.fireTestIgnored( description );
+						return;
+					}
+				}
+			}
+			super.runChild( method, notifier );
 		}
 
 		@Override
