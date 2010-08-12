@@ -189,7 +189,8 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 					_rowBuilder.setValue( ((NumberFormulaCell) xlsFormulaCell).getValue() );
 				}
 				else if (xlsFormulaCell instanceof DateFormulaCell) {
-					_rowBuilder.setValue( ((DateFormulaCell) xlsFormulaCell).getValue() );
+					final Object value = getDateTimeValue( (DateFormulaCell) xlsFormulaCell );
+					_rowBuilder.setValue( value );
 				}
 				else if (xlsFormulaCell instanceof BooleanFormulaCell) {
 					_rowBuilder.setValue( ((BooleanFormulaCell) xlsFormulaCell).getValue() );
@@ -212,17 +213,7 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		}
 		else if (CellType.DATE == xlsType) {
 			final DateCell xlsDateCell = (jxl.DateCell) _xlsCell;
-			final Object value;
-			if (null != this.globalTimeFormat
-					&& this.globalTimeFormat.equals( xlsDateCell.getCellFormat().getFormat().getFormatString() )) {
-				value = RuntimeDouble_v2.dateFromNum( xlsDateCell.getValue(), this.globalTimeZone, ComputationMode.EXCEL );
-			}
-			else if (xlsDateCell.isTime()) {
-				value = new Duration( xlsDateCell.getValue() );
-			}
-			else {
-				value = new LocalDate( xlsDateCell.getValue() );
-			}
+			final Object value = getDateTimeValue( xlsDateCell );
 			_rowBuilder.addCellWithConstant( value );
 		}
 		else if (jxl.CellType.LABEL == xlsType) {
@@ -250,6 +241,22 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 					_rowBuilder.addCellWithError( "#ERR:" + errorCode );
 			}
 		}
+	}
+
+	private Object getDateTimeValue( final DateCell _xlsDateCell )
+	{
+		final Object value;
+		if (null != this.globalTimeFormat
+				&& this.globalTimeFormat.equals( _xlsDateCell.getCellFormat().getFormat().getFormatString() )) {
+			value = RuntimeDouble_v2.dateFromNum( _xlsDateCell.getValue(), this.globalTimeZone, ComputationMode.EXCEL );
+		}
+		else if (_xlsDateCell.isTime()) {
+			value = new Duration( _xlsDateCell.getValue() );
+		}
+		else {
+			value = new LocalDate( _xlsDateCell.getValue() );
+		}
+		return value;
 	}
 
 
