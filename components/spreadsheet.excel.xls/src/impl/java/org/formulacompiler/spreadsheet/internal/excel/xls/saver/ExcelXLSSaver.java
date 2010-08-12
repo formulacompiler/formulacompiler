@@ -64,7 +64,6 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 {
 	private final Spreadsheet model;
 	private final OutputStream outputStream;
-	private final ExcelXLSExpressionFormatter formatter = new ExcelXLSExpressionFormatter();
 	private final InputStream templateInputStream;
 	private final TimeZone timeZone;
 	private Workbook template;
@@ -220,7 +219,7 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 	{
 		if (_c instanceof CellWithExpression) {
 			final ExpressionNode expr = ((CellWithExpression) _c).getExpression();
-			return new Formula( _col, _row, this.formatter.format( expr ) );
+			return new Formula( _col, _row, ExpressionFormatter.format( expr, _c.getCellIndex() ) );
 		}
 		else {
 			final Object val = _c.getValue();

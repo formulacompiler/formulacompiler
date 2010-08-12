@@ -18,6 +18,7 @@ h5. Fixed
 
 	* Fixed NPE in .xls saver when cell is null ("issue 19":http://code.google.com/p/formulacompiler/issues/detail?id=19).
 	* Fixed loading date values from cells with formulas in .xls files.
+	* Fixed saving expressions with boolean constants.
 
 
 h2. Release 1.4

@@ -26,7 +26,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellWithExpression;
-import org.formulacompiler.spreadsheet.internal.excel.xls.saver.ExcelXLSExpressionFormatter;
+import org.formulacompiler.spreadsheet.internal.excel.xls.saver.ExpressionFormatter;
 import org.formulacompiler.spreadsheet.internal.parser.SpreadsheetExpressionParser;
 
 public class ExpressionFormattingTestCase extends AbstractContextTestCase
@@ -50,13 +50,12 @@ public class ExpressionFormattingTestCase extends AbstractContextTestCase
 		if (cell instanceof CellWithExpression) {
 			CellWithExpression exprCell = (CellWithExpression) cell;
 			final ExpressionNode expr = exprCell.getExpression();
-			final ExcelXLSExpressionFormatter formatter = new ExcelXLSExpressionFormatter();
-			final String expected = formatter.format( expr );
+			final String expected = ExpressionFormatter.format( expr, exprCell.getCellIndex() );
 			final SpreadsheetExpressionParser parser = SpreadsheetExpressionParser.newParser(
 					expected, exprCell.getCellIndex(), CellRefFormat.A1 );
 			final ExpressionNode parsed = parser.parse();
 			exprCell.setExpression( parsed );
-			final String actual = formatter.format( parsed );
+			final String actual = ExpressionFormatter.format( parsed, exprCell.getCellIndex() );
 			assertEquals( expected, actual );
 		}
 
