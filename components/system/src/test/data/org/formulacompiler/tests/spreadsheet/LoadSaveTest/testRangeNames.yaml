@@ -1,0 +1,64 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+  - cells:
+    - null
+    - const: 1.0
+      names: [ Cell_B2, Cell_B2_abs ]
+    - const: 11.0
+  - cells:
+    - null
+    - const: 2.0
+    - const: 12.0
+  - cells:
+    - null
+    - const: 3.0
+    - const: 13.0
+
+- name: Sheet2
+  rows:
+  - cells:
+  - cells:
+    - null
+    - const: 101.0
+    - const: 111.0
+  - cells:
+    - null
+    - const: 102.0
+    - const: 112.0
+  - cells:
+    - null
+    - const: 103.0
+    - const: 113.0
+
+- name: Sheet3
+  rows:
+  - cells:
+  - cells:
+    - null
+    - const: 201.0
+    - const: 211.0
+  - cells:
+    - null
+    - const: 202.0
+    - const: 212.0
+  - cells:
+    - null
+    - const: 203.0
+    - const: 213.0
+
+names:
+- name: Range_B2C4
+  ref: R2C2:R4C3
+- name: Range_B2C4_abs
+  ref: R2C2:R4C3
+- name: Range_Sheet1B2Sheet3C4
+  ref: R2C2:'Sheet3'!R4C3
+- name: Range_Sheet1B2Sheet3C4_abs
+  ref: R2C2:'Sheet3'!R4C3

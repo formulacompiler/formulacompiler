@@ -1,0 +1,30 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Number"
+    - expr: =1.25
+  - cells:
+    - const: "Percent"
+    - expr: =0.1234
+  - cells:
+    - const: "Currency"
+    - expr: =99.95
+  - cells:
+    - const: "String"
+    - expr: ="text"
+  - cells:
+    - const: "Boolean"
+    - expr: =true
+    - expr: =false
+  - cells:
+    - const: "Date"
+    - expr: =DATE( 2001.0, 8.0, 23.0 )
+  - cells:
+    - const: "Time"
+    - expr: =TIME( 23.0, 12.0, 23.0 )

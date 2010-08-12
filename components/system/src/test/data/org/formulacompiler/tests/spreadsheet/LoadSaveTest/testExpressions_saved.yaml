@@ -1,0 +1,23 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Numeric literals"
+    - expr: =1.21
+    - expr: =1.234E21
+  - cells:
+    - const: "String literals"
+    - expr: ="text"
+    - expr: ="текст"
+    - expr: ="< '&"#![]>"
+  - cells:
+    - const: "Function with literals"
+    - expr: =SUM( 1.0, 2.0, 3.0 )
+  - cells:
+    - const: "Function with cell references"
+    - expr: =PRODUCT( R1C2, R[-3]C[1] )

@@ -95,6 +95,7 @@ public interface SpreadsheetSaver
 		{
 			if (this.spreadsheet == null) throw new IllegalArgumentException( "spreadsheet is null" );
 			if (this.outputStream == null) throw new IllegalArgumentException( "outputStream is null" );
+			if (this.typeExtension == null) throw new IllegalArgumentException( "typeExtension is null" );
 		}
 
 	}
