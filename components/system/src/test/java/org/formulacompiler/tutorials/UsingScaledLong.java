@@ -31,13 +31,30 @@ import org.formulacompiler.runtime.ScaledLong;
 import org.formulacompiler.runtime.ScaledLongSupport;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class UsingScaledLong extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class UsingScaledLong
 {
+	private final String spreadsheetExtension;
 
+	public UsingScaledLong( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testUsingScaledLong() throws Exception
 	{
 		File file = getFile();
@@ -61,6 +78,7 @@ public class UsingScaledLong extends MultiFormatTestFactory.SpreadsheetFormatTes
 	}
 
 
+	@Test
 	public void testUsingLong() throws Exception
 	{
 		File file = getFile();
@@ -90,6 +108,7 @@ public class UsingScaledLong extends MultiFormatTestFactory.SpreadsheetFormatTes
 	}
 
 
+	@Test
 	public void testWorkingMultiplication() throws Exception
 	{
 		// ---- workingMultiplication
@@ -107,6 +126,7 @@ public class UsingScaledLong extends MultiFormatTestFactory.SpreadsheetFormatTes
 	}
 
 
+	@Test
 	public void testProblemWithMultiplication() throws Exception
 	{
 		// ---- problemWithMultiplication
@@ -121,12 +141,6 @@ public class UsingScaledLong extends MultiFormatTestFactory.SpreadsheetFormatTes
 		assertEquals( -6446744073709551616L, intermediate ); // silent integer overflow!
 		assertEquals( -6446744073709L, result );
 		// ---- problemWithMultiplication
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( UsingScaledLong.class );
 	}
 
 

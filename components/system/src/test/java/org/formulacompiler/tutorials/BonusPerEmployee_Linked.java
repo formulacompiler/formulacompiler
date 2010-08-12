@@ -34,17 +34,35 @@ import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 import org.formulacompiler.tutorials.BonusPerEmployee.BonusData;
 import org.formulacompiler.tutorials.BonusPerEmployee.BonusDataImpl;
 import org.formulacompiler.tutorials.BonusPerEmployee.EmployeeBonusData;
 import org.formulacompiler.tutorials.BonusPerEmployee.EmployeeBonusDataImpl;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class BonusPerEmployee_Linked extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class BonusPerEmployee_Linked
 {
+	private final String spreadsheetExtension;
 
+	public BonusPerEmployee_Linked( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+
+	@Test
 	public void testBonusPerEmployee() throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
@@ -115,12 +133,6 @@ public class BonusPerEmployee_Linked extends MultiFormatTestFactory.SpreadsheetF
 		}
 		// ---- consumeOutputs
 
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( BonusPerEmployee_Linked.class );
 	}
 
 

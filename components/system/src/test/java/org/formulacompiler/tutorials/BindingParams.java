@@ -32,15 +32,32 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.*;
 
 
-public class BindingParams extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+@RunWith( MultiFormat.class )
+public class BindingParams
 {
+	private final String spreadsheetExtension;
+
+	public BindingParams( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
 
 
+
+	@Test
 	public void testBindingByName() throws Exception
 	{
 		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams" + getSpreadsheetExtension();
@@ -196,6 +213,7 @@ public class BindingParams extends MultiFormatTestFactory.SpreadsheetFormatTestC
 	}
 
 
+	@Test
 	public void testInputVariants() throws Exception
 	{
 		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams_InputVariants" + getSpreadsheetExtension();
@@ -355,11 +373,12 @@ public class BindingParams extends MultiFormatTestFactory.SpreadsheetFormatTestC
 
 	// ---- MyEnum
 	public static enum MyEnum {
-		ZERO, ONE, TWO;
+		ZERO, ONE, TWO
 	}
 	// ---- MyEnum
 
 
+	@Test
 	public void testComplexOutputBinding() throws Exception
 	{
 		final String path = "src/test/data/org/formulacompiler/tutorials/BindingParams" + getSpreadsheetExtension();
@@ -396,12 +415,6 @@ public class BindingParams extends MultiFormatTestFactory.SpreadsheetFormatTestC
 
 		SimulatedComplexEngine simulation = new SimulatedComplexEngine( input );
 		assertEquals( 5.0, simulation.getComplex( 1, 2, "THREE" ), 0.001 );
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( BindingParams.class );
 	}
 
 

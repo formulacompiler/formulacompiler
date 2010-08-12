@@ -28,13 +28,30 @@ import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class UsingDouble extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class UsingDouble
 {
+	private final String spreadsheetExtension;
 
+	public UsingDouble( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testUsingDouble() throws Exception
 	{
 		File file = new File( "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes" + getSpreadsheetExtension() );
@@ -55,12 +72,6 @@ public class UsingDouble extends MultiFormatTestFactory.SpreadsheetFormatTestCas
 		// ---- checkResult
 
 		FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/numeric_type/double" ) );
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( UsingDouble.class );
 	}
 
 

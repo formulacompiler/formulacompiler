@@ -29,11 +29,22 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
 
-abstract class AbstractUseCaseTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+abstract class AbstractUseCaseTest
 {
 	private static final File SHEET_PATH = new File( "src/test/data/org/formulacompiler/tests/usecases" );
+
+	private final String spreadsheetExtension;
+
+	public AbstractUseCaseTest( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
 
 
 	protected interface UseCase

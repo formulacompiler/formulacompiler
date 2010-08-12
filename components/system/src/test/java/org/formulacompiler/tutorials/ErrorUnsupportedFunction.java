@@ -29,13 +29,31 @@ import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ErrorUnsupportedFunction extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class ErrorUnsupportedFunction
 {
+	private final String spreadsheetExtension;
 
+	public ErrorUnsupportedFunction( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+
+	@Test
 	public void testBindInfo() throws Exception
 	{
 		// ---- BindInfo
@@ -64,6 +82,7 @@ public class ErrorUnsupportedFunction extends MultiFormatTestFactory.Spreadsheet
 		// ---- BindInfo
 	}
 
+	@Test
 	public void testBindReferencesInfo() throws Exception
 	{
 		// ---- BindReferencesInfo
@@ -95,6 +114,7 @@ public class ErrorUnsupportedFunction extends MultiFormatTestFactory.Spreadsheet
 		// ---- BindReferencesInfo
 	}
 
+	@Test
 	public void testBindIndependent() throws Exception
 	{
 		// ---- BindIndependent
@@ -106,6 +126,7 @@ public class ErrorUnsupportedFunction extends MultiFormatTestFactory.Spreadsheet
 		// ---- BindIndependent
 	}
 
+	@Test
 	public void testParsedButUnsupportedFunction() throws Exception
 	{
 		// ---- BindParsedButUnsupported
@@ -134,11 +155,6 @@ public class ErrorUnsupportedFunction extends MultiFormatTestFactory.Spreadsheet
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
 		builder.getRootBinder().defineOutputCell( cell, MyComputation.class.getMethod( "result" ) );
 		return builder;
-	}
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( ErrorUnsupportedFunction.class );
 	}
 
 	public static interface MyFactory

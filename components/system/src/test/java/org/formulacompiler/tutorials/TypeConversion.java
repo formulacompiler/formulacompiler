@@ -35,12 +35,17 @@ import org.formulacompiler.runtime.MillisecondsSinceUTC1970;
 import org.formulacompiler.runtime.ScaledLong;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 import org.formulacompiler.tests.utils.Util;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class TypeConversion extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class TypeConversion
 {
 	private static final long ONE_HOUR = 1000 * 60 * 60; // ms
 	private static final long ONE_DAY = ONE_HOUR * 24; // ms
@@ -52,17 +57,31 @@ public class TypeConversion extends MultiFormatTestFactory.SpreadsheetFormatTest
 		CREATION_TIME = calendar.getTime();
 	}
 
+	private final String spreadsheetExtension;
 
+	public TypeConversion( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testAllTypesWithDouble() throws Exception
 	{
 		testAllTypesWith( SpreadsheetCompiler.DOUBLE );
 	}
 
+	@Test
 	public void testAllTypesWithBigDecimal() throws Exception
 	{
 		testAllTypesWith( SpreadsheetCompiler.getNumericType( BigDecimal.class, 6, BigDecimal.ROUND_DOWN ) );
 	}
 
+	@Test
 	public void testAllTypesWithLong6() throws Exception
 	{
 		testAllTypesWith( SpreadsheetCompiler.LONG_SCALE6 );
@@ -132,12 +151,6 @@ public class TypeConversion extends MultiFormatTestFactory.SpreadsheetFormatTest
 	private String asString( BigInteger _value )
 	{
 		return Util.trimTrailingZerosAndPoint( _value.toString() );
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( TypeConversion.class );
 	}
 
 

@@ -44,16 +44,32 @@ import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import junit.framework.Test;
+import static org.junit.Assert.*;
 
-public final class EnvironmentConfig extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+@RunWith( MultiFormat.class )
+public final class EnvironmentConfig
 {
 
 
 	private static final File DATA_PATH = new File( "src/test/data/org/formulacompiler/tutorials/" );
 
+	private final String spreadsheetExtension;
+
+	public EnvironmentConfig( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testCustomLocaleTZ() throws Exception
 	{
 		EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
@@ -140,6 +156,7 @@ public final class EnvironmentConfig extends MultiFormatTestFactory.SpreadsheetF
 	}
 
 
+	@Test
 	public void testCompilerConversion() throws Exception
 	{
 		final File file = new File( DATA_PATH, "Locale_en_US" + getSpreadsheetExtension() );
@@ -166,6 +183,7 @@ public final class EnvironmentConfig extends MultiFormatTestFactory.SpreadsheetF
 		// ---- constantValue
 	}
 
+	@Test
 	public void testRuntimeConversion() throws Exception
 	{
 		final File file = new File( DATA_PATH, "Locale_en_US" + getSpreadsheetExtension() );
@@ -212,6 +230,7 @@ public final class EnvironmentConfig extends MultiFormatTestFactory.SpreadsheetF
 	}
 
 
+	@Test
 	public void testSavingDateConstant() throws Exception
 	{
 		int fourHoursInMS = 4 * 1000 * 60 * 60;
@@ -267,12 +286,6 @@ public final class EnvironmentConfig extends MultiFormatTestFactory.SpreadsheetF
 		finally {
 			TimeZone.setDefault( oldTZ );
 		}
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( EnvironmentConfig.class );
 	}
 
 

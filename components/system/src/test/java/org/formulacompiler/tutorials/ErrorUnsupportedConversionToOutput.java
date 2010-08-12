@@ -28,13 +28,31 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ErrorUnsupportedConversionToOutput extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class ErrorUnsupportedConversionToOutput
 {
+	private final String spreadsheetExtension;
 
+	public ErrorUnsupportedConversionToOutput( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+
+	@Test
 	public void testStringAsInt() throws Exception
 	{
 		// ---- StringAsInt
@@ -69,11 +87,6 @@ public class ErrorUnsupportedConversionToOutput extends MultiFormatTestFactory.S
 	private void bindInputNamed( EngineBuilder _builder, String _cellName ) throws Exception
 	{
 		_builder.getRootBinder().defineInputCell( _builder.getSpreadsheet().getCell( _cellName ), "value" );
-	}
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( ErrorUnsupportedConversionToOutput.class );
 	}
 
 	public static interface MyFactory

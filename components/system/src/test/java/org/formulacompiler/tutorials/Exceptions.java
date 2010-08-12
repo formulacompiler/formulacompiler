@@ -36,18 +36,36 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.*;
+
 
 @SuppressWarnings( "unqualified-field-access" )
-public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+@RunWith( MultiFormat.class )
+public final class Exceptions
 {
+	private final String spreadsheetExtension;
+
+	public Exceptions( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
 
 
 	// ------------------------------------------------ Errors
 
 
+	@Test
 	public void testNUM() throws Throwable
 	{
 		// ---- NUM
@@ -63,6 +81,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 		// ---- NUM
 	}
 
+	@Test
 	public void testNUMFolding() throws Throwable
 	{
 		// ---- NUM_fold
@@ -81,6 +100,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 		// ---- NUM_fold
 	}
 
+	@Test
 	public void testNUMCaching() throws Throwable
 	{
 		// ---- NUM_cached
@@ -101,6 +121,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 		// ---- NUM_cached
 	}
 
+	@Test
 	public void testVALUE() throws Throwable
 	{
 		// ---- VAL
@@ -111,6 +132,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 		// ---- VAL
 	}
 
+	@Test
 	public void testDIV0() throws Throwable
 	{
 		// ---- DIV
@@ -125,6 +147,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 		// ---- DIV
 	}
 
+	@Test
 	public void testErrorPropagation() throws Throwable
 	{
 		// ---- errProp
@@ -137,6 +160,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 		// ---- errProp
 	}
 
+	@Test
 	public void testIsErr() throws Throwable
 	{
 		// ---- isErr
@@ -160,6 +184,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 		assertRunsWithInputReturning( /**/2.0/**/, /**/4712/**/ );
 	}
 
+	@Test
 	public void testThrowError() throws Throwable
 	{
 		// ---- throwErr
@@ -183,6 +208,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 	// ------------------------------------------------ N/A
 
 
+	@Test
 	public void testNA() throws Throwable
 	{
 		// ---- NA
@@ -200,6 +226,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 		// ---- NA
 	}
 
+	@Test
 	public void testThrowNA() throws Throwable
 	{
 		// ---- throwNA
@@ -219,6 +246,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 	// ---- inputNA
 	// DO NOT REFORMAT ABOVE THIS LINE
 
+	@Test
 	public void testIsNA() throws Throwable
 	{
 		// ---- isNA
@@ -235,6 +263,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 	// ------------------------------------------------ Interplay
 
 
+	@Test
 	public void testIsError() throws Throwable
 	{
 		// ---- isError
@@ -247,6 +276,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 		// ---- isError
 	}
 
+	@Test
 	public void testIsXonY() throws Throwable
 	{
 		// ---- isXonY
@@ -260,6 +290,7 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 		// ---- isXonY
 	}
 
+	@Test
 	public void testCount() throws Throwable
 	{
 		// ---- count
@@ -359,12 +390,6 @@ public final class Exceptions extends MultiFormatTestFactory.SpreadsheetFormatTe
 	private double runWith( Inputs _input ) throws Throwable
 	{
 		return newOutputs( _input ).result();
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( Exceptions.class );
 	}
 
 

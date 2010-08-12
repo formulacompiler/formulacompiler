@@ -45,13 +45,31 @@ import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class BonusPerEmployee_LogComputation extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class BonusPerEmployee_LogComputation
 {
 
+	private final String spreadsheetExtension;
+
+	public BonusPerEmployee_LogComputation( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testBonusPerEmployee() throws Exception
 	{
 		// ---- compileEngine
@@ -183,11 +201,6 @@ public class BonusPerEmployee_LogComputation extends MultiFormatTestFactory.Spre
 		if (iterator.hasNext()) fail( "Too many events." );
 	}
 
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( BonusPerEmployee_LogComputation.class );
-	}
 
 	private class TestComputationListener implements CellComputationListener
 	{

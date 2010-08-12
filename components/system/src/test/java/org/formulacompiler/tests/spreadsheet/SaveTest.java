@@ -29,23 +29,27 @@ import org.formulacompiler.spreadsheet.internal.CellWithConstant;
 import org.formulacompiler.spreadsheet.internal.RowImpl;
 import org.formulacompiler.spreadsheet.internal.SheetImpl;
 import org.formulacompiler.spreadsheet.internal.SpreadsheetImpl;
-import org.formulacompiler.tests.utils.AbstractSpreadsheetVerificationTestCase;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
+import org.formulacompiler.tests.utils.SpreadsheetVerificationRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import junit.framework.Test;
 
-
-public class SaveTest extends AbstractSpreadsheetVerificationTestCase
+@RunWith( MultiFormat.class )
+public class SaveTest
 {
 	private static final File TEST_FILES_DIR = new File( "src/test/data/org/formulacompiler/tests/spreadsheet/SaveTest" );
 
-	@Override
-	protected File getDataDirectory()
+	@Rule
+	public final SpreadsheetVerificationRule verifier;
+
+	public SaveTest( final String _spreadsheetExtension, final String _templateExtension )
 	{
-		return TEST_FILES_DIR;
+		this.verifier = new SpreadsheetVerificationRule( _spreadsheetExtension, _templateExtension, TEST_FILES_DIR );
 	}
 
-
+	@Test
 	public void testNullRow() throws Exception
 	{
 		final SpreadsheetImpl s = new SpreadsheetImpl();
@@ -53,9 +57,10 @@ public class SaveTest extends AbstractSpreadsheetVerificationTestCase
 		sheet.getRowList().add( null );
 		final RowImpl row = new RowImpl( sheet );
 		new CellWithConstant( row, 1 );
-		this.spreadsheet = s;
+		this.verifier.setSpreadsheet( s );
 	}
 
+	@Test
 	public void testNullCell() throws Exception
 	{
 		final SpreadsheetImpl s = new SpreadsheetImpl();
@@ -63,9 +68,10 @@ public class SaveTest extends AbstractSpreadsheetVerificationTestCase
 		final RowImpl row = new RowImpl( sheet );
 		row.getCellList().add( null );
 		new CellWithConstant( row, 1 );
-		this.spreadsheet = s;
+		this.verifier.setSpreadsheet( s );
 	}
 
+	@Test
 	public void testEmptyCell() throws Exception
 	{
 		final SpreadsheetImpl s = new SpreadsheetImpl();
@@ -73,12 +79,10 @@ public class SaveTest extends AbstractSpreadsheetVerificationTestCase
 		final RowImpl row = new RowImpl( sheet );
 		new CellWithConstant( row, null );
 		new CellWithConstant( row, 1 );
-		this.spreadsheet = s;
+		this.verifier.setSpreadsheet( s );
 	}
 
-	/**
-	 * TODO xls styles do not work.
-	 */
+	@Test
 	public void testCellStyles() throws Exception
 	{
 		final SpreadsheetImpl s = new SpreadsheetImpl();
@@ -88,11 +92,6 @@ public class SaveTest extends AbstractSpreadsheetVerificationTestCase
 		cell1.setStyleName( "Style1" );
 		final CellInstance cell2 = new CellWithConstant( row, "2" );
 		cell2.setStyleName( "Style2" );
-		this.spreadsheet = s;
-	}
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( SaveTest.class );
+		this.verifier.setSpreadsheet( s );
 	}
 }

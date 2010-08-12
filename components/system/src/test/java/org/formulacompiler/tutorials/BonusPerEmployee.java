@@ -41,33 +41,54 @@ import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class BonusPerEmployee extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class BonusPerEmployee
 {
 
 	private static enum AccessorVersion {
-		ARRAY, LIST, COLLECTION, ITERATOR;
+		ARRAY, LIST, COLLECTION, ITERATOR
 	}
 
 
+	private final String spreadsheetExtension;
+
+	public BonusPerEmployee( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testWithArray() throws Exception
 	{
 		doTest( AccessorVersion.ARRAY );
 	}
 
+	@Test
 	public void testWithList() throws Exception
 	{
 		doTest( AccessorVersion.LIST );
 	}
 
+	@Test
 	public void testWithCollection() throws Exception
 	{
 		doTest( AccessorVersion.COLLECTION );
 	}
 
+	@Test
 	public void testWithIterator() throws Exception
 	{
 		doTest( AccessorVersion.ITERATOR );
@@ -239,12 +260,6 @@ public class BonusPerEmployee extends MultiFormatTestFactory.SpreadsheetFormatTe
 				break;
 		}
 
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( BonusPerEmployee.class );
 	}
 
 

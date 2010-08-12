@@ -27,12 +27,28 @@ import java.io.File;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class BasicUsageDemo extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class BasicUsageDemo
 {
+	private final String spreadsheetExtension;
+
+	public BasicUsageDemo( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
 
 	private double compute() throws Exception
 	{
@@ -86,21 +102,15 @@ public class BasicUsageDemo extends MultiFormatTestFactory.SpreadsheetFormatTest
 		return new File( DATA_PATH, "test" + getSpreadsheetExtension() );
 	}
 
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( BasicUsageDemo.class );
-	}
-
 	public static void main( String[] args ) throws Exception
 	{
-		final BasicUsageDemo demo = new BasicUsageDemo();
-		demo.setSpreadsheetExtension( args.length > 0 ? args[ 0 ] : ".ods" );
+		final BasicUsageDemo demo = new BasicUsageDemo( ".ods" );
 		System.out.printf( "Result is: %f", demo.compute() );
 	}
 
+	@Test
 	public void testComputation() throws Exception
 	{
 		assertEquals( 160.0, compute(), 0.0001 );
 	}
-
 }

@@ -33,13 +33,30 @@ import org.formulacompiler.runtime.EngineLoader;
 import org.formulacompiler.runtime.FormulaRuntime;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import junit.framework.Test;
+import static org.junit.Assert.*;
 
-public class CustomClassLoader extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+
+@RunWith( MultiFormat.class )
+public class CustomClassLoader
 {
 
+	private final String spreadsheetExtension;
+
+	public CustomClassLoader( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testCustomClassLoader() throws Exception
 	{
 		MyClassLoader myClassLoader = new MyClassLoader();
@@ -67,12 +84,6 @@ public class CustomClassLoader extends MultiFormatTestFactory.SpreadsheetFormatT
 		ComputationFactory loadedFactory = loadedEngine.getComputationFactory();
 		assertSame( myClassLoader, loadedFactory.getClass().getClassLoader().getParent() );
 		// ---- load
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( CustomClassLoader.class );
 	}
 
 

@@ -31,14 +31,23 @@ import org.formulacompiler.decompiler.FormulaDecompiler;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
 public class UsingPrecisionBigDecimal extends AbstractUsingBigDecimalTest
 {
+	public UsingPrecisionBigDecimal( final String _spreadsheetExtension )
+	{
+		super( _spreadsheetExtension );
+	}
 
-
+	@Test
 	public void testUsingBigDecimal34() throws Exception
 	{
 		File file = getFile();
@@ -78,6 +87,7 @@ public class UsingPrecisionBigDecimal extends AbstractUsingBigDecimalTest
 	}
 
 
+	@Test
 	public void testUsingBigDecimal4() throws Exception
 	{
 		File file = getFile();
@@ -116,12 +126,4 @@ public class UsingPrecisionBigDecimal extends AbstractUsingBigDecimalTest
 
 		FormulaDecompiler.decompile( engine ).saveTo( new File( "temp/test/decompiled/numeric_type/bigdecimal_prec4" ) );
 	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( UsingPrecisionBigDecimal.class );
-	}
-
-
 }

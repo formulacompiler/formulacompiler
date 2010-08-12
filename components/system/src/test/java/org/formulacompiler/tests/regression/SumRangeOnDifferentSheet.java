@@ -27,14 +27,31 @@ import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import junit.framework.Test;
+import static org.junit.Assert.*;
 
-public class SumRangeOnDifferentSheet extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+
+@RunWith( MultiFormat.class )
+public class SumRangeOnDifferentSheet
 {
 	private static final String DATA_FILE_PATH = "src/test/data/org/formulacompiler/tests/regression/SumRangeOnDifferentSheet";
 
+	private final String spreadsheetExtension;
+
+	public SumRangeOnDifferentSheet( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testSheet1() throws Exception
 	{
 		EngineBuilder b = SpreadsheetCompiler.newEngineBuilder();
@@ -49,6 +66,7 @@ public class SumRangeOnDifferentSheet extends MultiFormatTestFactory.Spreadsheet
 		assertEquals( 6.0, c.result(), 0.0001 );
 	}
 
+	@Test
 	public void testSheet2() throws Exception
 	{
 		EngineBuilder b = SpreadsheetCompiler.newEngineBuilder();
@@ -61,11 +79,6 @@ public class SumRangeOnDifferentSheet extends MultiFormatTestFactory.Spreadsheet
 		ComputationFactory f = e.getComputationFactory();
 		Outputs c = (Outputs) f.newComputation( new Inputs() );
 		assertEquals( 15.0, c.result(), 0.0001 );
-	}
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( SumRangeOnDifferentSheet.class );
 	}
 
 	public static class Inputs

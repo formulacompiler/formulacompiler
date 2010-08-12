@@ -27,24 +27,26 @@ import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.*;
 
 
+@RunWith( MultiFormat.class )
 public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
 {
+	public LineItemPriceUseCaseTest( final String _spreadsheetExtension )
+	{
+		super( _spreadsheetExtension );
+	}
 
-
+	@Test
 	public void testComputeLineItemPrice() throws Exception
 	{
 		runUseCase( "LineItemPrice", new LineItemPriceUseCase(), Inputs.class, Outputs.class );
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( LineItemPriceUseCaseTest.class );
 	}
 
 
@@ -52,18 +54,18 @@ public class LineItemPriceUseCaseTest extends AbstractUseCaseTest
 	{
 		public void defineEngine( EngineBuilder _builder, Spreadsheet _model, Section _root ) throws Exception
 		{
-			defineInput( _builder, _model, _root, "ArticlePrice" );
-			defineInput( _builder, _model, _root, "NumberSold" );
-			defineOutput( _builder, _model, _root, "Total" );
+			defineInput( _model, _root, "ArticlePrice" );
+			defineInput( _model, _root, "NumberSold" );
+			defineOutput( _model, _root, "Total" );
 		}
 
-		private void defineInput( EngineBuilder _builder, Spreadsheet _model, Section _root, final String _cellName )
+		private void defineInput( Spreadsheet _model, Section _root, final String _cellName )
 				throws Exception
 		{
 			_root.defineInputCell( _model.getCell( _cellName ), Inputs.class.getMethod( "get" + _cellName ) );
 		}
 
-		private void defineOutput( EngineBuilder _builder, Spreadsheet _model, Section _root, final String _cellName )
+		private void defineOutput( Spreadsheet _model, Section _root, final String _cellName )
 				throws Exception
 		{
 			_root.defineOutputCell( _model.getCell( _cellName ), Outputs.class.getMethod( "get" + _cellName ) );
