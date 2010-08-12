@@ -28,14 +28,23 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.*;
 
 
+@RunWith( MultiFormat.class )
 public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 {
+	public CategoryTotalsUseCaseTest( final String _spreadsheetExtension )
+	{
+		super( _spreadsheetExtension );
+	}
 
+	@Test
 	public void testCategoryTotals() throws Exception
 	{
 		runUseCase( "CategoryTotals", new UseCase()
@@ -74,12 +83,6 @@ public class CategoryTotalsUseCaseTest extends AbstractUseCaseTest
 			}
 
 		}, Input.class, Output.class );
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( CategoryTotalsUseCaseTest.class );
 	}
 
 

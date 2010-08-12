@@ -39,12 +39,29 @@ import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.FormulaRuntime;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class EngineSerializationDemo extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class EngineSerializationDemo
 {
+	private final String spreadsheetExtension;
+
+	public EngineSerializationDemo( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
 
 	private void compileAndSave() throws Exception
 	{
@@ -95,19 +112,14 @@ public class EngineSerializationDemo extends MultiFormatTestFactory.SpreadsheetF
 		return new File( DATA_PATH, "test" + getSpreadsheetExtension() );
 	}
 
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( EngineSerializationDemo.class );
-	}
-
 	public static void main( String[] args ) throws Exception
 	{
-		EngineSerializationDemo demo = new EngineSerializationDemo();
-		demo.setSpreadsheetExtension( args.length > 0 ? args[ 0 ] : ".ods" );
+		EngineSerializationDemo demo = new EngineSerializationDemo( ".ods" );
 		demo.compileAndSave();
 		System.out.printf( "Result is: %f", demo.loadAndCompute() );
 	}
 
+	@Test
 	public void testComputation() throws Exception
 	{
 		compileAndSave();

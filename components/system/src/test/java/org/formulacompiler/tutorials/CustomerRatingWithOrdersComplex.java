@@ -38,15 +38,32 @@ import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class CustomerRatingWithOrdersComplex extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class CustomerRatingWithOrdersComplex
 {
 	private static final Calendar TODAY = today();
 
-	private static final Calendar today()
+	private final String spreadsheetExtension;
+
+	public CustomerRatingWithOrdersComplex( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	private static Calendar today()
 	{
 		Calendar now = Calendar.getInstance();
 		now.set( Calendar.HOUR_OF_DAY, 0 );
@@ -56,7 +73,7 @@ public class CustomerRatingWithOrdersComplex extends MultiFormatTestFactory.Spre
 		return now;
 	}
 
-	private static final Date beforeToday( int _daysBack )
+	private static Date beforeToday( int _daysBack )
 	{
 		Calendar back = (Calendar) TODAY.clone();
 		back.add( Calendar.DAY_OF_MONTH, -_daysBack );
@@ -64,6 +81,7 @@ public class CustomerRatingWithOrdersComplex extends MultiFormatTestFactory.Spre
 	}
 
 
+	@Test
 	public void testCustomerRating() throws Exception
 	{
 		File file = new File( "src/test/data/org/formulacompiler/tutorials/CustomerRatingComplex" + getSpreadsheetExtension() );
@@ -117,12 +135,6 @@ public class CustomerRatingWithOrdersComplex extends MultiFormatTestFactory.Spre
 		CustomerRating ratingStrategy = _factory.newRating( customer );
 		int rating = ratingStrategy.rating();
 		assertEquals( _expected, rating );
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( CustomerRatingWithOrdersComplex.class );
 	}
 
 

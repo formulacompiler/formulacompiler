@@ -34,31 +34,50 @@ import org.formulacompiler.spreadsheet.SpreadsheetLoader;
 import org.formulacompiler.spreadsheet.SpreadsheetNameCreator;
 import org.formulacompiler.spreadsheet.internal.BaseRow;
 import org.formulacompiler.spreadsheet.internal.CellInstance;
-import org.formulacompiler.tests.utils.AbstractSpreadsheetVerificationTestCase;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
+import org.formulacompiler.tests.utils.SpreadsheetVerificationRule;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import junit.framework.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 
-public class LoadSaveTest extends AbstractSpreadsheetVerificationTestCase
+@RunWith( MultiFormat.class )
+public class LoadSaveTest
 {
 	private static final File TEST_FILES_DIR = new File( "src/test/data/org/formulacompiler/tests/spreadsheet/LoadSaveTest" );
 
-	@Override
-	protected void setUp() throws Exception
+	@Rule
+	public final SpreadsheetVerificationRule verifier;
+	private final String spreadsheetExtension;
+	private Spreadsheet spreadsheet;
+
+	public LoadSaveTest( final String _spreadsheetExtension, final String _templateExtension )
 	{
-		final File dataFile = new File( TEST_FILES_DIR, this.getName() + getSpreadsheetExtension() );
+		this.spreadsheetExtension = _spreadsheetExtension;
+		this.verifier = new SpreadsheetVerificationRule( _spreadsheetExtension, _templateExtension, TEST_FILES_DIR );
+	}
+
+	public String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Before
+	public void setUp() throws Exception
+	{
+		final File dataFile = new File( TEST_FILES_DIR, verifier.getFileName() + getSpreadsheetExtension() );
 		final SpreadsheetLoader.Config config = new SpreadsheetLoader.Config();
 		config.loadAllCellValues = true;
 		this.spreadsheet = SpreadsheetCompiler.loadSpreadsheet( dataFile, config );
+		this.verifier.setSpreadsheet( this.spreadsheet );
 	}
 
-	@Override
-	protected File getDataDirectory()
-	{
-		return TEST_FILES_DIR;
-	}
-
+	@Test
 	public void testEmptySheet()
 	{
 		final Spreadsheet.Sheet[] sheets = this.spreadsheet.getSheets();
@@ -71,6 +90,7 @@ public class LoadSaveTest extends AbstractSpreadsheetVerificationTestCase
 		assertEquals( 1, sheet2.getRows().length );
 	}
 
+	@Test
 	public void testEmptyRows()
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
@@ -83,6 +103,7 @@ public class LoadSaveTest extends AbstractSpreadsheetVerificationTestCase
 		assertEquals( 1, rows[ 4 ].getCells().length );
 	}
 
+	@Test
 	public void testEmptyCells()
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
@@ -96,6 +117,7 @@ public class LoadSaveTest extends AbstractSpreadsheetVerificationTestCase
 		assertNotNull( cells.get( 4 ) );
 	}
 
+	@Test
 	public void testDataTypes()
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
@@ -112,6 +134,7 @@ public class LoadSaveTest extends AbstractSpreadsheetVerificationTestCase
 		assertEquals( new Duration( (23.0 + (12.0 + 23.442 / 60.0) / 60.0) / 24.0 ), rows[ 6 ].getCells()[ 1 ].getConstantValue() );
 	}
 
+	@Test
 	public void testDataTypesInFormulas()
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
@@ -127,6 +150,7 @@ public class LoadSaveTest extends AbstractSpreadsheetVerificationTestCase
 		assertEquals( new Duration( (23.0 + (12.0 + 23.0 / 60.0) / 60.0) / 24.0 ), rows[ 6 ].getCells()[ 1 ].getValue() );
 	}
 
+	@Test
 	public void testExpressions() throws Exception
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
@@ -140,6 +164,7 @@ public class LoadSaveTest extends AbstractSpreadsheetVerificationTestCase
 		assertEquals( "PRODUCT( $B$1, C1 )", rows[ 3 ].getCells()[ 1 ].getExpressionText() );
 	}
 
+	@Test
 	public void testOperators() throws Exception
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
@@ -165,6 +190,7 @@ public class LoadSaveTest extends AbstractSpreadsheetVerificationTestCase
 		assertEquals( "((B1 + (10.0 * C1)) / (B1 - (C1%)))", rows[ 16 ].getCells()[ 1 ].getExpressionText() );
 	}
 
+	@Test
 	public void testRangeNames()
 	{
 		final Map<String, Spreadsheet.Range> definedNames = this.spreadsheet.getRangeNames();
@@ -189,6 +215,7 @@ public class LoadSaveTest extends AbstractSpreadsheetVerificationTestCase
 		assertEquals( "Sheet3!$C$4", range_S1_B_2_S3_C_4.getBottomRight().toString() );
 	}
 
+	@Test
 	public void testRangeNamesUsage() throws Exception
 	{
 		final Map<String, Spreadsheet.Range> definedNames = this.spreadsheet.getRangeNames();
@@ -209,6 +236,7 @@ public class LoadSaveTest extends AbstractSpreadsheetVerificationTestCase
 		assertEquals( "((SUM( Cell ) + SUM( Range2D )) + SUM( Range3D ))", sheet.getRows()[ 2 ].getCells()[ 0 ].getExpressionText() );
 	}
 
+	@Test
 	public void testTextConstants() throws Exception
 	{
 		final SpreadsheetNameCreator creator = SpreadsheetCompiler.newSpreadsheetCellNameCreator( this.spreadsheet.getSheets()[ 0 ] );
@@ -257,16 +285,12 @@ public class LoadSaveTest extends AbstractSpreadsheetVerificationTestCase
 		}
 	}
 
+	@Test
 	public void testIntersections() throws Exception
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
 		final Spreadsheet.Row[] rows = sheet.getRows();
 		assertEquals( "SUM( C1:E4 D2:F8 )", rows[ 0 ].getCells()[ 1 ].getExpressionText() );
 		assertEquals( "SUM( C1:E8 D2:G8 D4:E12 E5:H10 )", rows[ 1 ].getCells()[ 1 ].getExpressionText() );
-	}
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( LoadSaveTest.class );
 	}
 }

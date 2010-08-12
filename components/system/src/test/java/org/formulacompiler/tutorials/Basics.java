@@ -43,19 +43,33 @@ import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 import org.formulacompiler.tests.utils.SpreadsheetAssert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import junit.framework.Test;
+import static org.junit.Assert.assertEquals;
 
 
-public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+@RunWith( MultiFormat.class)
+public class Basics
 {
+	private final String spreadsheetExtension;
 
+	public Basics( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
 
 	// ------------------------------------------------ Static computation
 
 
+	@Test
 	public void testStatic() throws Exception
 	{
 		LineItem item = new StaticLineItem();
@@ -82,6 +96,7 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	// ------------------------------------------------ Computation is a strategy
 
 
+	@Test
 	public void testStrategy() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
@@ -221,6 +236,7 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	// ------------------------------------------------ Alternative strategy
 
 
+	@Test
 	public void testAlternativeStrategy() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
@@ -268,6 +284,7 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	}
 
 
+	@Test
 	public void testAFCStd() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
@@ -278,6 +295,7 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 
 
 	// ---- UseCompiledFactory
+	@Test
 	public void testAFC() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
@@ -311,6 +329,7 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 
 
 	// ---- UseOwnUIFactory
+	@Test
 	public void testOwnUI() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
@@ -393,6 +412,7 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	}
 
 
+	@Test
 	public void testGenerateFile() throws Exception
 	{
 		// ---- GenerateFile
@@ -403,6 +423,7 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	}
 
 
+	@Test
 	public void testGenerateStream() throws Exception
 	{
 		// ---- GenerateStream
@@ -419,6 +440,7 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	}
 
 
+	@Test
 	public void testGenerateTemplatedFile() throws Exception
 	{
 		// ---- GenerateTemplatedFile
@@ -429,6 +451,7 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	}
 
 
+	@Test
 	public void testGenerateTemplatedStream() throws Exception
 	{
 		// ---- GenerateTemplatedStream
@@ -522,11 +545,6 @@ public class Basics extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		return b.getSpreadsheet();
 		// ---- BuildTemplatedSheet
 		// DO NOT REFORMAT ABOVE THIS LINE
-	}
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( Basics.class );
 	}
 
 	static abstract class LineItem

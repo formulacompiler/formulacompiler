@@ -35,12 +35,30 @@ import org.formulacompiler.runtime.spreadsheet.SpreadsheetCellComputationEvent;
 import org.formulacompiler.spreadsheet.ConstantExpressionOptimizationListener;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class CubeVolume extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class CubeVolume
 {
+	private final String spreadsheetExtension;
+
+	public CubeVolume( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testComputationListener() throws Exception
 	{
 		// ---- compileEngine
@@ -76,6 +94,7 @@ public class CubeVolume extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		// ---- checkComputationEvents
 	}
 
+	@Test
 	public void testCompilationListener() throws Exception
 	{
 		// ---- createBuilder
@@ -122,12 +141,6 @@ public class CubeVolume extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		if (_actual.isOutput()) sb.append( "<- " );
 		sb.append( _actual.getValue() ).append( " in " ).append( _actual.getCellInfo() );
 		assertEquals( _expected, sb.toString() );
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( CubeVolume.class );
 	}
 
 

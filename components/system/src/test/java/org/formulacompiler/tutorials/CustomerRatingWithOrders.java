@@ -40,28 +40,48 @@ import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class CustomerRatingWithOrders extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class CustomerRatingWithOrders
 {
+	private final String spreadsheetExtension;
 
-	private static enum AccessorVersion {
-		ARRAY, ITERABLE, ITERATOR;
+	public CustomerRatingWithOrders( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
 	}
 
 
+	private static enum AccessorVersion {
+		ARRAY, ITERABLE, ITERATOR
+	}
+
+
+	@Test
 	public void testCustomerRatingWithArray() throws Exception
 	{
 		doTestCustomerRating( AccessorVersion.ARRAY );
 	}
 
+	@Test
 	public void testCustomerRatingWithIterable() throws Exception
 	{
 		doTestCustomerRating( AccessorVersion.ITERABLE );
 	}
 
+	@Test
 	public void testCustomerRatingWithIterator() throws Exception
 	{
 		doTestCustomerRating( AccessorVersion.ITERATOR );
@@ -149,12 +169,6 @@ public class CustomerRatingWithOrders extends MultiFormatTestFactory.Spreadsheet
 		CustomerRating ratingStrategy = _factory.newRating( customer );
 		String rating = ratingStrategy.rating();
 		assertEquals( _expected, rating );
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( CustomerRatingWithOrders.class );
 	}
 
 

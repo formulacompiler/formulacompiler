@@ -33,14 +33,30 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.*;
 
 
-public class BindingCells extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+@RunWith( MultiFormat.class )
+public class BindingCells
 {
+	private final String spreadsheetExtension;
 
+	public BindingCells( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testBindingCells() throws Exception
 	{
 		final String path = getPath();
@@ -170,6 +186,7 @@ public class BindingCells extends MultiFormatTestFactory.SpreadsheetFormatTestCa
 	}
 	// ---- Factory
 
+	@Test
 	public void testDefaults() throws Exception
 	{
 		final String path = getPath();
@@ -202,12 +219,6 @@ public class BindingCells extends MultiFormatTestFactory.SpreadsheetFormatTestCa
 	private String getPath()
 	{
 		return "src/test/data/org/formulacompiler/tutorials/BindingCells" + getSpreadsheetExtension();
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( BindingCells.class );
 	}
 
 

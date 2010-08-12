@@ -30,24 +30,33 @@ import org.formulacompiler.runtime.ComputationFactory;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 
-public abstract class AbstractTimeTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+public abstract class AbstractTimeTest
 {
 	private ComputationFactory computationFactory;
+	private final String spreadsheetExtension;
 	private final NumericType numericType;
 	private final Class outputClass;
 
-	public AbstractTimeTest( String _name, NumericType _numericType, Class _outputClass )
+	public AbstractTimeTest( String _spreadsheetExtension, NumericType _numericType, Class _outputClass )
 	{
-		super( _name );
+		this.spreadsheetExtension = _spreadsheetExtension;
 		this.numericType = _numericType;
 		this.outputClass = _outputClass;
 	}
 
-	@Override
-	protected void setUp() throws Exception
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Before
+	public void setUp() throws Exception
 	{
 		final EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( new File( "src/test/data/org/formulacompiler/tests/time/TimeTest"
@@ -60,6 +69,7 @@ public abstract class AbstractTimeTest extends MultiFormatTestFactory.Spreadshee
 		this.computationFactory = engine.getComputationFactory();
 	}
 
+	@Test
 	public void testSameTimeInSameCell() throws Exception
 	{
 		final Outputs output = getOutputs();
@@ -69,6 +79,7 @@ public abstract class AbstractTimeTest extends MultiFormatTestFactory.Spreadshee
 		assertEquals( date1, date2 );
 	}
 
+	@Test
 	public void testSameTimeInDifferentCells() throws Exception
 	{
 		final Outputs output = getOutputs();

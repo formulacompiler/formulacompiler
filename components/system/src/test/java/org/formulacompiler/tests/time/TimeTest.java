@@ -22,97 +22,57 @@
 
 package org.formulacompiler.tests.time;
 
-import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import java.util.Date;
 
-import junit.extensions.ActiveTestSuite;
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.formulacompiler.compiler.NumericType;
+import org.formulacompiler.tests.utils.MultiFormatAndNumericType;
+import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
 
+import static org.junit.Assert.assertFalse;
 
+@RunWith( Enclosed.class )
 public class TimeTest
 {
-	public static Test suite()
+	@RunWith( MultiFormatAndNumericType.class )
+	public static class NonCachedTimeTest extends AbstractTimeTest
 	{
-		final TestSuite testSuite = new ActiveTestSuite( TimeTest.class.getName() );
-		addTestClass( testSuite, DoubleCachedTimeTest.class );
-		addTestClass( testSuite, DoubleNonCachedTimeTest.class );
-		addTestClass( testSuite, ScaledBigDecimalCachedTimeTest.class );
-		addTestClass( testSuite, ScaledBigDecimalNonCachedTimeTest.class );
-		addTestClass( testSuite, ScaledLongCachedTimeTest.class );
-		addTestClass( testSuite, ScaledLongNonCachedTimeTest.class );
-		return testSuite;
-	}
-
-	private static void addTestClass( final TestSuite _testSuite,
-			final Class<? extends MultiFormatTestFactory.SpreadsheetFormatTest> _testClass )
-	{
-		final ActiveTestSuite activeTestSuite = new ActiveTestSuite( _testClass.getName() );
-		activeTestSuite.addTest( MultiFormatTestFactory.testSuite( _testClass ) );
-		_testSuite.addTest( activeTestSuite );
-	}
-
-	public static class DoubleNonCachedTimeTest extends AbstractNonCachedTimeTest
-	{
-		public DoubleNonCachedTimeTest( String _name )
+		public NonCachedTimeTest( String _spreadsheetExtension, NumericType _numericType )
 		{
-			super( _name, SpreadsheetCompiler.DOUBLE );
+			super( _spreadsheetExtension, _numericType, Outputs.class );
 		}
 	}
 
-	public static class PrecisionBigDecimalNonCachedTimeTest extends AbstractNonCachedTimeTest
-	{
-		public PrecisionBigDecimalNonCachedTimeTest( String _name )
-		{
-			super( _name, SpreadsheetCompiler.BIGDECIMAL64 );
-		}
-	}
 
-	public static class ScaledBigDecimalNonCachedTimeTest extends AbstractNonCachedTimeTest
+	@RunWith( MultiFormatAndNumericType.class )
+	public static class CachedTimeTest extends AbstractTimeTest
 	{
-		public ScaledBigDecimalNonCachedTimeTest( String _name )
+		public CachedTimeTest( String _spreadsheetExtension, NumericType _numericType )
 		{
-			super( _name, SpreadsheetCompiler.BIGDECIMAL_SCALE8 );
+			super( _spreadsheetExtension, _numericType, ResettableOutputs.class );
 		}
-	}
 
-	public static class ScaledLongNonCachedTimeTest extends AbstractNonCachedTimeTest
-	{
-		public ScaledLongNonCachedTimeTest( String _name )
+		@Test
+		public void testResetSameCell() throws Exception
 		{
-			super( _name, SpreadsheetCompiler.LONG_SCALE6 );
+			final ResettableOutputs output = (ResettableOutputs) getOutputs();
+			final Date date1 = output.now1();
+			Thread.sleep( 1000 );
+			output.reset();
+			final Date date2 = output.now1();
+			assertFalse( "Times must be different", date1.equals( date2 ) );
 		}
-	}
 
-	public static class DoubleCachedTimeTest extends AbstractCachedTimeTest
-	{
-		public DoubleCachedTimeTest( String _name )
+		@Test
+		public void testResetDifferentCells() throws Exception
 		{
-			super( _name, SpreadsheetCompiler.DOUBLE );
-		}
-	}
-
-	public static class PrecisionBigDecimalCachedTimeTest extends AbstractCachedTimeTest
-	{
-		public PrecisionBigDecimalCachedTimeTest( String _name )
-		{
-			super( _name, SpreadsheetCompiler.BIGDECIMAL64 );
-		}
-	}
-
-	public static class ScaledBigDecimalCachedTimeTest extends AbstractCachedTimeTest
-	{
-		public ScaledBigDecimalCachedTimeTest( String _name )
-		{
-			super( _name, SpreadsheetCompiler.BIGDECIMAL_SCALE8 );
-		}
-	}
-
-	public static class ScaledLongCachedTimeTest extends AbstractCachedTimeTest
-	{
-		public ScaledLongCachedTimeTest( String _name )
-		{
-			super( _name, SpreadsheetCompiler.LONG_SCALE6 );
+			final ResettableOutputs output = (ResettableOutputs) getOutputs();
+			final Date date1 = output.now1();
+			Thread.sleep( 1000 );
+			output.reset();
+			final Date date2 = output.now2();
+			assertFalse( "Times must be different", date1.equals( date2 ) );
 		}
 	}
 }

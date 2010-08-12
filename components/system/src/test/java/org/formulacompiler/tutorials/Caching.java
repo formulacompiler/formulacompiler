@@ -35,13 +35,31 @@ import org.formulacompiler.runtime.FormulaCompilerException;
 import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class Caching extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class Caching
 {
 
+	private final String spreadsheetExtension;
+
+	public Caching( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testNoCaching() throws Exception
 	{
 		ComputationFactory factory = compile( false, "plain" );
@@ -57,6 +75,7 @@ public class Caching extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		// ---- noCacheAccesses
 	}
 
+	@Test
 	public void testCaching() throws Exception
 	{
 		ComputationFactory factory = compile( true, "caching" );
@@ -73,6 +92,7 @@ public class Caching extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	}
 
 
+	@Test
 	public void testNoCachingWithModifiedInputs() throws Exception
 	{
 		ComputationFactory factory = compile( false, null );
@@ -92,6 +112,7 @@ public class Caching extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	}
 
 
+	@Test
 	public void testCachingWithModifiedInputs() throws Exception
 	{
 		ComputationFactory factory = compile( true, null );
@@ -123,6 +144,7 @@ public class Caching extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	}
 
 
+	@Test
 	public void testSpeed() throws Exception
 	{
 		if (Boolean.getBoolean( "org.formulacompiler.tutorials.Caching.testSpeed.disabled" )) return;
@@ -190,7 +212,7 @@ public class Caching extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	// ---- Output
 
 
-	private ComputationFactory compile( boolean _caching, String _path ) throws FileNotFoundException, IOException,
+	private ComputationFactory compile( boolean _caching, String _path ) throws IOException,
 			FormulaCompilerException
 	{
 		final NumericType unboundedBigDecimal = SpreadsheetCompiler.getNumericType( BigDecimal.class, 0,
@@ -221,12 +243,4 @@ public class Caching extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	{
 		return new File( "src/test/data/org/formulacompiler/tutorials/Caching" + getSpreadsheetExtension() );
 	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( Caching.class );
-	}
-
-
 }

@@ -38,11 +38,16 @@ import org.formulacompiler.runtime.Resettable;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class LookupTest
 {
 	private static final File DECOMP_PATH = new File( "temp/test/decompiled/impl/lookup" );
 
@@ -50,7 +55,19 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		DECOMP_PATH.mkdirs();
 	}
 
+	private final String spreadsheetExtension;
 
+	public LookupTest( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testMatchConsts() throws Exception
 	{
 		final String test = "MatchConsts";
@@ -59,6 +76,7 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		markInDecompiledSource( test, "    ", "final double[] $constarr$0() {", "}" );
 	}
 
+	@Test
 	public void testMatchInputs() throws Exception
 	{
 		final String test = "MatchInputs";
@@ -70,6 +88,7 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	}
 
 
+	@Test
 	public void testIndexConsts() throws Exception
 	{
 		final String test = "IndexConsts";
@@ -78,6 +97,7 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		markInDecompiledSource( test, "    ", "final double $idx$0(int i) {", "}" );
 	}
 
+	@Test
 	public void testIndexInputs() throws Exception
 	{
 		final String test = "IndexInputs";
@@ -87,6 +107,7 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 	}
 
 
+	@Test
 	public void testLookupConsts() throws Exception
 	{
 		final String test = "LookupConsts";
@@ -94,6 +115,7 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		markInDecompiledSource( test, "    ", "final double get$0() {", "}" );
 	}
 
+	@Test
 	public void testLookupInputs() throws Exception
 	{
 		final String test = "LookupInputs";
@@ -101,6 +123,7 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		markInDecompiledSource( test, "    ", "final double get$0() {", "}" );
 	}
 
+	@Test
 	public void testIndexMatchConsts() throws Exception
 	{
 		final String test = "IndexMatchConsts";
@@ -108,6 +131,7 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		markInDecompiledSource( test, "    ", "final double get$0() {", "}" );
 	}
 
+	@Test
 	public void testMultiMatchConsts() throws Exception
 	{
 		final String test = "MultiMatchConsts";
@@ -116,6 +140,7 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		markInDecompiledSource( test, "    ", "final double get$2() {", "}" );
 	}
 
+	@Test
 	public void testMultiIndexConsts() throws Exception
 	{
 		final String test = "MultiIndexConsts";
@@ -124,6 +149,7 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		markInDecompiledSource( test, "    ", "final double get$2() {", "}" );
 	}
 
+	@Test
 	public void testMultiLookupConsts() throws Exception
 	{
 		final String test = "MultiLookupConsts";
@@ -132,6 +158,7 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		markInDecompiledSource( test, "    ", "final double get$2() {", "}" );
 	}
 
+	@Test
 	public void testSubArrayConsts() throws Exception
 	{
 		final String test = "SubArrayConsts";
@@ -141,6 +168,7 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 		markInDecompiledSource( test, "    ", "final double get$3() {", "}" );
 	}
 
+	@Test
 	public void testHLookupInputs() throws Exception
 	{
 		final String test = "HLookupInputs";
@@ -205,12 +233,6 @@ public class LookupTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
 				}
 			}
 		}
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( LookupTest.class );
 	}
 
 

@@ -33,13 +33,30 @@ import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder.Section;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class ErrorImproperInnerSectionReference
 {
+	private final String spreadsheetExtension;
 
+	public ErrorImproperInnerSectionReference( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+	@Test
 	public void testGoodRef() throws Exception
 	{
 		// ---- goodRef
@@ -51,6 +68,7 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 		// ---- goodRef
 	}
 
+	@Test
 	public void testBadRef() throws Exception
 	{
 		// ---- badRef
@@ -67,6 +85,7 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 		// ---- badRef
 	}
 
+	@Test
 	public void testBadRange1() throws Exception
 	{
 		// ---- badRange1
@@ -83,6 +102,7 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 		// ---- badRange1
 	}
 
+	@Test
 	public void testBadRange2() throws Exception
 	{
 		// ---- badRange2
@@ -99,6 +119,7 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 		// ---- badRange2
 	}
 
+	@Test
 	public void testBadRange3() throws Exception
 	{
 		// ---- badRange3
@@ -115,6 +136,7 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 		// ---- badRange3
 	}
 
+	@Test
 	public void testBadRange4() throws Exception
 	{
 		// ---- badRange4
@@ -152,11 +174,6 @@ public class ErrorImproperInnerSectionReference extends MultiFormatTestFactory.S
 		// ---- bindSection
 
 		return builder;
-	}
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( ErrorImproperInnerSectionReference.class );
 	}
 
 	public static interface MyFactory

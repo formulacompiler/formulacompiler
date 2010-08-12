@@ -34,23 +34,26 @@ import org.formulacompiler.runtime.New;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetBinder;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.*;
 
 
+@RunWith( MultiFormat.class )
 public class LotsOfPossibleInputsUseCaseTest extends AbstractUseCaseTest
 {
+	public LotsOfPossibleInputsUseCaseTest( final String _spreadsheetExtension )
+	{
+		super( _spreadsheetExtension );
+	}
 
+	@Test
 	public void testLotsOfPossibleInputs() throws Exception
 	{
 		runUseCase( "LotsOfPossibleInputs1", new LotsOfPossibleInputsUseCase(), Inputs.class, Outputs.class );
-	}
-
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( LotsOfPossibleInputsUseCaseTest.class );
 	}
 
 

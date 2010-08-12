@@ -25,14 +25,18 @@ package org.formulacompiler.tutorials;
 import java.io.File;
 import java.math.BigDecimal;
 
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
-
-public abstract class AbstractUsingBigDecimalTest extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+public abstract class AbstractUsingBigDecimalTest
 {
+	private final String spreadsheetExtension;
+
+	public AbstractUsingBigDecimalTest( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
 
 	protected File getFile()
 	{
-		return new File( "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes" + getSpreadsheetExtension() );
+		return new File( "src/test/data/org/formulacompiler/tutorials/UsingNumericTypes" + this.spreadsheetExtension );
 	}
 
 

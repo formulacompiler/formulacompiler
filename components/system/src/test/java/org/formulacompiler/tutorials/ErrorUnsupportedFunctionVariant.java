@@ -29,13 +29,31 @@ import org.formulacompiler.compiler.SaveableEngine;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ErrorUnsupportedFunctionVariant extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+import static org.junit.Assert.*;
+
+
+@RunWith( MultiFormat.class )
+public class ErrorUnsupportedFunctionVariant
 {
+	private final String spreadsheetExtension;
 
+	public ErrorUnsupportedFunctionVariant( final String _spreadsheetExtension )
+	{
+		this.spreadsheetExtension = _spreadsheetExtension;
+	}
+
+	private String getSpreadsheetExtension()
+	{
+		return this.spreadsheetExtension;
+	}
+
+
+	@Test
 	public void testBindBad() throws Exception
 	{
 		// ---- BindBad
@@ -54,6 +72,7 @@ public class ErrorUnsupportedFunctionVariant extends MultiFormatTestFactory.Spre
 		// ---- BindBad
 	}
 
+	@Test
 	public void testBindReferencesBad() throws Exception
 	{
 		// ---- BindReferencesBad
@@ -72,6 +91,7 @@ public class ErrorUnsupportedFunctionVariant extends MultiFormatTestFactory.Spre
 		// ---- BindReferencesBad
 	}
 
+	@Test
 	public void testBindOK() throws Exception
 	{
 		EngineBuilder builder = builderForComputationOfCellNamed( "Bad" );
@@ -81,6 +101,7 @@ public class ErrorUnsupportedFunctionVariant extends MultiFormatTestFactory.Spre
 		assertEquals( 3, computation.result() );
 	}
 
+	@Test
 	public void testBindOKWithInput() throws Exception
 	{
 		EngineBuilder builder = builderForComputationOfCellNamed( "Bad" );
@@ -106,11 +127,6 @@ public class ErrorUnsupportedFunctionVariant extends MultiFormatTestFactory.Spre
 	private void bindInputNamed( EngineBuilder _builder, String _cellName ) throws Exception
 	{
 		_builder.getRootBinder().defineInputCell( _builder.getSpreadsheet().getCell( _cellName ), "value" );
-	}
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( ErrorUnsupportedFunctionVariant.class );
 	}
 
 	public static interface MyFactory

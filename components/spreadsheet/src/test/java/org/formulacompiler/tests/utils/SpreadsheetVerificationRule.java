@@ -33,42 +33,60 @@ import java.io.OutputStream;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
+import org.junit.rules.MethodRule;
+import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.Statement;
 
 import junit.framework.AssertionFailedError;
 
-public abstract class AbstractSpreadsheetVerificationTestCase extends MultiFormatTestFactory.SpreadsheetFormatTestCase
+public class SpreadsheetVerificationRule implements MethodRule
 {
-	protected Spreadsheet spreadsheet;
+	private Spreadsheet spreadsheet;
+	private String fileName;
+	private final String spreadsheetExtension;
+	private final String templateExtension;
+	private final File dataDirectory;
 
-	@Override
-	protected void tearDown() throws Exception
+	public SpreadsheetVerificationRule( String _spreadsheetExtension, String _templateExtension, File _dataDirectory )
 	{
-		saveAndVerify( this.spreadsheet );
+		this.spreadsheetExtension = _spreadsheetExtension;
+		this.templateExtension = _templateExtension;
+		this.dataDirectory = _dataDirectory;
 	}
 
-	private void saveAndVerify( final Spreadsheet _s ) throws Exception
+	public String getFileName()
+	{
+		return this.fileName;
+	}
+
+	public void setSpreadsheet( final Spreadsheet _spreadsheet )
+	{
+		this.spreadsheet = _spreadsheet;
+	}
+
+	private void verify() throws Exception
 	{
 		InputStream templateInputStream = null;
 
 		{
-			final File templateFile = new File( getDataDirectory(), this.getName() + getSpreadsheetTemplateExtension() );
+			final File templateFile = new File( this.dataDirectory, this.fileName + this.templateExtension );
 			if (templateFile.exists()) {
 				templateInputStream = new FileInputStream( templateFile );
 			}
 		}
 
 		{
-			final File templateFile = new File( getDataDirectory(), this.getName() + "_template" + getSpreadsheetExtension() );
+			final File templateFile = new File( this.dataDirectory, this.fileName + "_template" + this.spreadsheetExtension );
 			if (templateFile.exists()) {
 				templateInputStream = new FileInputStream( templateFile );
 			}
 		}
 
 		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		saveTo( _s, byteArrayOutputStream, templateInputStream );
+		saveTo( this.spreadsheet, byteArrayOutputStream, templateInputStream );
 		byte[] generatedDocument = byteArrayOutputStream.toByteArray();
 
-		final File savedFile = new File( getDataDirectory(), this.getName() + "_saved" + getSpreadsheetExtension() );
+		final File savedFile = new File( this.dataDirectory, this.fileName + "_saved" + this.spreadsheetExtension );
 		if (!savedFile.exists()) {
 			final OutputStream outputStream = new FileOutputStream( savedFile );
 			outputStream.write( generatedDocument );
@@ -77,9 +95,9 @@ public abstract class AbstractSpreadsheetVerificationTestCase extends MultiForma
 			final InputStream expectedInputStream = new FileInputStream( savedFile );
 			final InputStream actualInputStream = new ByteArrayInputStream( generatedDocument );
 			try {
-				SpreadsheetAssert.assertEqualSpreadsheets( expectedInputStream, actualInputStream, getSpreadsheetExtension() );
+				SpreadsheetAssert.assertEqualSpreadsheets( expectedInputStream, actualInputStream, this.spreadsheetExtension );
 			} catch (AssertionFailedError e) {
-				final File actualFile = new File( getDataDirectory(), this.getName() + "_saved-actual" + getSpreadsheetExtension() );
+				final File actualFile = new File( this.dataDirectory, this.fileName + "_saved-actual" + this.spreadsheetExtension );
 				final OutputStream outputStream = new FileOutputStream( actualFile );
 				outputStream.write( generatedDocument );
 				throw e;
@@ -87,20 +105,31 @@ public abstract class AbstractSpreadsheetVerificationTestCase extends MultiForma
 		}
 
 		final InputStream inputStream = new ByteArrayInputStream( generatedDocument );
-		SpreadsheetAssert.verify( inputStream, getSpreadsheetExtension() );
+		SpreadsheetAssert.verify( inputStream, this.spreadsheetExtension );
 	}
-
-	protected abstract File getDataDirectory();
 
 	private void saveTo( Spreadsheet _s, OutputStream _os, InputStream _template ) throws Exception
 	{
 		SpreadsheetSaver.Config cfg = new SpreadsheetSaver.Config();
 		cfg.spreadsheet = _s;
-		cfg.typeExtension = getSpreadsheetExtension();
+		cfg.typeExtension = this.spreadsheetExtension;
 		cfg.outputStream = _os;
 		cfg.templateInputStream = _template;
 		SpreadsheetCompiler.newSpreadsheetSaver( cfg ).save();
 		_os.close();
 	}
 
+	public Statement apply( final Statement base, final FrameworkMethod method, final Object target )
+	{
+		this.fileName = method.getName();
+		return new Statement()
+		{
+			@Override
+			public void evaluate() throws Throwable
+			{
+				base.evaluate();
+				verify();
+			}
+		};
+	}
 }

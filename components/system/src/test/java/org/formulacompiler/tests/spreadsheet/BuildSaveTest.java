@@ -27,22 +27,27 @@ import java.io.File;
 import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.utils.AbstractSpreadsheetVerificationTestCase;
-import org.formulacompiler.tests.utils.MultiFormatTestFactory;
+import org.formulacompiler.tests.utils.MultiFormat;
+import org.formulacompiler.tests.utils.SpreadsheetVerificationRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import junit.framework.Test;
 
-
-public class BuildSaveTest extends AbstractSpreadsheetVerificationTestCase
+@RunWith( MultiFormat.class )
+public class BuildSaveTest
 {
 	private static final File TEST_FILES_DIR = new File( "src/test/data/org/formulacompiler/tests/spreadsheet/BuildSaveTest" );
 
-	@Override
-	protected File getDataDirectory()
+	@Rule
+	public final SpreadsheetVerificationRule verifier;
+
+	public BuildSaveTest( final String _spreadsheetExtension, final String _templateExtension )
 	{
-		return TEST_FILES_DIR;
+		this.verifier = new SpreadsheetVerificationRule( _spreadsheetExtension, _templateExtension, TEST_FILES_DIR );
 	}
 
+	@Test
 	public void testStylesWithTemplate() throws Exception
 	{
 		SpreadsheetBuilder b = SpreadsheetCompiler.newSpreadsheetBuilder();
@@ -59,9 +64,10 @@ public class BuildSaveTest extends AbstractSpreadsheetVerificationTestCase
 		b.newCell( b.op( Operator.PLUS, b.ref( a1 ), b.ref( b1 ) ) );
 		b.styleCell( "Output" );
 
-		this.spreadsheet = b.getSpreadsheet();
+		this.verifier.setSpreadsheet( b.getSpreadsheet() );
 	}
 
+	@Test
 	public void testStylesWithoutTemplate() throws Exception
 	{
 		SpreadsheetBuilder b = SpreadsheetCompiler.newSpreadsheetBuilder();
@@ -78,11 +84,6 @@ public class BuildSaveTest extends AbstractSpreadsheetVerificationTestCase
 		b.newCell( b.op( Operator.PLUS, b.ref( a1 ), b.ref( b1 ) ) );
 		b.styleCell( "Output" );
 
-		this.spreadsheet = b.getSpreadsheet();
-	}
-
-	public static Test suite()
-	{
-		return MultiFormatTestFactory.testSuite( BuildSaveTest.class );
+		this.verifier.setSpreadsheet( b.getSpreadsheet() );
 	}
 }
