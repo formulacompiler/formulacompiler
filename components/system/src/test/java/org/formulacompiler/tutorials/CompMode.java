@@ -26,20 +26,38 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.Engine;
 import org.formulacompiler.runtime.MillisecondsSinceUTC1970;
 import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
-import org.formulacompiler.tests.MultiNumericTypeTestFactory;
+import org.formulacompiler.tests.utils.MultiNumericType;
+import org.junit.runner.RunWith;
+import org.junit.Test;
 
-import junit.framework.Test;
+import static org.junit.Assert.assertEquals;
 
-public class CompMode extends MultiNumericTypeTestFactory.SpreadsheetNumericTypeTestCase
+
+@RunWith( MultiNumericType.class )
+public class CompMode
 {
 	public static final File PATH = new File( "src/test/data/org/formulacompiler/tutorials" );
 
+	private final NumericType numericType;
+
+	public CompMode( final NumericType _numericType )
+	{
+		this.numericType = _numericType;
+	}
+
+	private NumericType getNumericType()
+	{
+		return this.numericType;
+	}
+
+	@Test
 	public void testExcelMode() throws Exception
 	{
 		// ---- excelMode
@@ -59,6 +77,7 @@ public class CompMode extends MultiNumericTypeTestFactory.SpreadsheetNumericType
 		assertExcelDates( output );
 	}
 
+	@Test
 	public void testOOoCalcMode() throws Exception
 	{
 		// ---- calcMode
@@ -78,6 +97,7 @@ public class CompMode extends MultiNumericTypeTestFactory.SpreadsheetNumericType
 		assertOOoCalcDates( output );
 	}
 
+	@Test
 	public void testSpreadsheetBuilder() throws Exception
 	{
 		// ---- forcedCalcMode
@@ -124,8 +144,8 @@ public class CompMode extends MultiNumericTypeTestFactory.SpreadsheetNumericType
 	private void assertExcelDates( final Output output )
 	{
 		// ---- assertExcelDates
-		assertEquals( /**/1.0/**/, output.getNumberFromDate() );
-		assertEquals( /**/2.0/**/, output.getNumberFromMilliseconds() );
+		assertEquals( /**/1.0/**/, output.getNumberFromDate(), 1e-9 );
+		assertEquals( /**/2.0/**/, output.getNumberFromMilliseconds(), 1e-9 );
 		assertEquals( date( /**/1900, Calendar.JANUARY, 1/**/ ), output.getDateFromNumber() );
 		assertEquals( date( /**/1900, Calendar.JANUARY, 1/**/ ).getTime(), output.getMillisecondsFromNumber() );
 		// ---- assertExcelDates
@@ -134,8 +154,8 @@ public class CompMode extends MultiNumericTypeTestFactory.SpreadsheetNumericType
 	private void assertOOoCalcDates( final Output output )
 	{
 		// ---- assertOOoCalcDates
-		assertEquals( /**/2.0/**/, output.getNumberFromDate() );
-		assertEquals( /**/3.0/**/, output.getNumberFromMilliseconds() );
+		assertEquals( /**/2.0/**/, output.getNumberFromDate(), 1e-9 );
+		assertEquals( /**/3.0/**/, output.getNumberFromMilliseconds(), 1e-9 );
 		assertEquals( date( /**/1899, Calendar.DECEMBER, 31/**/ ), output.getDateFromNumber() );
 		assertEquals( date( /**/1899, Calendar.DECEMBER, 31/**/ ).getTime(), output.getMillisecondsFromNumber() );
 		// ---- assertOOoCalcDates
@@ -148,11 +168,6 @@ public class CompMode extends MultiNumericTypeTestFactory.SpreadsheetNumericType
 		calendar.set( _year, _month, _day );
 		final Date date = calendar.getTime();
 		return date;
-	}
-
-	public static Test suite()
-	{
-		return MultiNumericTypeTestFactory.testSuite( CompMode.class );
 	}
 
 	public static class Input
@@ -176,9 +191,9 @@ public class CompMode extends MultiNumericTypeTestFactory.SpreadsheetNumericType
 
 	public static interface Output
 	{
-		Double getNumberFromDate();
+		double getNumberFromDate();
 
-		Double getNumberFromMilliseconds();
+		double getNumberFromMilliseconds();
 
 		Date getDateFromNumber();
 
