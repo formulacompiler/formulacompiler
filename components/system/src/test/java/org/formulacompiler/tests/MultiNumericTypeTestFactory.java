@@ -57,18 +57,28 @@ public final class MultiNumericTypeTestFactory
 		}
 	}
 
-	public static interface SpreadsheetNumericTypeTest
+	public static abstract class SpreadsheetNumericTypeTest extends TestCase
 	{
-		public void setNumericType( final NumericType _spreadsheetExtension );
+		protected SpreadsheetNumericTypeTest()
+		{
+			// Nothing to do here.
+		}
+
+		protected SpreadsheetNumericTypeTest( final String name )
+		{
+			super( name );
+		}
+
+		public abstract void setNumericType( final NumericType _spreadsheetExtension );
 	}
 
-	public static abstract class SpreadsheetNumericTypeTestCase extends TestCase implements SpreadsheetNumericTypeTest
+	public static abstract class SpreadsheetNumericTypeTestCase extends SpreadsheetNumericTypeTest
 	{
 		private NumericType numericType;
 
 		protected SpreadsheetNumericTypeTestCase()
 		{
-			// Nothing here.
+			// Nothing to do here.
 		}
 
 		protected SpreadsheetNumericTypeTestCase( final String name )
