@@ -1,0 +1,13 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: 1.0
+    - const: 2.0
+  - cells:
+    - expr: =(R[-1]C + R[-1]C[1])

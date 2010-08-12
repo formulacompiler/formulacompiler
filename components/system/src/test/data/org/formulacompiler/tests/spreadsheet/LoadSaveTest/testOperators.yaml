@@ -1,0 +1,60 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - const: "Inputs"
+    - const: 2.0
+    - const: 3.0
+  - cells:
+  - cells:
+    - const: "Addition"
+    - expr: =((R[-2]C + R[-2]C[1]) + 10.0)
+  - cells:
+    - const: "Subtraction"
+    - expr: =(((-R[-3]C) - R[-3]C[1]) - 10.0)
+    - expr: =((-R[-3]C[-1]) - (R[-3]C - 10.0))
+  - cells:
+    - const: "Multiplication"
+    - expr: =((R[-4]C * R[-4]C[1]) * 10.0)
+  - cells:
+    - const: "Division"
+    - expr: =((R[-5]C / R[-5]C[1]) / 10.0)
+    - expr: =(R[-5]C[-1] / (R[-5]C / 10.0))
+  - cells:
+    - const: "Percent"
+    - expr: =(R[-6]C%)
+    - expr: =((R[-6]C%)%)
+  - cells:
+    - const: "Exponentiation"
+    - expr: =((R[-7]C ^ R[-7]C[1]) ^ 4.0)
+    - expr: =(R[-7]C[-1] ^ (R[-7]C ^ 2.0))
+  - cells:
+    - const: "Equal"
+    - expr: =(R[-8]C = R[-8]C[1])
+  - cells:
+    - const: "Greater"
+    - expr: =(R[-9]C > R[-9]C[1])
+  - cells:
+    - const: "Less"
+    - expr: =(R[-10]C < R[-10]C[1])
+  - cells:
+    - const: "Greater or equal"
+    - expr: =(R[-11]C >= R[-11]C[1])
+  - cells:
+    - const: "Less or equal"
+    - expr: =(R[-12]C <= R[-12]C[1])
+  - cells:
+    - const: "Inequality"
+    - expr: =(R[-13]C <> R[-13]C[1])
+  - cells:
+    - const: "Concatenation"
+    - expr: =(R[-14]C & R[-14]C[1] & "text")
+  - cells:
+  - cells:
+    - const: "Mixed"
+    - expr: =((R[-16]C + (10.0 * R[-16]C[1])) / (R[-16]C - (R[-16]C[1]%)))

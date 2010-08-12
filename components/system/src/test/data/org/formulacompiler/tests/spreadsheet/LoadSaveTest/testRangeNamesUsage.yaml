@@ -1,0 +1,57 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - expr: =SUM( R1C2, R2C2:R4C3, R5C2:'Sheet2'!R6C4 )
+    - const: 1.0
+      names: [ Cell ]
+  - cells:
+    - expr: =SUM( Cell, Range2D, Range3D )
+    - const: 10.0
+    - const: 50.0
+  - cells:
+    - expr: =((SUM( Cell ) + SUM( Range2D )) + SUM( Range3D ))
+    - const: 20.0
+    - const: 60.0
+  - cells:
+    - null
+    - const: 30.0
+    - const: 70.0
+  - cells:
+    - null
+    - const: 100.0
+    - const: 400.0
+    - const: 800.0
+  - cells:
+    - null
+    - const: 200.0
+    - const: 500.0
+    - const: 900.0
+
+- name: Sheet2
+  rows:
+  - cells:
+  - cells:
+  - cells:
+  - cells:
+  - cells:
+    - null
+    - const: 1100.0
+    - const: 1400.0
+    - const: 1800.0
+  - cells:
+    - null
+    - const: 1200.0
+    - const: 1500.0
+    - const: 1900.0
+
+names:
+- name: Range2D
+  ref: R2C2:R4C3
+- name: Range3D
+  ref: R5C2:'Sheet2'!R6C4
