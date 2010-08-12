@@ -14,6 +14,10 @@ h5. New
 
 	* @COLUMN()@ and @ROW()@ are now "supported":../doc/reference/lookupfuncs.htm.
 
+h5. Fixed
+
+	* Fixed NPE in .xls saver when cell is null ("issue 19":http://code.google.com/p/formulacompiler/issues/detail?id=19).
+
 
 h2. Release 1.4
 
