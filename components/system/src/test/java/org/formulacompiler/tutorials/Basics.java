@@ -294,8 +294,8 @@ public class Basics
 	}
 
 
-	// ---- UseCompiledFactory
 	@Test
+	// ---- UseCompiledFactory
 	public void testAFC() throws Exception
 	{
 		LineItem item = new StrategyLineItem();
