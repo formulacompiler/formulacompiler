@@ -7,6 +7,7 @@
     <inspection_tool class="BeforeOrAfterIsPublicVoidNoArg" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="CStyleArrayDeclaration" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="CheckTagEmptyBody" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="FieldMayBeFinal" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="FinalPrivateMethod" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="IndexOfReplaceableByContains" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="JavaDoc" enabled="true" level="WARNING" enabled_by_default="true">
@@ -40,6 +41,10 @@
       <option name="myAdditionalJavadocTags" value="" />
     </inspection_tool>
     <inspection_tool class="JavadocReference" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="LocalCanBeFinal" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="REPORT_VARIABLES" value="true" />
+      <option name="REPORT_PARAMETERS" value="false" />
+    </inspection_tool>
     <inspection_tool class="MultipleDeclaration" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ReuseOfLocalVariable" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="UnnecessaryLocalVariable" enabled="true" level="WARNING" enabled_by_default="true">
