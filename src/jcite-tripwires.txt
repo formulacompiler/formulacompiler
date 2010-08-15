@@ -2101,7 +2101,7 @@ ___@_@___
 jc:org.formulacompiler.tutorials.BindingParams:---- MyEnum
 __@@__
 public static enum MyEnum {
-		ZERO, ONE, TWO;
+		ZERO, ONE, TWO
 	}
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingParams:---- Output
@@ -2762,15 +2762,15 @@ input.setSide( "1234567891234567891234567891234567891234567891234567891234567891
 ___@_@___
 jc:org.formulacompiler.tutorials.CompMode:---- assertExcelDates
 __@@__
-assertEquals( /**/1.0/**/, output.getNumberFromDate() );
-		assertEquals( /**/2.0/**/, output.getNumberFromMilliseconds() );
+assertEquals( /**/1.0/**/, output.getNumberFromDate(), 1e-9 );
+		assertEquals( /**/2.0/**/, output.getNumberFromMilliseconds(), 1e-9 );
 		assertEquals( date( /**/1900, Calendar.JANUARY, 1/**/ ), output.getDateFromNumber() );
 		assertEquals( date( /**/1900, Calendar.JANUARY, 1/**/ ).getTime(), output.getMillisecondsFromNumber() );
 ___@_@___
 jc:org.formulacompiler.tutorials.CompMode:---- assertOOoCalcDates
 __@@__
-assertEquals( /**/2.0/**/, output.getNumberFromDate() );
-		assertEquals( /**/3.0/**/, output.getNumberFromMilliseconds() );
+assertEquals( /**/2.0/**/, output.getNumberFromDate(), 1e-9 );
+		assertEquals( /**/3.0/**/, output.getNumberFromMilliseconds(), 1e-9 );
 		assertEquals( date( /**/1899, Calendar.DECEMBER, 31/**/ ), output.getDateFromNumber() );
 		assertEquals( date( /**/1899, Calendar.DECEMBER, 31/**/ ).getTime(), output.getMillisecondsFromNumber() );
 ___@_@___
@@ -4403,7 +4403,7 @@ __@@__
 		<tr>
 			<td class="xl-row">4</td>
 			<td>Rebate</td>
-			<td class="xl-num">4<br/><span class="xl-exp">=(B1+B2)</span></td>
+			<td class="xl-num">4<br/><span class="xl-exp">=B1+B2</span></td>
 		</tr>
 	</tbody>
 </table>
