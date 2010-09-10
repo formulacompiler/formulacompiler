@@ -52,7 +52,7 @@ public final class MultiNumericType extends Suite
 	{
 		super( _class, Collections.<Runner>emptyList() );
 		for (NumericType numericType : NUMERIC_TYPES) {
-			runners.add( new MultiNumericTypeClassRunner( getTestClass().getJavaClass(), numericType ) );
+			this.runners.add( new MultiNumericTypeClassRunner( getTestClass().getJavaClass(), numericType ) );
 		}
 	}
 

@@ -71,7 +71,7 @@ public class LoadSaveTest
 	@Before
 	public void setUp() throws Exception
 	{
-		final File dataFile = new File( TEST_FILES_DIR, verifier.getFileName() + getSpreadsheetExtension() );
+		final File dataFile = new File( TEST_FILES_DIR, this.verifier.getFileName() + getSpreadsheetExtension() );
 		final SpreadsheetLoader.Config config = new SpreadsheetLoader.Config();
 		config.loadAllCellValues = true;
 		this.spreadsheet = SpreadsheetCompiler.loadSpreadsheet( dataFile, config );

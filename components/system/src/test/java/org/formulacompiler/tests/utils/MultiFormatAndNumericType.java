@@ -51,7 +51,7 @@ public class MultiFormatAndNumericType extends Suite
 	{
 		super( _class, Collections.<Runner>emptyList() );
 		for (String[] extensions : FORMATS) {
-			runners.add( new MultiFormatClassRunner( getTestClass().getJavaClass(),
+			this.runners.add( new MultiFormatClassRunner( getTestClass().getJavaClass(),
 					extensions[ 0 ], extensions[ 1 ] ) );
 		}
 	}
@@ -74,7 +74,7 @@ public class MultiFormatAndNumericType extends Suite
 			this.spreadsheetExtension = _spreadsheetExtension;
 			this.templateExtension = _templateExtension;
 			for (NumericType numericType : NUMERIC_TYPES) {
-				runners.add( new MultiNumericTypeClassRunner( getTestClass().getJavaClass(), numericType ) );
+				this.runners.add( new MultiNumericTypeClassRunner( getTestClass().getJavaClass(), numericType ) );
 			}
 		}
 
