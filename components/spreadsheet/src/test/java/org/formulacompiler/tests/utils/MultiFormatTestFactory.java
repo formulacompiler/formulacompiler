@@ -98,11 +98,13 @@ public final class MultiFormatTestFactory
 			return this.spreadsheetTemplateExtension;
 		}
 
+		@Override
 		public void setSpreadsheetExtension( final String _spreadsheetExtension )
 		{
 			this.spreadsheetExtension = _spreadsheetExtension;
 		}
 
+		@Override
 		public void setSpreadsheetTemplateExtension( final String _extension )
 		{
 			this.spreadsheetTemplateExtension = _extension;

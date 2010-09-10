@@ -52,7 +52,7 @@ public class MultiFormat extends Suite
 	{
 		super( _class, Collections.<Runner>emptyList() );
 		for (String[] extensions : FORMATS) {
-			runners.add( new MultiFormatClassRunner( getTestClass().getJavaClass(),
+			this.runners.add( new MultiFormatClassRunner( getTestClass().getJavaClass(),
 					extensions[ 0 ], extensions[ 1 ] ) );
 		}
 	}

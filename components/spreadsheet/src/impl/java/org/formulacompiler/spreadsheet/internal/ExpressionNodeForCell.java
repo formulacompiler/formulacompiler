@@ -70,7 +70,7 @@ public final class ExpressionNodeForCell extends ExpressionNode
 	@Override
 	protected CellAddress getCellAddress()
 	{
-		return cellIndex.getCellAddress();
+		return this.cellIndex.getCellAddress();
 	}
 
 
