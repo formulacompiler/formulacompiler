@@ -36,7 +36,8 @@ public class CellModel extends ElementModel implements TypedResult
 	private int maxFractionalDigits = NumericType.UNLIMITED_FRACTIONAL_DIGITS;
 	private int referenceCount = 0;
 	private DataType dataType;
-
+	private TypedResult cachedResult = null;
+	
 
 	public CellModel( SectionModel _section, Object _source )
 	{
@@ -126,6 +127,16 @@ public class CellModel extends ElementModel implements TypedResult
 		this.dataType = _dataType;
 	}
 
+	public TypedResult getCachedResult()
+	{
+		return this.cachedResult;
+	}
+	
+	public void setCachedResult( TypedResult _cachedResult )
+	{
+		this.cachedResult = _cachedResult;
+	}
+	
 	@Override
 	public void yamlTo( YamlBuilder _to )
 	{

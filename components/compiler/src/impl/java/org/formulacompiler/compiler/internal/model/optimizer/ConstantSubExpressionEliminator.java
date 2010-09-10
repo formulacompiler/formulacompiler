@@ -22,6 +22,9 @@
 
 package org.formulacompiler.compiler.internal.model.optimizer;
 
+import java.util.Map;
+import java.util.Stack;
+
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.Util;
@@ -31,10 +34,12 @@ import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.AbstractComputationModelVisitor;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ConstantExpressionCellListenerSupport;
+import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.optimizer.consteval.ConstResult;
 import org.formulacompiler.compiler.internal.model.optimizer.consteval.EvalShadow;
 import org.formulacompiler.runtime.ComputationMode;
+import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
@@ -43,9 +48,11 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 {
 	private final InterpretedNumericType numericType;
 	private final ConstantExpressionCellListenerSupport listenerSupport;
+	private final Stack<Map<CellModel, TypedResult>> savedCaches = New.stack();
 
 
-	private ConstantSubExpressionEliminator( InterpretedNumericType _type, ConstantExpressionCellListenerSupport _listenerSupport )
+	private ConstantSubExpressionEliminator( InterpretedNumericType _type,
+			ConstantExpressionCellListenerSupport _listenerSupport )
 	{
 		super();
 		this.numericType = _type;
@@ -68,6 +75,49 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 	public InterpretedNumericType getNumericType()
 	{
 		return this.numericType;
+	}
+
+
+	/**
+	 * Reset results cached by reference from outside the section. They might be constant when seen
+	 * from within, but not from without.
+	 */
+	@Override
+	protected boolean visitSection( SectionModel _section ) throws CompilerException
+	{
+		final Map<CellModel, TypedResult> saved = New.map();
+		this.savedCaches.push( saved );
+		_section.traverse( new AbstractComputationModelVisitor()
+		{
+			@Override
+			protected boolean visitCell( CellModel _cell ) throws CompilerException
+			{
+				saved.put( _cell, _cell.getCachedResult() );
+				_cell.setCachedResult( null );
+				return true;
+			}
+		} );
+		return true;
+	}
+
+	/**
+	 * Restore former cached values after processing the section so outer refs don't see inner cached
+	 * values.
+	 */
+	@Override
+	protected boolean visitedSection( SectionModel _section ) throws CompilerException
+	{
+		final Map<CellModel, TypedResult> saved = this.savedCaches.pop();
+		_section.traverse( new AbstractComputationModelVisitor()
+		{
+			@Override
+			protected boolean visitCell( CellModel _cell ) throws CompilerException
+			{
+				_cell.setCachedResult( saved.get( _cell ) );
+				return true;
+			}
+		} );
+		return true;
 	}
 
 

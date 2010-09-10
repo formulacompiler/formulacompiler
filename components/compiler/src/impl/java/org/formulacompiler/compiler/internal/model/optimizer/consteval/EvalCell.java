@@ -32,20 +32,27 @@ import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 public class EvalCell extends EvalShadow
 {
-	private TypedResult cached = null;
+	private final CellModel cellModel;
 
-	public EvalCell( ExpressionNode _node, InterpretedNumericType _type )
+	public EvalCell( ExpressionNodeForCellModel _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
+		this.cellModel = _node.getCellModel();
 	}
 
 	@Override
-	protected TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException
+	protected final TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException
 	{
-		if (null == this.cached) {
-			this.cached = compute();
-		}
-		return this.cached;
+		if (null == this.cellModel)
+			return compute();
+
+		final TypedResult cached = this.cellModel.getCachedResult();
+		if (null != cached)
+			return cached;
+
+		final TypedResult computed = compute();
+		this.cellModel.setCachedResult( computed );
+		return computed;
 	}
 
 	private TypedResult compute() throws CompilerException
