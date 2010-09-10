@@ -13,7 +13,6 @@
 	<classpathentry kind="src" path="temp/impl/java-1.5"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-runtime"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
-	<classpathentry kind="lib" path="/afc/lib/test/junit.jar" sourcepath="/afc/lib/IDE/junit-src.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/afc-decompiler"/>
 	<classpathentry kind="lib" path="lib/impl/asm-3.1.jar" sourcepath="lib/IDE/asm-3.1-src.zip">
 		<attributes>
@@ -35,5 +34,6 @@
 			<attribute name="javadoc_location" value="http://asm.objectweb.org/asm30/javadoc/user/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/afc/lib/test/junit-4.8.2.jar"/>
 	<classpathentry kind="output" path="temp/eclipse"/>
 </classpath>

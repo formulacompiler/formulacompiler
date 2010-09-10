@@ -9,7 +9,6 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-compiler"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-spreadsheet"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="lib" path="/afc/lib/impl/stax-1.2.0.jar"/>
 	<classpathentry kind="lib" path="/afc/lib/impl/stax-api-1.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/test/isorelax.jar"/>
@@ -17,5 +16,6 @@
 	<classpathentry kind="lib" path="lib/test/relaxngDatatype.jar"/>
 	<classpathentry kind="lib" path="lib/test/xsdlib.jar"/>
 	<classpathentry kind="lib" path="/afc/lib/test/xmlunit-1.2.jar" sourcepath="/afc/lib/IDE/xmlunit-1.2-src.zip"/>
+	<classpathentry kind="lib" path="/afc/lib/test/junit-4.8.2.jar"/>
 	<classpathentry kind="output" path="temp/eclipse"/>
 </classpath>
