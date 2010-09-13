@@ -124,10 +124,10 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 	@Override
 	protected boolean visitCell( CellModel _cell ) throws CompilerException
 	{
-		ExpressionNode sourceExpr = _cell.getExpression();
+		final ExpressionNode sourceExpr = _cell.getExpression();
 		if (null != sourceExpr) {
 			try {
-				TypedResult optimizedResult = eliminateConstantsFrom( sourceExpr, _cell );
+				final TypedResult optimizedResult = eliminateConstantsFrom( sourceExpr, _cell );
 				assert (optimizedResult.getDataType() == _cell.getDataType() || optimizedResult.getDataType() == DataType.NULL);
 				if (optimizedResult.hasConstantValue()) {
 					_cell.setExpression( null );
@@ -138,7 +138,7 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 					}
 				}
 				else {
-					ExpressionNode optimizedExpr = (ExpressionNode) optimizedResult;
+					final ExpressionNode optimizedExpr = (ExpressionNode) optimizedResult;
 					_cell.setExpression( optimizedExpr );
 				}
 			}
@@ -153,7 +153,8 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 	{
 		if (null == _expr) return ConstResult.NULL;
 		final TypedResult cached = _cell.getCachedResult();
-		if (null != cached) return cached;
+		if (null != cached) 
+			return cached;
 		final Object source = _cell.getSource();
 		final CellAddress cellAddress = source instanceof CellAddress ? (CellAddress) source : null;
 		return EvalShadow.evaluate( _expr, getNumericType(), cellAddress );
