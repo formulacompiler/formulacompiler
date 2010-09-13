@@ -24,18 +24,23 @@ package org.formulacompiler.compiler.internal.model.optimizer;
 
 import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
 
+import org.formulacompiler.compiler.FormulaCompiler;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.NumericType;
-import org.formulacompiler.compiler.FormulaCompiler;
+import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.model.CellModel;
+import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.rewriting.ModelRewriter;
+import org.formulacompiler.tests.utils.Inputs;
+import org.formulacompiler.tests.utils.Outputs;
 
 
 @SuppressWarnings( "unqualified-field-access" )
@@ -146,8 +151,8 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		makeConstCellInput();
 
 		CellModel sumOverInputsAndConsts = new CellModel( root, "SumOverInputsAndConsts" );
-		sumOverInputsAndConsts.setExpression( fun( Function.NPV, cst( 0.3 ), vector( ref( constSum ), ref( constCell ),
-				ref( constExpr ) ) ) );
+		sumOverInputsAndConsts.setExpression( fun( Function.NPV, cst( 0.3 ),
+				vector( ref( constSum ), ref( constCell ), ref( constExpr ) ) ) );
 
 		optimize( FormulaCompiler.DOUBLE );
 
@@ -232,6 +237,48 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 		optimize( FormulaCompiler.DOUBLE );
 
 		assertExpr( "INDEX( #(1,1,3){2.0, 3.0, 4.0}, Inputs.getOne() )", index );
+	}
+
+	public void testCachingInFolder() throws Exception
+	{
+		// reset model
+		model = new ComputationModel( Inputs.class, Outputs.class );
+		root = model.getRoot();
+
+		CellModel d = new CellModel( root, "d" );
+		CellModel c = new CellModel( root, "c" );
+		CellModel b = new CellModel( root, "b" );
+		CellModel a = new CellModel( root, "a" );
+
+		a.setConstantValue( 1 );
+		b.setExpression( new LoggingPlusNode( "b", a, a ) );
+		c.setExpression( new LoggingPlusNode( "c", b, b ) );
+		d.setExpression( new LoggingPlusNode( "d", b, b ) );
+
+		optimize( FormulaCompiler.DOUBLE );
+
+		assertEquals( 4.0, (Double) d.getConstantValue(), 0.1 );
+		assertEquals( " b d c", log.toString() );
+	}
+
+	private final StringBuilder log = new StringBuilder();
+
+	private final class LoggingPlusNode extends ExpressionNodeForOperator
+	{
+		private final String name;
+
+		private LoggingPlusNode( String _name, CellModel _a, CellModel _b )
+		{
+			super( Operator.PLUS, new ExpressionNodeForCellModel( _a ), new ExpressionNodeForCellModel( _b ) );
+			this.name = _name;
+		}
+
+		@Override
+		public Operator getOperator()
+		{
+			log.append( " " ).append( this.name );
+			return super.getOperator();
+		}
 	}
 
 }
