@@ -105,15 +105,9 @@ public class CellModel extends ElementModel implements TypedResult
 	}
 
 
-	void removeReference()
-	{
-		this.referenceCount--;
-	}
-
-
 	public boolean isCachingCandidate()
 	{
-		return (getReferenceCount() > 1 || isInput() || isOutput());
+		return (getReferenceCount() > 1) || isInput() || isOutput();
 	}
 
 
