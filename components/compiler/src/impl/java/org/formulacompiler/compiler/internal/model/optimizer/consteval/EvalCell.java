@@ -32,42 +32,37 @@ import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 public class EvalCell extends EvalShadow
 {
-	private final CellModel cellModel;
-
+	
 	public EvalCell( ExpressionNodeForCellModel _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
-		this.cellModel = _node.getCellModel();
 	}
-
+	
 	@Override
 	protected final TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException
 	{
-		if (null == this.cellModel)
-			return compute();
-
-		final TypedResult cached = this.cellModel.getCachedResult();
-		if (null != cached)
-			return cached;
-
-		final TypedResult computed = compute();
-		this.cellModel.setCachedResult( computed );
-		return computed;
-	}
-
-	private TypedResult compute() throws CompilerException
-	{
-		final ExpressionNodeForCellModel cellNode = (ExpressionNodeForCellModel) node();
-		final CellModel cellModel = cellNode.getCellModel();
-
+		final CellModel cellModel = ((ExpressionNodeForCellModel) node()).getCellModel();
 		if (null == cellModel) {
 			return ConstResult.NULL;
 		}
-
 		if (cellModel.isInput()) {
 			return node();
 		}
 
+		final TypedResult cached = cellModel.getCachedResult();
+		if (null != cached) {
+			return cached;
+		}
+
+		final TypedResult computed = compute(cellModel);
+		if (computed.isConstant()) {
+			cellModel.setCachedResult( computed );
+		}
+		return computed;
+	}
+
+	private TypedResult compute(CellModel cellModel) throws CompilerException
+	{
 		final Object constantValue = cellModel.getConstantValue();
 		if (null != constantValue) {
 			if (constantValue instanceof Boolean) {

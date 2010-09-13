@@ -152,6 +152,8 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 	private TypedResult eliminateConstantsFrom( ExpressionNode _expr, CellModel _cell ) throws CompilerException
 	{
 		if (null == _expr) return ConstResult.NULL;
+		final TypedResult cached = _cell.getCachedResult();
+		if (null != cached) return cached;
 		final Object source = _cell.getSource();
 		final CellAddress cellAddress = source instanceof CellAddress ? (CellAddress) source : null;
 		return EvalShadow.evaluate( _expr, getNumericType(), cellAddress );
