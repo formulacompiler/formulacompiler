@@ -1210,6 +1210,25 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
   - cells:
+    - const: 2.0
+    - expr: =INDEX( RC[4]:RC[5], RC[6] )
+    - const: 2.0
+    - const: 1.0
+    - const: 2.0
+    - expr: =INDEX( RC[-3]:RC[-2], RC[-1] )
+    - expr: =INDEX( RC[-2], RC[-3] )
+    - expr: =INDEX( RC[-4]:RC[-3], RC[-5] )
+    - null
+    - const: 3.0
+    - const: "INDEX (nested)"
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+  - cells:
     - const: 12.0
     - expr: =LOOKUP( RC[1], RC[2]:RC[4], RC[5]:RC[7] )
     - const: 20.0
@@ -1284,7 +1303,7 @@ sheets:
   - cells:
   - cells:
     - const: 11.0
-    - expr: =LOOKUP( RC[1], R87C[2]:R89C[2], R87C[3]:R89C[3] )
+    - expr: =LOOKUP( RC[1], R89C[2]:R91C[2], R89C[3]:R91C[3] )
     - const: 19.0
     - const: 10.0
     - const: 11.0
@@ -1302,7 +1321,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 12.0
-    - expr: =LOOKUP( RC[1], R87C[2]:R89C[2], R87C[3]:R89C[3] )
+    - expr: =LOOKUP( RC[1], R89C[2]:R91C[2], R89C[3]:R91C[3] )
     - const: 20.0
     - const: 20.0
     - const: 12.0
@@ -1320,7 +1339,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 12.0
-    - expr: =LOOKUP( RC[1], R87C[2]:R89C[2], R87C[3]:R89C[3] )
+    - expr: =LOOKUP( RC[1], R89C[2]:R91C[2], R89C[3]:R91C[3] )
     - const: 21.0
     - const: 30.0
     - const: 13.0
@@ -1338,7 +1357,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "!NUM:NA"
-    - expr: =LOOKUP( RC[1], R87C[2]:R89C[2], R87C[3]:R89C[3] )
+    - expr: =LOOKUP( RC[1], R89C[2]:R91C[2], R89C[3]:R91C[3] )
     - const: 9.0
     - null
     - null
@@ -1357,7 +1376,7 @@ sheets:
   - cells:
   - cells:
     - const: 22.0
-    - expr: =LOOKUP( RC[1], R92C[2]:R94C[5] )
+    - expr: =LOOKUP( RC[1], R94C[2]:R96C[5] )
     - const: 29.0
     - const: 10.0
     - const: 20.0
@@ -1375,7 +1394,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 23.0
-    - expr: =LOOKUP( RC[1], R92C[2]:R94C[5] )
+    - expr: =LOOKUP( RC[1], R94C[2]:R96C[5] )
     - const: 30.0
     - const: 11.0
     - const: 12.0
@@ -1393,7 +1412,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 23.0
-    - expr: =LOOKUP( RC[1], R92C[2]:R94C[5] )
+    - expr: =LOOKUP( RC[1], R94C[2]:R96C[5] )
     - const: 31.0
     - const: 21.0
     - const: 22.0
@@ -1412,7 +1431,7 @@ sheets:
   - cells:
   - cells:
     - const: 21.0
-    - expr: =LOOKUP( RC[1], R96C[2]:R98C[4] )
+    - expr: =LOOKUP( RC[1], R98C[2]:R100C[4] )
     - const: 19.0
     - const: 10.0
     - const: 11.0
@@ -1430,7 +1449,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 22.0
-    - expr: =LOOKUP( RC[1], R96C[2]:R98C[4] )
+    - expr: =LOOKUP( RC[1], R98C[2]:R100C[4] )
     - const: 20.0
     - const: 20.0
     - const: 12.0
@@ -1448,7 +1467,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 22.0
-    - expr: =LOOKUP( RC[1], R96C[2]:R98C[4] )
+    - expr: =LOOKUP( RC[1], R98C[2]:R100C[4] )
     - const: 21.0
     - const: 30.0
     - const: 13.0
@@ -1467,7 +1486,7 @@ sheets:
   - cells:
   - cells:
     - const: 21.0
-    - expr: =LOOKUP( RC[1], R100C[2]:R103C[4] )
+    - expr: =LOOKUP( RC[1], R102C[2]:R105C[4] )
     - const: 19.0
     - const: 10.0
     - const: 11.0
@@ -1485,7 +1504,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 22.0
-    - expr: =LOOKUP( RC[1], R100C[2]:R103C[4] )
+    - expr: =LOOKUP( RC[1], R102C[2]:R105C[4] )
     - const: 20.0
     - const: 20.0
     - const: 12.0
@@ -1503,7 +1522,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 22.0
-    - expr: =LOOKUP( RC[1], R100C[2]:R103C[4] )
+    - expr: =LOOKUP( RC[1], R102C[2]:R105C[4] )
     - const: 21.0
     - const: 30.0
     - const: 13.0
@@ -1521,7 +1540,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 23.0
-    - expr: =LOOKUP( RC[1], R100C[2]:R103C[4] )
+    - expr: =LOOKUP( RC[1], R102C[2]:R105C[4] )
     - const: 30.0
     - const: 40.0
     - const: 14.0
@@ -1540,7 +1559,7 @@ sheets:
   - cells:
   - cells:
     - const: 22.0
-    - expr: =HLOOKUP( RC[1], R105C[2]:R107C[5], 3.0 )
+    - expr: =HLOOKUP( RC[1], R107C[2]:R109C[5], 3.0 )
     - const: 29.0
     - const: 10.0
     - const: 20.0
@@ -1558,7 +1577,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 23.0
-    - expr: =HLOOKUP( RC[1], R105C[2]:R107C[5], 3.0 )
+    - expr: =HLOOKUP( RC[1], R107C[2]:R109C[5], 3.0 )
     - const: 30.0
     - const: 11.0
     - const: 12.0
@@ -1576,7 +1595,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 23.0
-    - expr: =HLOOKUP( RC[1], R105C[2]:R107C[5], 3.0 )
+    - expr: =HLOOKUP( RC[1], R107C[2]:R109C[5], 3.0 )
     - const: 31.0
     - const: 21.0
     - const: 22.0
@@ -1594,7 +1613,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 20.0
-    - expr: =HLOOKUP( RC[1], R105C[2]:R107C[5], RC[2] )
+    - expr: =HLOOKUP( RC[1], R107C[2]:R109C[5], RC[2] )
     - const: 29.0
     - const: 1.0
     - null
@@ -1612,7 +1631,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 13.0
-    - expr: =HLOOKUP( RC[1], R105C[2]:R107C[5], RC[2] )
+    - expr: =HLOOKUP( RC[1], R107C[2]:R109C[5], RC[2] )
     - const: 30.0
     - const: 2.0
     - null
@@ -1630,7 +1649,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 23.0
-    - expr: =HLOOKUP( RC[1], R105C[2]:R107C[5], RC[2] )
+    - expr: =HLOOKUP( RC[1], R107C[2]:R109C[5], RC[2] )
     - const: 31.0
     - const: 3.0
     - null
@@ -1648,7 +1667,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "!NUM:FE"
-    - expr: =HLOOKUP( RC[1], R105C[2]:R107C[5], RC[2] )
+    - expr: =HLOOKUP( RC[1], R107C[2]:R109C[5], RC[2] )
     - const: 31.0
     - const: 0.0
     - null
@@ -1666,7 +1685,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "!NUM:FE"
-    - expr: =HLOOKUP( RC[1], R105C[2]:R107C[5], RC[2] )
+    - expr: =HLOOKUP( RC[1], R107C[2]:R109C[5], RC[2] )
     - const: 31.0
     - const: 4.0
     - null
@@ -1685,7 +1704,7 @@ sheets:
   - cells:
   - cells:
     - const: "one"
-    - expr: =HLOOKUP( RC[1], R114C[2]:R116C[5], 1.0, false )
+    - expr: =HLOOKUP( RC[1], R116C[2]:R118C[5], 1.0, false )
     - const: "one"
     - const: "one"
     - const: "two"
@@ -1703,7 +1722,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "три"
-    - expr: =HLOOKUP( RC[1], R114C[2]:R116C[5], 2.0, false )
+    - expr: =HLOOKUP( RC[1], R116C[2]:R118C[5], 2.0, false )
     - const: "three"
     - const: "один"
     - const: "два"
@@ -1721,7 +1740,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "vier"
-    - expr: =HLOOKUP( RC[1], R114C[2]:R116C[5], 3.0, false )
+    - expr: =HLOOKUP( RC[1], R116C[2]:R118C[5], 3.0, false )
     - const: "four"
     - const: "eins"
     - const: "zwei"
@@ -1739,7 +1758,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "one"
-    - expr: =HLOOKUP( RC[1], R114C[2]:R116C[5], RC[2], false )
+    - expr: =HLOOKUP( RC[1], R116C[2]:R118C[5], RC[2], false )
     - const: "one"
     - const: 1.0
     - null
@@ -1757,7 +1776,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "три"
-    - expr: =HLOOKUP( RC[1], R114C[2]:R116C[5], RC[2], false )
+    - expr: =HLOOKUP( RC[1], R116C[2]:R118C[5], RC[2], false )
     - const: "three"
     - const: 2.0
     - null
@@ -1775,7 +1794,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "vier"
-    - expr: =HLOOKUP( RC[1], R114C[2]:R116C[5], RC[2], false )
+    - expr: =HLOOKUP( RC[1], R116C[2]:R118C[5], RC[2], false )
     - const: "four"
     - const: 3.0
     - null
@@ -1793,7 +1812,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "!STR:NA"
-    - expr: =HLOOKUP( RC[1], R114C[2]:R116C[5], RC[2], false )
+    - expr: =HLOOKUP( RC[1], R116C[2]:R118C[5], RC[2], false )
     - const: "five"
     - const: 1.0
     - null
@@ -1811,7 +1830,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "!STR:FE"
-    - expr: =HLOOKUP( RC[1], R114C[2]:R116C[5], RC[2], false )
+    - expr: =HLOOKUP( RC[1], R116C[2]:R118C[5], RC[2], false )
     - const: "one"
     - const: 0.0
     - null
@@ -1829,7 +1848,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "!STR:FE"
-    - expr: =HLOOKUP( RC[1], R114C[2]:R116C[5], RC[2], false )
+    - expr: =HLOOKUP( RC[1], R116C[2]:R118C[5], RC[2], false )
     - const: "one"
     - const: 4.0
     - null
@@ -1848,7 +1867,7 @@ sheets:
   - cells:
   - cells:
     - const: 22.0
-    - expr: =VLOOKUP( RC[1], R124C[2]:R126C[4], 3.0 )
+    - expr: =VLOOKUP( RC[1], R126C[2]:R128C[4], 3.0 )
     - const: 29.0
     - const: 10.0
     - const: 11.0
@@ -1866,7 +1885,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 23.0
-    - expr: =VLOOKUP( RC[1], R124C[2]:R126C[4], 3.0 )
+    - expr: =VLOOKUP( RC[1], R126C[2]:R128C[4], 3.0 )
     - const: 30.0
     - const: 20.0
     - const: 12.0
@@ -1884,7 +1903,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 23.0
-    - expr: =VLOOKUP( RC[1], R124C[2]:R126C[4], 3.0 )
+    - expr: =VLOOKUP( RC[1], R126C[2]:R128C[4], 3.0 )
     - const: 31.0
     - const: 30.0
     - const: 13.0
@@ -1902,7 +1921,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 20.0
-    - expr: =VLOOKUP( RC[1], R124C[2]:R126C[4], RC[2] )
+    - expr: =VLOOKUP( RC[1], R126C[2]:R128C[4], RC[2] )
     - const: 29.0
     - const: 1.0
     - null
@@ -1920,7 +1939,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 13.0
-    - expr: =VLOOKUP( RC[1], R124C[2]:R126C[4], RC[2] )
+    - expr: =VLOOKUP( RC[1], R126C[2]:R128C[4], RC[2] )
     - const: 30.0
     - const: 2.0
     - null
@@ -1938,7 +1957,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: 23.0
-    - expr: =VLOOKUP( RC[1], R124C[2]:R126C[4], RC[2] )
+    - expr: =VLOOKUP( RC[1], R126C[2]:R128C[4], RC[2] )
     - const: 31.0
     - const: 3.0
     - null
@@ -1956,7 +1975,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "!NUM:FE"
-    - expr: =VLOOKUP( RC[1], R124C[2]:R126C[4], RC[2] )
+    - expr: =VLOOKUP( RC[1], R126C[2]:R128C[4], RC[2] )
     - const: 31.0
     - const: 0.0
     - null
@@ -1974,7 +1993,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "!NUM:FE"
-    - expr: =VLOOKUP( RC[1], R124C[2]:R126C[4], RC[2] )
+    - expr: =VLOOKUP( RC[1], R126C[2]:R128C[4], RC[2] )
     - const: 31.0
     - const: 4.0
     - null
@@ -1993,7 +2012,7 @@ sheets:
   - cells:
   - cells:
     - const: "one"
-    - expr: =VLOOKUP( RC[1], R133C[2]:R135C[4], 1.0, false )
+    - expr: =VLOOKUP( RC[1], R135C[2]:R137C[4], 1.0, false )
     - const: "one"
     - const: "one"
     - const: "один"
@@ -2011,7 +2030,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "два"
-    - expr: =VLOOKUP( RC[1], R133C[2]:R135C[4], 2.0, false )
+    - expr: =VLOOKUP( RC[1], R135C[2]:R137C[4], 2.0, false )
     - const: "two"
     - const: "two"
     - const: "два"
@@ -2029,7 +2048,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "drei"
-    - expr: =VLOOKUP( RC[1], R133C[2]:R135C[4], 3.0, false )
+    - expr: =VLOOKUP( RC[1], R135C[2]:R137C[4], 3.0, false )
     - const: "three"
     - const: "three"
     - const: "три"
@@ -2047,7 +2066,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "one"
-    - expr: =VLOOKUP( RC[1], R133C[2]:R135C[4], RC[2], false )
+    - expr: =VLOOKUP( RC[1], R135C[2]:R137C[4], RC[2], false )
     - const: "one"
     - const: 1.0
     - null
@@ -2065,7 +2084,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "два"
-    - expr: =VLOOKUP( RC[1], R133C[2]:R135C[4], RC[2], false )
+    - expr: =VLOOKUP( RC[1], R135C[2]:R137C[4], RC[2], false )
     - const: "two"
     - const: 2.0
     - null
@@ -2083,7 +2102,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "drei"
-    - expr: =VLOOKUP( RC[1], R133C[2]:R135C[4], RC[2], false )
+    - expr: =VLOOKUP( RC[1], R135C[2]:R137C[4], RC[2], false )
     - const: "three"
     - const: 3.0
     - null
@@ -2101,7 +2120,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "!STR:NA"
-    - expr: =VLOOKUP( RC[1], R133C[2]:R135C[4], RC[2], false )
+    - expr: =VLOOKUP( RC[1], R135C[2]:R137C[4], RC[2], false )
     - const: "four"
     - const: 1.0
     - null
@@ -2119,7 +2138,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "!STR:FE"
-    - expr: =VLOOKUP( RC[1], R133C[2]:R135C[4], RC[2], false )
+    - expr: =VLOOKUP( RC[1], R135C[2]:R137C[4], RC[2], false )
     - const: "one"
     - const: 0.0
     - null
@@ -2137,7 +2156,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
     - const: "!STR:FE"
-    - expr: =VLOOKUP( RC[1], R133C[2]:R135C[4], RC[2], false )
+    - expr: =VLOOKUP( RC[1], R135C[2]:R137C[4], RC[2], false )
     - const: "one"
     - const: 4.0
     - null
@@ -2301,7 +2320,7 @@ sheets:
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
   - cells:
-    - const: 153.0
+    - const: 155.0
     - expr: =ROW()
     - null
     - null
@@ -2319,7 +2338,7 @@ sheets:
     - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
   - cells:
-    - const: 154.0
+    - const: 156.0
     - expr: =ROW( RC[1] )
     - null
     - null
