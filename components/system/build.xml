@@ -224,6 +224,30 @@
 
 	</target>
 
+	<target name="@test-given-ref" depends="@init" if="test.class">
+
+		<echo>test: running given test...</echo>
+		<mkdir dir="${temp.ref.dir}/results" />
+		<junit printsummary="no" showoutput="yes" haltonerror="yes" haltonfailure="yes" fork="yes" forkmode="once" dir="." tempdir="${temp.dir}">
+			<jvmarg value="-Demit_tests" />
+			<assertions refid="test.assertions" />
+			<formatter type="plain" usefile="no" />
+
+			<classpath>
+				<path refid="test.compiletime.classpath" />
+				<pathelement path="${temp.ref.dir}/classes" />
+			</classpath>
+
+			<batchtest todir="${temp.ref.dir}/results">
+				<fileset dir="${temp.ref.dir}/classes">
+					<include name="**/${test.class}.class" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+	</target>
+
 	<property name="temp.ref.dir" location="${temp.dir}/test-reference" />
 
 	<target name="@test-ref-clean" depends="@init" unless="@no-tests">
