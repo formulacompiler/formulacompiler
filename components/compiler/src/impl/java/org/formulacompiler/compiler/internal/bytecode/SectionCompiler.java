@@ -400,13 +400,14 @@ abstract class SectionCompiler extends ClassCompiler
 
 
 	private final Map<String, IndexerCompiler> indexers = New.map();
+	private int nextIndexerId = 0;
 
 	public IndexerCompiler getIndexerFor( ExpressionNodeForArrayReference _arrayNode ) throws CompilerException
 	{
 		final String name = _arrayNode.arrayDescriptor().name();
 		IndexerCompiler idx = this.indexers.get( name );
 		if (null == idx) {
-			final String internalName = Integer.toString( this.indexers.size() );
+			final String internalName = Integer.toString( this.nextIndexerId++ );
 			idx = new IndexerCompiler( this, internalName, _arrayNode );
 			idx.compile();
 			this.indexers.put( name, idx );
