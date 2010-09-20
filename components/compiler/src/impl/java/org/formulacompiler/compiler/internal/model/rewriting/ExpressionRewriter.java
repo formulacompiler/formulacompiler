@@ -347,7 +347,7 @@ final class ExpressionRewriter extends AbstractExpressionRewriter
 		final ExpressionNode matchNode;
 		final Function matchFun = (indexNode instanceof ExpressionNodeForConstantValue) ? INTERNAL_MATCH_INT : MATCH;
 		if (_fun.cardinality() >= 4) {
-			final ExpressionNode typeNode = _fun.argument( 3 );
+			final ExpressionNodeForConstantValue typeNode = (ExpressionNodeForConstantValue) _fun.argument( 3 );
 			matchNode = new ExpressionNodeForFunction( matchFun, valueNode, lookupArrayNode, typeNode );
 		}
 		else {

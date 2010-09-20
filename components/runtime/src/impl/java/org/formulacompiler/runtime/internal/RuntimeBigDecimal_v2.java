@@ -1007,32 +1007,18 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static int fun_MATCH_Ascending( BigDecimal _x, BigDecimal[] _xs )
 	{
-		final int iLast = _xs.length - 1;
-		int iLeft = 0;
-		int iRight = iLast;
-		while (iLeft < iRight) {
-			final int iMid = iLeft + ((iRight - iLeft) >> 1);
-			if (_x.compareTo( _xs[ iMid ] ) > 0) iLeft = iMid + 1;
-			else iRight = iMid;
-		}
-		if (iLeft > iLast || _x.compareTo( _xs[ iLeft ] ) < 0) iLeft--;
-		if (iLeft < 0) fun_NA();
-		return iLeft + 1; // Excel is 1-based
+		return fun_MATCH_Sorted( _xs, _x );
 	}
 
-	public static int fun_MATCH_Descending( BigDecimal _x, BigDecimal[] _xs )
+	public static int fun_MATCH_Descending( final BigDecimal _x, BigDecimal[] _xs )
 	{
-		final int iLast = _xs.length - 1;
-		int iLeft = 0;
-		int iRight = iLast;
-		while (iLeft < iRight) {
-			final int iMid = iLeft + ((iRight - iLeft) >> 1);
-			if (_x.compareTo( _xs[ iMid ] ) < 0) iLeft = iMid + 1;
-			else iRight = iMid;
-		}
-		if (iLeft > iLast || _x.compareTo( _xs[ iLeft ] ) > 0) iLeft--;
-		if (iLeft < 0) fun_NA();
-		return iLeft + 1; // Excel is 1-based
+		return fun_MATCH_Sorted( _xs, new Comparable<BigDecimal>()
+		{
+			public int compareTo( BigDecimal _o )
+			{
+				return -_x.compareTo( _o );
+			}
+		} );
 	}
 
 
