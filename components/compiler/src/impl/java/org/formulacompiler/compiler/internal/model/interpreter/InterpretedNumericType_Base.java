@@ -35,6 +35,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayR
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.FormulaException;
+import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.NotAvailableException;
 import org.formulacompiler.runtime.internal.Environment;
 import org.formulacompiler.runtime.internal.Runtime_v2;
@@ -250,9 +251,9 @@ abstract class InterpretedNumericType_Base
 			case MATCH: {
 				switch (cardinality) {
 					case 2:
-						return toNumeric( match( _args[ 0 ], _args[ 1 ], 1 ) + 1 );
+						return toNumeric( match( _args[ 0 ], _args[ 1 ], 1 ) );
 					case 3:
-						return toNumeric( match( _args[ 0 ], _args[ 1 ], valueToIntOrOne( _args[ 2 ] ) ) + 1 );
+						return toNumeric( match( _args[ 0 ], _args[ 1 ], valueToIntOrOne( _args[ 2 ] ) ) );
 				}
 				break;
 			}
@@ -305,34 +306,26 @@ abstract class InterpretedNumericType_Base
 			int iObj = 0;
 			for (Object arg : range.arguments()) {
 				final Object elt = ((ExpressionNodeForConstantValue) arg).value();
-				if (_lookup.equals( elt )) return iObj;
+				if (_lookup.equals( elt )) return iObj + 1;
 				iObj++;
 			}
 			throw new NotAvailableException();
 		}
 		else {
 			final Comparable comp = (Comparable) _lookup;
-			final int isToRightWhenComparesAs = (_type > 0) ? 1 : -1;
+			final Comparable adjustedComp = (_type > 0) ? comp : new Comparable()
+			{
+				public int compareTo( Object _o )
+				{
+					return -comp.compareTo(_o);
+				}
+			};
 			final List<ExpressionNode> args = range.arguments();
-			final int iLast = args.size() - 1;
-			int iLeft = 0;
-			int iRight = iLast;
-			while (iLeft < iRight) {
-				final int iMid = iLeft + ((iRight - iLeft) >> 1);
-				final Object arg = args.get( iMid );
-				final Object elt = ((ExpressionNodeForConstantValue) arg).value();
-				final int compRes = comp.compareTo( elt );
-				if (compRes == isToRightWhenComparesAs) iLeft = iMid + 1;
-				else iRight = iMid;
+			final List<Object> vals = New.list( args.size() );
+			for (ExpressionNode arg : args) {
+				vals.add( ((ExpressionNodeForConstantValue) arg).value() );
 			}
-			if (iLeft <= iLast) {
-				final Object arg = args.get( iLeft );
-				final Object elt = ((ExpressionNodeForConstantValue) arg).value();
-				final int compRes = comp.compareTo( elt );
-				if (compRes == 0 || compRes == isToRightWhenComparesAs) return iLeft;
-			}
-			if (iLeft == 0) throw new NotAvailableException();
-			return iLeft - 1;
+			return Runtime_v2.fun_MATCH_Sorted( vals.toArray(), adjustedComp );
 		}
 	}
 

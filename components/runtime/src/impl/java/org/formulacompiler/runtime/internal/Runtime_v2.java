@@ -35,7 +35,6 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
@@ -838,47 +837,52 @@ public abstract class Runtime_v2
 		throw new NotAvailableException();
 	}
 
-	public static int fun_MATCH_Ascending( String _x, String[] _xs, Environment _env )
+	public static int fun_MATCH_Ascending( final String _x, String[] _xs, Environment _env )
 	{
 		final Collator c = _env.newCollator();
-		return fun_MATCH_Sorted( _x, _xs, c, new Comparator<String>()
+		return fun_MATCH_Sorted( _xs, c, new Comparable<String>()
 		{
 
-			public int compare( String _o1, String _o2 )
+			public int compareTo( String _o2 )
 			{
-				return c.compare( _o1, _o2 );
+				return c.compare( _x, _o2 );
 			}
 
 		} );
 	}
 
-	public static int fun_MATCH_Descending( String _x, String[] _xs, Environment _env )
+	public static int fun_MATCH_Descending( final String _x, String[] _xs, Environment _env )
 	{
 		final Collator c = _env.newCollator();
-		return fun_MATCH_Sorted( _x, _xs, c, new Comparator<String>()
+		return fun_MATCH_Sorted( _xs, c, new Comparable<String>()
 		{
 
-			public int compare( String _o1, String _o2 )
+			public int compareTo( String _o2 )
 			{
-				return -c.compare( _o1, _o2 );
+				return -c.compare( _x, _o2 );
 			}
 
 		} );
 	}
 
-	private static int fun_MATCH_Sorted( String _x, String[] _xs, Collator _collator, Comparator<String> _comp )
+	private static int fun_MATCH_Sorted( String[] _xs, Collator _collator, Comparable<String> _comp )
 	{
 		_collator.setDecomposition( Collator.FULL_DECOMPOSITION );
 		_collator.setStrength( Collator.SECONDARY );
+		return fun_MATCH_Sorted( _xs, _comp );
+	}
+
+	public static <T> int fun_MATCH_Sorted( T[] _xs, Comparable<T> _comp )
+	{
 		final int iLast = _xs.length - 1;
 		int iLeft = 0;
 		int iRight = iLast;
 		while (iLeft < iRight) {
 			final int iMid = iLeft + ((iRight - iLeft) >> 1);
-			if (_comp.compare( _x, _xs[ iMid ] ) > 0) iLeft = iMid + 1;
+			if (_comp.compareTo(_xs[ iMid ]) > 0) iLeft = iMid + 1;
 			else iRight = iMid;
 		}
-		if (iLeft > iLast || _comp.compare( _x, _xs[ iLeft ] ) < 0) iLeft--;
+		if (iLeft > iLast || _comp.compareTo(_xs[ iLeft ]) < 0) iLeft--;
 		if (iLeft < 0) fun_NA();
 		return iLeft + 1; // Excel is 1-based
 	}
