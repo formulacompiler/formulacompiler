@@ -24,6 +24,7 @@ package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
@@ -55,9 +56,7 @@ public class EvalCell extends EvalShadow
 		}
 
 		final TypedResult computed = compute(cellModel);
-		if (computed.isConstant()) {
-			cellModel.setCachedResult( computed );
-		}
+		cellModel.setCachedResult( computed );
 		return computed;
 	}
 
@@ -77,16 +76,17 @@ public class EvalCell extends EvalShadow
 		if (null != expression) {
 			final Object source = cellModel.getSource();
 			final CellAddress cellAddress = source instanceof CellAddress ? (CellAddress) source : null;
-			final TypedResult constResult = EvalShadow.evaluate( expression, type(), cellAddress );
-			if (constResult instanceof ExpressionNode) {
-
-				// Do not need to clone leaf node.
+			final TypedResult result = EvalShadow.evaluate( expression, type(), cellAddress );
+			if (result instanceof ExpressionNodeForConstantValue) {
+				return result;
+			}
+			else if (result instanceof ExpressionNode) {
+				// Not constant, so return the cell as such.
 				assert node().arguments().size() == 0;
 				return node();
-
 			}
 			else {
-				return constResult;
+				return result;
 			}
 		}
 
