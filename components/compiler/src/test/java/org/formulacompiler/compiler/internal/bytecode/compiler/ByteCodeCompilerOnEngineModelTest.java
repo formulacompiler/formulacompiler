@@ -63,8 +63,7 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestCase
 		testReadableCode( "cell", "cell", "cell" );
 	}
 
-	private void testReadableCode( final String _name1, final String _name2, final String _name3 )
-			throws Exception
+	private void testReadableCode( final String _name1, final String _name2, final String _name3 ) throws Exception
 	{
 		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
 		final SectionModel rootModel = engineModel.getRoot();
@@ -134,6 +133,24 @@ public class ByteCodeCompilerOnEngineModelTest extends AbstractIOTestCase
 		r.makeOutput( new CallFrameImpl( Outputs.class.getMethod( "getResult" ) ) );
 
 		assertDoubleResult( 4586.6908, engineModel, "MDETERM" );
+	}
+
+
+	public void testRefToCellEqualToConst() throws Exception
+	{
+		final ComputationModel engineModel = new ComputationModel( Inputs.class, Outputs.class );
+		final SectionModel rootModel = engineModel.getRoot();
+		final CellModel a = new CellModel( rootModel, "a" );
+		final CellModel b = new CellModel( rootModel, "b" );
+		final CellModel r = new CellModel( rootModel, "r" );
+		r.setExpression( new ExpressionNodeForFunction( Function.AND, //
+				new ExpressionNodeForCellModel( a ), //
+				new ExpressionNodeForCellModel( b ) ) );
+		a.setExpression( new ExpressionNodeForConstantValue( true, DataType.NUMERIC ) );
+		b.setExpression( new ExpressionNodeForConstantValue( 1 ) );
+		r.makeOutput( new CallFrameImpl( Outputs.class.getMethod( "getResult" ) ) );
+
+		assertDoubleResult( 1.0, engineModel, "AND(=true, =1)" );
 	}
 
 
