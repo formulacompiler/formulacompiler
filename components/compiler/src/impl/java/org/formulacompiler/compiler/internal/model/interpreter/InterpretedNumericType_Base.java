@@ -340,7 +340,8 @@ abstract class InterpretedNumericType_Base
 	protected int valueToInt( Object _value, int _ifNull )
 	{
 		if (_value instanceof Number) return ((Number) _value).intValue();
-		if (_value instanceof String) return Integer.valueOf( (String) _value );
+		if (_value instanceof String) return Integer.parseInt( (String) _value );
+		if (_value instanceof Boolean) return ((Boolean) _value) ? 1 : 0;
 		return _ifNull;
 	}
 
