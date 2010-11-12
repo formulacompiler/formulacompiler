@@ -30,6 +30,8 @@ import java.util.Map;
 
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
+import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor.Point;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
@@ -354,15 +356,23 @@ abstract class SectionCompiler extends ClassCompiler
 
 
 	private final Map<String, ArrayAccessorCompiler> arrayAccessorsForConstData = New.map();
+	private int nextArrayAccessorForConstDataId = 0;
 
 	public ArrayAccessorCompiler getArrayAccessorForConstDataOnly( ExpressionNodeForArrayReference _arrayNode )
 			throws CompilerException
 	{
-		final String name = _arrayNode.arrayDescriptor().name();
+		return getArrayAccessorForConstDataOnly( _arrayNode, false );
+	}
+
+	public ArrayAccessorCompiler getArrayAccessorForConstDataOnly( ExpressionNodeForArrayReference _arrayNode,
+			boolean _trimTrailingNulls ) throws CompilerException
+	{
+		final String name = _arrayNode.arrayDescriptor().name() + (_trimTrailingNulls ? "$trimmed" : "");
 		ArrayAccessorCompiler acc = this.arrayAccessorsForConstData.get( name );
 		if (null == acc) {
-			final String internalName = Integer.toString( this.arrayAccessorsForConstData.size() );
-			acc = new ArrayAccessorForConstDataCompiler( this, internalName, _arrayNode );
+			final String internalName = Integer.toString( this.nextArrayAccessorForConstDataId++ );
+			acc = new ArrayAccessorForConstDataCompiler( this, internalName, _trimTrailingNulls
+					? trimTrailingNulls( _arrayNode ) : _arrayNode );
 			acc.compile();
 			this.arrayAccessorsForConstData.put( name, acc );
 		}
@@ -371,19 +381,21 @@ abstract class SectionCompiler extends ClassCompiler
 
 
 	private final Map<String, ArrayAccessorCompiler> arrayAccessorsForFullData = New.map();
+	private int nextArrayAccessorForFullDataId = 0;
 
-	public ArrayAccessorCompiler getArrayAccessorForFullData( ExpressionNodeForArrayReference _arrayNode )
-			throws CompilerException
+	public ArrayAccessorCompiler getArrayAccessorForFullData( ExpressionNodeForArrayReference _arrayNode,
+			boolean _trimTrailingNulls ) throws CompilerException
 	{
 		if (areAllConstant( _arrayNode.arguments() )) {
-			return getArrayAccessorForConstDataOnly( _arrayNode );
+			return getArrayAccessorForConstDataOnly( _arrayNode, _trimTrailingNulls );
 		}
 
-		final String name = _arrayNode.arrayDescriptor().name();
+		final String name = _arrayNode.arrayDescriptor().name() + (_trimTrailingNulls ? "$trimmed" : "");
 		ArrayAccessorCompiler acc = this.arrayAccessorsForFullData.get( name );
 		if (null == acc) {
-			final String internalName = Integer.toString( this.arrayAccessorsForFullData.size() );
-			acc = new ArrayAccessorForFullDataCompiler( this, internalName, _arrayNode );
+			final String internalName = Integer.toString( this.nextArrayAccessorForFullDataId++ );
+			acc = new ArrayAccessorForFullDataCompiler( this, internalName, _trimTrailingNulls
+					? trimTrailingNulls( _arrayNode ) : _arrayNode );
 			acc.compile();
 			this.arrayAccessorsForFullData.put( name, acc );
 		}
@@ -398,6 +410,30 @@ abstract class SectionCompiler extends ClassCompiler
 		return true;
 	}
 
+	private ExpressionNodeForArrayReference trimTrailingNulls( ExpressionNodeForArrayReference _arrayNode )
+	{
+		final List<ExpressionNode> args = _arrayNode.arguments();
+		final int n = args.size();
+		final int m;
+		{
+			int i = n - 1;
+			ExpressionNode arg;
+			while (i >= 0
+					&& (arg = args.get( i )) instanceof ExpressionNodeForConstantValue
+					&& null == ((ExpressionNodeForConstantValue) arg).value()) {
+				i--;
+			}
+			m = i + 1;
+		}
+		if (m < n) {
+			final ArrayDescriptor dim = _arrayNode.arrayDescriptor();
+			if (dim.numberOfColumns() > 1)
+				return _arrayNode.subArray( 0, dim.numberOfRows(), 0, m );
+			if (dim.numberOfRows() > 1)
+				return _arrayNode.subArray( 0, m, 0, dim.numberOfColumns() );
+		}
+		return _arrayNode;
+	}
 
 	private final Map<String, IndexerCompiler> indexers = New.map();
 	private int nextIndexerId = 0;

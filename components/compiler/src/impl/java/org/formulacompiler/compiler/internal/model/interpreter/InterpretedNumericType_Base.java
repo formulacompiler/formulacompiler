@@ -317,13 +317,18 @@ abstract class InterpretedNumericType_Base
 			{
 				public int compareTo( Object _o )
 				{
-					return -comp.compareTo(_o);
+					return -comp.compareTo( _o );
 				}
 			};
 			final List<ExpressionNode> args = range.arguments();
 			final List<Object> vals = New.list( args.size() );
 			for (ExpressionNode arg : args) {
 				vals.add( ((ExpressionNodeForConstantValue) arg).value() );
+			}
+			// Trim trailing nulls. See http://code.google.com/p/formulacompiler/issues/detail?id=29.
+			int n = vals.size();
+			while (n > 0 && null == vals.get( n - 1 )) {
+				vals.remove( --n );
 			}
 			return Runtime_v2.fun_MATCH_Sorted( vals.toArray(), adjustedComp );
 		}
