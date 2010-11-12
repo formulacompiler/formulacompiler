@@ -34,6 +34,7 @@ import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.AbstractComputationModelVisitor;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.ConstantExpressionCellListenerSupport;
+import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.optimizer.consteval.ConstResult;
@@ -139,6 +140,8 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 				}
 				else {
 					final ExpressionNode optimizedExpr = (ExpressionNode) optimizedResult;
+					assert !(optimizedExpr instanceof ExpressionNodeForCellModel)
+							|| ((ExpressionNodeForCellModel) optimizedExpr).getCellModel() != _cell: "Cell references itself";
 					_cell.setExpression( optimizedExpr );
 				}
 			}
@@ -153,8 +156,7 @@ final public class ConstantSubExpressionEliminator extends AbstractComputationMo
 	{
 		if (null == _expr) return ConstResult.NULL;
 		final TypedResult cached = _cell.getCachedResult();
-		if (null != cached) 
-			return cached;
+		if (null != cached) return cached;
 		final Object source = _cell.getSource();
 		final CellAddress cellAddress = source instanceof CellAddress ? (CellAddress) source : null;
 		return EvalShadow.evaluate( _expr, getNumericType(), cellAddress );

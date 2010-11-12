@@ -33,12 +33,12 @@ import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 public class EvalCell extends EvalShadow
 {
-	
+
 	public EvalCell( ExpressionNodeForCellModel _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}
-	
+
 	@Override
 	protected final TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException
 	{
@@ -50,17 +50,27 @@ public class EvalCell extends EvalShadow
 			return node();
 		}
 
-		final TypedResult cached = cellModel.getCachedResult();
-		if (null != cached) {
-			return cached;
+		TypedResult evaluated = cellModel.getCachedResult();
+		if (null == evaluated) {
+			evaluated = doEvaluate( cellModel );
+			cellModel.setCachedResult( evaluated );
 		}
 
-		final TypedResult computed = compute(cellModel);
-		cellModel.setCachedResult( computed );
-		return computed;
+		if (evaluated instanceof ExpressionNodeForConstantValue) {
+			return evaluated;
+		}
+		else if (evaluated instanceof ExpressionNode) {
+			// Not constant, so return the cell as such.
+			// But use the simplified expression.
+			assert node().arguments().size() == 0;
+			return node();
+		}
+		else {
+			return evaluated;
+		}
 	}
 
-	private TypedResult compute(CellModel cellModel) throws CompilerException
+	private TypedResult doEvaluate( CellModel cellModel ) throws CompilerException
 	{
 		final Object constantValue = cellModel.getConstantValue();
 		if (null != constantValue) {
@@ -76,18 +86,7 @@ public class EvalCell extends EvalShadow
 		if (null != expression) {
 			final Object source = cellModel.getSource();
 			final CellAddress cellAddress = source instanceof CellAddress ? (CellAddress) source : null;
-			final TypedResult result = EvalShadow.evaluate( expression, type(), cellAddress );
-			if (result instanceof ExpressionNodeForConstantValue) {
-				return result;
-			}
-			else if (result instanceof ExpressionNode) {
-				// Not constant, so return the cell as such.
-				assert node().arguments().size() == 0;
-				return node();
-			}
-			else {
-				return result;
-			}
+			return EvalShadow.evaluate( expression, type(), cellAddress );
 		}
 
 		return ConstResult.NULL;
