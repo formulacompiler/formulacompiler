@@ -1497,32 +1497,22 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static int fun_MATCH_Ascending( double _x, double[] _xs )
 	{
-		final int iLast = _xs.length - 1;
-		int iLeft = 0;
-		int iRight = iLast;
-		while (iLeft < iRight) {
-			final int iMid = iLeft + ((iRight - iLeft) >> 1);
-			if (_x > _xs[ iMid ]) iLeft = iMid + 1;
-			else iRight = iMid;
+		if (_xs[ 0 ] > _x) throw new NotAvailableException();
+		final int n = _xs.length;
+		for (int i = 1; i <= n - 1; i++) {
+			if (_xs[ i ] > _x) return i; // Excel is 1-based
 		}
-		if (iLeft > iLast || _x < _xs[ iLeft ]) iLeft--;
-		if (iLeft < 0) fun_NA();
-		return iLeft + 1; // Excel is 1-based
+		return n; // Excel is 1-based
 	}
 
 	public static int fun_MATCH_Descending( double _x, double[] _xs )
 	{
-		final int iLast = _xs.length - 1;
-		int iLeft = 0;
-		int iRight = iLast;
-		while (iLeft < iRight) {
-			final int iMid = iLeft + ((iRight - iLeft) >> 1);
-			if (_x < _xs[ iMid ]) iLeft = iMid + 1;
-			else iRight = iMid;
+		if (_xs[ 0 ] < _x) throw new NotAvailableException();
+		final int n = _xs.length;
+		for (int i = 1; i <= n - 1; i++) {
+			if (_xs[ i ] < _x) return i; // Excel is 1-based
 		}
-		if (iLeft > iLast || _x > _xs[ iLeft ]) iLeft--;
-		if (iLeft < 0) fun_NA();
-		return iLeft + 1; // Excel is 1-based
+		return n; // Excel is 1-based
 	}
 
 

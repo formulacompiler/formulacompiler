@@ -874,17 +874,16 @@ public abstract class Runtime_v2
 
 	public static <T> int fun_MATCH_Sorted( T[] _xs, Comparable<T> _comp )
 	{
-		final int iLast = _xs.length - 1;
-		int iLeft = 0;
-		int iRight = iLast;
-		while (iLeft < iRight) {
-			final int iMid = iLeft + ((iRight - iLeft) >> 1);
-			if (_comp.compareTo(_xs[ iMid ]) > 0) iLeft = iMid + 1;
-			else iRight = iMid;
+		if (_comp.compareTo( _xs[ 0 ] ) < 0) throw new NotAvailableException();
+		final int n = _xs.length;
+		int res = 1; // Excel is 1-based
+		for (int i = 1; i <= n - 1; i++) {
+			final T xi = _xs[ i ];
+			if (null == xi) continue;
+			if (_comp.compareTo( xi ) < 0) return res;
+			res++;
 		}
-		if (iLeft > iLast || _comp.compareTo(_xs[ iLeft ]) < 0) iLeft--;
-		if (iLeft < 0) fun_NA();
-		return iLeft + 1; // Excel is 1-based
+		return n;
 	}
 
 
