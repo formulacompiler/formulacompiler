@@ -87,23 +87,26 @@ public final class ExpressionNodeForArrayReference extends ExpressionNode
 	}
 
 
-	public final ExpressionNodeForArrayReference subArray( int _firstRow, int _nRows, int _firstCol, int _nCols )
+	public final ExpressionNodeForArrayReference subArray( int _firstRowDelta, int _nRows, int _firstColDelta, int _nCols )
 	{
 		final ArrayDescriptor myDesc = arrayDescriptor();
 		final int myCols = myDesc.numberOfColumns();
 		if (myDesc.numberOfSheets() != 1)
 			throw new IllegalArgumentException( "Cannot handle arrays spanning sheets in subArray()" );
 
-		final ArrayDescriptor subDesc = new ArrayDescriptor( myDesc, _firstRow, _firstCol,
+		final ArrayDescriptor subDesc = new ArrayDescriptor( myDesc, _firstRowDelta, _firstColDelta,
 				_nRows - myDesc.extent().row(), _nCols - myDesc.extent().col() );
 		final ExpressionNodeForArrayReference sub = new ExpressionNodeForArrayReference( subDesc );
+		sub.setDataType( getDataType() );
+		sub.setDeclaredDataType( getDeclaredDataType() );
+		sub.setDerivedFrom( getDerivedFrom() );
 
-		final ListIterator<ExpressionNode> vals = arguments().listIterator( _firstRow * myCols );
-		final int lastCol = _firstCol + _nCols - 1;
+		final ListIterator<ExpressionNode> vals = arguments().listIterator( _firstRowDelta * myCols );
+		final int lastCol = _firstColDelta + _nCols - 1;
 		for (int iRow = 0; iRow < _nRows; iRow++) {
 			for (int iCol = 0; iCol < myCols; iCol++) {
 				final ExpressionNode val = vals.next();
-				if (_firstCol <= iCol && iCol <= lastCol) {
+				if (_firstColDelta <= iCol && iCol <= lastCol) {
 					sub.addArgument( val );
 				}
 			}

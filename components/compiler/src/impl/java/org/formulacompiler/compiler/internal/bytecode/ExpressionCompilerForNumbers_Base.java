@@ -674,7 +674,8 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 
 		final ExpressionCompilerForNumbers numCompiler = method().numericCompiler();
 		final ExpressionCompiler valCompiler = method().expressionCompiler( valNode.getDataType() );
-		final ArrayAccessorCompiler acc = section().getArrayAccessorForFullData( arrayNode );
+		// Trim trailing nulls. See http://code.google.com/p/formulacompiler/issues/detail?id=29.
+		final ArrayAccessorCompiler acc = section().getArrayAccessorForFullData( arrayNode, true );
 
 		// return Runtime.fun_MATCH_xy( val, vals [, env] );
 		final boolean needEnv = (valNode.getDataType() == DataType.STRING && type != 0);
