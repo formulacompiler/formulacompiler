@@ -214,7 +214,6 @@ abstract class InterpretedNumericType_Base
 		throw new EvalNotPossibleException();
 	}
 
-	@SuppressWarnings( "unused" )
 	public Object compute( Function _function, Object... _args ) throws InterpreterException
 	{
 		final int cardinality = _args.length;
@@ -296,7 +295,7 @@ abstract class InterpretedNumericType_Base
 
 
 	@SuppressWarnings( "unchecked" )
-	public static int match( Object _lookup, Object _in, int _type )
+	public static int match( Object _lookup, Object _in, int _type ) throws InterpreterException
 	{
 		if (null == _in) {
 			throw new FormulaException( "#VALUE! because range is empty in MATCH" );
@@ -312,6 +311,10 @@ abstract class InterpretedNumericType_Base
 			throw new NotAvailableException();
 		}
 		else {
+			if (_lookup instanceof String) {
+				// Needs the collator from the environment.
+				throw new InterpreterException.IsRuntimeEnvironmentDependent();
+			}
 			final Comparable comp = (Comparable) _lookup;
 			final Comparable adjustedComp = (_type > 0) ? comp : new Comparable()
 			{
