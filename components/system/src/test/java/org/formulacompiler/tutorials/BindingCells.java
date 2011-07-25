@@ -67,8 +67,8 @@ public class BindingCells
 		builder.loadSpreadsheet( new File( path ) );
 		/* -in- */builder.setInputClass( Input.class );/* -in- */
 		/* -out- */builder.setOutputClass( Output.class );/* -out- */
-		// ---- setupBuilder
 		builder.createCellNamesFromRowTitles();
+		// ---- setupBuilder
 		// ---- getBinder
 		Spreadsheet spreadsheet = builder./**/getSpreadsheet()/**/;
 		SpreadsheetBinder.Section binder = builder./**/getRootBinder/**/();

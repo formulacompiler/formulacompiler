@@ -1934,6 +1934,7 @@ EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( new File( path ) );
 		/* -in- */builder.setInputClass( Input.class );/* -in- */
 		/* -out- */builder.setOutputClass( Output.class );/* -out- */
+		builder.createCellNamesFromRowTitles();
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- setupBuilder; highlight -out-; strip -in-
 __@@__
@@ -1941,6 +1942,7 @@ EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
 		builder.loadSpreadsheet( new File( path ) );
 		/* -in- */builder.setInputClass( Input.class );/* -in- */
 		/* -out- */builder.setOutputClass( Output.class );/* -out- */
+		builder.createCellNamesFromRowTitles();
 ___@_@___
 jc:org.formulacompiler.tutorials.BindingCells:---- setupBuilderWithDefaults
 __@@__
