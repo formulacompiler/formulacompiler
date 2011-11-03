@@ -8,7 +8,12 @@ Lists the new features, improvements, and fixes for each release of AFC. Note th
 <%= toc 2,3 %>
 
 
-h2. Release 1.4.1
+h2. Release 1.5
+
+h5. *Changed!*
+
+	* AFC now uses POI instead of JExcelAPI for parsing .xls files.
+	* Since POI supports named cell styles they are now supported when generating .xls files based on templates in the same way as for .xlsx and .ods files. The workaround when named ranges define named styles for .xls files has been dropped. For details, see "tutorial for formatting generated files":../doc/tutorial/generatesheet.htm#template.
 
 h5. New
 

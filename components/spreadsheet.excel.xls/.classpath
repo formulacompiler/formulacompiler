@@ -5,11 +5,11 @@
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="src/test/data"/>
 	<classpathentry kind="src" path="src/test/resources"/>
-	<classpathentry kind="lib" path="lib/impl/jxl.jar" sourcepath="lib/IDE/jxl-src.zip"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-runtime"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-compiler"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/afc-spreadsheet"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="lib" path="/afc/lib/test/junit-4.8.2.jar"/>
+	<classpathentry kind="lib" path="lib/impl/poi-3.7.jar" sourcepath="lib/IDE/poi-3.7-src.jar"/>
 	<classpathentry kind="output" path="temp/eclipse"/>
 </classpath>

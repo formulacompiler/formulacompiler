@@ -26,14 +26,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
-import java.util.Locale;
+import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 
+import org.formulacompiler.compiler.internal.Duration;
+import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.runtime.New;
-import org.formulacompiler.runtime.internal.Runtime_v2;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetSaver;
@@ -45,32 +46,33 @@ import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.CellWithExpression;
 import org.formulacompiler.spreadsheet.internal.saver.SpreadsheetSaverDispatcher;
-
-import jxl.Cell;
-import jxl.CellView;
-import jxl.JXLException;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.WorkbookSettings;
-import jxl.format.CellFormat;
-import jxl.read.biff.BiffException;
-import jxl.write.Blank;
-import jxl.write.Formula;
-import jxl.write.WritableCell;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Name;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 public final class ExcelXLSSaver implements SpreadsheetSaver
 {
+
 	private final Spreadsheet model;
 	private final OutputStream outputStream;
 	private final InputStream templateInputStream;
-	private final TimeZone timeZone;
 	private Workbook template;
-	private Sheet templateSheet;
+	private final TimeZone timeZone;
 
+	private final static String TIME_FORMAT = "h:mm:ss";
+	private final static String DATE_TIME_FORMAT = "m/d/yy h:mm";
+	private final static String DATE_FORMAT = "m/d/yy";
+	private CellStyle TIME_STYLE;
+	private CellStyle DATE_TIME_STYLE;
+	private CellStyle DATE_STYLE;
 
-	public ExcelXLSSaver( Config _config )
+	private ExcelXLSSaver( Config _config )
 	{
 		super();
 		this.model = _config.spreadsheet;
@@ -93,73 +95,66 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 		}
 	}
 
+	private void initDateTimeStyles( Workbook wb )
+	{
+		this.DATE_TIME_STYLE = wb.createCellStyle();
+		this.DATE_TIME_STYLE.setDataFormat( HSSFDataFormat.getBuiltinFormat( DATE_TIME_FORMAT ) );
+
+		this.DATE_STYLE = wb.createCellStyle();
+		this.DATE_STYLE.setDataFormat( HSSFDataFormat.getBuiltinFormat( DATE_FORMAT ) );
+
+		this.TIME_STYLE = wb.createCellStyle();
+		this.TIME_STYLE.setDataFormat( HSSFDataFormat.getBuiltinFormat( TIME_FORMAT ) );
+	}
 
 	public void save() throws IOException, SpreadsheetException
 	{
 		this.template = (null == this.templateInputStream) ? null : loadTemplate( this.templateInputStream );
-		this.templateSheet = (null == this.template) ? null : this.template.getSheet( 0 );
-
 		final BaseSpreadsheet wb = (BaseSpreadsheet) this.model;
-		final WritableWorkbook xwb = createWorkbook();
-		try {
-			saveWorkbook( wb, xwb );
-			xwb.write();
-			xwb.close();
-		}
-		catch (JXLException e) {
-			throw new SpreadsheetException.SaveError( e );
-		}
+		final Workbook xwb = createWorkbook();
+		initDateTimeStyles( xwb );
+		saveWorkbook( wb, xwb );
+		xwb.write( this.outputStream );
+		this.outputStream.close();
 	}
 
-	private Workbook loadTemplate( InputStream _stream ) throws IOException, SpreadsheetException
+	private Workbook loadTemplate( InputStream _stream ) throws IOException
 	{
-		try {
-			return Workbook.getWorkbook( _stream );
-		}
-		catch (BiffException e) {
-			throw new SpreadsheetException.LoadError( "Error loading template spreadsheet", e );
-		}
+		return new HSSFWorkbook( _stream );
 	}
 
-	private Cell getTemplateCell( String _styleName )
+	private Workbook createWorkbook()
 	{
-		return (null == this.template) ? null : this.template.findCellByName( _styleName );
-	}
-
-	private WritableWorkbook createWorkbook() throws IOException
-	{
-		final WorkbookSettings xset = new WorkbookSettings();
-		xset.setLocale( Locale.ENGLISH );
 		if (null == this.template) {
-			return Workbook.createWorkbook( this.outputStream, xset );
+			return new HSSFWorkbook();
 		}
 		else {
-			final WritableWorkbook xwb = Workbook.createWorkbook( this.outputStream, this.template, xset );
+			final Workbook xwb = this.template;
 			extractCellFormatsFrom( xwb );
 			removeDataFrom( xwb );
 			return xwb;
 		}
 	}
 
-	private void removeDataFrom( final WritableWorkbook _xwb )
+	private void removeDataFrom( final Workbook _xwb )
 	{
-		for (int i = _xwb.getSheets().length - 1; i >= 0; i--) {
-			_xwb.removeSheet( i );
+		for (int i = _xwb.getNumberOfSheets() - 1; i >= 0; i--) {
+			_xwb.removeSheetAt( i );
 		}
-		for (String name : _xwb.getRangeNames()) {
-			_xwb.removeRangeName( name );
+		for (int i = 0; i < _xwb.getNumberOfNames(); i++) {
+			_xwb.removeName( i );
 		}
 	}
 
 
-	private void saveWorkbook( BaseSpreadsheet _wb, WritableWorkbook _xwb ) throws JXLException, SpreadsheetException
+	private void saveWorkbook( BaseSpreadsheet _wb, Workbook _xwb ) throws SpreadsheetException
 	{
 		saveSheets( _wb, _xwb );
 		saveNames( _wb, _xwb );
 	}
 
 
-	private void saveNames( BaseSpreadsheet _wb, WritableWorkbook _xwb )
+	private void saveNames( BaseSpreadsheet _wb, Workbook _xwb )
 	{
 		for (final Entry<String, CellRange> nd : _wb.getModelRangeNames().entrySet()) {
 			final String name = nd.getKey();
@@ -167,163 +162,122 @@ public final class ExcelXLSSaver implements SpreadsheetSaver
 			final CellIndex from = ref.getFrom();
 			final CellIndex to = ref.getTo();
 			if (from.getSheetIndex() == to.getSheetIndex()) {
-				_xwb.addNameArea( name, _xwb.getSheet( from.getSheetIndex() ), from.getColumnIndex(), from.getRowIndex(),
-						to.getColumnIndex(), to.getRowIndex() );
+				final Name namedCel = _xwb.createName();
+				namedCel.setNameName( name );
+				namedCel.setRefersToFormula( ref.toString() );
 			}
 		}
 	}
 
 
-	private void saveSheets( BaseSpreadsheet _wb, WritableWorkbook _xwb ) throws JXLException, SpreadsheetException
+	private void saveSheets( BaseSpreadsheet _wb, Workbook _xwb ) throws SpreadsheetException
 	{
 		for (final BaseSheet s : _wb.getSheetList()) {
-			final WritableSheet xs = _xwb.createSheet( s.getName(), s.getSheetIndex() );
-			saveSheet( s, _xwb, xs );
+			final Sheet xs = _xwb.createSheet( s.getName() );
+			saveSheet( s, xs );
 		}
 	}
 
 
-	private void saveSheet( BaseSheet _s, WritableWorkbook _xwb, WritableSheet _xs ) throws JXLException,
-			SpreadsheetException
+	private void saveSheet( BaseSheet _s, Sheet _xs ) throws SpreadsheetException
 	{
 		for (final BaseRow r : _s.getRowList()) {
-			if (r != null) saveRow( r, _xwb, _xs );
+			saveRow( r, _xs );
 		}
 	}
 
 
-	private void saveRow( BaseRow _r, WritableWorkbook _xwb, WritableSheet _xs ) throws JXLException,
-			SpreadsheetException
+	private void saveRow( BaseRow _r, Sheet _xs ) throws SpreadsheetException
 	{
-		final int row = _r.getRowIndex();
-		for (final CellInstance c : _r.getCellList()) {
-			if (c != null) saveCell( c, _xwb, _xs, row );
+		if (_r != null) {
+			final int rowIdx = _r.getRowIndex();
+			final Row row = _xs.createRow( rowIdx );
+			for (final CellInstance c : _r.getCellList()) {
+				saveCell( c, row );
+			}
 		}
-		styleRow( _r.getStyleName(), _xwb, _xs, row );
 	}
 
 
-	private void saveCell( CellInstance _c, WritableWorkbook _xwb, WritableSheet _xs, int _row ) throws JXLException,
-			SpreadsheetException
+	private void saveCell( CellInstance _c, Row _row ) throws SpreadsheetException
 	{
-		final int col = _c.getColumnIndex();
-		final WritableCell xc = createCell( _c, _xwb, col, _row );
-		styleCell( _c.getStyleName(), _xwb, _xs, xc );
-		_xs.addCell( xc );
-		styleColumn( _c.getStyleName(), _xwb, _xs, col );
+		if (_c != null) {
+			final int colIdx = _c.getColumnIndex();
+			final Cell xc = createCell( _c, colIdx, _row );
+			styleCell( _c.getStyleName(), xc );
+		}
 	}
 
 
-	private WritableCell createCell( CellInstance _c, WritableWorkbook _xwb, int _col, int _row )
+	private Cell createCell( CellInstance _c, int _colIdx, Row _row )
 			throws SpreadsheetException
 	{
+		final Cell cell = _row.createCell( _colIdx );
 		if (_c instanceof CellWithExpression) {
 			final ExpressionNode expr = ((CellWithExpression) _c).getExpression();
-			return new Formula( _col, _row, ExpressionFormatter.format( expr, _c.getCellIndex() ) );
+			cell.setCellFormula( ExpressionFormatter.format( expr, _c.getCellIndex() ) );
 		}
 		else {
 			final Object val = _c.getValue();
 			if (val instanceof String) {
-				return new jxl.write.Label( _col, _row, ((String) val) );
+				cell.setCellValue( (String) val );
 			}
-			if (val instanceof Date) {
-				final Date date = (Date) val;
-				final long msSinceLocal1970 = Runtime_v2.dateToMsSinceLocal1970( date, this.timeZone );
-				return new jxl.write.DateTime( _col, _row, new Date( msSinceLocal1970 ), jxl.write.DateTime.GMT );
+			else if (val instanceof Date) {
+				final GregorianCalendar calendar = new GregorianCalendar( this.timeZone );
+				calendar.setTime( (Date) val );
+				cell.setCellValue( calendar );
 			}
-			if (val instanceof Boolean) {
-				return new jxl.write.Boolean( _col, _row, ((Boolean) val) );
+			else if (val instanceof Boolean) {
+				cell.setCellValue( (Boolean) val );
 			}
-			if (val instanceof Number) {
-				return new jxl.write.Number( _col, _row, ((Number) val).doubleValue() );
+			else if (val instanceof Number) {
+				final double value = ((Number) val).doubleValue();
+				cell.setCellValue( value );
+				if (val instanceof LocalDate) {
+					if (value % 1 == 0) {
+						cell.setCellStyle( this.DATE_STYLE );
+					}
+					else {
+						cell.setCellStyle( this.DATE_TIME_STYLE );
+					}
+				}
+				else if (val instanceof Duration) {
+					cell.setCellStyle( this.TIME_STYLE );
+				}
 			}
 		}
-		return new Blank( _col, _row );
+		return cell;
 	}
 
+	private final Map<String, HSSFCellStyle> cellStyles = New.map();
 
-	private final Map<String, CellView> colStyles = New.map();
-	private final Map<String, CellView> rowStyles = New.map();
-
-	private CellView getRowStyle( String _styleName )
+	private void extractCellFormatsFrom( Workbook _xwb )
 	{
-		return getRowOrColStyle( _styleName, this.rowStyles, true );
-	}
-
-	private CellView getColumnStyle( String _styleName )
-	{
-		return getRowOrColStyle( _styleName, this.colStyles, false );
-	}
-
-	private CellView getRowOrColStyle( String _styleName, Map<String, CellView> _styles, boolean _isRow )
-	{
-		if (_styles.containsKey( _styleName )) {
-			return _styles.get( _styleName );
-		}
-		else {
-			final Cell styleCell = getTemplateCell( _styleName );
-			if (null != styleCell) {
-				final CellView styleFormat = _isRow ? this.templateSheet.getRowView( styleCell.getRow() )
-						: this.templateSheet.getColumnView( styleCell.getColumn() );
-				final CellView targetFormat = new CellView();
-
-				copyRowOrColAttributes( styleFormat, targetFormat );
-
-				_styles.put( _styleName, targetFormat );
-				return targetFormat;
+		final short styleCount = _xwb.getNumCellStyles();
+		for (short idx = 0; idx < styleCount; idx++) {
+			final HSSFCellStyle cellStyle = (HSSFCellStyle) _xwb.getCellStyleAt( idx );
+			try {
+				final String styleName = cellStyle.getParentStyle().getUserStyleName();
+				if (styleName != null) {
+					this.cellStyles.put( styleName, cellStyle );
+				}
 			}
-			else {
-				_styles.put( _styleName, null );
-				return null;
+			catch (Exception e) {
+				// Do nothing, we use only styles with parents
 			}
 		}
 	}
 
-	private void copyRowOrColAttributes( CellView _source, CellView _target )
-	{
-		_target.setSize( _source.getSize() );
-	}
-
-
-	private final Map<String, CellFormat> cellStyles = New.map();
-
-	private void extractCellFormatsFrom( WritableWorkbook _xwb )
-	{
-		for (final String name : _xwb.getRangeNames()) {
-			final WritableCell cell = _xwb.findCellByName( name );
-			this.cellStyles.put( name, cell.getCellFormat() );
-		}
-	}
-
-	private CellFormat getCellStyle( String _styleName )
+	private HSSFCellStyle getCellStyle( String _styleName )
 	{
 		return this.cellStyles.get( _styleName );
 	}
 
-
-	private void styleRow( String _styleName, WritableWorkbook _xwb, WritableSheet _xs, int _row ) throws JXLException
+	private void styleCell( String _styleName, Cell _xc )
 	{
-		final CellView style = getRowStyle( _styleName );
+		final HSSFCellStyle style = getCellStyle( _styleName );
 		if (null != style) {
-			_xs.setRowView( _row, style.getSize() );
+			_xc.setCellStyle( style );
 		}
 	}
-
-	private void styleColumn( String _styleName, WritableWorkbook _xwb, WritableSheet _xs, int _col )
-	{
-		final CellView style = getColumnStyle( _styleName );
-		if (null != style) {
-			_xs.setColumnView( _col, style );
-		}
-	}
-
-	private void styleCell( String _styleName, WritableWorkbook _xwb, WritableSheet _xs, WritableCell _xc )
-	{
-		final CellFormat style = getCellStyle( _styleName );
-		if (null != style) {
-			_xc.setCellFormat( style );
-		}
-	}
-
-
 }

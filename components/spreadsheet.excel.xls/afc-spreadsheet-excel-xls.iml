@@ -19,13 +19,13 @@
     <orderEntry type="module" module-name="afc-compiler" />
     <orderEntry type="module" module-name="afc-spreadsheet" />
     <orderEntry type="module-library">
-      <library>
+      <library name="poi">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/impl/jxl.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/impl/poi-3.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/lib/IDE/jxl-src.zip!/" />
+          <root url="jar://$MODULE_DIR$/lib/IDE/poi-3.7-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
