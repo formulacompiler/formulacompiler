@@ -7,7 +7,7 @@ sheets:
 - name: Sheet1
   rows:
   - cells:
-    - expr: =** org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression: Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?.
+    - expr: =** org.formulacompiler.spreadsheet.SpreadsheetException$UnsupportedExpression: Unsupported function INFO encountered in expression 1+INFO( <<? B1); error location indicated by <<?.
 Cell containing expression is Sheet1!A1.
       names: [ Info ]
     - const: "memused"

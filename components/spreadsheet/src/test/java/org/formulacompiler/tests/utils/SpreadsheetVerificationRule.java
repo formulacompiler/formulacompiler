@@ -41,6 +41,7 @@ import junit.framework.AssertionFailedError;
 
 public class SpreadsheetVerificationRule implements MethodRule
 {
+	private static final String USER_NAME_PROPERTY = "user.name";
 	private Spreadsheet spreadsheet;
 	private String fileName;
 	private final String spreadsheetExtension;
@@ -128,7 +129,14 @@ public class SpreadsheetVerificationRule implements MethodRule
 			public void evaluate() throws Throwable
 			{
 				base.evaluate();
-				verify();
+
+				final String oldUserName = System.getProperty( USER_NAME_PROPERTY );
+				try {
+					System.setProperty( USER_NAME_PROPERTY, "Formula Compiler" );
+					verify();
+				} finally {
+					System.setProperty( USER_NAME_PROPERTY, oldUserName );
+				}
 			}
 		};
 	}

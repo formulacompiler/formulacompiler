@@ -24,16 +24,17 @@ package org.formulacompiler.spreadsheet.internal.excel.xls.loader;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.NumberFormat;
-import java.util.Locale;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
+import org.formulacompiler.compiler.internal.expressions.parser.ExpressionParser;
+import org.formulacompiler.compiler.internal.expressions.parser.ParseException;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
-import org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.SpreadsheetLoader;
@@ -46,15 +47,15 @@ import org.formulacompiler.spreadsheet.internal.loader.builder.RowBuilder;
 import org.formulacompiler.spreadsheet.internal.loader.builder.SheetBuilder;
 import org.formulacompiler.spreadsheet.internal.loader.builder.SpreadsheetBuilder;
 import org.formulacompiler.spreadsheet.internal.parser.LazySpreadsheetExpressionParser;
-import jxl.BooleanFormulaCell;
-import jxl.Cell;
-import jxl.CellType;
-import jxl.DateCell;
-import jxl.DateFormulaCell;
-import jxl.NumberFormulaCell;
-import jxl.StringFormulaCell;
-import jxl.Workbook;
-import jxl.WorkbookSettings;
+import org.formulacompiler.spreadsheet.internal.parser.SpreadsheetExpressionParserA1OOXML;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Name;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 
 /**
@@ -65,6 +66,7 @@ import jxl.WorkbookSettings;
  */
 public final class ExcelXLSLoader implements SpreadsheetLoader
 {
+	private static final Pattern TIME_PATTERN = Pattern.compile( "[hs]|(?:AM/PM)|(?:A/P)|(?:h\\W*m)(?:m\\W*s)" );
 
 	public static final class Factory implements SpreadsheetLoaderDispatcher.Factory
 	{
@@ -84,143 +86,178 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 
 	private final Config config;
 
-	public ExcelXLSLoader( Config _config )
+	private ExcelXLSLoader( Config _config )
 	{
 		this.config = _config;
 	}
 
 
-	public Spreadsheet loadFrom( String _originalFileName, InputStream _stream ) throws IOException,
-			SpreadsheetException
+	public Spreadsheet loadFrom( String _originalFileName, InputStream _stream ) throws IOException, SpreadsheetException
 	{
-		final WorkbookSettings xlsSettings = new WorkbookSettings();
-		xlsSettings.setLocale( Locale.ENGLISH );
-		xlsSettings.setExcelDisplayLanguage( "EN" );
-		xlsSettings.setExcelRegionalSettings( "EN" );
-		xlsSettings.setEncoding( "ISO-8859-1" );
-		xlsSettings.setAutoFilterDisabled( true );
-		xlsSettings.setCellValidationDisabled( true );
-		xlsSettings.setDrawingsDisabled( true );
-		xlsSettings.setMergedCellChecking( false );
-		xlsSettings.setPropertySets( false );
-		xlsSettings.setSuppressWarnings( true );
-		try {
-			final jxl.Workbook xlsWorkbook = jxl.Workbook.getWorkbook( _stream, xlsSettings );
-			final SpreadsheetBuilder spreadsheetBuilder = new SpreadsheetBuilder( ComputationMode.EXCEL );
+		final Workbook xlsWorkbook = new HSSFWorkbook( _stream );
+		loadConfig( xlsWorkbook );
+		final SpreadsheetBuilder spreadsheetBuilder = new SpreadsheetBuilder( ComputationMode.EXCEL );
 
-			loadConfig( xlsWorkbook );
+		final int numberOfSheets = xlsWorkbook.getNumberOfSheets();
+		for (int i = 0; i < numberOfSheets; i++) {
+			final Sheet xlsSheet = xlsWorkbook.getSheetAt( i );
+			final SheetBuilder sheetBuilder = spreadsheetBuilder.beginSheet( xlsSheet.getSheetName() );
+			loadRows( xlsSheet, sheetBuilder );
+			sheetBuilder.endSheet();
+		}
 
-			for (final jxl.Sheet xlsSheet : xlsWorkbook.getSheets()) {
-				final SheetBuilder sheetBuilder = spreadsheetBuilder.beginSheet( xlsSheet.getName() );
-				loadRows( xlsSheet, sheetBuilder );
-				sheetBuilder.endSheet();
-			}
-
-			final BaseSpreadsheet workbook = spreadsheetBuilder.getSpreadsheet();
-			loadNames( xlsWorkbook, workbook );
-			return workbook;
-		}
-		catch (jxl.read.biff.BiffException e) {
-			throw new SpreadsheetException.LoadError( "Error parsing " + _originalFileName, e );
-		}
-		catch (SpreadsheetException.LoadError e) {
-			throw new SpreadsheetException.LoadError( "Error parsing " + _originalFileName, e );
-		}
+		final BaseSpreadsheet spreadsheet = spreadsheetBuilder.getSpreadsheet();
+		loadNames( xlsWorkbook, spreadsheet );
+		return spreadsheet;
 	}
-
 
 	private String globalTimeFormat = null;
 	private TimeZone globalTimeZone = TimeZone.getDefault();
 
 	private void loadConfig( Workbook _xlsWorkbook )
 	{
-		final Cell gtFormatCell = _xlsWorkbook.findCellByName( "GlobalTimeFormat" );
-		if (null != gtFormatCell) {
-			this.globalTimeFormat = gtFormatCell.getCellFormat().getFormat().getFormatString();
+		final SpreadsheetBuilder spreadsheetBuilder = new SpreadsheetBuilder( ComputationMode.EXCEL );
+		final int numberOfSheets = _xlsWorkbook.getNumberOfSheets();
+		for (int i = 0; i < numberOfSheets; i++) {
+			spreadsheetBuilder.beginSheet( _xlsWorkbook.getSheetAt( i ).getSheetName() );
+			spreadsheetBuilder.endSheet();
 		}
-		final Cell gtZoneNameCell = _xlsWorkbook.findCellByName( "GlobalTimeZoneName" );
+		final BaseSpreadsheet spreadsheet = spreadsheetBuilder.getSpreadsheet();
+
+		final Cell gtFormatCell = getCellByName( "GlobalTimeFormat", _xlsWorkbook, spreadsheet );
+		if (null != gtFormatCell) {
+			this.globalTimeFormat = gtFormatCell.getCellStyle().getDataFormatString();
+		}
+		final Cell gtZoneNameCell = getCellByName( "GlobalTimeZoneName", _xlsWorkbook, spreadsheet );
 		if (null != gtZoneNameCell) {
-			this.globalTimeZone = TimeZone.getTimeZone( gtZoneNameCell.getContents() );
+			this.globalTimeZone = TimeZone.getTimeZone( gtZoneNameCell.getStringCellValue() );
 		}
 	}
 
-
-	private void loadRows( jxl.Sheet _xlsSheet, SheetBuilder _sheetBuilder ) throws SpreadsheetException
+	private void loadNames( Workbook _xlsWorkbook, BaseSpreadsheet _spreadsheet )
 	{
-		for (int iRow = 0; iRow < _xlsSheet.getRows(); iRow++) {
+		final int numberOfNames = _xlsWorkbook.getNumberOfNames();
+		for (int nameIndex = 0; nameIndex < numberOfNames; nameIndex++) {
+			final Name name = _xlsWorkbook.getNameAt( nameIndex );
+			if (name.isFunctionName()) continue;
+
+			final String cellRangeAddress = name.getRefersToFormula();
+			final String rangeName = name.getNameName();
+
+			final ExpressionParser parser = new SpreadsheetExpressionParserA1OOXML( cellRangeAddress, _spreadsheet );
+			try {
+				final CellRange cellRange = (CellRange) parser.rangeOrCellRefA1();
+				_spreadsheet.defineModelRangeName( rangeName, cellRange );
+			}
+			catch (ParseException e) {
+				// Ignore all non 'named range' names
+			}
+		}
+	}
+
+	private Cell getCellByName( String _name, Workbook _workbook, BaseSpreadsheet _spreadsheet )
+	{
+		final Name name = _workbook.getName( _name );
+		if (name == null) return null;
+		if (name.isFunctionName()) return null;
+
+		final String cellRangeAddress = name.getRefersToFormula();
+
+		final ExpressionParser parser = new SpreadsheetExpressionParserA1OOXML( cellRangeAddress, _spreadsheet );
+		try {
+			final CellRange range = (CellRange) parser.rangeOrCellRefA1();
+			if (!(range instanceof CellIndex)) {
+				return null;
+			}
+			final CellIndex cellIndex = (CellIndex) range;
+			final int sheetIndex = cellIndex.getSheetIndex();
+			final int rowIndex = cellIndex.getRowIndex();
+			final int columnIndex = cellIndex.getColumnIndex();
+			return _workbook.getSheetAt( sheetIndex ).getRow( rowIndex ).getCell( columnIndex );
+		}
+		catch (ParseException e) {
+			// Ignore all non 'named range' names
+			return null;
+		}
+	}
+
+	private void loadRows( Sheet _xlsSheet, SheetBuilder _sheetBuilder )
+	{
+		int currentRowIndex = 0;
+		for (final Row row : _xlsSheet) {
+			final int rowIndex = row.getRowNum();
+			while (rowIndex > currentRowIndex) {
+				_sheetBuilder.beginRow();
+				_sheetBuilder.endRow();
+				currentRowIndex++;
+			}
 			final RowBuilder rowBuilder = _sheetBuilder.beginRow();
-			final jxl.Cell[] xlsRow = _xlsSheet.getRow( iRow );
-			if (xlsRow != null) {
-				for (final Cell xlsCell : xlsRow) {
-					if (null == xlsCell) {
-						rowBuilder.addEmptyCell();
-					}
-					else {
-						loadCell( _xlsSheet.getName(), xlsCell, rowBuilder );
-					}
+			int currentColIndex = 0;
+			for (Cell cell : row) {
+				final int columnIndex = cell.getColumnIndex();
+				while (columnIndex > currentColIndex) {
+					rowBuilder.addEmptyCell();
+					currentColIndex++;
 				}
+				loadCell( cell, rowBuilder );
+				currentColIndex++;
 			}
 			rowBuilder.endRow();
+			currentRowIndex++;
 		}
 	}
 
-
-	private void loadCell( final String _sheetName, Cell _xlsCell, RowBuilder _rowBuilder ) throws SpreadsheetException
+	private boolean isTime( Cell cell )
 	{
-		final jxl.CellType xlsType = _xlsCell.getType();
+		final CellStyle style = cell.getCellStyle();
+		if (style != null) {
+			final String format = cell.getCellStyle().getDataFormatString();
+			if (format != null) {
+				final Matcher dtMatcher = TIME_PATTERN.matcher( format );
+				return dtMatcher.find();
+			}
+		}
+		return false;
+	}
 
-		if (_xlsCell instanceof jxl.FormulaCell) {
-			final jxl.FormulaCell xlsFormulaCell = (jxl.FormulaCell) _xlsCell;
+
+	private void loadCell( Cell _xlsCell, RowBuilder _rowBuilder )
+	{
+		final int xlsType = _xlsCell.getCellType();
+		if (xlsType == Cell.CELL_TYPE_FORMULA) {
 			final String expression;
-			try {
-				expression = xlsFormulaCell.getFormula();
-			}
-			catch (jxl.biff.formula.FormulaException e) {
-				final CellAddressImpl cellIndex = new CellAddressImpl( _sheetName, _xlsCell.getColumn(), _xlsCell.getRow() );
-				throw new SpreadsheetException.LoadError( "Error parsing cell " + cellIndex, e );
-			}
+			expression = _xlsCell.getCellFormula();
 			_rowBuilder.addCellWithExpression( new LazySpreadsheetExpressionParser( expression, CellRefFormat.A1 ) );
-			if (xlsFormulaCell instanceof NumberFormulaCell) {
-				final NumberFormulaCell xlsNumFormulaCell = ((NumberFormulaCell) xlsFormulaCell);
-				_rowBuilder.applyNumberFormat( convertNumberFormat( xlsNumFormulaCell, xlsNumFormulaCell.getNumberFormat() ) );
-			}
+
 			if (this.config.loadAllCellValues) {
-				if (xlsFormulaCell instanceof NumberFormulaCell) {
-					_rowBuilder.setValue( ((NumberFormulaCell) xlsFormulaCell).getValue() );
+				final int cachedFormulaResultType = _xlsCell.getCachedFormulaResultType();
+				if (Cell.CELL_TYPE_NUMERIC == cachedFormulaResultType) {
+					_rowBuilder.setValue( getNumberValue( _xlsCell ) );
 				}
-				else if (xlsFormulaCell instanceof DateFormulaCell) {
-					final Object value = getDateTimeValue( (DateFormulaCell) xlsFormulaCell );
-					_rowBuilder.setValue( value );
+				else if (Cell.CELL_TYPE_BOOLEAN == cachedFormulaResultType) {
+					_rowBuilder.setValue( _xlsCell.getBooleanCellValue() );
 				}
-				else if (xlsFormulaCell instanceof BooleanFormulaCell) {
-					_rowBuilder.setValue( ((BooleanFormulaCell) xlsFormulaCell).getValue() );
-				}
-				else if (xlsFormulaCell instanceof StringFormulaCell) {
-					_rowBuilder.setValue( ((StringFormulaCell) xlsFormulaCell).getString() );
+				else if (Cell.CELL_TYPE_STRING == cachedFormulaResultType) {
+					_rowBuilder.setValue( _xlsCell.getStringCellValue() );
 				}
 			}
 		}
-		else if (jxl.CellType.EMPTY == xlsType) {
+		else if (Cell.CELL_TYPE_BLANK == xlsType) {
 			_rowBuilder.addEmptyCell();
 		}
-		else if (jxl.CellType.BOOLEAN == xlsType) {
-			_rowBuilder.addCellWithConstant( ((jxl.BooleanCell) _xlsCell).getValue() );
+		else if (Cell.CELL_TYPE_BOOLEAN == xlsType) {
+			_rowBuilder.addCellWithConstant( _xlsCell.getBooleanCellValue() );
 		}
-		else if (jxl.CellType.NUMBER == xlsType) {
-			final jxl.NumberCell xlsNumCell = (jxl.NumberCell) _xlsCell;
-			_rowBuilder.addCellWithConstant( xlsNumCell.getValue() )
-					.applyNumberFormat( convertNumberFormat( xlsNumCell, xlsNumCell.getNumberFormat() ) );
+
+		else if (Cell.CELL_TYPE_NUMERIC == xlsType) {
+			_rowBuilder.addCellWithConstant( getNumberValue( _xlsCell ) );
+
 		}
-		else if (CellType.DATE == xlsType) {
-			final DateCell xlsDateCell = (jxl.DateCell) _xlsCell;
-			final Object value = getDateTimeValue( xlsDateCell );
-			_rowBuilder.addCellWithConstant( value );
+		else if (Cell.CELL_TYPE_STRING == xlsType) {
+			_rowBuilder.addCellWithConstant( _xlsCell.getStringCellValue() );
 		}
-		else if (jxl.CellType.LABEL == xlsType) {
-			_rowBuilder.addCellWithConstant( ((jxl.LabelCell) _xlsCell).getString() );
-		}
-		else if (jxl.CellType.ERROR == xlsType) {
-			final int errorCode = ((jxl.ErrorCell) _xlsCell).getErrorCode();
+		else if (xlsType == Cell.CELL_TYPE_ERROR) {
+			final int errorCode = _xlsCell.getErrorCellValue();
 			switch (errorCode) {
 				case 7:
 					_rowBuilder.addCellWithError( CellWithError.DIV0 );
@@ -243,49 +280,25 @@ public final class ExcelXLSLoader implements SpreadsheetLoader
 		}
 	}
 
-	private Object getDateTimeValue( final DateCell _xlsDateCell )
+	private Object getNumberValue( Cell _xlsCell )
 	{
-		final Object value;
-		if (null != this.globalTimeFormat
-				&& this.globalTimeFormat.equals( _xlsDateCell.getCellFormat().getFormat().getFormatString() )) {
-			value = RuntimeDouble_v2.dateFromNum( _xlsDateCell.getValue(), this.globalTimeZone, ComputationMode.EXCEL );
-		}
-		else if (_xlsDateCell.isTime()) {
-			value = new Duration( _xlsDateCell.getValue() );
-		}
-		else {
-			value = new LocalDate( _xlsDateCell.getValue() );
-		}
-		return value;
-	}
-
-
-	private void loadNames( jxl.Workbook _xlsWorkbook, BaseSpreadsheet _workbook )
-	{
-		for (final String name : _xlsWorkbook.getRangeNames()) {
-			final jxl.Range[] xlsRange = _xlsWorkbook.findByName( name );
-			if (1 == xlsRange.length) {
-				final int xlsStartSheet = xlsRange[ 0 ].getFirstSheetIndex();
-				final int xlsEndSheet = xlsRange[ 0 ].getLastSheetIndex();
-				final jxl.Cell xlsStart = xlsRange[ 0 ].getTopLeft();
-				final jxl.Cell xlsEnd = xlsRange[ 0 ].getBottomRight();
-				final CellIndex start = new CellIndex( _workbook, xlsStartSheet, xlsStart.getColumn(), true, xlsStart.getRow(), true );
-				final CellIndex end = new CellIndex( _workbook, xlsEndSheet, xlsEnd.getColumn(), true, xlsEnd.getRow(), true );
-				final CellRange range = CellRange.getCellRange( start, end );
-				_workbook.defineModelRangeName( name, range );
+		final double value = _xlsCell.getNumericCellValue();
+		final boolean isDate = DateUtil.isCellDateFormatted( _xlsCell );
+		final boolean isTime = isTime( _xlsCell );
+		if (isDate || isTime) {
+			if (null != this.globalTimeFormat
+					&& this.globalTimeFormat.equals( _xlsCell.getCellStyle().getDataFormatString() )) {
+				return RuntimeDouble_v2.dateFromNum( _xlsCell.getNumericCellValue(), this.globalTimeZone, ComputationMode.EXCEL );
+			}
+			if ((isDate && value < 1) || (isTime && value < 365)) {
+				return new Duration( value );
+			}
+			else {
+				return new LocalDate( value );
 			}
 		}
-	}
-
-
-	private NumberFormat convertNumberFormat( jxl.Cell _xlsCell, NumberFormat _numberFormat )
-	{
-		String formatString = _xlsCell.getCellFormat().getFormat().getFormatString();
-		if (formatString.equals( "" )) {
-			return null;
+		else {
+			return value;
 		}
-		return _numberFormat;
 	}
-
-
 }

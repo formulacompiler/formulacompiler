@@ -152,7 +152,6 @@ public class LoadSaveTest
 	}
 
 	@Test
-	@IgnoreFormat( ".xls" )
 	public void testExpressions() throws Exception
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];
@@ -167,7 +166,6 @@ public class LoadSaveTest
 	}
 
 	@Test
-	@IgnoreFormat( ".xls" )
 	public void testOperators() throws Exception
 	{
 		final Spreadsheet.Sheet sheet = this.spreadsheet.getSheets()[ 0 ];

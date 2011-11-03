@@ -3219,12 +3219,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"Info"/**/ );
 			fail();
 		}
 		catch (/**/CompilerException.UnsupportedExpression e/**/) {
-			if (getSpreadsheetExtension().equals( ".xls" )) {
-				String err = /**/"Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
-						+ "\nCell containing expression is Sheet1!A1."/**/;
-				assertEquals( err, e.getMessage() );
-			}
-			else if (getSpreadsheetExtension().equals( ".xlsx" )) {
+			if (getSpreadsheetExtension().equals( ".xls" ) || getSpreadsheetExtension().equals( ".xlsx" )) {
 				String err = /**/"Unsupported function INFO encountered in expression 1+INFO( <<? B1); error location indicated by <<?."
 						+ "\nCell containing expression is Sheet1!A1."/**/;
 				assertEquals( err, e.getMessage() );
@@ -3259,13 +3254,7 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesInfo"/*
 			fail();
 		}
 		catch (CompilerException.UnsupportedExpression e) {
-			if (getSpreadsheetExtension().equals( ".xls" )) {
-				String err = "Unsupported function INFO encountered in expression 1.0+INFO( <<? B1); error location indicated by <<?."
-						+ "\nCell containing expression is Sheet1!A1."
-						+ /**/"\nReferenced by cell Sheet1!A2."/**/;
-				assertEquals( err, e.getMessage() );
-			}
-			else if (getSpreadsheetExtension().equals( ".xlsx" )) {
+			if (getSpreadsheetExtension().equals( ".xls" ) || getSpreadsheetExtension().equals( ".xlsx" )) {
 				String err = "Unsupported function INFO encountered in expression 1+INFO( <<? B1); error location indicated by <<?."
 						+ "\nCell containing expression is Sheet1!A1."
 						+ /**/"\nReferenced by cell Sheet1!A2."/**/;
@@ -4405,7 +4394,7 @@ __@@__
 		<tr>
 			<td class="xl-row">4</td>
 			<td>Rebate</td>
-			<td class="xl-num">4<br/><span class="xl-exp">=B1+B2</span></td>
+			<td class="xl-num">0<br/><span class="xl-exp">=B1+B2</span></td>
 		</tr>
 	</tbody>
 </table>
@@ -8513,65 +8502,6 @@ __@@__
 			<td class="xl-row">30</td>
 			<td>... Again</td>
 			<td class="xl-num">9<br/><span class="xl-exp">=SUM(C4:C7)</span></td>
-		</tr>
-	</tbody>
-</table>
-___@_@___
-xc:org/formulacompiler/tutorials/Template.xls
-__@@__
-<table class="xl">
-	<thead>
-		<tr>
-			<td/>
-			<td>A</td>
-			<td>B</td>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td class="xl-row">1</td>
-			<td><b>Input Values</b><br/><span class="xl-name">(Caption)</span></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td class="xl-row">2</td>
-			<td style="text-align: right">InputValue<br/><span class="xl-name">(Label)</span></td>
-			<td class="xl-num">123.45<br/><span class="xl-name">(InputValue)</span></td>
-		</tr>
-		<tr>
-			<td class="xl-row">3</td>
-			<td style="text-align: right">DateInputValue</td>
-			<td class="xl-date">1/1/70<br/><span class="xl-name">(DateInputValue)</span></td>
-		</tr>
-		<tr>
-			<td class="xl-row">4</td>
-			<td style="text-align: right">PercentInputValue</td>
-			<td class="xl-num">25%<br/><span class="xl-name">(PercentInputValue)</span></td>
-		</tr>
-		<tr>
-			<td class="xl-row">5</td>
-			<td><b>Output Values</b></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td class="xl-row">6</td>
-			<td style="text-align: right">OutputValue</td>
-			<td class="xl-num">123.45<br/><span class="xl-name">(OutputValue)</span></td>
-		</tr>
-		<tr>
-			<td class="xl-row">7</td>
-			<td style="text-align: right">PercentOutputValue</td>
-			<td class="xl-num">30%<br/><span class="xl-name">(PercentOutputValue)</span></td>
-		</tr>
-		<tr>
-			<td class="xl-row">8</td>
-			<td><b>Intermediate Values</b></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td class="xl-row">9</td>
-			<td style="text-align: right">IntermediateValue</td>
-			<td class="xl-num">123.45<br/><span class="xl-name">(IntermediateValue)</span></td>
 		</tr>
 	</tbody>
 </table>
