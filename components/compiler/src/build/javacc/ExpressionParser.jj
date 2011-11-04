@@ -516,6 +516,7 @@ void fun(): {}
 	// citation: abs
 	|	"ACOS" fun1( Function.ACOS )
 	|	"ACOSH" fun1( Function.ACOSH )
+	|	"ADDRESS" open() expr() commaExpr() [commaExprOrNull() [commaExprOrNull() optCommaExpr()]] closeFun( Function.ADDRESS )
 	|	"ASC" fun1( Function.ASC )
 	|	"ASIN" fun1( Function.ASIN )
 	|	"ASINH" fun1( Function.ASINH )

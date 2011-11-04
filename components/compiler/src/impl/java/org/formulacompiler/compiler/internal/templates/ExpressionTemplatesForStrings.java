@@ -225,5 +225,14 @@ public final class ExpressionTemplatesForStrings
 		return Runtime_v2.fun_TEXT( _num, _format, this.environment );
 	}
 
+	public String fun_ADDRESS( int _row, int _column, int absRelType, int a1Style, String sheet )
+	{
+		return Runtime_v2.fun_ADDRESS( _row, _column, absRelType, a1Style != 0, sheet, this.computationMode );
+	}
 
+	public String fun_ADDRESS( int _row, int _column, int absRelType, int a1Style)
+	{
+		return Runtime_v2.fun_ADDRESS( _row, _column, absRelType, a1Style != 0, null, this.computationMode );
+	}
+	
 }

@@ -34,7 +34,7 @@ import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
-import org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl;
+import org.formulacompiler.runtime.internal.Runtime_v2;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.BaseRow;
@@ -204,7 +204,7 @@ class WorksheetWriter extends ContentXmlWriter
 						final CellInstance cell = cells.get( ci );
 						writeStartElement( XMLConstants.Main.CELL );
 						final StringBuilder sb = new StringBuilder();
-						CellAddressImpl.appendNameA1ForCellIndex( sb, ci, false, ri, false );
+						Runtime_v2.appendNameA1ForCellIndex( sb, ci, false, ri, false );
 						writeAttribute( XMLConstants.Main.CELL_REFERENCE, sb.toString() );
 
 						final Object value = cell == null ? null : cell.getValue();

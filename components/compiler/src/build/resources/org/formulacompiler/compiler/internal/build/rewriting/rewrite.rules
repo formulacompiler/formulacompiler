@@ -1011,4 +1011,9 @@ rules {
 		in
 			if date1 < date2 then date1 else date2
 
+	// -------- Lookup and reference functions
+
+	rewrite address(row_num, column_num, abs_num) = ADDRESS(row_num, column_num, abs_num, 1)
+	rewrite address(row_num, column_num) = ADDRESS(row_num, column_num, 1, 1)
+
 }

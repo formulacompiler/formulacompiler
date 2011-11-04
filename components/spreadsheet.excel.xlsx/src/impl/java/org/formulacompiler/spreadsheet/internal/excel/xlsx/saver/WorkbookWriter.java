@@ -22,8 +22,6 @@
 
 package org.formulacompiler.spreadsheet.internal.excel.xlsx.saver;
 
-import static org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl.BROKEN_REF;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.zip.ZipOutputStream;
@@ -32,6 +30,8 @@ import javax.xml.stream.XMLStreamException;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.excel.xlsx.XMLConstants;
+
+import static org.formulacompiler.runtime.internal.Runtime_v2.BROKEN_REF;
 
 
 /**
