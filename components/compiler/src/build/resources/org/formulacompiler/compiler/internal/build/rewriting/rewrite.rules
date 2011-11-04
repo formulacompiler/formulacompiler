@@ -770,6 +770,19 @@ rules {
 					sxy
 				end
 			to vectors {xs, ys}
+			
+	rewrite sumproduct( xs#, ys# ) =
+		if COUNT(xs) <> COUNT(ys) then err( "#VALUE! because arrays have different sizes in SUMPRODUCT" )
+		else
+			apply
+				fold with
+					sxy = 0
+				each xi, yi as
+					sxy = sxy + xi * yi
+				into
+					sxy
+				end
+			to vectors {xs, ys}
 
 	rewrite rsq( xs#, ys# ) =
 		let countX = COUNT(xs)
