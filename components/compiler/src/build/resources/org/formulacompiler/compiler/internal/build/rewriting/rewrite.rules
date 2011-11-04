@@ -1003,4 +1003,6 @@ rules {
 
 	rewrite yearfrac(start_date, end_date) = YEARFRAC(start_date, end_date, 0)
 
+	rewrite eomonth( start_date, months ) = DATE( YEAR( start_date ), MONTH( start_date ) + months + 1, 0 )
+
 }

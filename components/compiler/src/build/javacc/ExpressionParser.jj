@@ -573,6 +573,7 @@ void fun(): {}
 	|	"DSUM" dbAggN( Function.DSUM )
 	|	"DVAR" dbAggN( Function.DVAR )
 	|	"DVARP" dbAggN( Function.DVARP )
+	|	"EOMONTH" fun2( Function.EOMONTH )
 	|	"ERF" fun1to2( Function.ERF )
 	|	"ERFC" fun1( Function.ERFC )
 	|	"err" fun1( Function.ERROR ) // Internal to rewrite rules
