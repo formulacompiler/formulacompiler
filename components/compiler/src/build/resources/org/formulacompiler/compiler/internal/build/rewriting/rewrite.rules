@@ -1005,4 +1005,10 @@ rules {
 
 	rewrite eomonth( start_date, months ) = DATE( YEAR( start_date ), MONTH( start_date ) + months + 1, 0 )
 
+	rewrite edate( start_date, months ) =
+		let date1 = EOMONTH( start_date, months )
+		let date2 = DATE( YEAR( start_date ), MONTH( start_date ) + months, DAY( start_date ) )
+		in
+			if date1 < date2 then date1 else date2
+
 }

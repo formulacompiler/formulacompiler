@@ -574,6 +574,7 @@ void fun(): {}
 	|	"DVAR" dbAggN( Function.DVAR )
 	|	"DVARP" dbAggN( Function.DVARP )
 	|	"EOMONTH" fun2( Function.EOMONTH )
+	|	"EDATE" fun2( Function.EDATE )
 	|	"ERF" fun1to2( Function.ERF )
 	|	"ERFC" fun1( Function.ERFC )
 	|	"err" fun1( Function.ERROR ) // Internal to rewrite rules
