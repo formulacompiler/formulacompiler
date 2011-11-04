@@ -646,6 +646,7 @@ void fun(): {}
 	|	"MOD" fun2( Function.MOD )
 	|	"MODE" aggN( Function.MODE )
 	|	"MONTH" fun1( Function.MONTH )
+	|	"MROUND" fun2( Function.MROUND )	
 	|	"N" fun1( Function.N )
 	|	"NA" fun0( Function.NA )
 	|	"NEGBINOMDIST" fun3( Function.NEGBINOMDIST )

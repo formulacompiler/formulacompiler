@@ -18,6 +18,7 @@ h5. *Changed!*
 h5. New
 
 	* @COLUMN()@ and @ROW()@ are now "supported":../doc/reference/lookupfuncs.htm.
+	* @MROUND()@ is now "supported":../doc/reference/numfuncs.htm.
 
 h5. Fixed
 
