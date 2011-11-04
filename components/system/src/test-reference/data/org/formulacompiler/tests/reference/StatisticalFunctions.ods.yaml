@@ -15001,3 +15001,76 @@ sheets:
     - null
     - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+  - cells:
+    - const: 22.0
+    - expr: =SUMPRODUCT( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 2.0
+    - const: 2.0
+    - const: 3.0
+    - null
+    - const: 6.0
+    - const: "SUMPRODUCT"
+    - const: "SUMPRODUCT"
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: 12.8
+    - expr: =SUMPRODUCT( RC[1]:RC[3], RC[4]:RC[6] )
+    - const: 2.2
+    - const: -3.4
+    - const: 4.0
+    - const: 2.0
+    - const: 2.0
+    - const: 3.8
+    - null
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: 47.6
+    - expr: =SUMPRODUCT( R[-2]C[1]:RC[3], R[-2]C[4]:RC[6] )
+    - const: 2.2
+    - const: -3.4
+    - const: 4.0
+    - const: 2.0
+    - const: 2.0
+    - const: 3.8
+    - null
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =SUMPRODUCT( RC[1]:RC[3], RC[4]:RC[5] )
+    - const: 2.0
+    - const: 3.0
+    - const: 4.0
+    - const: 2.0
+    - const: 2.0
+    - null
+    - null
+    - const: 5.0
+    - null
+    - null
+    - const: "Err:519"
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
