@@ -22,19 +22,20 @@
 
 package org.formulacompiler.spreadsheet.internal;
 
-import static org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl.BROKEN_REF;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
+import org.formulacompiler.runtime.internal.Runtime_v2;
 import org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl;
 import org.formulacompiler.runtime.spreadsheet.CellAddress;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.Spreadsheet.Range;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
+
+import static org.formulacompiler.runtime.internal.Runtime_v2.BROKEN_REF;
 
 public final class CellIndex extends CellRange implements Cell
 {
@@ -277,15 +278,16 @@ public final class CellIndex extends CellRange implements Cell
 		else if (_contextSheet == null || this.sheetIndex != _contextSheet.getSheetIndex()) {
 			final BaseSheet sheet = getSheet();
 			final String name = sheet.getName();
-			CellAddressImpl.appendQuotedSheetName( result, name );
+			Runtime_v2.appendQuotedSheetName( result, name );
+			result.append( '!' );
 		}
-		CellAddressImpl.appendNameA1ForCellIndex( result, this.columnIndex, _columnIndexAbsolute, this.rowIndex, _rowIndexAbsolute );
+		Runtime_v2.appendNameA1ForCellIndex( result, this.columnIndex, _columnIndexAbsolute, this.rowIndex, _rowIndexAbsolute );
 		return result.toString();
 	}
 
 	public static void appendNameA1ForCellIndex( final StringBuilder _result, final CellIndex _cellIndex )
 	{
-		CellAddressImpl.appendNameA1ForCellIndex( _result, _cellIndex.columnIndex, _cellIndex.isColumnIndexAbsolute, _cellIndex.rowIndex, _cellIndex.isRowIndexAbsolute );
+		Runtime_v2.appendNameA1ForCellIndex( _result, _cellIndex.columnIndex, _cellIndex.isColumnIndexAbsolute, _cellIndex.rowIndex, _cellIndex.isRowIndexAbsolute );
 	}
 
 	private void describeOffsetTo( DescriptionBuilder _to, char _prefix, int _offset )

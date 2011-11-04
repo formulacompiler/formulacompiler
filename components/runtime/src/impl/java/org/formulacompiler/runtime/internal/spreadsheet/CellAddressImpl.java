@@ -22,6 +22,7 @@
 
 package org.formulacompiler.runtime.internal.spreadsheet;
 
+import org.formulacompiler.runtime.internal.Runtime_v2;
 import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 /**
@@ -29,7 +30,6 @@ import org.formulacompiler.runtime.spreadsheet.CellAddress;
  */
 public class CellAddressImpl implements CellAddress
 {
-	public static final int BROKEN_REF = -1;
 
 	private final String sheetName;
 	private final int columnIndex;
@@ -85,56 +85,11 @@ public class CellAddressImpl implements CellAddress
 	@Override
 	public String toString()
 	{
-		StringBuilder result = new StringBuilder();
-		appendQuotedSheetName( result, this.sheetName );
-		appendNameA1ForCellIndex( result, this.columnIndex, false, this.rowIndex, false );
+		final StringBuilder result = new StringBuilder();
+		Runtime_v2.appendQuotedSheetName( result, this.sheetName );
+		result.append( "!" );
+		Runtime_v2.appendNameA1ForCellIndex( result, this.columnIndex, false, this.rowIndex, false );
 		return result.toString();
-	}
-
-	public static void appendQuotedSheetName( StringBuilder _result, String _sheetName )
-	{
-		final boolean quoted = _sheetName.contains( " " ) || _sheetName.contains( "'" ) || _sheetName.contains( "-" );
-		if (quoted) {
-			_result.append( '\'' );
-		}
-		_result.append( _sheetName.replace( "'", "''" ) );
-		if (quoted) {
-			_result.append( '\'' );
-		}
-		_result.append( "!" );
-	}
-
-	public static void appendNameA1ForCellIndex( final StringBuilder _result, final int _columnIndex, final boolean _columnIndexAbsolute, final int _rowIndex, final boolean _rowIndexAbsolute )
-	{
-		if (_columnIndexAbsolute) {
-			_result.append( '$' );
-		}
-		if (_columnIndex == BROKEN_REF) {
-			_result.append( "#REF!" );
-		}
-		else {
-			appendColumn( _result, _columnIndex );
-		}
-		if (_rowIndexAbsolute) {
-			_result.append( '$' );
-		}
-		if (_rowIndex == BROKEN_REF) {
-			_result.append( "#REF!" );
-		}
-		else {
-			_result.append( _rowIndex + 1 );
-		}
-	}
-
-	private static void appendColumn( StringBuilder _result, int _columnIndex )
-	{
-		int insPos = _result.length();
-		int col = _columnIndex;
-		while (col >= 0) {
-			int digit = col % 26;
-			_result.insert( insPos, (char) ('A' + digit) );
-			col = col / 26 - 1;
-		}
 	}
 
 }

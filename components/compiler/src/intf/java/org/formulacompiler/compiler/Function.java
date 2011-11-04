@@ -70,7 +70,7 @@ public enum Function {
 
 	// Lookup and reference
 
-	CHOOSE, MATCH, INDEX, LOOKUP, HLOOKUP, VLOOKUP, ROW, COLUMN,
+	CHOOSE, MATCH, INDEX, LOOKUP, HLOOKUP, VLOOKUP, ROW, COLUMN, ADDRESS,
 
 	INTERNAL_MATCH_INT( false, true ),
 

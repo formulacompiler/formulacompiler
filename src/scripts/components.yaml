@@ -98,6 +98,8 @@ groups:
               - org.formulacompiler.runtime.internal.spreadsheet
             api_deps:
               - core.runtime.api.spreadsheet
+            deps:
+              - core.runtime.core
 
           - id: jvm
             pkgs:
@@ -300,8 +302,8 @@ groups:
             api_deps:
               - spreadsheet.compiler.api
               - core.compiler.expressions
-              - core.runtime.api.spreadsheet
             deps:
+              - core.runtime.core
               - core.runtime.spreadsheet
 
           - id: binding

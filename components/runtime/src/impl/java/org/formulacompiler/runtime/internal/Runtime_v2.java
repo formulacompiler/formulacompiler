@@ -43,6 +43,7 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.FormulaException;
 import org.formulacompiler.runtime.NotAvailableException;
 
@@ -54,6 +55,8 @@ import org.formulacompiler.runtime.NotAvailableException;
  */
 public abstract class Runtime_v2
 {
+
+	public static final int BROKEN_REF = -1;
 
 	// ---- Excel date conversion; copied from JExcelAPI (DateRecord.java)
 
@@ -817,6 +820,112 @@ public abstract class Runtime_v2
 		throw new IllegalArgumentException( "TEXT() is not properly supported yet." );
 	}
 
+	public static String fun_ADDRESS( int _row, int _column, int _absRelType, boolean _a1Style, String _sheet, ComputationMode _mode )
+	{
+		int absRelType = _absRelType;
+		if (_mode == ComputationMode.OPEN_OFFICE_CALC && _absRelType > 4) {
+			absRelType -= 4;
+		}
+		if (absRelType < 1 || absRelType > 4) {
+			fun_ERROR( "#VALUE! type of reference has incorrect value in ADDRESS" );
+		}
+		final boolean columnIndexAbsolute = (absRelType == 1) || (absRelType == 3);
+		final boolean rowIndexAbsolute = (absRelType == 1) || (absRelType == 2);
+
+		if ((_row < 1 && (rowIndexAbsolute || _a1Style)) || (_column < 1 && (columnIndexAbsolute || _a1Style))) {
+			fun_ERROR( "#VALUE! incorrect column or row number in ADDRESS" );
+		}
+
+		final StringBuilder address = new StringBuilder();
+
+		if (_sheet != null && !_sheet.equals( "" )) {
+			appendQuotedSheetName( address, _sheet );
+			if (_mode == ComputationMode.OPEN_OFFICE_CALC && _a1Style) {
+				address.append( '.' );
+			}
+			else {
+				address.append( '!' );
+			}
+		}
+
+		if (_a1Style) {
+			appendNameA1ForCellIndex( address, _column - 1, columnIndexAbsolute, _row - 1, rowIndexAbsolute );
+		}
+		else {
+			address.append( 'R' );
+			appendIndexR1C1( address, _row, rowIndexAbsolute );
+			address.append( 'C' );
+			appendIndexR1C1( address, _column, columnIndexAbsolute );
+		}
+
+		return address.toString();
+	}
+
+	private static void appendIndexR1C1( final StringBuilder _sb, final int _index, final boolean _indexAbsolute )
+	{
+		if (_indexAbsolute) {
+			_sb.append( _index );
+		}
+		else {
+			_sb.append( '[' ).append( _index ).append( ']' );
+		}
+	}
+
+	public static void appendQuotedSheetName( StringBuilder _sb, String _sheetName )
+	{
+		final boolean quoted = _sheetName.contains( " " ) || _sheetName.contains( "'" ) || _sheetName.contains( "-" );
+		if (quoted) {
+			_sb.append( '\'' );
+		}
+		_sb.append( _sheetName.replace( "'", "''" ) );
+		if (quoted) {
+			_sb.append( '\'' );
+		}
+	}
+
+	/**
+	 * Creates A1-style cell index.
+	 *
+	 * @param _sb                  string builder to append to
+	 * @param _columnIndex         column index (0-based)
+	 * @param _columnIndexAbsolute column index is absolute
+	 * @param _rowIndex            row index (0-based)
+	 * @param _rowIndexAbsolute    row index is absolute
+	 */
+	public static void appendNameA1ForCellIndex( final StringBuilder _sb,
+			final int _columnIndex, final boolean _columnIndexAbsolute,
+			final int _rowIndex, final boolean _rowIndexAbsolute )
+	{
+		if (_columnIndexAbsolute) {
+			_sb.append( '$' );
+		}
+		if (_columnIndex == BROKEN_REF) {
+			_sb.append( "#REF!" );
+		}
+		else {
+			appendColumn( _sb, _columnIndex );
+		}
+		if (_rowIndexAbsolute) {
+			_sb.append( '$' );
+		}
+		if (_rowIndex == BROKEN_REF) {
+			_sb.append( "#REF!" );
+		}
+		else {
+			_sb.append( _rowIndex + 1 );
+		}
+	}
+
+	private static void appendColumn( StringBuilder _result, int _columnIndex )
+	{
+		final int insPos = _result.length();
+		int col = _columnIndex;
+		while (col >= 0) {
+			final int digit = col % 26;
+			_result.insert( insPos, (char) ('A' + digit) );
+			col = col / 26 - 1;
+		}
+	}
 
 	public static int fun_MATCH_Exact( String _x, String[] _xs )
 	{

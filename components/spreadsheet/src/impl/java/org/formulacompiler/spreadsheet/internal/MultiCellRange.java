@@ -22,14 +22,14 @@
 
 package org.formulacompiler.spreadsheet.internal;
 
-import static org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl.BROKEN_REF;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
+
+import static org.formulacompiler.runtime.internal.Runtime_v2.BROKEN_REF;
 
 
 public final class MultiCellRange extends CellRange

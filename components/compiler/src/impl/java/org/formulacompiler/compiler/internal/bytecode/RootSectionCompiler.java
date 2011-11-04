@@ -22,14 +22,14 @@
 
 package org.formulacompiler.compiler.internal.bytecode;
 
-import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.*;
-
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.runtime.ComputationMode;
-import org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.GeneratorAdapter;
+
+import static org.formulacompiler.compiler.internal.bytecode.ByteCodeEngineCompiler.*;
+import static org.formulacompiler.runtime.internal.Runtime_v2.BROKEN_REF;
 
 final class RootSectionCompiler extends SectionCompiler
 {
@@ -105,8 +105,8 @@ final class RootSectionCompiler extends SectionCompiler
 					mv.push( -1 ); //section index
 					final ExpressionCompilerForNumbers c = numericCompiler();
 					c.compile_util_createSectionInfo( model().getName(),
-							null, CellAddressImpl.BROKEN_REF, CellAddressImpl.BROKEN_REF,
-							null, CellAddressImpl.BROKEN_REF, CellAddressImpl.BROKEN_REF );
+							null, BROKEN_REF, BROKEN_REF,
+							null, BROKEN_REF, BROKEN_REF );
 					mv.putField( section().classType(), SECTION_INFO_MEMBER_NAME, SECTION_INFO_CLASS );
 				}
 

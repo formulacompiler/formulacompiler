@@ -268,6 +268,7 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 			case MID:
 				// ...
 				// ---- typeOfFun
+			case ADDRESS:
 			case CLEAN:
 			case CHAR:
 			case DOLLAR:

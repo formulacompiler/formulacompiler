@@ -17,7 +17,7 @@ h5. *Changed!*
 
 h5. New
 
-	* @COLUMN()@ and @ROW()@ are now "supported":../doc/reference/lookupfuncs.htm.
+	* @COLUMN()@, @ROW()@ and @ADDRESS()@ are now "supported":../doc/reference/lookupfuncs.htm.
 	* @MROUND()@ is now "supported":../doc/reference/numfuncs.htm.
 	* @SUMPRODUCT()@ is now "supported":../doc/reference/statisticalfuncs.htm.
 	* @EDATE()@, @EOMONTH()@, @WORKDAY()@, and @YEARFRAC()@ are now "supported":../doc/reference/datefuncs.htm.

@@ -31,7 +31,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperat
 import org.formulacompiler.compiler.internal.expressions.parser.CellRefFormat;
 import org.formulacompiler.compiler.internal.expressions.parser.ExpressionParser;
 import org.formulacompiler.compiler.internal.expressions.parser.Token;
-import org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl;
+import org.formulacompiler.runtime.internal.Runtime_v2;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.BaseSpreadsheet;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
@@ -58,7 +58,7 @@ public abstract class SpreadsheetExpressionParser extends ExpressionParser
 	{
 		super( _exprText, _cellRefFormat );
 		this.workbook = _workbook;
-		this.cellIndex = new CellIndex( _workbook, CellAddressImpl.BROKEN_REF, CellAddressImpl.BROKEN_REF, CellAddressImpl.BROKEN_REF );
+		this.cellIndex = new CellIndex( _workbook, Runtime_v2.BROKEN_REF, Runtime_v2.BROKEN_REF, Runtime_v2.BROKEN_REF );
 	}
 
 	public static SpreadsheetExpressionParser newParser( String _exprText, CellIndex _parseRelativeTo,

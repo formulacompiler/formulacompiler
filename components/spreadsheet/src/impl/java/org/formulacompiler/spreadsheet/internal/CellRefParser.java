@@ -22,10 +22,10 @@
 
 package org.formulacompiler.spreadsheet.internal;
 
-import static org.formulacompiler.runtime.internal.spreadsheet.CellAddressImpl.BROKEN_REF;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.formulacompiler.runtime.internal.Runtime_v2.BROKEN_REF;
 
 public abstract class CellRefParser
 {
