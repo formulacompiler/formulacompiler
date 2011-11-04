@@ -174,6 +174,11 @@ public final class ExpressionTemplatesForPrecisionBigDecimals extends AbstractEx
 		return RuntimePrecisionBigDecimal_v2.fun_IRR( _values, _guess, this.mathContext );
 	}
 
+	public BigDecimal fun_XIRR( BigDecimal[] _values, BigDecimal[] _dates, BigDecimal _guess )
+	{
+		return RuntimePrecisionBigDecimal_v2.fun_XIRR( _values, _dates, _guess, this.mathContext );
+	}
+
 	public BigDecimal fun_DB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period,
 			BigDecimal _month )
 	{

@@ -625,6 +625,11 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_IRR( _values, _guess, this.context );
 	}
 
+	public long fun_XIRR( long[] _values, long[] _dates, long _guess )
+	{
+		return RuntimeLong_v2.fun_XIRR( _values, _dates, _guess, this.context );
+	}
+
 	public long fun_DB( long _cost, long _salvage, long _life, long _period, long _month )
 	{
 		return RuntimeLong_v2.fun_DB( _cost, _salvage, _life, _period, _month, this.context );

@@ -567,6 +567,11 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_IRR( _values, _guess );
 	}
 
+	public double fun_XIRR( double[] _values, double[] _dates, double _guess )
+	{
+		return RuntimeDouble_v2.fun_XIRR( _values, _dates, _guess );
+	}
+
 	public double fun_DB( double _cost, double _salvage, double _life, double _period, double _month )
 	{
 		return RuntimeDouble_v2.fun_DB( _cost, _salvage, _life, _period, _month );

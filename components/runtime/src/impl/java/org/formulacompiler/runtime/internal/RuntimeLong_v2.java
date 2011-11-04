@@ -897,6 +897,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return _cx.fromDouble( RuntimeDouble_v2.fun_IRR( _cx.toDoubles( _values ), _cx.toDouble( _guess ) ) );
 	}
 
+	public static long fun_XIRR( long[] _values, long[] _dates, long _guess, Context _cx )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_XIRR( _cx.toDoubles( _values ), _cx.toDoubles( _dates ), _cx.toDouble( _guess ) ) );
+	}
+
 	public static long fun_DB( long _cost, long _salvage, long _life, long _period, long _month, Context _cx )
 	{
 		final long month = _month / _cx.one(); // unscaled

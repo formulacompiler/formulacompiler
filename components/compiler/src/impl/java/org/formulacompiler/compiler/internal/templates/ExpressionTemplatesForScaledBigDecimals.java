@@ -167,6 +167,11 @@ public final class ExpressionTemplatesForScaledBigDecimals extends AbstractExpre
 		return RuntimeScaledBigDecimal_v2.fun_IRR( _values, _guess, HIGHPREC );
 	}
 
+	public BigDecimal fun_XIRR( BigDecimal[] _values, BigDecimal[] _dates, BigDecimal _guess )
+	{
+		return RuntimeScaledBigDecimal_v2.fun_XIRR( _values, _dates, _guess, HIGHPREC );
+	}
+
 	public BigDecimal fun_DB( BigDecimal _cost, BigDecimal _salvage, BigDecimal _life, BigDecimal _period,
 			BigDecimal _month )
 	{
