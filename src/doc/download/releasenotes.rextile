@@ -21,6 +21,7 @@ h5. New
 	* @MROUND()@ is now "supported":../doc/reference/numfuncs.htm.
 	* @SUMPRODUCT()@ is now "supported":../doc/reference/statisticalfuncs.htm.
 	* @EDATE()@, @EOMONTH()@, @WORKDAY()@, and @YEARFRAC()@ are now "supported":../doc/reference/datefuncs.htm.
+	* @XIRR()@ is now "supported":../doc/reference/financialfuncs.htm
 
 h5. Fixed
 

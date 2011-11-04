@@ -779,6 +779,77 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		throw new FormulaException( "#NUM! because result not found in " + EXCEL_MAX_ITER + " tries in IRR" );
 	}
 
+	private static BigDecimal xirrResultingAmount( BigDecimal[] _values, BigDecimal[] dates, BigDecimal rate, MathContext _cx )
+	{
+		final BigDecimal startDate = dates[ 0 ];
+		final BigDecimal r = rate.add( BigDecimal.ONE, _cx );
+		BigDecimal result = _values[ 0 ];
+		for (int i = 1; i < _values.length; ++i) {
+			final BigDecimal datePeriod = dates[ i ].subtract( startDate, _cx ).divide( BigDecimal.valueOf( 365 ), _cx );
+			result = result.add( _values[ i ].divide( fun_POWER( r, datePeriod, _cx ), _cx ), _cx );
+		}
+		return result;
+	}
+
+	private static BigDecimal xirrResultingAmountDerivation( BigDecimal[] _values, BigDecimal[] dates, BigDecimal rate, MathContext _cx )
+	{
+		final BigDecimal startDate = dates[ 0 ];
+		final BigDecimal r = rate.add( BigDecimal.ONE, _cx );
+		BigDecimal result = _values[ 0 ];
+		for (int i = 1; i < _values.length; ++i) {
+			final BigDecimal datePeriod = dates[ i ].subtract( startDate, _cx ).divide( BigDecimal.valueOf( 365 ), _cx );
+			result = result.subtract( datePeriod.multiply( _values[ i ].divide( fun_POWER( r, datePeriod.add( BigDecimal.ONE ), _cx ), _cx ), _cx ), _cx );
+		}
+		return result;
+	}
+
+	public static BigDecimal fun_XIRR( BigDecimal[] _values, BigDecimal[] _dates, BigDecimal _guess, MathContext _cx )
+	{
+		final int MAX_ITER = 50;
+		final BigDecimal MAX_EPS = new BigDecimal( 0.0000000001 );
+
+		final BigDecimal[] dates = new BigDecimal[_dates.length];
+		for (int i = 0; i < _dates.length; i++) {
+			dates[ i ] = _dates[ i ].setScale( 0, RoundingMode.DOWN );
+		}
+		if (_values.length != dates.length) {
+			fun_ERROR( "#NUM! because values and dates array sizes are different in XIRR" );
+		}
+		if (_values.length < 2) {
+			fun_ERROR( "#N/A! because values and dates array are too short in XIRR" );
+		}
+		if ((_guess.abs( _cx ).compareTo( BigDecimal.ONE ) >= 0)) {
+			fun_ERROR( "#NUM! incorrect guess value in XIRR" );
+		}
+		boolean negativeValue = false;
+		boolean positiveValue = false;
+		for (BigDecimal value : _values) {
+			final int valueSign = value.signum();
+			if (valueSign < 0) negativeValue = true;
+			if (valueSign > 0) positiveValue = true;
+		}
+		if (!(negativeValue && positiveValue)) {
+			fun_ERROR( "#NUM! there are no positive or negative cash flow values in XIRR" );
+		}
+
+		BigDecimal resultRate = _guess;
+		int iter = 0;
+		boolean continuousFlag = true;
+		do {
+			final BigDecimal resultValue = xirrResultingAmount( _values, dates, resultRate, _cx );
+			final BigDecimal newRate = resultRate.subtract( resultValue.divide( xirrResultingAmountDerivation( _values, dates, resultRate, _cx ), _cx ), _cx );
+			final BigDecimal rateEps = newRate.subtract( resultRate, _cx ).abs( _cx );
+			resultRate = newRate;
+			continuousFlag = rateEps.compareTo( MAX_EPS ) > 0 && resultValue.abs( _cx ).compareTo( MAX_EPS ) > 0;
+		}
+		while (continuousFlag && (++iter < MAX_ITER));
+		if (continuousFlag) {
+			throw new FormulaException( "#NUM! because result not found in " + MAX_ITER + " tries in XIRR" );
+		}
+		return resultRate;
+	}
+
+
 	public static BigDecimal fun_DB( final BigDecimal _cost, final BigDecimal _salvage, final BigDecimal _life,
 			final BigDecimal _period, final BigDecimal _month, MathContext _cx )
 	{

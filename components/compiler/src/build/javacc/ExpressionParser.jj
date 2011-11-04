@@ -744,6 +744,7 @@ void fun(): {}
 	|	"WEEKDAY" fun1to2( Function.WEEKDAY )
 	|	"WORKDAY" open() expr() commaExpr() [ <SEP> shapedRangeExpr() ] closeFun( Function.WORKDAY )
 	|	"WEIBULL" fun4( Function.WEIBULL )
+	|	"XIRR" open() shapedRangeExpr() <SEP> shapedRangeExpr() optCommaExprOr( 0.1 ) closeFun( Function.XIRR )
 	|	"YEAR" fun1( Function.YEAR )
 	|	"YEARFRAC" fun2to3( Function.YEARFRAC )
 	|	"ZTEST" open() shapedRangeExpr() commaExpr() optCommaExpr() closeFun( Function.ZTEST )

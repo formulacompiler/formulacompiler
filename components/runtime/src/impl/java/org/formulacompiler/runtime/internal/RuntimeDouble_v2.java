@@ -1388,6 +1388,74 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		throw new FormulaException( "#NUM! because result not found in " + MAX_ITER + " tries in IRR" );
 	}
 
+	private static double xirrResultingAmount( double[] _values, int[] dates, double rate )
+	{
+		final double startDate = dates[ 0 ];
+		final double r = rate + 1.0;
+		double result = _values[ 0 ];
+		for (int i = 1; i < _values.length; ++i) {
+			result += _values[ i ] / Math.pow( r, (dates[ i ] - startDate) / 365 );
+		}
+		return result;
+	}
+
+	private static double xirrResultingAmountDerivation( double[] _values, int[] dates, double rate )
+	{
+		final double startDate = dates[ 0 ];
+		final double r = rate + 1.0;
+		double result = _values[ 0 ];
+		for (int i = 1; i < _values.length; ++i) {
+			final double datePeriod = (dates[ i ] - startDate) / 365;
+			result -= datePeriod * _values[ i ] / Math.pow( r, datePeriod + 1 );
+		}
+		return result;
+	}
+
+	public static double fun_XIRR( double[] _values, double[] _dates, double _guess )
+	{
+		final int MAX_ITER = 50;
+		final double MAX_EPS = 1E-10;
+
+		final int[] dates = new int[_dates.length];
+		for (int i = 0; i < _values.length; i++) {
+			dates[ i ] = (int) _dates[ i ];
+		}
+		if (_values.length != dates.length) {
+			fun_ERROR( "#NUM! because values and dates array sizes are different in XIRR" );
+		}
+		if (_values.length < 2) {
+			fun_ERROR( "#N/A! because values and dates array are too short in XIRR" );
+		}
+		if (Math.abs( _guess ) >= 1) {
+			fun_ERROR( "#NUM! incorrect guess value in XIRR" );
+		}
+		boolean negativeValue = false;
+		boolean positiveValue = false;
+		for (double value : _values) {
+			if (value < 0) negativeValue = true;
+			if (value > 0) positiveValue = true;
+		}
+		if (!(negativeValue && positiveValue)) {
+			fun_ERROR( "#NUM! XIRR function expects at least one positive and one negative cash flow" );
+		}
+
+		double resultRate = _guess;
+		int iter = 0;
+		boolean continuousFlag;
+		do {
+			final double resultValue = xirrResultingAmount( _values, dates, resultRate );
+			final double newRate = resultRate - resultValue / xirrResultingAmountDerivation( _values, dates, resultRate );
+			final double rateEps = Math.abs( newRate - resultRate );
+			resultRate = newRate;
+			continuousFlag = (rateEps > MAX_EPS) && (Math.abs( resultValue ) > MAX_EPS);
+		}
+		while (continuousFlag && (++iter < MAX_ITER));
+		if (continuousFlag) {
+			throw new FormulaException( "#NUM! because result not found in " + MAX_ITER + " tries in XIRR" );
+		}
+		return resultRate;
+	}
+
 	/**
 	 * Computes DB function.
 	 * Converted from <a href="http://docs.go-oo.org/sc/html/interpr2_8cxx-source.html">OpenOffice.org source</a>

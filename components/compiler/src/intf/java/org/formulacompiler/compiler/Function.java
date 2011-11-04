@@ -50,7 +50,7 @@ public enum Function {
 
 	// Financials
 
-	NPV, MIRR, IRR, DB, DDB, SLN, SYD, FV, NPER, PMT, PV, RATE, VDB,
+	NPV, MIRR, IRR, DB, DDB, SLN, SYD, FV, NPER, PMT, PV, RATE, VDB, XIRR,
 
 	// Statistical
 
