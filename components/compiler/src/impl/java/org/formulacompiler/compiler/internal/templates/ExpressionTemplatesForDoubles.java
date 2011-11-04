@@ -664,6 +664,16 @@ public final class ExpressionTemplatesForDoubles
 	{
 		return RuntimeDouble_v2.fun_WEEKDAY( _date, 1, this.computationMode );
 	}
+	
+	public double fun_WORKDAY( double _start_date, double _days, double[] _holidays )
+	{
+		return RuntimeDouble_v2.fun_WORKDAY( _start_date, _days, _holidays, this.computationMode );
+	}
+
+	public double fun_WORKDAY( double _start_date, double _days )
+	{
+		return RuntimeDouble_v2.fun_WORKDAY( _start_date, _days, new double[0], this.computationMode );
+	}
 
 	public double fun_DAY( double _date )
 	{

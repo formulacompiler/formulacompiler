@@ -590,6 +590,14 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 		return valueOf( result );
 	}
 
+	public static BigDecimal fun_WORKDAY( BigDecimal _startDate, BigDecimal _days, BigDecimal[] _holidays, ComputationMode _mode )
+	{
+		final double startDate = _startDate.doubleValue();
+		final double days = _days.doubleValue();
+		final double[] holidays = toDoubles( _holidays );
+		return valueOf( RuntimeDouble_v2.fun_WORKDAY( startDate, days, holidays, _mode ) );
+	}
+
 	/**
 	 * @deprecated replaced by {@link #fun_DAY(BigDecimal,ComputationMode)}
 	 */

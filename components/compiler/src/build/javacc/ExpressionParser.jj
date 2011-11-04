@@ -740,6 +740,7 @@ void fun(): {}
 	|	"VDB" fun5to7( Function.VDB )
 	|	"VLOOKUP" hvLookup( Function.VLOOKUP )
 	|	"WEEKDAY" fun1to2( Function.WEEKDAY )
+	|	"WORKDAY" open() expr() commaExpr() [ <SEP> shapedRangeExpr() ] closeFun( Function.WORKDAY )
 	|	"WEIBULL" fun4( Function.WEIBULL )
 	|	"YEAR" fun1( Function.YEAR )
 	|	"YEARFRAC" fun2to3( Function.YEARFRAC )
