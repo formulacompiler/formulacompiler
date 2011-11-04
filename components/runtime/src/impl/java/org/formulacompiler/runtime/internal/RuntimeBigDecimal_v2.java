@@ -621,6 +621,11 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 				_method, _mode ) );
 	}
 
+	public static BigDecimal fun_YEARFRAC( BigDecimal _start_date, BigDecimal _end_date, int _basis, ComputationMode _mode )
+	{
+		return valueOf( RuntimeDouble_v2.fun_YEARFRAC( _start_date.doubleValue(), _end_date.doubleValue(), _basis, _mode ) );
+	}
+
 	/**
 	 * @deprecated replaced by {@link #fun_MONTH(BigDecimal,ComputationMode)}
 	 */

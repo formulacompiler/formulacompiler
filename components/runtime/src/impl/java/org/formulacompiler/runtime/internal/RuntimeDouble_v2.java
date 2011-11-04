@@ -424,6 +424,90 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 		return getCalendarValueFromNum( _date, Calendar.YEAR, _mode );
 	}
 
+	public static double fun_YEARFRAC( double _start_date, double _end_date, int _basis, ComputationMode _mode )
+	{
+		final int date_days1;
+		final int date_days2;
+		if (_start_date <= _end_date) {
+			date_days1 = (int) _start_date;
+			date_days2 = (int) _end_date;
+		}
+		else {
+			date_days1 = (int) _end_date;
+			date_days2 = (int) _start_date;
+		}
+		final GregorianCalendar date1 = getGregorianCalendarInstanceFromNum( date_days1, _mode );
+		final GregorianCalendar date2 = getGregorianCalendarInstanceFromNum( date_days2, _mode );
+		switch (_basis) {
+			case 0: { // 0=USA (NASD) 30/360
+				double daysCount = fun_DAYS360( date_days1, date_days2, false, _mode );
+				// FIX different work of YEARFRAC and DAYS360 functions for USA (NASD) basis
+				if (_mode == ComputationMode.EXCEL && date2.get( Calendar.DAY_OF_MONTH ) == 31) {
+					final int day = date1.get( Calendar.DAY_OF_MONTH );
+					if (date1.get( Calendar.MONTH ) == Calendar.FEBRUARY
+							&& (day == 29 || (day == 28 && !date1.isLeapYear( date1.get( Calendar.YEAR ) )))) {
+						daysCount++;
+					}
+				}
+				return daysCount / 360;
+			}
+			case 4: // 4=Europe 30/360
+				return fun_DAYS360( date_days1, date_days2, true, _mode ) / 360;
+
+			case 1: { // 1=exact/exact
+				final int year1 = date1.get( Calendar.YEAR );
+				final int year2 = date2.get( Calendar.YEAR );
+				int years = year2 - year1;
+
+				if (_mode == ComputationMode.EXCEL) {
+					int leapYears = 0;
+					for (int year = year1; year <= year2; year++) {
+						if (date1.isLeapYear( year )) {
+							leapYears++;
+						}
+					}
+					final double yearCoef = (double) leapYears / (years + 1);
+					final double daysInYearAverage = 365 + yearCoef;
+					final double daysCount = date_days2 - date_days1;
+					return daysCount / daysInYearAverage;
+				}
+				else {
+					final int month1 = date1.get( Calendar.MONTH );
+					final int month2 = date2.get( Calendar.MONTH );
+					final int day1 = date1.get( Calendar.DAY_OF_MONTH );
+					final int day2 = date2.get( Calendar.DAY_OF_MONTH );
+					final double daysInYear = date1.isLeapYear( year1 ) ? 366 : 365;
+					if (years > 0 && (month1 > month2 || (month1 == month2 && day1 > day2))) {
+						years--;
+					}
+					double dayDiff;
+					if (years > 0) {
+						dayDiff = (int) (date_days2 - fun_DATE( year2, month1 + 1, day1, _mode ));
+					}
+					else {
+						dayDiff = date_days2 - date_days1;
+					}
+					if (dayDiff < 0) {
+						dayDiff += daysInYear;
+					}
+					return years + dayDiff / daysInYear;
+				}
+			}
+			case 2: { // 2=exact/360
+				final double daysCount = date_days2 - date_days1;
+				return daysCount / 360;
+			}
+			case 3: { //3=exact/365
+				final double daysCount = date_days2 - date_days1;
+				return daysCount / 365;
+			}
+			default:
+				fun_ERROR( "#NUM! Invalid basis in YEARFRAC" );
+				// Can not be accessed. Only for compiler.
+				return 0;
+		}
+	}
+
 	private static int getCalendarValueFromNum( double _date, int _field, ComputationMode _mode )
 	{
 		final Calendar calendar = getGregorianCalendarInstanceFromNum( _date, _mode );

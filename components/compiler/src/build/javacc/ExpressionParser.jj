@@ -742,6 +742,7 @@ void fun(): {}
 	|	"WEEKDAY" fun1to2( Function.WEEKDAY )
 	|	"WEIBULL" fun4( Function.WEIBULL )
 	|	"YEAR" fun1( Function.YEAR )
+	|	"YEARFRAC" fun2to3( Function.YEARFRAC )
 	|	"ZTEST" open() shapedRangeExpr() commaExpr() optCommaExpr() closeFun( Function.ZTEST )
 	}
 

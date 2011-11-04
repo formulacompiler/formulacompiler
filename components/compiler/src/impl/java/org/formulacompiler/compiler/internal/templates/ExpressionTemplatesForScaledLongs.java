@@ -789,6 +789,11 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_YEAR( _date, this.context, this.computationMode );
 	}
 
+	public long fun_YEARFRAC( long _date_start, long _end_start, long _basis )
+	{
+		return RuntimeLong_v2.fun_YEARFRAC( _date_start, _end_start, _basis, this.context, this.computationMode );
+	}
+	
 	public long fun_NOW()
 	{
 		return RuntimeLong_v2.fun_NOW( this.context, this.environment, this.computationTime, this.computationMode );
