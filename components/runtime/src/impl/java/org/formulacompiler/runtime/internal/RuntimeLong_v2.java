@@ -765,6 +765,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return result * _cx.one();
 	}
 
+	public static long fun_WORKDAY( long _startDate, long _days, long[] _holidays, final Context _cx, ComputationMode _mode )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_WORKDAY( _cx.toDouble( _startDate ), _cx.toDouble( _days ), _cx.toDoubles( _holidays ), _mode ));
+	}
+	
 	/**
 	 * @deprecated replaced by {@link #fun_DAY(long,Context,ComputationMode)}
 	 */

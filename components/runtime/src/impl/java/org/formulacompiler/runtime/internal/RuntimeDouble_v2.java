@@ -28,10 +28,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.TimeZone;
 
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.FormulaException;
+import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.NotAvailableException;
 import cern.colt.matrix.DoubleFactory2D;
 import cern.colt.matrix.DoubleMatrix2D;
@@ -325,6 +327,58 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 			default:
 				throw new FormulaException( "#NUM! because of illegal argument _type in WEEKDAY" );
 		}
+	}
+
+	public static int fun_WORKDAY( double _startDate, double _days, double[] _holidays, ComputationMode _mode )
+	{
+		int days = (int) _days;
+		int actDate = (int) _startDate;
+		if (days == 0) {
+			return actDate;
+		}
+		final Set<Integer> holidays = New.set();
+		for (double _holiday : _holidays) {
+			final int holiday = (int) _holiday;
+			if (holiday != 0) {
+				holidays.add( holiday );
+			}
+		}
+
+		if (days > 0) {
+			if (fun_WEEKDAY( actDate, 3, _mode ) == 5) {
+				// when starting on Saturday, assuming we're starting on Sunday to get the jump over the weekend
+				actDate++;
+			}
+			while (days != 0) {
+				actDate++;
+
+				if (fun_WEEKDAY( actDate, 3, _mode ) < 5) {
+					if (!holidays.contains( actDate ))
+						days--;
+				}
+				else {
+					actDate++; // jump over weekend
+				}
+			}
+		}
+		else {
+			if (fun_WEEKDAY( actDate, 3, _mode ) == 6)
+				// when starting on Sunday, assuming we're starting on Saturday to get the jump over the weekend
+				actDate--;
+
+			while (days != 0) {
+				actDate--;
+
+				if (fun_WEEKDAY( actDate, 3, _mode ) < 5) {
+					if (!holidays.contains( actDate ))
+						days++;
+				}
+				else {
+					actDate--; // jump over weekend
+				}
+			}
+		}
+		return actDate;
 	}
 
 	static long getDaySecondsFromNum( final double _time )

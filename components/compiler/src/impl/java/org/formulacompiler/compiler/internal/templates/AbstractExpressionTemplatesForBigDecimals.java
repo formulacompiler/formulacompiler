@@ -541,6 +541,16 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return RuntimeBigDecimal_v2.fun_WEEKDAY( _date, RuntimeBigDecimal_v2.ONE, this.computationMode );
 	}
 
+	public BigDecimal fun_WORKDAY( BigDecimal _startDate, BigDecimal _days )
+	{
+		return RuntimeBigDecimal_v2.fun_WORKDAY( _startDate, _days, new BigDecimal[0], this.computationMode );
+	}
+
+	public BigDecimal fun_WORKDAY( BigDecimal _startDate, BigDecimal _days, BigDecimal[] _holidays )
+	{
+		return RuntimeBigDecimal_v2.fun_WORKDAY( _startDate, _days, _holidays, this.computationMode );
+	}
+	
 	public BigDecimal fun_DAY( BigDecimal _date )
 	{
 		return RuntimeBigDecimal_v2.fun_DAY( _date, this.computationMode );

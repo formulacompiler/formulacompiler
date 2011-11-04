@@ -769,6 +769,16 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.fun_WEEKDAY( _date, this.context.one(), this.context, this.computationMode );
 	}
 
+	public long fun_WORKDAY( long _start_date, long _days )
+	{
+		return RuntimeLong_v2.fun_WORKDAY( _start_date, _days, new long[0], this.context, this.computationMode );
+	}
+
+	public long fun_WORKDAY( long _start_date, long _days, long[] _holidays )
+	{
+		return RuntimeLong_v2.fun_WORKDAY( _start_date, _days, _holidays, this.context, this.computationMode );
+	}
+	
 	public long fun_DAY( long _date )
 	{
 		return RuntimeLong_v2.fun_DAY( _date, this.context, this.computationMode );
