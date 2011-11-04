@@ -139,6 +139,16 @@ rules {
 			end
 		to list xs
 
+	rewrite mround( number, multiple ) =
+		if OR( AND( number < 0, multiple > 0 ), AND( number > 0, multiple < 0 ) )
+		then err( "#NUM! because arguments have different signs in MROUND" )
+		else
+			let floor = FLOOR( number, multiple )
+			let ceiling = CEILING( number, multiple )
+			in
+				if ABS( number - floor ) < ABS( number - ceiling ) then floor
+				else ceiling
+
 
 	// -------- Financial functions
 
