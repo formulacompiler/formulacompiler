@@ -1296,6 +1296,133 @@ sheets:
     - null
     - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
     - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+  - cells:
+    - const: -0.4486799232661724
+    - expr: =XIRR( RC[4]:RC[6], RC[1]:RC[3], RC[7] )
+    - const: 39448.166666666664
+    - const: 39508.0
+    - const: 39751.0
+    - const: -10000.0
+    - const: 2750.0
+    - const: 4250.0
+    - const: 0.1
+    - const: 7.0
+    - const: "XIRR"
+    - const: "XIRR"
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: -0.4486799232661724
+    - expr: =XIRR( RC[4]:RC[6], RC[1]:RC[3], 0.1 )
+    - const: 39448.0
+    - const: 39508.0
+    - const: 39751.0
+    - const: -10000.0
+    - const: 2750.0
+    - const: 4250.0
+    - null
+    - const: 6.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: -0.44867992773652066
+    - expr: =XIRR( RC[4]:RC[6], RC[1]:RC[3], RC[7] )
+    - const: 39448.0
+    - const: 39508.0
+    - const: 39751.0
+    - const: -10000.0
+    - const: 2750.0
+    - const: 4250.0
+    - const: -0.7
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =XIRR( RC[4]:RC[6], RC[1]:RC[3], RC[7] )
+    - const: 39448.0
+    - const: 39508.0
+    - const: 39751.0
+    - const: 10000.0
+    - const: 2750.0
+    - const: 4250.0
+    - const: 0.1
+    - const: 7.0
+    - null
+    - null
+    - err: #NUM!
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: -0.4486799298671633
+    - expr: =XIRR( RC[4]:RC[6], RC[1]:RC[3], RC[7] )
+    - const: 39448.0
+    - const: 39508.0
+    - const: 39751.0
+    - const: -10000.0
+    - const: 2750.0
+    - const: 4250.0
+    - const: -0.99999
+    - const: 7.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =XIRR( RC[4]:RC[6], RC[1]:RC[3], RC[7] )
+    - const: 39448.0
+    - const: 39508.0
+    - const: 39751.0
+    - const: -10000.0
+    - const: 2750.0
+    - const: 4250.0
+    - const: -1.0
+    - const: 7.0
+    - null
+    - null
+    - err: #NUM!
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =XIRR( RC[4]:RC[6], RC[1]:RC[3], RC[7] )
+    - const: 39448.0
+    - const: 39508.0
+    - const: 39751.0
+    - const: -10000.0
+    - const: 2750.0
+    - const: 4250.0
+    - const: 1.0
+    - const: 7.0
+    - null
+    - null
+    - err: #NUM!
+    - null
+    - null
+    - expr: =OR( ISBLANK( RC[-14] ), IF( ISERROR( RC[-14] ), (ERRORTYPE( RC[-14] ) = IF( ISBLANK( RC[-3] ), ERRORTYPE( RC[-15] ), ERRORTYPE( RC[-3] ) )), IF( ISBLANK( RC[-3] ), AND( NOT( ISBLANK( RC[-15] ) ), (RC[-15] = RC[-14]) ), (RC[-14] = RC[-3]) ) ) )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-1] ), false, RC[-1] ), RC[-2] )
 
 names:
 - name: HeaderRange
