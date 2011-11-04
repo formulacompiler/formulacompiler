@@ -1001,4 +1001,6 @@ rules {
 
 	rewrite days360(start_date, end_date) = DAYS360(start_date, end_date, 0)
 
+	rewrite yearfrac(start_date, end_date) = YEARFRAC(start_date, end_date, 0)
+
 }

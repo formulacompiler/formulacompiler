@@ -685,6 +685,11 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.fun_YEAR( _date, this.computationMode );
 	}
 
+	public double fun_YEARFRAC( double _start_date, double _end_date, double _basis )
+	{
+		return RuntimeDouble_v2.fun_YEARFRAC( _start_date, _end_date, (int) _basis, this.computationMode );
+	}
+	
 	public double fun_NOW()
 	{
 		return RuntimeDouble_v2.fun_NOW( this.environment, this.computationTime, this.computationMode );

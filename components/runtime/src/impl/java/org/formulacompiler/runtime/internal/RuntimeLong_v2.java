@@ -828,6 +828,11 @@ public final class RuntimeLong_v2 extends Runtime_v2
 		return result * _cx.one();
 	}
 
+	public static long fun_YEARFRAC( long _startDate, long _endDate, long _basis, final Context _cx, ComputationMode _mode )
+	{
+		return _cx.fromDouble( RuntimeDouble_v2.fun_YEARFRAC( _cx.toDouble( _startDate ), _cx.toDouble( _endDate ), _cx.toInt( _basis ), _mode ) );
+	}
+
 	/**
 	 * @deprecated replaced by {@link #fun_NOW(Context,Environment,ComputationTime,ComputationMode)}
 	 */
