@@ -102,6 +102,7 @@ public final class SpreadsheetToModelCompiler
 		assert null == this.computationModel;
 
 		final SectionBinding rootDef = this.binding.getRoot();
+		rootDef.bindOutputByCellAddress();
 		final Environment env = this.binding.getEnvironment();
 		this.computationModel = new ComputationModel( rootDef.getInputClass(), rootDef.getOutputClass(), getComputationMode(), env );
 		new SectionModelCompiler( this, null, rootDef, this.computationModel.getRoot() );
