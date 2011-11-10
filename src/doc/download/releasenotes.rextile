@@ -21,7 +21,7 @@ h5. New
 	* @MROUND()@ is now "supported":../doc/reference/numfuncs.htm.
 	* @SUMPRODUCT()@ is now "supported":../doc/reference/statisticalfuncs.htm.
 	* @EDATE()@, @EOMONTH()@, @WORKDAY()@, and @YEARFRAC()@ are now "supported":../doc/reference/datefuncs.htm.
-	* @XIRR()@ is now "supported":../doc/reference/financialfuncs.htm
+	* @XIRR()@ is now "supported":../doc/reference/financialfuncs.htm.
 	* Added new "@Spreadsheet.getRangeA1(String)@":-getrangea1 method.
 
 [-getrangea1]../doc/javadoc/org/formulacompiler/spreadsheet/Spreadsheet.html#getRangeA1(java.lang.String)
@@ -351,9 +351,9 @@ h5. Documented
 	* Checked whether "the engine format needs to be more robust":../contribute/journal/2006-11-22_robust_storage.htm for the future. It's OK already.
 	* Added a "breakdown of missing spreadsheet functions":../contribute/hacking/functions_to_implement.htm.
 	* Added documentation of "internal rewrite functions":../contribute/hacking/rewrite_functions.htm.
-	* Documented how to "add an array computation":../contribute/hacking/addarray.xhtml.
+	* Documented how to "add an array computation":../contribute/hacking/addvector.xhtml.
 	* A few entries in the "developer's journal":../contribute/journal/index.htm.
-	
+
 	
 h2. Release 0.8.1
 	
@@ -441,7 +441,7 @@ h5. New
 
 h5. Better
 
-	* Much "improved Excel function tests":dev.htm#2006-08-30, used as base for reference docs.
+	* Much "improved Excel function tests":../contribute/journal_old.htm#2006-08-30, used as base for reference docs.
 	* Improved error messages should give clearer indication of the source of a problem.
 
 h5. Fixed
@@ -498,9 +498,9 @@ h5. New
 
 h5. Better
 
-	* Documented, tested and completed the handling of the full set of allowed "input method parameters":../doc/tutorial/bindbyname.htm.
+	* Documented, tested and completed the handling of the full set of allowed "input method parameters":../doc/tutorial/bindparams.htm.
 	* Refactored the binding tutorial into more separate pages.
-	* Added support for defining and referencing ranges to the "@SpreadsheetBuilder@":../doc/javadoc/sej/SpreadsheetBuilder.html.
+	* Added support for defining and referencing ranges to the "@SpreadsheetBuilder@":../doc/javadoc/org/formulacompiler/spreadsheet/SpreadsheetBuilder.html.
 
 h5. Fixed
 
@@ -512,11 +512,11 @@ h2. Release 0.5.4
 
 h5. New
 
-	* "Parametrized output methods":../doc/tutorial/binding.htm#BindByName are supported now. The interactive demo thus runs again, but does not yet look good because there are some info methods missing on the spreadsheet interface.
+	* "Parametrized output methods":../doc/tutorial/bindparams.htm are supported now. The interactive demo thus runs again, but does not yet look good because there are some info methods missing on the spreadsheet interface.
 
 h5. Better
 
-	* The examples for "basic cell binding":../doc/tutorial/binding.htm#BindCells and "parametrized binding":../doc/tutorial/binding.htm#BindByName are now cited from automated tests.
+	* The examples for "basic cell binding":../doc/tutorial/bindcells.htm and "parametrized binding":../doc/tutorial/bindparams.htm are now cited from automated tests.
 
 
 h2. Release 0.5.3
@@ -557,23 +557,23 @@ h2. <a name="0.5.0">Release 0.5.0</a>
 
 h5. New
 
-	* The new "@EngineBuilder@":../doc/javadoc/sej/EngineBuilder.html supports the "most typical use-case":../doc/tutorial/basics.htm out of the box. The @SpreadsheetByNameBinder@ and @SpreadsheetNameCreator@ give more fine-grained control over this. This use-case is used to provide the motivation for using SEJ in the tutorial.
+	* The new "@EngineBuilder@":../doc/javadoc/org/formulacompiler/spreadsheet/EngineBuilder.html supports the "most typical use-case":../doc/tutorial/basics.htm out of the box. The @SpreadsheetByNameBinder@ and @SpreadsheetNameCreator@ give more fine-grained control over this. This use-case is used to provide the motivation for using SEJ in the tutorial.
 	
-	* Separated the concept of a computation engine (collection of computation classes) from the concept of a computation factory. "Engine":../doc/javadoc/sej/runtime/Engine.html is now the thing being loaded and "saved":../doc/javadoc/sej/SaveableEngine.html. "Factory":../doc/javadoc/sej/runtime/ComputationFactory.html creates now computation instances. The factory can be forced to implement an application-specific interface or base class, which makes SEJ even more non-intrusive on application code (see use-case above).
+	* Separated the concept of a computation engine (collection of computation classes) from the concept of a computation factory. "Engine":../doc/javadoc/org/formulacompiler/runtime/Engine.html is now the thing being loaded and "saved":../doc/javadoc/org/formulacompiler/compiler/SaveableEngine.html. "Factory":../doc/javadoc/org/formulacompiler/runtime/ComputationFactory.html creates now computation instances. The factory can be forced to implement an application-specific interface or base class, which makes SEJ even more non-intrusive on application code (see use-case above).
 	
 	* SEJ now converts between its internal numeric type and basically all numeric Java types in the input and output method result types. To support this, scaled @long@ values in the interface must now be "annotated with @@ScaledLong@":../doc/tutorial/numeric_type.htm#long. (While already tested fairly rigorously, the full documentation for this feature is still missing.)
 	
 	* Saved engines are now normal .jar files, which can be inspected like any other .jar file. The generated classes are normal .class entries in the .jar file.
 	
-	* The new "@SpreadsheetBuilder@":../doc/javadoc/sej/SpreadsheetBuilder.html supports "constructing spreadsheets in memory":../doc/tutorial/buildsheet.htm.
+	* The new "@SpreadsheetBuilder@":../doc/javadoc/org/formulacompiler/spreadsheet/SpreadsheetBuilder.html supports "constructing spreadsheets in memory":../doc/tutorial/buildsheet.htm.
 
 h5. Better
 
-	* I have reorganized the packages. Everything internal is now in @sej.internal@. Everything need for the loading and running of compiled engines is in "@sej.runtime@":../doc/javadoc/sej/runtime/package-summary.html, @sej.internal.runtime@, and @sej.internal.bytecode.runtime@. The compile-time public API is in "@sej@":../doc/javadoc/sej/package-summary.html.
+	* I have reorganized the packages. Everything internal is now in @sej.internal@. Everything need for the loading and running of compiled engines is in "@sej.runtime@":../doc/javadoc/org/formulacompiler/runtime/package-summary.html, @sej.internal.runtime@, and @sej.internal.bytecode.runtime@. The compile-time public API is in "@sej@":../doc/javadoc/org/formulacompiler/compiler/package-summary.html.
 	
-	* I have rigorously trimmed the API again. Every non-trivial entity is now represented by an interface in the API, not a class. The central class "@sej.SEJ@":../doc/javadoc/sej/SEJ.html provides factory methods for all of these.
+	* I have rigorously trimmed the API again. Every non-trivial entity is now represented by an interface in the API, not a class. The central class "@sej.SEJ@":../doc/javadoc/org/formulacompiler/compiler/FormulaCompiler.html provides factory methods for all of these.
 	
-	* The fairly monolithic low-level interface @sej.Compiler@ has been broken up to reflect the processing chain: "@sej.Spreadsheet@":../doc/javadoc/sej/Spreadsheet.html, "@sej.SpreadsheetBinder@":../doc/javadoc/sej/SpreadsheetBinder.html, "@sej.SpreadsheetBinding@":../doc/javadoc/sej/SpreadsheetBinding.html, "@sej.SpreadsheetCompiler@":../doc/javadoc/sej/SpreadsheetCompiler.html. Most of these components have a consistent instantiation protocol with a factory method in @sej.SEJ@ and a configuration class called @XY.Config@ which supplies parameters to new instances. This is in preparation of being able to expose the internal computation model as a lightweight alternative to the spreadsheet model.
+	* The fairly monolithic low-level interface @sej.Compiler@ has been broken up to reflect the processing chain: "@sej.Spreadsheet@":../doc/javadoc/org/formulacompiler/spreadsheet/Spreadsheet.html, "@sej.SpreadsheetBinder@":../doc/javadoc/org/formulacompiler/spreadsheet/SpreadsheetBinder.html, "@sej.SpreadsheetBinding@":../doc/javadoc/org/formulacompiler/spreadsheet/SpreadsheetBinding.html, "@sej.SpreadsheetCompiler@":../doc/javadoc/org/formulacompiler/spreadsheet/SpreadsheetCompiler.html. Most of these components have a consistent instantiation protocol with a factory method in @sej.SEJ@ and a configuration class called @XY.Config@ which supplies parameters to new instances. This is in preparation of being able to expose the internal computation model as a lightweight alternative to the spreadsheet model.
 
 	* New base error class, @sej.runtime.SEJError@, from which all others are derived. Better separation of errors into @sej.SpreadsheetError@, @sej.CompilerError@, and @sej.runtime.EngineError@.
 
@@ -644,4 +644,4 @@ In addition @Compiler.getRootNameSpace()@ has been shortened to @Compiler.getRoo
 
 h2. Release 0.3.0
 
-This is the first release with the new API based on "binding cells to native types":../doc/tutorial/binding.htm. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.
+This is the first release with the new API based on "binding cells to native types":../doc/tutorial/bindcells.htm. The interpreter has been dropped and replaced by a byte code compiler producing very fast code.

@@ -23,7 +23,7 @@ Now, while you could certainly create these initial files by hand in Excel and s
 
 h2. Generating The Internal Model
 
-AFC generates initial files from its internal "spreadsheet model":../javadoc/sej/Spreadsheet.html. So in order to generate one, we first need to build its model in memory. This is exactly the same process as is needed when "using AFC without a spreadsheet file":buildsheet.htm#building. See there for details.
+AFC generates initial files from its internal "spreadsheet model":../javadoc/org/formulacompiler/spreadsheet/Spreadsheet.html. So in order to generate one, we first need to build its model in memory. This is exactly the same process as is needed when "using AFC without a spreadsheet file":buildsheet.htm#building. See there for details.
 
 
 

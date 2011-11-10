@@ -25,7 +25,7 @@ If you expect these computations to be used heavily in your application, however
 
 h2. <a name="building">Building Your Own Spreadsheet Model</a>
 
-AFC's compiler takes an internal representation of a spreadsheet as input. Normally, you load this from an actual spreadsheet file. With the "@SpreadsheetBuilder@":../javadoc/sej/SpreadsheetBuilder.html, however, you can build one in memory from scratch. I'll first show you how to define the spreadsheet with only the two input cells:
+AFC's compiler takes an internal representation of a spreadsheet as input. Normally, you load this from an actual spreadsheet file. With the "@SpreadsheetBuilder@":../javadoc/org/formulacompiler/spreadsheet/SpreadsheetBuilder.html, however, you can build one in memory from scratch. I'll first show you how to define the spreadsheet with only the two input cells:
 
 	[jc:org.formulacompiler.tutorials.Basics:---- OwnUISheet; omit -- defCalc]
 
@@ -37,7 +37,7 @@ Of particular interest is how to build calculated cells, @B1+B2@ in this example
 
 The @currentCell()@ method returns a reference to the cell defined just before it. These references can be used later on in formulas to reference other cells.
 
-The part @b.op( Operator.PLUS, ... )@ defines the last cell as one performing an addition, which is one of the supported "operators":../javadoc/sej/Operator.html. Its arguments are references to the two cells defined above. There is also @fun()@ for "functions and aggregators":../javadoc/sej/Function.html.
+The part @b.op( Operator.PLUS, ... )@ defines the last cell as one performing an addition, which is one of the supported "operators":../javadoc/org/formulacompiler/compiler/Operator.html. Its arguments are references to the two cells defined above. There is also @fun()@ for "functions and aggregators":../javadoc/org/formulacompiler/compiler/Function.html.
 
 
 

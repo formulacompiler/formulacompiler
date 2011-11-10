@@ -32,11 +32,11 @@ h2. Manual Setup
 
 h3. Mandatory Tools
 
-The following are the tools you need to set up in order to build a complete new distribution package for AFC. I strongly suggest you install them all if you consider "contributing to AFC":contributing.htm.
+The following are the tools you need to set up in order to build a complete new distribution package for AFC. I strongly suggest you install them all if you consider "contributing to AFC":../index.htm.
 
 dt. "Ant":-ant : You do, of course, need. Since Ant is rather big and such a widespread tool, I have chosen to not include it with AFC's source distribution. This is the only install you need to run @ant build@ which builds the AFC jars.
 
-dt. "JUnit":-junit : is needed to run the tests with @ant test@. As per "the instructions":http://ant.apache.org/manual/OptionalTasks/junit.html and, in particular, "this discussion":http://ant.apache.org/faq.html#delegating-classloader, I suggest that you copy @junit.jar@ to the @lib/@ folder of your Ant installation.
+dt. "JUnit":-junit : is needed to run the tests with @ant test@. As per "the instructions":http://ant.apache.org/manual/Tasks/junit.html and, in particular, "this discussion":http://ant.apache.org/faq.html#delegating-classloader, I suggest that you copy @junit.jar@ to the @lib/@ folder of your Ant installation.
 
 dt. "Macker":-macker : checks class and package dependencies. AFC uses it to enforce the most important dependency rules. Configure it in @build.properties@ (see above).
 
