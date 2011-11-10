@@ -2762,6 +2762,39 @@ input.setSide( "1234567891234567891234567891234567891234567891234567891234567891
 		assertTrue( "Caching is at least half as fast again; caching is " + cachingTime + " vs. " + plainTime,
 				cachingTime * 3 / 2 < plainTime );
 ___@_@___
+jc:org.formulacompiler.tutorials.CalculateAll:---- binding; omit -omit-
+__@@__
+final EngineBuilder builder = SpreadsheetCompiler.newEngineBuilder();
+		// -omit-
+		builder.loadSpreadsheet( new File( "src/test/data/org/formulacompiler/tutorials/CubeVolume.xls" ) );
+		builder.setInputClass( Inputs.class );
+		builder.setOutputClass( _outputClass );
+		builder.setFullCaching( _fullCaching );
+		// -omit-
+		final SpreadsheetBinder.Section rootBinder = builder.getRootBinder();
+		rootBinder./**/defineOutputByCellAddress/**/( _outputMethod );
+___@_@___
+jc:org.formulacompiler.tutorials.CalculateAll:---- cellAddress
+__@@__
+public static interface OutputsByCellName
+	{
+		double getOutput( /**/String cellName/**/ );
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.CalculateAll:---- sheetIndexColIndexRowIndex
+__@@__
+public static interface OutputsBySheetIndexCellIndex
+	{
+		double getOutput( /**/int sheetIndex, int colIndex, int rowIndex/**/ );
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.CalculateAll:---- sheetNameColIndexRowIndex
+__@@__
+public static interface OutputsBySheetNameCellIndex
+	{
+		double getOutput( /**/String sheetName, int colIndex, int rowIndex/**/ );
+	}
+___@_@___
 jc:org.formulacompiler.tutorials.CompMode:---- assertExcelDates
 __@@__
 assertEquals( /**/1.0/**/, output.getNumberFromDate(), 1e-9 );

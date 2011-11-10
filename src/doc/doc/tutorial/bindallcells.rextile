@@ -1,0 +1,37 @@
+
+h1. Getting Cell Computed Value by Address
+
+If you need to get value of any cell in a spreadsheet, you can bind all cells to a method which takes cell address as a parameter.
+
+<%= toc 2, 3 %>
+
+
+h2. Outputs
+
+There are 3 possible signature variants of a method to be bound as output.
+
+	# You can specify cell address as string (example: @Sheet1!A1@):
+
+	[jc:org.formulacompiler.tutorials.CalculateAll:---- cellAddress]
+
+	#_ You can specify sheet name, column index, and row index:
+
+	[jc:org.formulacompiler.tutorials.CalculateAll:---- sheetNameColIndexRowIndex]
+
+	#_ You can specify sheet name, column index, and row index:
+
+	[jc:org.formulacompiler.tutorials.CalculateAll:---- sheetIndexColIndexRowIndex]
+
+All indices are zero-based.
+
+The return type of the method can be of any type "described here":type_conversion.htm#Outputs. But be aware that if a cell value type cannot be converted to a bound method return type, an exception will be thrown at run-time when trying to get computed value of the cell.
+
+
+h2. Binding
+
+The output method must be bound using section binder.
+
+	[jc:org.formulacompiler.tutorials.CalculateAll:---- binding; omit -omit-]
+
+You can read about binding, compiling and using compiled engine in "this tutorial":bindcells.htm.
+

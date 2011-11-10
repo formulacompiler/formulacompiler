@@ -22,6 +22,9 @@
 
 package org.formulacompiler.spreadsheet.internal;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.formulacompiler.compiler.internal.AbstractDescribable;
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.runtime.internal.spreadsheet.RangeAddressImpl;
@@ -60,6 +63,59 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 	{
 		final int lastSheetIndex = _spreadsheet.getSheetList().size() - 1;
 		return new CellIndex( _spreadsheet, lastSheetIndex, CellIndex.MAX_INDEX, CellIndex.MAX_INDEX );
+	}
+
+
+	public Iterable<CellInstance> getCellInstances()
+	{
+		return new Iterable<CellInstance>()
+		{
+			private final int fromSheet = getFrom().getSheetIndex();
+			private final int toSheet = getTo().getSheetIndex() + 1;
+			private final int fromRow = getFrom().getRowIndex();
+			private final int toRow = getTo().getRowIndex() + 1;
+			private final int fromColumn = getFrom().getColumnIndex();
+			private final int toColumn = getTo().getColumnIndex() + 1;
+
+			public Iterator<CellInstance> iterator()
+			{
+				return cellsIterator( rowsIterator( sheetsIterator( getFrom().spreadsheet ) ) );
+			}
+
+			private Iterator<? extends BaseSheet> sheetsIterator( BaseSpreadsheet _spreadsheet )
+			{
+				final List<? extends BaseSheet> sheets = _spreadsheet.getSheetList();
+				return sheets.subList( Math.min( this.fromSheet, sheets.size() ), Math.min( this.toSheet, sheets.size() ) ).iterator();
+			}
+
+			private Iterator<BaseRow> rowsIterator( Iterator<? extends BaseSheet> _sheetIterator )
+			{
+				return new FlatIterator<BaseRow, BaseSheet>( _sheetIterator )
+				{
+					@Override
+					@SuppressWarnings( "unqualified-field-access" )
+					protected Iterator<? extends BaseRow> getChildIterator( final BaseSheet _sheet )
+					{
+						final List<? extends BaseRow> rows = _sheet.getRowList();
+						return rows.subList( Math.min( fromRow, rows.size() ), Math.min( toRow, rows.size() ) ).iterator();
+					}
+				};
+			}
+
+			private Iterator<CellInstance> cellsIterator( Iterator<BaseRow> _rowIterator )
+			{
+				return new FlatIterator<CellInstance, BaseRow>( _rowIterator )
+				{
+					@Override
+					@SuppressWarnings( "unqualified-field-access" )
+					protected Iterator<? extends CellInstance> getChildIterator( final BaseRow _row )
+					{
+						final List<? extends CellInstance> cells = _row.getCellList();
+						return cells.subList( Math.min( fromColumn, cells.size() ), Math.min( toColumn, cells.size() ) ).iterator();
+					}
+				};
+			}
+		};
 	}
 
 

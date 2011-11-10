@@ -23,6 +23,7 @@
 package org.formulacompiler.spreadsheet.internal;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -89,6 +90,42 @@ public abstract class BaseSpreadsheet extends AbstractYamlizable implements Spre
 		names.addAll( modelNames );
 		names.addAll( userNames );
 		return names;
+	}
+
+
+	public Iterable<CellInstance> getCellInstances()
+	{
+		return new Iterable<CellInstance>()
+		{
+			public Iterator<CellInstance> iterator()
+			{
+				return cellsIterator( rowsIterator( getSheetList().iterator() ) );
+			}
+
+			private Iterator<BaseRow> rowsIterator( Iterator<? extends BaseSheet> _sheetIterator )
+			{
+				return new FlatIterator<BaseRow, BaseSheet>( _sheetIterator )
+				{
+					@Override
+					protected Iterator<? extends BaseRow> getChildIterator( final BaseSheet _sheet )
+					{
+						return _sheet.getRowList().iterator();
+					}
+				};
+			}
+
+			private Iterator<CellInstance> cellsIterator( Iterator<BaseRow> _rowIterator )
+			{
+				return new FlatIterator<CellInstance, BaseRow>( _rowIterator )
+				{
+					@Override
+					protected Iterator<? extends CellInstance> getChildIterator( final BaseRow _row )
+					{
+						return _row.getCellList().iterator();
+					}
+				};
+			}
+		};
 	}
 
 

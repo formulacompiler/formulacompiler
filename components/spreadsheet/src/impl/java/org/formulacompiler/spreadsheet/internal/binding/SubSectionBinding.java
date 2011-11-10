@@ -30,6 +30,7 @@ import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.spreadsheet.Orientation;
 import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
+import org.formulacompiler.spreadsheet.internal.CellInstance;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 
 
@@ -143,6 +144,13 @@ public class SubSectionBinding extends SectionBinding implements Comparable<SubS
 		else {
 			return _range;
 		}
+	}
+
+
+	@Override
+	Iterable<CellInstance> getCellInstances()
+	{
+		return getRange().getCellInstances();
 	}
 
 

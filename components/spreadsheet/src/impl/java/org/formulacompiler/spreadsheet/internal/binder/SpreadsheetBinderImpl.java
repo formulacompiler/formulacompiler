@@ -138,6 +138,11 @@ public final class SpreadsheetBinderImpl implements SpreadsheetBinder
 			defineOutputCell( _cell, getOutputClass().getMethod( _nameOfMethodToImplement ) );
 		}
 
+		public void defineOutputByCellAddress( Method _methodToImplement ) throws CompilerException
+		{
+			this.sectionBinding.defineOutputByCellAddress( _methodToImplement );
+		}
+
 		public SpreadsheetBinder.Section defineRepeatingSection( Range _range, Orientation _orientation,
 				CallFrame _inputCallChainReturningIterable, Class _inputClass,
 				CallFrame _outputCallReturningIterableToImplement, Class _outputClass ) throws CompilerException

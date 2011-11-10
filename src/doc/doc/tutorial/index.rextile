@@ -42,10 +42,11 @@ dt. "Binding Cells":bindcells.htm : How to explicitly bind specific input and ou
 
 dt. "Binding To Parametrized Methods":bindparams.htm : If you have a generic system where the set of possible input and/or output values cannot be determined at compile-time, you have to resort to some sort of binding to parametrized methods.
 
+dt. "Binding All Cells To One Output Method":bindallcells.htm : If you want to get any cell computed value, you can bind all cells to a method which takes cell address as a parameter.
+
 dt. "Binding To Multiple Interfaces":bindmultipleinterfaces.htm : AFC only allows you to set a single interface to provide inputs to or obtain outputs from a computation. How can you work around this?
 
 dt. "Binding To Multiple Instances":bindmultipleinstances.htm : What if you need to provide multiple separate instances of source interfaces as input providers, or need AFC to implement multiple separate instances of output interfaces?
-
 
 h2. Miscellany
 

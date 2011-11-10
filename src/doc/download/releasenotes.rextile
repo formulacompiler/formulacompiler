@@ -24,6 +24,7 @@ h5. New
 	* @XIRR()@ is now "supported":../doc/reference/financialfuncs.htm.
 	* Added new "@Spreadsheet.getRangeA1(String)@":-getrangea1 method.
 	* @java.lang.Object@ is supported as an "output type":../doc/tutorial/type_conversion.htm#Outputs.
+	* It is possible to "get any cell value by its address"../doc/tutorial/bindallcells.htm.
 
 [-getrangea1]../doc/javadoc/org/formulacompiler/spreadsheet/Spreadsheet.html#getRangeA1(java.lang.String)
 

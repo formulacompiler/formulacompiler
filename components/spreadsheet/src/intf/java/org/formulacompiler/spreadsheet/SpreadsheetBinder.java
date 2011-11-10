@@ -306,6 +306,17 @@ public interface SpreadsheetBinder
 				String _nameOfOutputMethodReturningIterableToImplement, Class _outputClass ) throws CompilerException,
 				NoSuchMethodException;
 
+		/**
+		 * Binds the specified method to all non-empty cells in this section.
+		 * Supported method signatures are:
+		 * <ul>
+		 *     <li><code>(String)</code> - cell address (e.g. Sheet1!A1)</li>
+		 *     <li><code>(String, int, int)</code> - sheet name, column index, row index</li>
+		 *     <li><code>(int, int, int)</code> - sheet index, column index, row index</li>
+		 * </ul>
+		 * All indices are zero-based.
+		 */
+		public void defineOutputByCellAddress( Method _methodToImplement ) throws CompilerException;
 	}
 
 
