@@ -46,7 +46,7 @@ By supplying a @CallFrame@ instead of just a method, you can even chain calls. I
 
 	[jc:org.formulacompiler.tutorials.BindingCells:---- bindChainedInputs]
 
-The range of supported parameter data types is documented in the topic on "binding by name":bindbyname.htm.
+The range of supported parameter data types is documented in the topic on "binding to parametrized methods":bindparams.htm.
 
 
 h3. Exceptions
@@ -73,7 +73,7 @@ Now that the type is in place, we can bind output cells to it (again, there is a
 
 h3. Parameters
 
-Like inputs, you can also bind outputs to parametrized methods. This is explained in detail in the topic on "binding by name":bindbyname.htm.
+Like inputs, you can also bind outputs to parametrized methods. This is explained in detail in the topic on "binding to parametrized methods":bindparams.htm.
 
 
 h2. <a name="Defaults">Defaults</a>

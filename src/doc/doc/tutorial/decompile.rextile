@@ -29,7 +29,7 @@ dt. @$Root@ : is the main engine implementation. It contains all top-level compu
 
 dt. @$Sect<n>@ : are the engine implementations for the repeating elements of defined sections. The number @<n>@ is simply an increasing ordinal numbering all the different sections used.
 
-[-javap]http://java.sun.com/j2se/1.5.0/docs/tooldocs/windows/javap.html
+[-javap]http://docs.oracle.com/javase/1.5.0/docs/tooldocs/windows/javap.html
 
 
 h2. Decompiling

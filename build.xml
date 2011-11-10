@@ -560,7 +560,7 @@
 				additionalParam="-notimestamp -tagletPath ${jcite.classpath} -taglet ch.arrenbrecht.jcite.JCiteTaglet -J-Djcitesourcepath=${javadoc.cite.path}"
 				stylesheetfile="${src.doc.dir}/doc/javadoc/style.css"
 				overview="${src.doc.dir}/doc/javadoc/overview.html">
-			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
+			<link href="http://docs.oracle.com/javase/1.5.0/docs/api/" />
 		</javadoc>
 
 	</target>

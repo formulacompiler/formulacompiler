@@ -25,7 +25,7 @@ dt. "Caching Of Values and Reusing Computations":caching.htm : Many computations
 dt. "Exceptions Thrown By Computations":exceptions.htm : Computations that result in @#VALUE!@, @#DIV/0!@ or some such in Excel throw exceptions in AFC.
 
 
-h2. Repeating Sections
+h2(#RepeatingSections). Repeating Sections
 
 Define _repeating sections_ which are like ranges in Excel, but their width or height may vary with each use of the computation.
 
