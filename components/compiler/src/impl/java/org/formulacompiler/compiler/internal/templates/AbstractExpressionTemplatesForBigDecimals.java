@@ -111,6 +111,11 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 		return BigDecimal.valueOf( RuntimeDouble_v2.msToNum( a ) );
 	}
 
+	BigDecimal util_fromString( String a )
+	{
+		return RuntimeBigDecimal_v2.fromString( a, this.environment, this.computationMode );
+	}
+
 
 	@ReturnsAdjustedValue
 	byte util_toByte( BigDecimal a )

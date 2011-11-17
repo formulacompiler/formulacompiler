@@ -23,6 +23,7 @@
 package org.formulacompiler.runtime.internal;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -221,6 +222,62 @@ public abstract class Runtime_v2
 		}
 	}
 
+	public static Number stringToNumber( String _text, Environment _environment, ComputationMode _mode )
+	{
+		final String text = _text.trim();
+		final Number number = parseNumber( text, false, _environment, _mode == ComputationMode.EXCEL );
+		if (number != null) {
+			return number;
+		}
+		else {
+			throw new FormulaException( "#VALUE! because " + _text + " is not a number" );
+		}
+	}
+
+	public static long stringToScaledLong( String _text, int _scale, Environment _environment, ComputationMode _computationMode )
+	{
+		final BigDecimal bigDecimal = RuntimeBigDecimal_v2.fromString( _text, _environment, _computationMode );
+		return RuntimeBigDecimal_v2.toScaledLong( bigDecimal, _scale );
+	}
+
+	public static boolean stringToBoolean( String _text, Environment _environment, ComputationMode _computationMode )
+	{
+		final Number number = stringToNumber( _text, _environment, _computationMode );
+		return number.longValue() != 0;
+	}
+
+	public static Date stringToDate( String _text, Environment _environment, ComputationMode _computationMode )
+	{
+		try {
+			return parseAndVisitDateAndOrTime( _text, _environment, new DateOrTimeVisitor<Date>()
+			{
+				public Date visitDate( Date _date )
+				{
+					return _date;
+				}
+
+				public Date visitTime( final long _ms )
+				{
+					throw new FormulaException( "Cannot convert a string to date" );
+				}
+			} );
+		}
+		catch (ParseException e) {
+			throw new FormulaException( "Cannot convert a string to date" );
+		}
+	}
+
+	public static long stringToMs( String _text, Environment _environment, ComputationMode _computationMode )
+	{
+		return msFromDouble( stringToNumber( _text, _environment, _computationMode ).doubleValue() );
+	}
+
+	public static long stringToMsSinceUTC1970( String _text, Environment _environment, ComputationMode _computationMode )
+	{
+		final double numValue = stringToNumber( _text, _environment, _computationMode ).doubleValue();
+		return msSinceUTC1970FromDouble( numValue, _environment.timeZone(), _computationMode == ComputationMode.EXCEL );
+	}
+
 	private static NumberFormat getPercentFormat( final Environment _environment )
 	{
 		final NumberFormat format = NumberFormat.getPercentInstance( _environment.locale() );
@@ -402,6 +459,30 @@ public abstract class Runtime_v2
 		numberFormat.setGroupingUsed( false );
 		numberFormat.setMaximumFractionDigits( maximumFractionDigits );
 		return numberFormat.format( stripped );
+	}
+
+	public static String stringFromNumber( final Number _value, Environment _environment )
+	{
+		final BigDecimal num;
+		if (_value instanceof BigDecimal) {
+			num = (BigDecimal) _value;
+		}
+		else if (_value instanceof BigInteger) {
+			num = new BigDecimal( (BigInteger) _value );
+		}
+		else if (_value instanceof Byte || _value instanceof Short || _value instanceof Integer || _value instanceof Long) {
+			num = BigDecimal.valueOf( _value.longValue() );
+		}
+		else {
+			num = BigDecimal.valueOf( _value.doubleValue() );
+		}
+		return stringFromBigDecimal( num, _environment, 10, 11 );
+	}
+
+	public static String stringFromBoolean( final boolean _value, Environment _environment )
+	{
+		// LATER Convert to locale-dependent text (e.g. TRUE/FALSE)
+		return _value ? "1" : "0";
 	}
 
 	private static String formatExp( BigDecimal _value, Environment _environment )
@@ -813,9 +894,7 @@ public abstract class Runtime_v2
 	public static String fun_TEXT( Number _num, String _format, Environment _environment )
 	{
 		if ("@".equals( _format )) {
-			final BigDecimal num = _num instanceof BigDecimal ? (BigDecimal) _num : BigDecimal
-					.valueOf( _num.doubleValue() );
-			return stringFromBigDecimal( num, _environment, 10, 11 );
+			return stringFromNumber( _num, _environment );
 		}
 		throw new IllegalArgumentException( "TEXT() is not properly supported yet." );
 	}
@@ -1011,6 +1090,30 @@ public abstract class Runtime_v2
 
 
 	/**
+	 * Parses a string containing a date and/or time component to a numeric value which is used in spreadsheets.
+	 *
+	 * @param _s   string to parse
+	 * @param _env environment
+	 * @return date in numeric representation
+	 * @throws java.text.ParseException if string cannot be parsed as date.
+	 */
+	public static double parseDateAndOrTime( String _s, final Environment _env, final boolean _excelCompatible ) throws ParseException
+	{
+		return parseAndVisitDateAndOrTime( _s, _env, new DateOrTimeVisitor<Double>()
+		{
+			public Double visitDate( final Date _date )
+			{
+				return dateToDouble( _date, _env.timeZone(), _excelCompatible );
+			}
+
+			public Double visitTime( final long _ms )
+			{
+				return msToDouble( _ms );
+			}
+		} );
+	}
+
+	/**
 	 * Parses a string containing a date and/or time component. The reason for this routine is that
 	 * the standard Java date parsers are quite picky about input strings having <em>all</em>
 	 * components specified in the format. Handles century completion for 2-digit-years the way Excel
@@ -1018,18 +1121,17 @@ public abstract class Runtime_v2
 	 *
 	 * @param _s   string to parse
 	 * @param _env environment
-	 * @return date in numeric representation
 	 * @throws java.text.ParseException if string cannot be parsed as date.
 	 */
-	public static double parseDateAndOrTime( String _s, final Environment _env, boolean _excelCompatible ) throws ParseException
+	private static <T> T parseAndVisitDateAndOrTime( final String _s, final Environment _env, DateOrTimeVisitor<T> _visitor ) throws ParseException
 	{
 		if (isISODate( _s, '-' )) {
 			final Date date = parseISODateAndOptionallyTime( _s, '-', _env );
-			return dateToDouble( date, _env.timeZone(), _excelCompatible );
+			return _visitor.visitDate( date );
 		}
 		if (isISODate( _s, '/' )) {
 			final Date date = parseISODateAndOptionallyTime( _s, '/', _env );
-			return dateToDouble( date, _env.timeZone(), _excelCompatible );
+			return _visitor.visitDate( date );
 		}
 
 		final TimeZone tz = _env.timeZone();
@@ -1127,14 +1229,14 @@ public abstract class Runtime_v2
 			if (year < 10 && !_s.contains( "000" )) {
 				cal.set( Calendar.YEAR, year + 2000 );
 				final Date fixed = cal.getTime();
-				return dateToDouble( fixed, tz, _excelCompatible );
+				return _visitor.visitDate( fixed );
 			}
-			return dateToDouble( parsed, tz, _excelCompatible );
+			return _visitor.visitDate( parsed );
 		}
 		else {
 			format.setTimeZone( GMT_TIME_ZONE );
 			final Date parsed = format.parse( _s );
-			return msToDouble( parsed.getTime() );
+			return _visitor.visitTime( parsed.getTime() );
 		}
 	}
 
@@ -1194,5 +1296,12 @@ public abstract class Runtime_v2
 		for (int i = 0; i < _s.length(); i++)
 			if (_c == _s.charAt( i )) r++;
 		return r;
+	}
+
+	private static interface DateOrTimeVisitor<T>
+	{
+		T visitDate( Date _date );
+
+		T visitTime( long _ms );
 	}
 }

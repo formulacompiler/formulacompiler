@@ -22,9 +22,7 @@
 
 package org.formulacompiler.compiler.internal.bytecode;
 
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -41,9 +39,6 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperat
 import org.formulacompiler.compiler.internal.expressions.InnerExpressionException;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCount;
 import org.formulacompiler.compiler.internal.model.SectionModel;
-import org.formulacompiler.runtime.Milliseconds;
-import org.formulacompiler.runtime.MillisecondsSinceUTC1970;
-import org.formulacompiler.runtime.ScaledLong;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.GeneratorAdapter;
@@ -94,93 +89,70 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	}
 
 
-	protected abstract void compileConversionFrom( ScaledLong _scale ) throws CompilerException;
-	protected abstract void compileConversionTo( ScaledLong _scale ) throws CompilerException;
-
-
-	protected void compileConversionFromLong() throws CompilerException
-	{
-		compile_util_fromLong();
-	}
-
-	protected void compileConversionFromInt() throws CompilerException
-	{
-		compile_util_fromInt();
-	}
-
-	protected void compileConversionFromNumber() throws CompilerException
-	{
-		compile_util_fromNumber();
-	}
-
-	protected void compileConversionFromBigInteger() throws CompilerException
-	{
-		compile_util_fromBigInteger();
-	}
-
-	protected void compileConversionFromBigDecimal() throws CompilerException
-	{
-		compile_util_fromBigDecimal();
-	}
-
-	protected void compileConversionFromFloat() throws CompilerException
-	{
-		compile_util_fromFloat();
-	}
-
-	protected void compileConversionFromDouble() throws CompilerException
-	{
-		compile_util_fromDouble();
-	}
-
+	@Override
 	protected void compileConversionToLong() throws CompilerException
 	{
 		compile_util_toLong();
 	}
 
+	@Override
 	protected void compileConversionToInt() throws CompilerException
 	{
 		compile_util_toInt();
 	}
 
+	@Override
 	protected void compileConversionToShort() throws CompilerException
 	{
 		compile_util_toShort();
 	}
 
+	@Override
 	protected void compileConversionToByte() throws CompilerException
 	{
 		compile_util_toByte();
 	}
 
+	@Override
 	protected void compileConversionToBigDecimal() throws CompilerException
 	{
 		compile_util_toBigDecimal();
 	}
 
+	@Override
 	protected void compileConversionToBigInteger() throws CompilerException
 	{
 		compile_util_toBigInteger();
 	}
 
+	@Override
 	protected void compileConversionToFloat() throws CompilerException
 	{
 		compile_util_toFloat();
 	}
 
+	@Override
 	protected void compileConversionToDouble() throws CompilerException
 	{
 		compile_util_toDouble();
 	}
 
+	@Override
 	protected void compileConversionToBoolean() throws CompilerException
 	{
 		compile_util_toBoolean();
 	}
 
+	@Override
 	protected void compileConversionToNumber() throws CompilerException
 	{
 		compile_util_toNumber();
+	}
+
+	@Override
+	protected void compileConversionToDate() throws CompilerException
+	{
+		compile_util_toDate();
 	}
 
 	protected final void compileInt( ExpressionNode _node ) throws CompilerException
@@ -192,76 +164,6 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		}
 	}
 
-
-	@Override
-	protected void compileConversionTo( Class _class ) throws CompilerException
-	{
-		if (_class == Number.class) {
-			compileConversionToNumber();
-		}
-		else {
-			final Class unboxed = unboxed( _class );
-			if (null == unboxed) {
-				compileConversionToUnboxed( _class );
-			}
-			else {
-				compileConversionToUnboxed( unboxed );
-				compileBoxing( _class );
-			}
-		}
-	}
-
-
-	protected void compileConversionToUnboxed( Class _class ) throws CompilerException
-	{
-		if (_class == Long.TYPE) {
-			compileConversionToLong();
-		}
-
-		else if (_class == Integer.TYPE) {
-			compileConversionToInt();
-		}
-
-		else if (_class == Short.TYPE) {
-			compileConversionToShort();
-		}
-
-		else if (_class == Byte.TYPE) {
-			compileConversionToByte();
-		}
-
-		else if (_class == Boolean.TYPE) {
-			compileConversionToBoolean();
-		}
-
-		else if (_class == Double.TYPE) {
-			compileConversionToDouble();
-		}
-
-		else if (_class == Float.TYPE) {
-			compileConversionToFloat();
-		}
-
-		else if (_class == BigInteger.class) {
-			compileConversionToBigInteger();
-		}
-
-		else if (_class == BigDecimal.class) {
-			compileConversionToBigDecimal();
-		}
-
-		else if (_class == Date.class) {
-			compile_util_toDate();
-		}
-
-		else if (_class == String.class) {
-			compile_util_toString();
-		}
-
-		else {
-			super.compileConversionTo( _class );
-		}
-	}
 
 	protected abstract void compile_util_toByte() throws CompilerException;
 	protected abstract void compile_util_toShort() throws CompilerException;
@@ -277,65 +179,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	protected abstract void compile_util_toNumber() throws CompilerException;
 
 
-	private Class unboxed( Class _class )
-	{
-		if (Byte.class == _class) {
-			return Byte.TYPE;
-		}
-		else if (Short.class == _class) {
-			return Short.TYPE;
-		}
-		else if (Integer.class == _class) {
-			return Integer.TYPE;
-		}
-		else if (Long.class == _class) {
-			return Long.TYPE;
-		}
-		else if (Float.class == _class) {
-			return Float.TYPE;
-		}
-		else if (Double.class == _class) {
-			return Double.TYPE;
-		}
-		else if (Character.class == _class) {
-			return Character.TYPE;
-		}
-		else if (Boolean.class == _class) {
-			return Boolean.TYPE;
-		}
-		return null;
-	}
-
-
-	private void compileBoxing( Class _class ) throws CompilerException
-	{
-		if (Byte.class == _class) {
-			compile_util_boxByte();
-		}
-		else if (Short.class == _class) {
-			compile_util_boxShort();
-		}
-		else if (Integer.class == _class) {
-			compile_util_boxInteger();
-		}
-		else if (Long.class == _class) {
-			compile_util_boxLong();
-		}
-		else if (Float.class == _class) {
-			compile_util_boxFloat();
-		}
-		else if (Double.class == _class) {
-			compile_util_boxDouble();
-		}
-		else if (Character.class == _class) {
-			compile_util_boxCharacter();
-		}
-		else if (Boolean.class == _class) {
-			compile_util_boxBoolean();
-		}
-	}
-
-
+	@Override
 	protected void compileConversionToString() throws CompilerException
 	{
 		compile_util_toString();
@@ -343,200 +187,27 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 
 
 	@Override
-	protected void compileConversionFrom( Class _class ) throws CompilerException
+	protected void compileConversionFrom( DataType _type ) throws CompilerException
 	{
-		compileConversionFromUnboxed( compileUnboxing( _class ) );
-	}
-
-
-	protected void compileConversionFromUnboxed( Class _class ) throws CompilerException
-	{
-		if (_class == Integer.TYPE || _class == Short.TYPE || _class == Byte.TYPE) {
-			compileConversionFromInt();
-		}
-
-		else if (_class == Long.TYPE) {
-			compileConversionFromLong();
-		}
-
-		else if (_class == Double.TYPE) {
-			compileConversionFromDouble();
-		}
-
-		else if (_class == Float.TYPE) {
-			compileConversionFromFloat();
-		}
-
-		else if (BigDecimal.class.isAssignableFrom( _class )) {
-			compileConversionFromBigDecimal();
-		}
-
-		else if (BigInteger.class.isAssignableFrom( _class )) {
-			compileConversionFromBigInteger();
-		}
-
-		else if (Number.class.isAssignableFrom( _class )) {
-			compileConversionFromNumber();
-		}
-
-		else if (_class == Boolean.TYPE) {
-			compile_util_fromBoolean();
-		}
-
-		else if (Date.class.isAssignableFrom( _class )) {
-			compile_util_fromDate();
-		}
-
-		else {
-			super.compileConversionFrom( _class );
+		switch (_type) {
+			case STRING:
+				compile_util_fromString();
+				break;
+			default:
+				throw new CompilerException.UnsupportedDataType( "Cannot convert from a " + _type + " to a " + this + "." );
 		}
 	}
 
-	protected abstract void compile_util_fromInt() throws CompilerException;
-	protected abstract void compile_util_fromLong() throws CompilerException;
-	protected abstract void compile_util_fromDouble() throws CompilerException;
-	protected abstract void compile_util_fromFloat() throws CompilerException;
-	protected abstract void compile_util_fromNumber() throws CompilerException;
-	protected abstract void compile_util_fromBoolean() throws CompilerException;
-	protected abstract void compile_util_fromDate() throws CompilerException;
-
+	@Override
 	protected void compile_util_fromBigDecimal() throws CompilerException
 	{
 		compile_util_fromNumber();
 	}
 
+	@Override
 	protected void compile_util_fromBigInteger() throws CompilerException
 	{
 		compile_util_fromNumber();
-	}
-
-
-	Class compileUnboxing( Class _class ) throws CompilerException
-	{
-		if (Byte.class.isAssignableFrom( _class )) {
-			compile_util_unboxByte();
-			return Byte.TYPE;
-		}
-		else if (Short.class.isAssignableFrom( _class )) {
-			compile_util_unboxShort();
-			return Short.TYPE;
-		}
-		else if (Integer.class.isAssignableFrom( _class )) {
-			compile_util_unboxInteger();
-			return Integer.TYPE;
-		}
-		else if (Long.class.isAssignableFrom( _class )) {
-			compile_util_unboxLong();
-			return Long.TYPE;
-		}
-		else if (Float.class.isAssignableFrom( _class )) {
-			compile_util_unboxFloat();
-			return Float.TYPE;
-		}
-		else if (Double.class.isAssignableFrom( _class )) {
-			compile_util_unboxDouble();
-			return Double.TYPE;
-		}
-		else if (Character.class.isAssignableFrom( _class )) {
-			compile_util_unboxCharacter();
-			return Character.TYPE;
-		}
-		else if (Boolean.class.isAssignableFrom( _class )) {
-			compile_util_unboxBoolean();
-			return Boolean.TYPE;
-		}
-		return _class;
-	}
-
-
-	protected abstract void compile_util_fromMs() throws CompilerException;
-	protected abstract void compile_util_fromMsSinceUTC1970() throws CompilerException;
-
-	@Override
-	protected void innerCompileConversionFromResultOf( Method _method ) throws CompilerException
-	{
-		final Class returnType = _method.getReturnType();
-		if (returnType == Long.TYPE || returnType == Long.class) {
-
-			if ((_method.getAnnotation( Milliseconds.class ) != null)) {
-				if (returnType == Long.class) {
-					compile_util_unboxLong();
-				}
-				compile_util_fromMs();
-				return;
-			}
-
-			if ((_method.getAnnotation( MillisecondsSinceUTC1970.class ) != null)) {
-				if (returnType == Long.class) {
-					compile_util_unboxLong();
-				}
-				compile_util_fromMsSinceUTC1970();
-				return;
-			}
-
-			final ScaledLong scale = scaleOf( _method );
-			if (scale != null && scale.value() != 0) {
-				if (returnType == Long.class) {
-					compile_util_unboxLong();
-				}
-				compileConversionFrom( scale );
-				return;
-			}
-
-		}
-		compileConversionFrom( returnType );
-	}
-
-
-	protected abstract void compile_util_toMs() throws CompilerException;
-	protected abstract void compile_util_toMsSinceUTC1970() throws CompilerException;
-
-	@Override
-	protected void innerCompileConversionToResultOf( Method _method ) throws CompilerException
-	{
-		final Class returnType = _method.getReturnType();
-		if (returnType == Long.TYPE || returnType == Long.class) {
-
-			if ((_method.getAnnotation( Milliseconds.class ) != null)) {
-				compile_util_toMs();
-				if (returnType == Long.class) {
-					compile_util_boxLong();
-				}
-				return;
-			}
-
-			if ((_method.getAnnotation( MillisecondsSinceUTC1970.class ) != null)) {
-				compile_util_toMsSinceUTC1970();
-				if (returnType == Long.class) {
-					compile_util_boxLong();
-				}
-				return;
-			}
-
-			final ScaledLong scale = scaleOf( _method );
-			if (scale != null && scale.value() != 0) {
-				compileConversionTo( scale );
-				if (returnType == Long.class) {
-					compile_util_boxLong();
-				}
-				return;
-			}
-
-		}
-		if (!isNativeType( returnType )) {
-			compileConversionTo( returnType );
-		}
-	}
-
-	protected abstract boolean isNativeType( Class _type );
-
-
-	protected final ScaledLong scaleOf( Method _method )
-	{
-		final ScaledLong typeScale = _method.getDeclaringClass().getAnnotation( ScaledLong.class );
-		final ScaledLong mtdScale = _method.getAnnotation( ScaledLong.class );
-		final ScaledLong scale = (mtdScale != null) ? mtdScale : typeScale;
-		return scale;
 	}
 
 

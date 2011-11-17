@@ -75,9 +75,9 @@ The same happens if we bind the output to _ReferencesBad_ and make _Type_ an inp
 
 
 
-h2. Unsupported Data Type Conversions
+h2. Unsupported Return Types
 
-AFC supports a wide range of "automatic data type conversions":type_conversion.htm when obtaining and returning values. Some, however, do not make sense. AFC will not, for example, automatically try to convert string-typed expressions to numeric return values.
+AFC supports a wide range of "data types":type_conversion.htm when obtaining and returning values. Trying to bind to a method with an unsupported data type will cause an exception during the compilation phase.
 
 h5. Hint
 
@@ -85,31 +85,31 @@ Change the data types in your interface to AFC to fix such problems. If this int
 
 h5. Example 1
 
-Consider the following sheet:
+An interface has a @char@ method:
 
-	[xc:org/formulacompiler/tutorials/ErrorUnsupportedConversion.xls]
+	[jc:org.formulacompiler.tutorials.ErrorUnsupportedOutputMethodReturnType:---- MyComputation]
 
-If we bind the cell _stringOutput_ to an @int@ method,
+If we bind an output cell to this method,
 
-	[jc:org.formulacompiler.tutorials.ErrorUnsupportedConversionToOutput:---- MyComputation]
+	[jc:org.formulacompiler.tutorials.ErrorUnsupportedOutputMethodReturnType:---- Bind]
 
 we get the following exception:
 
-	[jc:org.formulacompiler.tutorials.ErrorUnsupportedConversionToOutput:---- StringAsInt]
-
-(Note that binding _stringInput_ to an @int@ works as AFC does automatically convert from @int@ to @String@.)
+	[jc:org.formulacompiler.tutorials.ErrorUnsupportedOutputMethodReturnType:---- TryCompile]
 
 h5. Example 2
 
-If we bind the cell _numInput_ to a @String@ method,
+An interface has a @char@ method:
 
-	[jc:org.formulacompiler.tutorials.ErrorUnsupportedConversionFromInput:---- MyInputs]
+	[jc:org.formulacompiler.tutorials.ErrorUnsupportedInputMethodReturnType:---- MyInputs]
+
+If we bind an input cell to this method,
+
+	[jc:org.formulacompiler.tutorials.ErrorUnsupportedInputMethodReturnType:---- Bind]
 
 we get the following exception:
 
-	[jc:org.formulacompiler.tutorials.ErrorUnsupportedConversionFromInput:---- StringAsInt]
-
-(Note that binding _numOutput_ to an @int@ again works as AFC does automatically convert from @int@ to @String@.)
+	[jc:org.formulacompiler.tutorials.ErrorUnsupportedInputMethodReturnType:---- TryCompile]
 
 
 h2. Improper Inner Section References

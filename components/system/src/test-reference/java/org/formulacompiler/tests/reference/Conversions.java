@@ -56,6 +56,9 @@ public class Conversions extends SheetSuiteSetup
 
 		sheets.addTest( sheetSuiteWithLocale( "ConversionFunctions", "ru", "RU", false ) );
 
+		sheets.addTest( sheetSuiteWithLocale( "ImplicitConversions", "en", "US" ) );
+		sheets.addTest( sheetSuiteWithLocale( "ImplicitConversions", "ru", "RU", false ) );
+
 		return sheets;
 	}
 

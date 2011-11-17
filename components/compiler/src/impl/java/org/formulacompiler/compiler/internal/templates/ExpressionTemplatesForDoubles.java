@@ -101,6 +101,11 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.msToNum( a );
 	}
 
+	double util_fromString( String a )
+	{
+		return RuntimeDouble_v2.fromString( a, this.environment, this.computationMode );
+	}
+
 
 	byte util_toByte( double a )
 	{

@@ -26,6 +26,10 @@ h5. New
 
 [-getrangea1]../doc/javadoc/org/formulacompiler/spreadsheet/Spreadsheet.html#getRangeA1(java.lang.String)
 
+h5. Better
+
+	* Strings can be implicitly converted to numbers.
+
 h5. Fixed
 
 	* Fixed NPE in .xls saver when cell is null ("issue 19":http://code.google.com/p/formulacompiler/issues/detail?id=19).

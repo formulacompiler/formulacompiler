@@ -3155,54 +3155,6 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"GoodRef"/**/ );
 		MyComputation computation = factory.newComputation( new MyInputs() );
 		assertEquals( 4 + 5 + 6 + 7, computation.result() );
 ___@_@___
-jc:org.formulacompiler.tutorials.ErrorUnsupportedConversionFromInput:---- MyInputs
-__@@__
-public static class MyInputs
-	{
-		public String value()
-		{
-			return "Hello, world!";
-		}
-	}
-___@_@___
-jc:org.formulacompiler.tutorials.ErrorUnsupportedConversionFromInput:---- StringAsInt
-__@@__
-EngineBuilder builder = builderForComputationOfCellNamed( /**/"numOutput"/**/ );
-		bindInputNamed( builder, "numInput" );
-		try {
-			builder.compile();
-			fail();
-		}
-		catch (/**/CompilerException.UnsupportedDataType e/**/) {
-			String err = /**/"Cannot convert from a java.lang.String to a double."
-					+ "\nCaused by return type of input 'public java.lang.String org.formulacompiler.tutorials.ErrorUnsupportedConversionFromInput$MyInputs.value()'."
-					+ "\nCell containing expression is Sheet1!B2." + "\nReferenced by cell Sheet1!B2."/**/;
-			assertEquals( err, e.getMessage() );
-		}
-___@_@___
-jc:org.formulacompiler.tutorials.ErrorUnsupportedConversionToOutput:---- MyComputation
-__@@__
-public static interface MyComputation
-	{
-		public int result();
-	}
-___@_@___
-jc:org.formulacompiler.tutorials.ErrorUnsupportedConversionToOutput:---- StringAsInt
-__@@__
-EngineBuilder builder = builderForComputationOfCellNamed( /**/"stringOutput"/**/ );
-		bindInputNamed( builder, "stringInput" );
-		try {
-			builder.compile();
-			fail();
-		}
-		catch (/**/CompilerException.UnsupportedDataType e/**/) {
-			String err = /**/"Cannot convert from a string to a int."
-					+ "\nCaused by return type of input 'public abstract int org.formulacompiler.tutorials.ErrorUnsupportedConversionToOutput$MyComputation.result()'."
-					+ "\nCell containing expression is Sheet1!A1."
-					+ "\nReferenced by cell Sheet1!A1."/**/;
-			assertEquals( err, e.getMessage() );
-		}
-___@_@___
 jc:org.formulacompiler.tutorials.ErrorUnsupportedFunction:---- BindIndependent
 __@@__
 EngineBuilder builder = builderForComputationOfCellNamed( /**/"Independent"/**/ );
@@ -3295,6 +3247,56 @@ EngineBuilder builder = builderForComputationOfCellNamed( /**/"ReferencesBad"/**
 			String err = "The last argument to MATCH, the match type, must be constant, but is MyInputs.value()."
 					+ "\nIn expression (1.0 + MATCH( Sheet1!B1, Sheet1!C1:E1,  >> Sheet1!F1 <<  )); error location indicated by >>..<<."
 					+ "\nCell containing expression is Sheet1!A1." + /**/"\nReferenced by cell Sheet1!A2."/**/;
+			assertEquals( err, e.getMessage() );
+		}
+___@_@___
+jc:org.formulacompiler.tutorials.ErrorUnsupportedInputMethodReturnType:---- Bind
+__@@__
+_builder.getRootBinder().defineInputCell( _builder.getSpreadsheet().getCell( _cellName ), "value" );
+___@_@___
+jc:org.formulacompiler.tutorials.ErrorUnsupportedInputMethodReturnType:---- MyInputs
+__@@__
+public static class MyInputs
+	{
+		public char value()
+		{
+			return 'a';
+		}
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.ErrorUnsupportedInputMethodReturnType:---- TryCompile
+__@@__
+try {
+			builder.compile();
+			fail();
+		}
+		catch (/**/CompilerException.UnsupportedDataType e/**/) {
+			String err = /**/"The method public char org.formulacompiler.tutorials.ErrorUnsupportedInputMethodReturnType$MyInputs.value() has an unsupported return type"
+					+ "\nCell containing expression is Sheet1!B2." + "\nReferenced by cell Sheet1!B2."/**/;
+			assertEquals( err, e.getMessage() );
+		}
+___@_@___
+jc:org.formulacompiler.tutorials.ErrorUnsupportedOutputMethodReturnType:---- Bind
+__@@__
+builder.getRootBinder().defineOutputCell( cell, MyComputation.class.getMethod( "result" ) );
+___@_@___
+jc:org.formulacompiler.tutorials.ErrorUnsupportedOutputMethodReturnType:---- MyComputation
+__@@__
+public static interface MyComputation
+	{
+		public char result();
+	}
+___@_@___
+jc:org.formulacompiler.tutorials.ErrorUnsupportedOutputMethodReturnType:---- TryCompile
+__@@__
+try {
+			builder.compile();
+			fail();
+		}
+		catch (/**/CompilerException.UnsupportedDataType e/**/) {
+			String err = /**/"The method public abstract char org.formulacompiler.tutorials.ErrorUnsupportedOutputMethodReturnType$MyComputation.result() has an unsupported return type"
+					+ "\nCell containing expression is Sheet1!A1."
+					+ "\nReferenced by cell Sheet1!A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
 ___@_@___
@@ -7859,30 +7861,6 @@ __@@__
 	</tbody>
 </table>
 <br/><span class="xl-r1">B2:B4</span> <span class="xl-name">(Name)</span><br/><span class="xl-r2">B2:C4</span> <span class="xl-name">(Section)</span><br/><span class="xl-r3">C2:C4</span> <span class="xl-name">(Value)</span>
-___@_@___
-xc:org/formulacompiler/tutorials/ErrorUnsupportedConversion.xls
-__@@__
-<table class="xl">
-	<thead>
-		<tr>
-			<td/>
-			<td>A</td>
-			<td>B</td>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td class="xl-row">1</td>
-			<td>hello world!<br/><span class="xl-exp">=LOWER(B1)</span><br/><span class="xl-name">(stringOutput)</span></td>
-			<td>Hello WORLD!<br/><span class="xl-name">(stringInput)</span></td>
-		</tr>
-		<tr>
-			<td class="xl-row">2</td>
-			<td class="xl-num">60<br/><span class="xl-exp">=B2*2.0</span><br/><span class="xl-name">(numOutput)</span></td>
-			<td class="xl-num">30<br/><span class="xl-name">(numInput)</span></td>
-		</tr>
-	</tbody>
-</table>
 ___@_@___
 xc:org/formulacompiler/tutorials/ErrorUnsupportedFunction.xls
 __@@__

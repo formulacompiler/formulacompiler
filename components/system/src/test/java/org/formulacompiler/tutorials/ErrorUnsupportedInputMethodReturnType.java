@@ -37,11 +37,11 @@ import static org.junit.Assert.*;
 
 
 @RunWith( MultiFormat.class )
-public class ErrorUnsupportedConversionFromInput
+public class ErrorUnsupportedInputMethodReturnType
 {
 	private final String spreadsheetExtension;
 
-	public ErrorUnsupportedConversionFromInput( final String _spreadsheetExtension )
+	public ErrorUnsupportedInputMethodReturnType( final String _spreadsheetExtension )
 	{
 		this.spreadsheetExtension = _spreadsheetExtension;
 	}
@@ -55,20 +55,19 @@ public class ErrorUnsupportedConversionFromInput
 	@Test
 	public void testStringAsInt() throws Exception
 	{
-		// ---- StringAsInt
 		EngineBuilder builder = builderForComputationOfCellNamed( /**/"numOutput"/**/ );
 		bindInputNamed( builder, "numInput" );
+		// ---- TryCompile
 		try {
 			builder.compile();
 			fail();
 		}
 		catch (/**/CompilerException.UnsupportedDataType e/**/) {
-			String err = /**/"Cannot convert from a java.lang.String to a double."
-					+ "\nCaused by return type of input 'public java.lang.String org.formulacompiler.tutorials.ErrorUnsupportedConversionFromInput$MyInputs.value()'."
+			String err = /**/"The method public char org.formulacompiler.tutorials.ErrorUnsupportedInputMethodReturnType$MyInputs.value() has an unsupported return type"
 					+ "\nCell containing expression is Sheet1!B2." + "\nReferenced by cell Sheet1!B2."/**/;
 			assertEquals( err, e.getMessage() );
 		}
-		// ---- StringAsInt
+		// ---- TryCompile
 	}
 
 
@@ -85,7 +84,9 @@ public class ErrorUnsupportedConversionFromInput
 
 	private void bindInputNamed( EngineBuilder _builder, String _cellName ) throws Exception
 	{
+		// ---- Bind
 		_builder.getRootBinder().defineInputCell( _builder.getSpreadsheet().getCell( _cellName ), "value" );
+		// ---- Bind
 	}
 
 	public static interface MyFactory
@@ -96,9 +97,9 @@ public class ErrorUnsupportedConversionFromInput
 	// ---- MyInputs
 	public static class MyInputs
 	{
-		public String value()
+		public char value()
 		{
-			return "Hello, world!";
+			return 'a';
 		}
 	}
 	// ---- MyInputs

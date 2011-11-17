@@ -769,7 +769,7 @@ public final class RuntimeLong_v2 extends Runtime_v2
 	{
 		return _cx.fromDouble( RuntimeDouble_v2.fun_WORKDAY( _cx.toDouble( _startDate ), _cx.toDouble( _days ), _cx.toDoubles( _holidays ), _mode ));
 	}
-	
+
 	/**
 	 * @deprecated replaced by {@link #fun_DAY(long,Context,ComputationMode)}
 	 */
@@ -935,18 +935,17 @@ public final class RuntimeLong_v2 extends Runtime_v2
 
 	public static long fun_VALUE( String _text, Context _cx, Environment _environment, ComputationMode _mode )
 	{
-		final String text = _text.trim();
-		final Number number = parseNumber( text, false, _environment, _mode == ComputationMode.EXCEL );
-		if (number != null) {
-			if (number instanceof Long) {
-				return number.longValue() * _cx.one();
-			}
-			else {
-				return _cx.fromDouble( number.doubleValue() );
-			}
+		return fromString( _text, _cx, _environment, _mode );
+	}
+
+	public static long fromString( final String _text, final Context _cx, final Environment _environment, final ComputationMode _mode )
+	{
+		final Number number = stringToNumber( _text, _environment, _mode );
+		if (number instanceof Long) {
+			return number.longValue() * _cx.one();
 		}
 		else {
-			throw new FormulaException( "#VALUE! because of argument of unsupported type in VALUE" );
+			return _cx.fromDouble( number.doubleValue() );
 		}
 	}
 

@@ -22,8 +22,14 @@
 
 package org.formulacompiler.compiler.internal.templates;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Date;
+
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 import org.formulacompiler.runtime.internal.Runtime_v2;
 
 
@@ -44,11 +50,6 @@ public final class ExpressionTemplatesForStrings
 		return Runtime_v2.stringFromString( a );
 	}
 
-	String util_fromObject( Object a )
-	{
-		return Runtime_v2.stringFromObject( a );
-	}
-
 	String util_fromNull()
 	{
 		return Runtime_v2.emptyString();
@@ -56,29 +57,132 @@ public final class ExpressionTemplatesForStrings
 
 	String util_fromInt( int a )
 	{
-		return Runtime_v2.stringFromObject( a );
+		return Runtime_v2.stringFromNumber( a, this.environment );
 	}
 
 	String util_fromLong( long a )
 	{
-		return Runtime_v2.stringFromObject( a );
+		return Runtime_v2.stringFromNumber( a, this.environment );
 	}
 
 	String util_fromDouble( double a )
 	{
-		return Runtime_v2.stringFromObject( a );
+		return Runtime_v2.stringFromNumber( a, this.environment );
 	}
 
 	String util_fromFloat( float a )
 	{
-		return Runtime_v2.stringFromObject( a );
+		return Runtime_v2.stringFromNumber( a, this.environment );
+	}
+
+	String util_fromNumber( Number a )
+	{
+		return Runtime_v2.stringFromNumber( a, this.environment );
+	}
+
+	String util_fromBigDecimal( BigDecimal a )
+	{
+		return Runtime_v2.stringFromNumber( a, this.environment );
+	}
+
+	String util_fromBigInteger( BigInteger a )
+	{
+		return Runtime_v2.stringFromNumber( a, this.environment );
 	}
 
 	String util_fromBoolean( boolean a )
 	{
-		return Runtime_v2.stringFromObject( a );
+		return Runtime_v2.stringFromBoolean( a, this.environment );
 	}
 
+	String util_fromDate( Date a )
+	{
+		final double num = RuntimeDouble_v2.dateToNum( a, this.environment.timeZone(), this.computationMode );
+		return Runtime_v2.stringFromNumber( num, this.environment );
+	}
+
+	String util_fromScaledLong( long a, int _scale )
+	{
+		final BigDecimal num = RuntimeBigDecimal_v2.fromScaledLong( a, _scale );
+		return Runtime_v2.stringFromNumber( num, this.environment );
+	}
+
+	String util_fromMsSinceUTC1970( long a )
+	{
+		final double num = RuntimeDouble_v2.msSinceUTC1970ToNum( a, this.environment.timeZone(), this.computationMode );
+		return Runtime_v2.stringFromNumber( num, this.environment );
+	}
+
+	String util_fromMs( long a )
+	{
+		final double num = RuntimeDouble_v2.msToNum( a );
+		return Runtime_v2.stringFromNumber( num, this.environment );
+	}
+
+	long util_toLong( String a )
+	{
+		return Runtime_v2.stringToNumber( a, this.environment, this.computationMode ).longValue();
+	}
+
+	int util_toInt( String a )
+	{
+		return Runtime_v2.stringToNumber( a, this.environment, this.computationMode ).intValue();
+	}
+
+	short util_toShort( String a )
+	{
+		return Runtime_v2.stringToNumber( a, this.environment, this.computationMode ).shortValue();
+	}
+
+	byte util_toByte( String a )
+	{
+		return Runtime_v2.stringToNumber( a, this.environment, this.computationMode ).byteValue();
+	}
+
+	BigDecimal util_toBigDecimal( String a )
+	{
+		return RuntimeBigDecimal_v2.fromString( a, this.environment, this.computationMode );
+	}
+
+	BigInteger util_toBigInteger( String a )
+	{
+		return RuntimeBigDecimal_v2.fromString( a, this.environment, this.computationMode ).toBigInteger();
+	}
+
+	float util_toFloat( String a )
+	{
+		return Runtime_v2.stringToNumber( a, this.environment, this.computationMode ).floatValue();
+	}
+
+	double util_toDouble( String a )
+	{
+		return Runtime_v2.stringToNumber( a, this.environment, this.computationMode ).doubleValue();
+	}
+
+	boolean util_toBoolean( String a )
+	{
+		return Runtime_v2.stringToBoolean( a, this.environment, this.computationMode );
+	}
+
+	Date util_toDate( String a )
+	{
+		return Runtime_v2.stringToDate( a, this.environment, this.computationMode );
+	}
+
+	long util_toScaledLong( String a, int _scale )
+	{
+		return Runtime_v2.stringToScaledLong( a, _scale, this.environment, this.computationMode );
+	}
+
+	long util_toMs( String a )
+	{
+		return Runtime_v2.stringToMs( a, this.environment, this.computationMode );
+	}
+
+	long util_toMsSinceUTC1970( String a )
+	{
+		return Runtime_v2.stringToMsSinceUTC1970( a, this.environment, this.computationMode );
+	}
 
 	// Use utilFun_ here so "a" is not chained. We need it after the call to "new" for "<init>".
 
@@ -229,9 +333,9 @@ public final class ExpressionTemplatesForStrings
 		return Runtime_v2.fun_ADDRESS( _row, _column, absRelType, a1Style != 0, sheet, this.computationMode );
 	}
 
-	public String fun_ADDRESS( int _row, int _column, int absRelType, int a1Style)
+	public String fun_ADDRESS( int _row, int _column, int absRelType, int a1Style )
 	{
 		return Runtime_v2.fun_ADDRESS( _row, _column, absRelType, a1Style != 0, null, this.computationMode );
 	}
-	
+
 }

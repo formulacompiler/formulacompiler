@@ -22,8 +22,6 @@
 
 package org.formulacompiler.compiler.internal.bytecode;
 
-import java.math.BigDecimal;
-
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.ScaledLong;
@@ -59,13 +57,6 @@ abstract class ExpressionCompilerForPrecisionBigDecimals_Base extends Expression
 	protected final void compileValueAdjustment()
 	{
 		// No adjustment as precision is only a minimum, not an absolute.
-	}
-
-
-	@Override
-	protected boolean isNativeType( Class _type )
-	{
-		return _type == BigDecimal.class;
 	}
 
 

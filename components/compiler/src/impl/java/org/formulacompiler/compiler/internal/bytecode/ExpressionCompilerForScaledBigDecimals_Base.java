@@ -22,8 +22,6 @@
 
 package org.formulacompiler.compiler.internal.bytecode;
 
-import java.math.BigDecimal;
-
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.ScaledLong;
@@ -69,12 +67,6 @@ abstract class ExpressionCompilerForScaledBigDecimals_Base extends ExpressionCom
 		if (needsValueAdjustment()) {
 			compile_util_adjustValue();
 		}
-	}
-
-	@Override
-	protected boolean isNativeType( Class _type )
-	{
-		return _type == BigDecimal.class;
 	}
 
 

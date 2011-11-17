@@ -30,7 +30,7 @@ import org.formulacompiler.compiler.internal.Duration;
 import org.formulacompiler.compiler.internal.LocalDate;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
-import org.formulacompiler.runtime.internal.RuntimeScaledBigDecimal_v2;
+import org.formulacompiler.runtime.internal.RuntimeBigDecimal_v2;
 
 
 abstract class InterpretedBigDecimalType extends InterpretedNumericType
@@ -87,7 +87,9 @@ abstract class InterpretedBigDecimalType extends InterpretedNumericType
 		else if (_value instanceof Double) result = BigDecimal.valueOf( (Double) _value );
 		else if (_value instanceof Integer) result = BigDecimal.valueOf( (Integer) _value );
 		else if (_value instanceof Long) result = BigDecimal.valueOf( (Long) _value );
-		else if (_value instanceof String) result = new BigDecimal( (String) _value );
+		else if (_value instanceof String) {
+			result = RuntimeBigDecimal_v2.fromString( (String) _value, getEnvironment(), getComputationMode() );
+		}
 		else if (_value instanceof Boolean) result = ((Boolean) _value) ? BigDecimal.ONE : BigDecimal.ZERO;
 		else if (_value instanceof LocalDate) result = BigDecimal.valueOf( ((LocalDate) _value).value() );
 		else if (_value instanceof Duration) result = BigDecimal.valueOf( ((Duration) _value).value() );
@@ -100,7 +102,7 @@ abstract class InterpretedBigDecimalType extends InterpretedNumericType
 
 	public BigDecimal valueToBigDecimalOrZero( Object _value )
 	{
-		return valueToBigDecimal( _value, RuntimeScaledBigDecimal_v2.ZERO );
+		return valueToBigDecimal( _value, RuntimeBigDecimal_v2.ZERO );
 	}
 
 

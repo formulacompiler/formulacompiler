@@ -1,0 +1,299 @@
+# Abacus Formula Compiler Spreadsheet Model Description v1.0
+# WARNING: THIS FILE MUST NOT CONTAIN HARD TABS!
+---
+
+sheets:
+
+- name: Sheet1
+  rows:
+  - cells:
+    - expr: =IF( ISERROR( RC[16] ), "ERROR!", IF( RC[16], "Expected", "FAILED!" ) )
+    - const: "Actual"
+    - const: "Inputs"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: "# of Inputs"
+    - const: "Name"
+    - const: "Highlight"
+    - const: "OOo says"
+    - const: "Skip for"
+    - const: "Custom check"
+    - null
+    - expr: =AND( R[1]C:R[9999]C )
+  - cells:
+    - const: 3.0
+    - expr: =RC[1]
+    - const: "3"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "Text to number"
+    - null
+    - const: "3"
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: 3.5
+    - expr: =RC[1]
+    - const: "3,5"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: "3,5"
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: -2.0
+    - expr: =RC[1]
+    - const: "-2"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: "-2"
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: 123.0
+    - expr: =RC[1]
+    - const: " 123 "
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: " 123 "
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =RC[1]
+    - const: "abc"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: "abc"
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+  - cells:
+    - const: "3"
+    - expr: =RC[1]
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - const: "Number to text"
+    - null
+    - const: 3.0
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: "3,5"
+    - expr: =RC[1]
+    - const: 3.5
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: 3.5
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: "-2"
+    - expr: =RC[1]
+    - const: -2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 1.0
+    - null
+    - null
+    - const: -2.0
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+  - cells:
+    - const: 5.0
+    - expr: =(RC[1] + RC[2])
+    - const: "2"
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "Text in numeric expression"
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: 5.5
+    - expr: =(RC[1] + RC[2])
+    - const: 3.0
+    - const: "2,5"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: -31.0
+    - expr: =(RC[1] + RC[2])
+    - const: " 23"
+    - const: "-54 "
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: "!NUM:FE"
+    - expr: =(RC[1] + RC[2])
+    - const: "abc"
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - const: "Err:519"
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+  - cells:
+    - const: "abc3"
+    - expr: =(RC[1] & RC[2])
+    - const: "abc"
+    - const: 3.0
+    - const: 3.0
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - const: "Number in text expression"
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: "2,5abc"
+    - expr: =(RC[1] & RC[2])
+    - const: 2.5
+    - const: "abc"
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )
+  - cells:
+    - const: "34,5-89"
+    - expr: =(RC[1] & RC[2])
+    - const: 34.5
+    - const: -89.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - const: 2.0
+    - null
+    - null
+    - null
+    - null
+    - null
+    - expr: =IF( ISBLANK( RC[-3] ), RC[-15], RC[-3] )
+    - expr: =IF( ISBLANK( RC[-2] ), IF( ISERROR( RC[-15] ), (("Err:" & ERRORTYPE( RC[-15] )) = RC[-4]), OR( (RC[-1] = RC[-15]), IF( AND( ISNUMBER( RC[-1] ), ISNUMBER( RC[-15] ) ), OR( AND( (RC[-1] = 0.0), (ABS( RC[-15] ) < 1.0E-307) ), (("" & RC[-15]) = ("" & RC[-1])) ) ) ) ), RC[-2] )

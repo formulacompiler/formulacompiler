@@ -1035,6 +1035,11 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 
 	public static BigDecimal fun_VALUE( String _text, final Environment _environment, ComputationMode _mode )
 	{
+		return fromString( _text, _environment, _mode );
+	}
+
+	public static BigDecimal fromString( final String _text, final Environment _environment, final ComputationMode _mode )
+	{
 		final String text = _text.trim();
 		final Number number = parseNumber( text, true, _environment, _mode == ComputationMode.EXCEL );
 		if (number != null) {
@@ -1049,7 +1054,7 @@ public abstract class RuntimeBigDecimal_v2 extends Runtime_v2
 			}
 		}
 		else {
-			throw new FormulaException( "#VALUE! because of argument of unsupported type in VALUE" );
+			throw new FormulaException( "#VALUE! because " + _text + " is not a number" );
 		}
 	}
 

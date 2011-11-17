@@ -141,6 +141,11 @@ public final class ExpressionTemplatesForScaledLongs
 		return RuntimeLong_v2.msToNum( a, this.context );
 	}
 
+	long util_fromString( String a )
+	{
+		return RuntimeLong_v2.fromString( a, this.context, this.environment, this.computationMode );
+	}
+
 
 	byte util_toByte( long a )
 	{
