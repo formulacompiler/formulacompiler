@@ -4,6 +4,10 @@ h1. Conversion Functions In AFC
 
 <%= toc 2, 5 %>
 
+h3. Implicit Conversions
+
+<%= gen_doc "ImplicitConversions_en_US" %>
+
 h3. Conversion Functions
 
 The supported conversion functions are shown by example below:

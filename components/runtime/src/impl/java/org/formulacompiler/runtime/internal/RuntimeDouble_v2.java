@@ -1643,12 +1643,12 @@ public final class RuntimeDouble_v2 extends Runtime_v2
 
 	public static double fun_VALUE( String _text, final Environment _environment, ComputationMode _mode )
 	{
-		final String text = _text.trim();
-		final Number number = parseNumber( text, false, _environment, _mode == ComputationMode.EXCEL );
-		if (number != null) {
-			return number.doubleValue();
-		}
-		throw new FormulaException( "#VALUE! because of argument of unsupported type in VALUE" );
+		return fromString( _text, _environment, _mode );
+	}
+
+	public static double fromString(  String _text,  Environment _environment,  ComputationMode _mode )
+	{
+		return stringToNumber( _text, _environment, _mode ).doubleValue();
 	}
 
 	/**

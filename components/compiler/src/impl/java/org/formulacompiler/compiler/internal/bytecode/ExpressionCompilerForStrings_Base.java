@@ -22,7 +22,6 @@
 
 package org.formulacompiler.compiler.internal.bytecode;
 
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,6 +30,7 @@ import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForCount;
+import org.formulacompiler.runtime.ScaledLong;
 import org.objectweb.asm.Opcodes;
 
 
@@ -54,60 +54,16 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 	}
 
 
-	@Override
-	protected void compileConversionFrom( Class _class ) throws CompilerException
-	{
-		if (String.class == _class) {
-			compile_util_fromString();
-		}
-		else if (Object.class.isAssignableFrom( _class )) {
-			compile_util_fromObject();
-		}
-		else {
-			compileConversionFromUnboxed( method().numericCompiler().compileUnboxing( _class ) );
-		}
-	}
-
-	protected void compileConversionFromUnboxed( Class _class ) throws CompilerException
-	{
-		if (_class == Integer.TYPE || _class == Short.TYPE || _class == Byte.TYPE) {
-			compile_util_fromInt();
-		}
-
-		else if (_class == Long.TYPE) {
-			compile_util_fromLong();
-		}
-
-		else if (_class == Double.TYPE) {
-			compile_util_fromDouble();
-		}
-
-		else if (_class == Float.TYPE) {
-			compile_util_fromFloat();
-		}
-
-		else if (_class == Boolean.TYPE) {
-			compile_util_fromBoolean();
-		}
-
-		else {
-			super.compileConversionFrom( _class );
-		}
-	}
-
-	protected abstract void compile_util_fromInt() throws CompilerException;
-	protected abstract void compile_util_fromLong() throws CompilerException;
-	protected abstract void compile_util_fromDouble() throws CompilerException;
-	protected abstract void compile_util_fromFloat() throws CompilerException;
-	protected abstract void compile_util_fromBoolean() throws CompilerException;
-
-
-	@Override
-	protected void innerCompileConversionFromResultOf( Method _method ) throws CompilerException
-	{
-		Class returnType = _method.getReturnType();
-		compileConversionFrom( returnType );
-	}
+	protected abstract void compile_util_toLong() throws CompilerException;
+	protected abstract void compile_util_toInt() throws CompilerException;
+	protected abstract void compile_util_toShort() throws CompilerException;
+	protected abstract void compile_util_toByte() throws CompilerException;
+	protected abstract void compile_util_toBigDecimal() throws CompilerException;
+	protected abstract void compile_util_toBigInteger() throws CompilerException;
+	protected abstract void compile_util_toFloat() throws CompilerException;
+	protected abstract void compile_util_toDouble() throws CompilerException;
+	protected abstract void compile_util_toBoolean() throws CompilerException;
+	protected abstract void compile_util_toDate() throws CompilerException;
 
 
 	@Override
@@ -120,29 +76,98 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 			case NUMERIC:
 				method().numericCompiler().compileConversionToString();
 				return;
-		}
-		super.compileConversionFrom( _type );
-	}
-
-
-	@Override
-	protected void compileConversionTo( Class _class ) throws CompilerException
-	{
-		if (String.class == _class) {
-			return;
-		}
-		else {
-			super.compileConversionTo( _class );
+			default:
+				throw new CompilerException.UnsupportedDataType( "Cannot convert from a " + _type + " to a " + this + "." );
 		}
 	}
 
 
 	@Override
-	protected void innerCompileConversionToResultOf( Method _method ) throws CompilerException
+	protected final void compileConversionToNumber() throws CompilerException
 	{
-		Class returnType = _method.getReturnType();
-		compileConversionTo( returnType );
+		compile_util_toBigDecimal();
 	}
+
+	@Override
+	protected final void compileConversionToLong() throws CompilerException
+	{
+		compile_util_toLong();
+	}
+
+	@Override
+	protected void compileConversionToInt() throws CompilerException
+	{
+		compile_util_toInt();
+	}
+
+	@Override
+	protected void compileConversionToShort() throws CompilerException
+	{
+		compile_util_toShort();
+	}
+
+	@Override
+	protected void compileConversionToByte() throws CompilerException
+	{
+		compile_util_toByte();
+	}
+
+	@Override
+	protected void compileConversionToBigDecimal() throws CompilerException
+	{
+		compile_util_toBigDecimal();
+	}
+
+	@Override
+	protected void compileConversionToBigInteger() throws CompilerException
+	{
+		compile_util_toBigInteger();
+	}
+
+	@Override
+	protected void compileConversionToFloat() throws CompilerException
+	{
+		compile_util_toFloat();
+	}
+
+	@Override
+	protected void compileConversionToDouble() throws CompilerException
+	{
+		compile_util_toDouble();
+	}
+
+	@Override
+	protected void compileConversionToBoolean() throws CompilerException
+	{
+		compile_util_toBoolean();
+	}
+
+	@Override
+	protected void compileConversionToString() throws CompilerException
+	{
+		// Nothing to do here.
+	}
+
+	@Override
+	protected void compileConversionToDate() throws CompilerException
+	{
+		compile_util_toDate();
+	}
+
+	@Override
+	protected void compileConversionFrom( final ScaledLong _scale ) throws CompilerException
+	{
+		compile_util_fromScaledLong( _scale.value() );
+	}
+
+	@Override
+	protected void compileConversionTo( ScaledLong _scale ) throws CompilerException
+	{
+		compile_util_toScaledLong( _scale.value() );
+	}
+
+	protected abstract void compile_util_fromScaledLong( int _scale ) throws CompilerException;
+	protected abstract void compile_util_toScaledLong( int _scale ) throws CompilerException;
 
 
 	@Override
@@ -237,8 +262,6 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 	}
 
 
-	protected abstract void compile_util_fromString() throws CompilerException;
-	protected abstract void compile_util_fromObject() throws CompilerException;
 	protected abstract void compile_util_fromNull() throws CompilerException;
 
 	protected abstract void compile_utilFun_newBuilder( ExpressionNode _arg ) throws CompilerException;

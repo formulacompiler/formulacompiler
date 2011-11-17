@@ -37,12 +37,6 @@ abstract class ExpressionCompilerForDoubles_Base extends ExpressionCompilerForNu
 		super( _methodCompiler, _numericType );
 	}
 
-	@Override
-	protected boolean isNativeType( Class _type )
-	{
-		return _type == Double.TYPE;
-	}
-
 
 	@Override
 	protected void compileConversionFrom( ScaledLong _scale ) throws CompilerException

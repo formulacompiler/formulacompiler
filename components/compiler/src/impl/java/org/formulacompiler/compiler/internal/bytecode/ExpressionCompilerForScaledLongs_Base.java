@@ -227,13 +227,6 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 	}
 
 
-	@Override
-	protected boolean isNativeType( Class _type )
-	{
-		return _type == Long.TYPE;
-	}
-
-
 	private void compileScaleUp() throws CompilerException
 	{
 		if (scale() > 0) {

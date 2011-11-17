@@ -29,19 +29,19 @@ import org.formulacompiler.spreadsheet.EngineBuilder;
 import org.formulacompiler.spreadsheet.Spreadsheet.Cell;
 import org.formulacompiler.spreadsheet.SpreadsheetCompiler;
 import org.formulacompiler.tests.utils.MultiFormat;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 
 @RunWith( MultiFormat.class )
-public class ErrorUnsupportedConversionToOutput
+public class ErrorUnsupportedOutputMethodReturnType
 {
 	private final String spreadsheetExtension;
 
-	public ErrorUnsupportedConversionToOutput( final String _spreadsheetExtension )
+	public ErrorUnsupportedOutputMethodReturnType( final String _spreadsheetExtension )
 	{
 		this.spreadsheetExtension = _spreadsheetExtension;
 	}
@@ -55,21 +55,20 @@ public class ErrorUnsupportedConversionToOutput
 	@Test
 	public void testStringAsInt() throws Exception
 	{
-		// ---- StringAsInt
 		EngineBuilder builder = builderForComputationOfCellNamed( /**/"stringOutput"/**/ );
 		bindInputNamed( builder, "stringInput" );
+		// ---- TryCompile
 		try {
 			builder.compile();
 			fail();
 		}
 		catch (/**/CompilerException.UnsupportedDataType e/**/) {
-			String err = /**/"Cannot convert from a string to a int."
-					+ "\nCaused by return type of input 'public abstract int org.formulacompiler.tutorials.ErrorUnsupportedConversionToOutput$MyComputation.result()'."
+			String err = /**/"The method public abstract char org.formulacompiler.tutorials.ErrorUnsupportedOutputMethodReturnType$MyComputation.result() has an unsupported return type"
 					+ "\nCell containing expression is Sheet1!A1."
 					+ "\nReferenced by cell Sheet1!A1."/**/;
 			assertEquals( err, e.getMessage() );
 		}
-		// ---- StringAsInt
+		// ---- TryCompile
 	}
 
 
@@ -80,7 +79,9 @@ public class ErrorUnsupportedConversionToOutput
 		builder.loadSpreadsheet( file );
 		builder.setFactoryClass( MyFactory.class );
 		Cell cell = builder.getSpreadsheet().getCell( _cellName );
+		// ---- Bind
 		builder.getRootBinder().defineOutputCell( cell, MyComputation.class.getMethod( "result" ) );
+		// ---- Bind
 		return builder;
 	}
 
@@ -105,7 +106,7 @@ public class ErrorUnsupportedConversionToOutput
 	// ---- MyComputation
 	public static interface MyComputation
 	{
-		public int result();
+		public char result();
 	}
 	// ---- MyComputation
 

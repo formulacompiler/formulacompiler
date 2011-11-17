@@ -27,6 +27,7 @@ import java.util.Date;
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.runtime.ComputationMode;
 import org.formulacompiler.runtime.internal.Environment;
+import org.formulacompiler.runtime.internal.RuntimeDouble_v2;
 
 
 abstract class InterpretedDoubleType_Base extends InterpretedNumericType
@@ -64,7 +65,9 @@ abstract class InterpretedDoubleType_Base extends InterpretedNumericType
 	private final double valueToDouble( Object _value, double _ifNull )
 	{
 		if (_value instanceof Number) return ((Number) _value).doubleValue();
-		if (_value instanceof String) return Double.valueOf( (String) _value );
+		if (_value instanceof String) {
+			return RuntimeDouble_v2.fromString( (String) _value, getEnvironment(), getComputationMode() );
+		}
 		if (_value instanceof Boolean) return ((Boolean) _value) ? 1 : 0;
 		if (_value instanceof Date) {
 			throw new IllegalArgumentException( "Cannot interpret java.util.Date - it is runtime time-zone specific." );

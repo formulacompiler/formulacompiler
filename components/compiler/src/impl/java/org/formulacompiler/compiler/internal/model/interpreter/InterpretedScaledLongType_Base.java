@@ -54,11 +54,6 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 		return this.num.scale();
 	}
 
-	private final long getScalingFactor()
-	{
-		return this.num.one();
-	}
-
 	private final long zeroL()
 	{
 		return this.num.zero();
@@ -96,23 +91,13 @@ abstract class InterpretedScaledLongType_Base extends InterpretedNumericType
 		if (_value instanceof Integer) return ((Integer) _value).longValue() * this.num.one();
 		if (_value instanceof Double) return Math.round( ((Double) _value) * this.num.one() );
 		if (_value instanceof Boolean) return ((Boolean) _value) ? this.num.one() : 0;
-
 		if (_value instanceof String) {
-			throw new IllegalArgumentException( "Cannot interpret java.lang.String." );
+			return RuntimeLong_v2.fromString( (String) _value, getContext(), getEnvironment(), getComputationMode() );
 		}
 		if (_value instanceof Date) {
 			throw new IllegalArgumentException( "Cannot interpret java.util.Date - it is runtime time-zone specific." );
 		}
 		return zeroL();
-	}
-
-
-	final double scaledLongToDouble( long _value )
-	{
-		if (getScale() == 0) return _value;
-		final double unscaled = _value;
-		final double divisor = getScalingFactor();
-		return unscaled / divisor;
 	}
 
 

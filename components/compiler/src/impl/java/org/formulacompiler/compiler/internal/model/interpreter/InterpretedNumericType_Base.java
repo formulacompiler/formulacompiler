@@ -45,6 +45,7 @@ abstract class InterpretedNumericType_Base
 {
 	private final NumericTypeImpl num;
 	private final ComputationMode computationMode;
+	private final Environment env;
 
 
 	InterpretedNumericType_Base( NumericType _type, ComputationMode _mode, Environment _env )
@@ -52,6 +53,7 @@ abstract class InterpretedNumericType_Base
 		super();
 		this.num = (NumericTypeImpl) _type;
 		this.computationMode = _mode;
+		this.env = _env;
 	}
 
 
@@ -401,9 +403,14 @@ abstract class InterpretedNumericType_Base
 	}
 
 
-	protected ComputationMode getComputationMode()
+	protected final ComputationMode getComputationMode()
 	{
 		return this.computationMode;
+	}
+
+	protected final Environment getEnvironment()
+	{
+		return this.env;
 	}
 
 }
