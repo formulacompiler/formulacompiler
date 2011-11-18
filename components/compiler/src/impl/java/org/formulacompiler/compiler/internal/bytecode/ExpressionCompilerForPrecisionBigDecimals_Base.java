@@ -48,13 +48,6 @@ abstract class ExpressionCompilerForPrecisionBigDecimals_Base extends Expression
 	}
 
 
-	@Override
-	protected final boolean isScaled()
-	{
-		return false;
-	}
-
-
 	protected final void compile_mathContext()
 	{
 		this.bigCompiler.buildStaticContext();

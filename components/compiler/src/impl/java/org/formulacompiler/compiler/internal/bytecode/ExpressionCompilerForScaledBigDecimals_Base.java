@@ -48,13 +48,6 @@ abstract class ExpressionCompilerForScaledBigDecimals_Base extends ExpressionCom
 	}
 
 
-	@Override
-	protected final boolean isScaled()
-	{
-		return false;
-	}
-
-
 	protected final void compile_fixedScale()
 	{
 		mv().push( this.fixedScale );
