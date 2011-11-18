@@ -102,26 +102,94 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	protected abstract boolean compileConversionTo( ScaledLong _scale ) throws CompilerException;
 
 
-	protected final void compileConversionFromInt() throws CompilerException
+	protected void compileConversionFromLong() throws CompilerException
 	{
-		compile_util_fromInt();
-		compileScaleUp();
+		compile_util_fromLong();
 	}
 
-	private final void compileConversionToInt() throws CompilerException
+	protected void compileConversionFromInt() throws CompilerException
 	{
-		compileScaleDown();
+		compile_util_fromInt();
+	}
+
+	protected void compileConversionFromNumber() throws CompilerException
+	{
+		compile_util_fromNumber();
+	}
+
+	protected void compileConversionFromBigInteger() throws CompilerException
+	{
+		compile_util_fromBigInteger();
+	}
+
+	protected void compileConversionFromBigDecimal() throws CompilerException
+	{
+		compile_util_fromBigDecimal();
+	}
+
+	protected void compileConversionFromFloat() throws CompilerException
+	{
+		compile_util_fromFloat();
+	}
+
+	protected void compileConversionFromDouble() throws CompilerException
+	{
+		compile_util_fromDouble();
+	}
+
+	protected void compileConversionToLong() throws CompilerException
+	{
+		compile_util_toLong();
+	}
+
+	protected void compileConversionToInt() throws CompilerException
+	{
 		compile_util_toInt();
 	}
 
-	protected final void compileConversionToNumber() throws CompilerException
+	protected void compileConversionToShort() throws CompilerException
 	{
-		if (isScaled()) {
-			compile_util_toNumber_Scaled();
-		}
-		else {
-			compile_util_toNumber();
-		}
+		compile_util_toShort();
+	}
+
+	protected void compileConversionToByte() throws CompilerException
+	{
+		compile_util_toByte();
+	}
+
+	protected void compileConversionToBigDecimal() throws CompilerException
+	{
+		compile_util_toBigDecimal();
+	}
+
+	protected void compileConversionToBigInteger() throws CompilerException
+	{
+		compile_util_toBigInteger();
+	}
+
+	protected void compileConversionToFloat() throws CompilerException
+	{
+		compile_util_toFloat();
+	}
+
+	protected void compileConversionToDouble() throws CompilerException
+	{
+		compile_util_toDouble();
+	}
+
+	protected void compileConversionToCharacter() throws CompilerException
+	{
+		compile_util_toCharacter();
+	}
+
+	protected void compileConversionToBoolean() throws CompilerException
+	{
+		compile_util_toBoolean();
+	}
+
+	protected void compileConversionToNumber() throws CompilerException
+	{
+		compile_util_toNumber();
 	}
 
 	protected final void compileInt( ExpressionNode _node ) throws CompilerException
@@ -153,83 +221,46 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	}
 
 
-	protected abstract boolean isScaled();
-
-	@SuppressWarnings( "unused" )
-	protected void compileScaleUp() throws CompilerException
-	{
-		if (isScaled()) throw new IllegalStateException( "No scaling for " + toString() );
-	}
-
-	@SuppressWarnings( "unused" )
-	protected void compileScaleDown() throws CompilerException
-	{
-		if (isScaled()) throw new IllegalStateException( "No scaling for " + toString() );
-	}
-
-
 	protected void compileConversionToUnboxed( Class _class ) throws CompilerException
 	{
 		if (_class == Long.TYPE) {
-			compileScaleDown();
-			compile_util_toLong();
+			compileConversionToLong();
 		}
 
 		else if (_class == Integer.TYPE) {
-			compileScaleDown();
-			compile_util_toInt();
+			compileConversionToInt();
 		}
 
 		else if (_class == Short.TYPE) {
-			compileScaleDown();
-			compile_util_toShort();
+			compileConversionToShort();
 		}
 
 		else if (_class == Byte.TYPE) {
-			compileScaleDown();
-			compile_util_toByte();
+			compileConversionToByte();
 		}
 
 		else if (_class == Boolean.TYPE) {
-			compileScaleDown();
-			compile_util_toBoolean();
+			compileConversionToBoolean();
 		}
 
 		else if (_class == Character.TYPE) {
-			compileScaleDown();
-			compile_util_toCharacter();
+			compileConversionToCharacter();
 		}
 
 		else if (_class == Double.TYPE) {
-			if (isScaled()) {
-				compile_util_toDouble_Scaled();
-			}
-			else {
-				compile_util_toDouble();
-			}
+			compileConversionToDouble();
 		}
 
 		else if (_class == Float.TYPE) {
-			if (isScaled()) {
-				compile_util_toFloat_Scaled();
-			}
-			else {
-				compile_util_toFloat();
-			}
+			compileConversionToFloat();
 		}
 
 		else if (_class == BigInteger.class) {
-			compileScaleDown();
-			compile_util_toBigInteger();
+			compileConversionToBigInteger();
 		}
 
 		else if (_class == BigDecimal.class) {
-			if (isScaled()) {
-				compile_util_toBigDecimal_Scaled();
-			}
-			else {
-				compile_util_toBigDecimal();
-			}
+			compileConversionToBigDecimal();
 		}
 
 		else if (_class == Date.class) {
@@ -258,30 +289,6 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	protected abstract void compile_util_toDate() throws CompilerException;
 	protected abstract void compile_util_toString() throws CompilerException;
 	protected abstract void compile_util_toNumber() throws CompilerException;
-
-	@SuppressWarnings( "unused" )
-	protected void compile_util_toDouble_Scaled() throws CompilerException
-	{
-		throw new IllegalStateException( "No scaling for " + toString() );
-	}
-
-	@SuppressWarnings( "unused" )
-	protected void compile_util_toFloat_Scaled() throws CompilerException
-	{
-		throw new IllegalStateException( "No scaling for " + toString() );
-	}
-
-	@SuppressWarnings( "unused" )
-	protected void compile_util_toBigDecimal_Scaled() throws CompilerException
-	{
-		throw new IllegalStateException( "No scaling for " + toString() );
-	}
-
-	@SuppressWarnings( "unused" )
-	protected void compile_util_toNumber_Scaled() throws CompilerException
-	{
-		throw new IllegalStateException( "No scaling for " + toString() );
-	}
 
 
 	private Class unboxed( Class _class )
@@ -359,50 +366,31 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	protected void compileConversionFromUnboxed( Class _class ) throws CompilerException
 	{
 		if (_class == Integer.TYPE || _class == Short.TYPE || _class == Byte.TYPE) {
-			compile_util_fromInt();
-			compileScaleUp();
+			compileConversionFromInt();
 		}
 
 		else if (_class == Long.TYPE) {
-			compile_util_fromLong();
-			compileScaleUp();
+			compileConversionFromLong();
 		}
 
 		else if (_class == Double.TYPE) {
-			if (isScaled()) {
-				compile_util_fromDouble_Scaled();
-			}
-			else {
-				compile_util_fromDouble();
-			}
+			compileConversionFromDouble();
 		}
 
 		else if (_class == Float.TYPE) {
-			if (isScaled()) {
-				compile_util_fromFloat_Scaled();
-			}
-			else {
-				compile_util_fromFloat();
-			}
+			compileConversionFromFloat();
 		}
 
 		else if (BigDecimal.class.isAssignableFrom( _class )) {
-			if (isScaled()) {
-				compile_util_fromBigDecimal_Scaled();
-			}
-			else {
-				compile_util_fromBigDecimal();
-			}
+			compileConversionFromBigDecimal();
 		}
 
 		else if (BigInteger.class.isAssignableFrom( _class )) {
-			compile_util_fromBigInteger();
-			compileScaleUp();
+			compileConversionFromBigInteger();
 		}
 
 		else if (Number.class.isAssignableFrom( _class )) {
-			compile_util_fromNumber();
-			compileScaleUp();
+			compileConversionFromNumber();
 		}
 
 		else if (_class == Boolean.TYPE) {
@@ -434,24 +422,6 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	protected void compile_util_fromBigInteger() throws CompilerException
 	{
 		compile_util_fromNumber();
-	}
-
-	@SuppressWarnings( "unused" )
-	protected void compile_util_fromDouble_Scaled() throws CompilerException
-	{
-		throw new IllegalStateException( "No scaling for " + toString() );
-	}
-
-	@SuppressWarnings( "unused" )
-	protected void compile_util_fromFloat_Scaled() throws CompilerException
-	{
-		throw new IllegalStateException( "No scaling for " + toString() );
-	}
-
-	@SuppressWarnings( "unused" )
-	protected void compile_util_fromBigDecimal_Scaled() throws CompilerException
-	{
-		throw new IllegalStateException( "No scaling for " + toString() );
 	}
 
 

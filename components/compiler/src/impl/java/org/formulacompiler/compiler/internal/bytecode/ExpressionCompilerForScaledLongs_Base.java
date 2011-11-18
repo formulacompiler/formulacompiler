@@ -55,6 +55,159 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 
 
 	@Override
+	protected void compileConversionFromLong() throws CompilerException
+	{
+		compile_util_fromLong();
+		compileScaleUp();
+	}
+
+	@Override
+	protected void compileConversionFromInt() throws CompilerException
+	{
+		compile_util_fromInt();
+		compileScaleUp();
+	}
+
+	@Override
+	protected void compileConversionFromNumber() throws CompilerException
+	{
+		compile_util_fromNumber();
+		compileScaleUp();
+	}
+
+	@Override
+	protected void compileConversionFromBigInteger() throws CompilerException
+	{
+		compile_util_fromBigInteger();
+		compileScaleUp();
+	}
+
+	@Override
+	protected void compileConversionFromBigDecimal() throws CompilerException
+	{
+		if (isScaled()) {
+			compile_util_fromBigDecimal_Scaled();
+		}
+		else {
+			compile_util_fromBigDecimal();
+		}
+	}
+
+	@Override
+	protected void compileConversionFromFloat() throws CompilerException
+	{
+		if (isScaled()) {
+			compile_util_fromFloat_Scaled();
+		}
+		else {
+			compile_util_fromFloat();
+		}
+	}
+
+	@Override
+	protected void compileConversionFromDouble() throws CompilerException
+	{
+		if (isScaled()) {
+			compile_util_fromDouble_Scaled();
+		}
+		else {
+			compile_util_fromDouble();
+		}
+	}
+
+	@Override
+	protected void compileConversionToLong() throws CompilerException
+	{
+		compileScaleDown();
+		compile_util_toLong();
+	}
+
+	@Override
+	protected void compileConversionToInt() throws CompilerException
+	{
+		compileScaleDown();
+		compile_util_toInt();
+	}
+
+	@Override
+	protected void compileConversionToShort() throws CompilerException
+	{
+		compileScaleDown();
+		compile_util_toShort();
+	}
+
+	@Override
+	protected void compileConversionToByte() throws CompilerException
+	{
+		compileScaleDown();
+		compile_util_toByte();
+	}
+
+	@Override
+	protected void compileConversionToBigDecimal() throws CompilerException
+	{
+		if (isScaled()) {
+			compile_util_toBigDecimal_Scaled();
+		}
+		else {
+			compile_util_toBigDecimal();
+		}
+	}
+
+	@Override
+	protected void compileConversionToBigInteger() throws CompilerException
+	{
+		compileScaleDown();
+		compile_util_toBigInteger();
+	}
+
+	@Override
+	protected void compileConversionToFloat() throws CompilerException
+	{
+		if (isScaled()) {
+			compile_util_toFloat_Scaled();
+		}
+		else {
+			compile_util_toFloat();
+		}
+	}
+
+	@Override
+	protected void compileConversionToDouble() throws CompilerException
+	{
+		if (isScaled()) {
+			compile_util_toDouble_Scaled();
+		}
+		else {
+			compile_util_toDouble();
+		}
+	}
+
+	@Override
+	protected void compileConversionToCharacter() throws CompilerException
+	{
+		compileScaleDown();
+		compile_util_toCharacter();
+	}
+
+	@Override
+	protected void compileConversionToBoolean() throws CompilerException
+	{
+		compileScaleDown();
+		compile_util_toBoolean();
+	}
+
+	@Override
+	protected void compileConversionToNumber() throws CompilerException
+	{
+		if (isScaled()) {
+			compile_util_toNumber_Scaled();
+		}
+		else {
+			compile_util_toNumber();
+		}
+	}
+
 	protected final boolean isScaled()
 	{
 		return (scale() != 0);
@@ -88,16 +241,14 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 	}
 
 
-	@Override
-	protected final void compileScaleUp() throws CompilerException
+	private void compileScaleUp() throws CompilerException
 	{
 		if (scale() > 0) {
 			compile_util_scaleUp( this.one );
 		}
 	}
 
-	@Override
-	protected final void compileScaleDown() throws CompilerException
+	private void compileScaleDown() throws CompilerException
 	{
 		if (scale() > 0) {
 			compile_util_scaleDown( this.one );
@@ -168,5 +319,12 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 
 	protected abstract void compile_util_scaleUp( long _one ) throws CompilerException;
 	protected abstract void compile_util_scaleDown( long _one ) throws CompilerException;
+	protected abstract void compile_util_toDouble_Scaled() throws CompilerException;
+	protected abstract void compile_util_toFloat_Scaled() throws CompilerException;
+	protected abstract void compile_util_toBigDecimal_Scaled() throws CompilerException;
+	protected abstract void compile_util_toNumber_Scaled() throws CompilerException;
+	protected abstract void compile_util_fromDouble_Scaled() throws CompilerException;
+	protected abstract void compile_util_fromFloat_Scaled() throws CompilerException;
+	protected abstract void compile_util_fromBigDecimal_Scaled() throws CompilerException;
 
 }
