@@ -98,8 +98,8 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	}
 
 
-	protected abstract boolean compileConversionFrom( ScaledLong _scale ) throws CompilerException;
-	protected abstract boolean compileConversionTo( ScaledLong _scale ) throws CompilerException;
+	protected abstract void compileConversionFrom( ScaledLong _scale ) throws CompilerException;
+	protected abstract void compileConversionTo( ScaledLong _scale ) throws CompilerException;
 
 
 	protected void compileConversionFromLong() throws CompilerException
@@ -493,9 +493,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 				if (returnType == Long.class) {
 					compile_util_unboxLong();
 				}
-				if (!compileConversionFrom( scale )) {
-					throw new CompilerException.UnsupportedDataType( "Scaled long inputs not supported by " + this + "." );
-				}
+				compileConversionFrom( scale );
 				return;
 			}
 
@@ -531,13 +529,9 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 
 			final ScaledLong scale = scaleOf( _method );
 			if (scale != null && scale.value() != 0) {
-				if (compileConversionTo( scale )) {
-					if (returnType == Long.class) {
-						mv().visitMethodInsn( Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf", J2LONG );
-					}
-				}
-				else {
-					throw new CompilerException.UnsupportedDataType( "Scaled long results not supported by " + this + "." );
+				compileConversionTo( scale );
+				if (returnType == Long.class) {
+					compile_util_boxLong();
 				}
 				return;
 			}

@@ -269,17 +269,15 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 
 
 	@Override
-	protected boolean compileConversionFrom( ScaledLong _scale ) throws CompilerException
+	protected void compileConversionFrom( ScaledLong _scale ) throws CompilerException
 	{
 		compileScaleCorrection( _scale.value(), scale() );
-		return true;
 	}
 
 	@Override
-	protected boolean compileConversionTo( ScaledLong _scale ) throws CompilerException
+	protected void compileConversionTo( ScaledLong _scale ) throws CompilerException
 	{
 		compileScaleCorrection( scale(), _scale.value() );
-		return true;
 	}
 
 
