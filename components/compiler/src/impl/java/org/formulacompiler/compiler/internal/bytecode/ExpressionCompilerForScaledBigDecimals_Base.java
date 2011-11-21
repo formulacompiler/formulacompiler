@@ -79,17 +79,15 @@ abstract class ExpressionCompilerForScaledBigDecimals_Base extends ExpressionCom
 
 
 	@Override
-	protected boolean compileConversionFrom( ScaledLong _scale ) throws CompilerException
+	protected void compileConversionFrom( ScaledLong _scale ) throws CompilerException
 	{
 		compile_util_fromScaledLong( _scale.value() );
-		return true;
 	}
 
 	@Override
-	protected boolean compileConversionTo( ScaledLong _scale ) throws CompilerException
+	protected void compileConversionTo( ScaledLong _scale ) throws CompilerException
 	{
 		compile_util_toScaledLong( _scale.value() );
-		return true;
 	}
 
 

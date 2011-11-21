@@ -45,17 +45,15 @@ abstract class ExpressionCompilerForDoubles_Base extends ExpressionCompilerForNu
 
 
 	@Override
-	protected boolean compileConversionFrom( ScaledLong _scale ) throws CompilerException
+	protected void compileConversionFrom( ScaledLong _scale ) throws CompilerException
 	{
 		compile_util_fromScaledLong( ScaledLongSupport.ONE[ _scale.value() ] );
-		return true;
 	}
 
 	@Override
-	protected boolean compileConversionTo( ScaledLong _scale ) throws CompilerException
+	protected void compileConversionTo( ScaledLong _scale ) throws CompilerException
 	{
 		compile_util_toScaledLong( ScaledLongSupport.ONE[ _scale.value() ] );
-		return true;
 	}
 
 
