@@ -32,7 +32,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 final class FactoryCompiler extends ClassCompiler
 {
-	static final String ENV_CONSTRUCTOR_SIG = "(" + ByteCodeEngineCompiler.ENV_DESC + ")V";
+	private static final String ENV_CONSTRUCTOR_SIG = "(" + ByteCodeEngineCompiler.ENV_DESC + ")V";
 
 	private final Class userFactoryClass;
 	private final Method userFactoryMethod;
@@ -75,7 +75,7 @@ final class FactoryCompiler extends ClassCompiler
 
 	private void buildDefaultConstructor( Type _parentType )
 	{
-		GeneratorAdapter mv = newMethod( Opcodes.ACC_PUBLIC, "<init>", ENV_CONSTRUCTOR_SIG );
+		final GeneratorAdapter mv = newMethod( Opcodes.ACC_PUBLIC, "<init>", ENV_CONSTRUCTOR_SIG );
 		mv.visitCode();
 		mv.loadThis();
 		mv.visitMethodInsn( Opcodes.INVOKESPECIAL, _parentType.getInternalName(), "<init>", "()V" );
@@ -107,8 +107,8 @@ final class FactoryCompiler extends ClassCompiler
 
 	private void buildUserFactoryMethod()
 	{
-		final GeneratorAdapter mv = newMethod( this.userFactoryMethod.getName(), Type
-				.getMethodDescriptor( this.userFactoryMethod ) );
+		final GeneratorAdapter mv = newMethod( this.userFactoryMethod.getName(),
+				Type.getMethodDescriptor( this.userFactoryMethod ) );
 		mv.newInstance( ByteCodeEngineCompiler.GEN_ROOT_CLASS );
 		mv.dup();
 		mv.loadArg( 0 );
@@ -123,10 +123,8 @@ final class FactoryCompiler extends ClassCompiler
 
 	private GeneratorAdapter newMethod( String _name, String _signature )
 	{
-		final String name = _name;
-		final String signature = _signature;
 		final int access = Opcodes.ACC_FINAL | Opcodes.ACC_PUBLIC;
-		return new GeneratorAdapter( cw().visitMethod( access, name, signature, null, null ), access, name, signature );
+		return new GeneratorAdapter( cw().visitMethod( access, _name, _signature, null, null ), access, _name, _signature );
 	}
 
 }

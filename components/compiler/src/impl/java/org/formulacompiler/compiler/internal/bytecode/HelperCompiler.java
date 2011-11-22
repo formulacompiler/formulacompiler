@@ -55,7 +55,7 @@ abstract class HelperCompiler extends ValueMethodCompiler
 
 	private static String descriptorOf( Type[] _params )
 	{
-		StringBuffer b = new StringBuffer();
+		final StringBuilder b = new StringBuilder();
 		for (Type param : _params) {
 			b.append( param.getDescriptor() );
 		}

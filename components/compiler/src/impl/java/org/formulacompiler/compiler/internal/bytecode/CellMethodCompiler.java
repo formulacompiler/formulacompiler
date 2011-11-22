@@ -110,8 +110,8 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 	}
 
 
-	private String cachedIndicatorName = "h$" + methodName();
-	private String cacheName = "c$" + methodName();
+	private final String cachedIndicatorName = "h$" + methodName();
+	private final String cacheName = "c$" + methodName();
 	private Label skipCachedComputation;
 
 
@@ -158,7 +158,7 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 		// In reset(), do:
 		if (section().hasReset()) {
 			// h$<x> = false;
-			GeneratorAdapter r = section().resetter();
+			final GeneratorAdapter r = section().resetter();
 			r.loadThis();
 			r.push( false );
 			r.putField( classType(), cachedIndicatorName, Type.BOOLEAN_TYPE );
@@ -178,7 +178,7 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 				compileOutputMethod( cell, method.getName(), method );
 			}
 			else {
-				OutputDistributorCompiler dist = this.section().getOutputDistributorFor( method );
+				final OutputDistributorCompiler dist = this.section().getOutputDistributorFor( method );
 				final String caseName = dist.compileCase( callFrame );
 				compileOutputMethod( cell, caseName, method );
 			}

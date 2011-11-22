@@ -43,7 +43,7 @@ final class HelperCompilerForSwitch extends HelperCompiler
 		final ExpressionNodeForSwitch switchNode = (ExpressionNodeForSwitch) node();
 		numericCompiler().compileInt( switchNode.selector() );
 
-		int nCases = switchNode.numberOfCases();
+		final int nCases = switchNode.numberOfCases();
 		if (nCases > 0) {
 			final int[] switchValues = new int[ nCases ];
 			final ExpressionNodeForSwitchCase[] switchValueCases = new ExpressionNodeForSwitchCase[ nCases ];

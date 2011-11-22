@@ -85,7 +85,7 @@ abstract class MethodCompiler
 
 	protected static final String descriptorOf( SectionCompiler _section, Iterable<LetEntry> _closure )
 	{
-		StringBuffer b = new StringBuffer();
+		final StringBuilder b = new StringBuilder();
 		for (LetEntry entry : _closure) {
 			if (isArray( entry )) {
 				b.append( '[' ).append( _section.engineCompiler().typeCompiler( entry.type ).typeDescriptor() );
@@ -420,8 +420,8 @@ abstract class MethodCompiler
 
 	private void addToClosureWithInnerDefs( Map<String, LetEntry> _closure, ExpressionNode _node, String... _names )
 	{
-		for (int i = 0; i < _names.length; i++) {
-			letInnerDef( _names[ i ] );
+		for (final String _name : _names) {
+			letInnerDef( _name );
 		}
 		try {
 			addToClosure( _closure, _node );
@@ -612,18 +612,10 @@ abstract class MethodCompiler
 
 	protected final static boolean isArray( ExpressionNode _node )
 	{
-		if (_node instanceof ExpressionNodeForArrayReference) {
-			return true;
-		}
-		else if (_node instanceof ExpressionNodeForMakeArray) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return _node instanceof ExpressionNodeForArrayReference || _node instanceof ExpressionNodeForMakeArray;
 	}
 
-	protected final static boolean isArray( LetDictionary.LetEntry _e )
+	private static boolean isArray( LetDictionary.LetEntry _e )
 	{
 		if (_e.value instanceof DelayedLet) {
 			return ((DelayedLet) _e.value).isArray();

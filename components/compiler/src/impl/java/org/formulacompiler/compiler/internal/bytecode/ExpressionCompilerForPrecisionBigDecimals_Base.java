@@ -32,14 +32,14 @@ import org.objectweb.asm.Opcodes;
 
 abstract class ExpressionCompilerForPrecisionBigDecimals_Base extends ExpressionCompilerForNumbers
 {
-	protected static final String RUNTIME_CONTEXT_DESCRIPTOR = TypeCompilerForPrecisionBigDecimals.RUNTIME_CONTEXT_DESCRIPTOR;
-	protected static final String RUNTIME_CONTEXT_NAME = TypeCompilerForPrecisionBigDecimals.RUNTIME_CONTEXT_NAME;
+	private static final String RUNTIME_CONTEXT_DESCRIPTOR = TypeCompilerForPrecisionBigDecimals.RUNTIME_CONTEXT_DESCRIPTOR;
+	private static final String RUNTIME_CONTEXT_NAME = TypeCompilerForPrecisionBigDecimals.RUNTIME_CONTEXT_NAME;
 
 	private static final String BNAME = TypeCompilerForBigDecimals.BNAME;
 	private static final String B = TypeCompilerForBigDecimals.B;
 	private static final String B2I = "(" + B + ")I";
 
-	protected final TypeCompilerForPrecisionBigDecimals bigCompiler = ((TypeCompilerForPrecisionBigDecimals) typeCompiler());
+	private final TypeCompilerForPrecisionBigDecimals bigCompiler = ((TypeCompilerForPrecisionBigDecimals) typeCompiler());
 
 
 	public ExpressionCompilerForPrecisionBigDecimals_Base( MethodCompiler _methodCompiler, NumericType _numericType )

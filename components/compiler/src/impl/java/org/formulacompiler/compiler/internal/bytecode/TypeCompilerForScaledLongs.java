@@ -99,15 +99,15 @@ final class TypeCompilerForScaledLongs extends TypeCompilerForNumbers
 			compileZero( _mv );
 		}
 		else if (_value instanceof Long) {
-			long val = ((Long) _value).longValue();
+			final long val = ((Long) _value).longValue();
 			_mv.push( val );
 		}
 		else if (_value instanceof Number) {
-			long val = (Long) numericType().valueOf( (Number) _value );
+			final long val = (Long) numericType().valueOf( (Number) _value );
 			_mv.push( val );
 		}
 		else if (_value instanceof Boolean) {
-			long val = ((Boolean) _value) ? this.one : 0;
+			final long val = ((Boolean) _value) ? this.one : 0;
 			_mv.push( val );
 		}
 		else {

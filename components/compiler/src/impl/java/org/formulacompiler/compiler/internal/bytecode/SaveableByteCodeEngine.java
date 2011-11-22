@@ -61,7 +61,7 @@ final class SaveableByteCodeEngine extends ByteCodeEngine implements SaveableEng
 			for (Entry<String, byte[]> classNameAndBytes : this.getClassNamesAndBytes().entrySet()) {
 				final String fileName = classNameAndBytes.getKey().replace( '.', '/' ) + ".class";
 				final byte[] fileData = classNameAndBytes.getValue();
-				ZipEntry jarEntry = new ZipEntry( fileName );
+				final ZipEntry jarEntry = new ZipEntry( fileName );
 				if (Settings.isDebugCompilationEnabled()) {
 					jarEntry.setTime( 0 );
 				}

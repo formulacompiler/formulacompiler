@@ -26,15 +26,10 @@ import java.math.BigDecimal;
 
 import org.formulacompiler.compiler.NumericType;
 import org.formulacompiler.compiler.internal.expressions.DataType;
-import org.objectweb.asm.Type;
 
 
 abstract class TypeCompilerForNumbers extends TypeCompiler
 {
-	protected final static Type NUMBER_CLASS = Type.getType( Number.class );
-	protected final static String N = NUMBER_CLASS.getDescriptor();
-
-
 	public static TypeCompilerForNumbers compilerFor( ByteCodeEngineCompiler _engineCompiler, NumericType _numericType )
 	{
 		if (Double.TYPE == _numericType.valueType()) {

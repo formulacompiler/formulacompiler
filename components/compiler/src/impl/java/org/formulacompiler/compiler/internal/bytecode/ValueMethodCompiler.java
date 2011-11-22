@@ -34,7 +34,7 @@ abstract class ValueMethodCompiler extends TypedMethodCompiler
 	}
 
 
-	protected static final String returnType( SectionCompiler _section, DataType _type )
+	private static String returnType( SectionCompiler _section, DataType _type )
 	{
 		return _section.engineCompiler().typeCompiler( _type ).typeDescriptor();
 	}

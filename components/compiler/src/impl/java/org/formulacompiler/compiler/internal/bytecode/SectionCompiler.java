@@ -31,7 +31,6 @@ import java.util.Map;
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
-import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor.Point;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
@@ -188,7 +187,7 @@ abstract class SectionCompiler extends ClassCompiler
 		// In reset(), do:
 		if (hasReset()) {
 			// $<section> = null;
-			GeneratorAdapter r = resetter();
+			final GeneratorAdapter r = resetter();
 			r.loadThis();
 			r.visitInsn( Opcodes.ACONST_NULL );
 			r.putField( classType(), _sub.getterName(), _sub.arrayType() );
@@ -205,7 +204,7 @@ abstract class SectionCompiler extends ClassCompiler
 			throws CompilerException
 	{
 		beginCompilation();
-		HelperCompilerForSubExpr result = new HelperCompilerForSubExpr( this, _node, _closure );
+		final HelperCompilerForSubExpr result = new HelperCompilerForSubExpr( this, _node, _closure );
 		result.compile();
 		return result;
 	}
@@ -427,10 +426,8 @@ abstract class SectionCompiler extends ClassCompiler
 		}
 		if (m < n) {
 			final ArrayDescriptor dim = _arrayNode.arrayDescriptor();
-			if (dim.numberOfColumns() > 1)
-				return _arrayNode.subArray( 0, dim.numberOfRows(), 0, m );
-			if (dim.numberOfRows() > 1)
-				return _arrayNode.subArray( 0, m, 0, dim.numberOfColumns() );
+			if (dim.numberOfColumns() > 1) return _arrayNode.subArray( 0, dim.numberOfRows(), 0, m );
+			if (dim.numberOfRows() > 1) return _arrayNode.subArray( 0, m, 0, dim.numberOfColumns() );
 		}
 		return _arrayNode;
 	}

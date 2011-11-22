@@ -114,7 +114,7 @@ public class TypeCompilerForPrecisionBigDecimals extends TypeCompilerForBigDecim
 
 	private void compilePredefinedMathContext( GeneratorAdapter _mv, String _fieldName )
 	{
-		Type mcType = Type.getType( MathContext.class );
+		final Type mcType = Type.getType( MathContext.class );
 		_mv.getStatic( mcType, _fieldName, mcType );
 	}
 
