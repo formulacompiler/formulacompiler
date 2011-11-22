@@ -46,15 +46,11 @@ import org.formulacompiler.runtime.MillisecondsSinceUTC1970;
 import org.formulacompiler.runtime.ScaledLong;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
 abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAll_Generated
 {
-	protected final static Type NUMBER_CLASS = Type.getType( Number.class );
-	protected final static String N = NUMBER_CLASS.getDescriptor();
-
 	static ExpressionCompilerForNumbers compilerFor( MethodCompiler _methodCompiler, NumericType _numericType )
 	{
 		if (Double.TYPE == _numericType.valueType()) {
@@ -554,15 +550,6 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	}
 
 
-	protected final void compileInstructions( int... _conversionOpcodes )
-	{
-		final GeneratorAdapter mv = mv();
-		for (int conv : _conversionOpcodes) {
-			mv.visitInsn( conv );
-		}
-	}
-
-
 	@Override
 	protected void compileConst( Object _value ) throws CompilerException
 	{
@@ -650,50 +637,12 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		if (needEnv) {
 			compile_environment();
 		}
-		valCompiler.compileRuntimeMethod( "fun_MATCH_" + TYPE_SUFFIXES[ type + 1 ], "("
-				+ acc.elementDescriptor() + acc.arrayDescriptor() + envDescriptor + ")I" );
+		valCompiler.compileRuntimeMethod( "fun_MATCH_" + TYPE_SUFFIXES[ type + 1 ],
+				"(" + acc.elementDescriptor() + acc.arrayDescriptor() + envDescriptor + ")I" );
 
 		if (_node.getFunction() != Function.INTERNAL_MATCH_INT) {
 			numCompiler.compileConversionFromInt();
 		}
-	}
-
-
-	protected void compileRuntimeFunction( ExpressionNodeForFunction _node ) throws CompilerException
-	{
-		final boolean needsContext = doesRuntimeFunctionNeedContext( _node );
-		final StringBuilder descriptorBuilder = new StringBuilder();
-		final String typeDescriptor = typeDescriptor();
-		descriptorBuilder.append( '(' );
-		for (ExpressionNode arg : _node.arguments()) {
-			compile( arg );
-			descriptorBuilder.append( typeDescriptor );
-		}
-		if (needsContext) appendRuntimeFunctionContext( descriptorBuilder );
-		descriptorBuilder.append( ')' );
-		descriptorBuilder.append( typeDescriptor );
-		if (needsContext) {
-			compileRuntimeMethodWithContext( "std" + _node.getFunction().getName(), descriptorBuilder.toString() );
-		}
-		else {
-			compileRuntimeMethod( "std" + _node.getFunction().getName(), descriptorBuilder.toString() );
-		}
-	}
-
-	protected boolean doesRuntimeFunctionNeedContext( ExpressionNodeForFunction _node )
-	{
-		return false;
-	}
-
-	protected void appendRuntimeFunctionContext( StringBuilder _descriptorBuilder )
-	{
-		throw new IllegalStateException( "Internal error: appendStdFunctionContext() is not applicable for " + this + "." );
-	}
-
-	protected void compileRuntimeMethodWithContext( String _string, String _string2 )
-	{
-		throw new IllegalStateException( "Internal error: compileRuntimeMethodWithContext() is not applicable for "
-				+ this + "." );
 	}
 
 
@@ -709,7 +658,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		final SectionModel[] subs = _node.subSectionModels();
 		final int[] cnts = _node.subSectionStaticValueCounts();
 		for (int i = 0; i < subs.length; i++) {
-			SubSectionCompiler sub = sectionInContext().subSectionCompiler( subs[ i ] );
+			final SubSectionCompiler sub = sectionInContext().subSectionCompiler( subs[ i ] );
 			mv.visitVarInsn( Opcodes.ALOAD, method().objectInContext() );
 			sectionInContext().compileCallToGetterFor( mv, sub );
 			mv.arrayLength();
@@ -732,8 +681,8 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 
 	private abstract class TestCompiler
 	{
-		protected ExpressionNode node;
-		protected Label branchTo;
+		protected final ExpressionNode node;
+		protected final Label branchTo;
 
 		TestCompiler( ExpressionNode _node, Label _branchTo )
 		{

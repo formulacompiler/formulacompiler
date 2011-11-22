@@ -82,7 +82,7 @@ final class RootSectionCompiler extends SectionCompiler
 			@Override
 			protected void compileBody() throws CompilerException
 			{
-				GeneratorAdapter mv = mv();
+				final GeneratorAdapter mv = mv();
 
 				// super( _inputs ); or super();
 				callInheritedConstructor( mv, 1 );
@@ -104,9 +104,8 @@ final class RootSectionCompiler extends SectionCompiler
 					mv.loadThis();
 					mv.push( -1 ); //section index
 					final ExpressionCompilerForNumbers c = numericCompiler();
-					c.compile_util_createSectionInfo( model().getName(),
-							null, BROKEN_REF, BROKEN_REF,
-							null, BROKEN_REF, BROKEN_REF );
+					c.compile_util_createSectionInfo( model().getName(), null, BROKEN_REF, BROKEN_REF, null, BROKEN_REF,
+							BROKEN_REF );
 					mv.putField( section().classType(), SECTION_INFO_MEMBER_NAME, SECTION_INFO_CLASS );
 				}
 
@@ -176,7 +175,7 @@ final class RootSectionCompiler extends SectionCompiler
 		if (!this.computationTimeCompiled) {
 			newField( Opcodes.ACC_FINAL, COMP_TIME_MEMBER_NAME, COMP_TIME_DESC );
 			if (hasReset()) {
-				GeneratorAdapter mv = resetter();
+				final GeneratorAdapter mv = resetter();
 				mv.loadThis();
 				mv.getField( classType(), COMP_TIME_MEMBER_NAME, COMP_TIME_CLASS );
 				mv.invokeVirtual( COMP_TIME_CLASS, RESET_METHOD );

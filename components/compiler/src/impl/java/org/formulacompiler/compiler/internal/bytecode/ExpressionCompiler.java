@@ -72,17 +72,10 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 abstract class ExpressionCompiler
 {
-	protected static final Type BOOLEAN_CLASS = Type.getType( Boolean.class );
-	protected static final Type BOOLEAN_TYPE = Type.BOOLEAN_TYPE;
-	protected static final String BOOL2Z = "(" + BOOLEAN_CLASS.getDescriptor() + ")" + BOOLEAN_TYPE.getDescriptor();
-	protected final static Type LONG_CLASS = Type.getType( Long.class );
-	protected final static Type LONG_TYPE = Type.LONG_TYPE;
-	protected static final String J2LONG = "(" + LONG_TYPE.getDescriptor() + ")" + LONG_CLASS.getDescriptor();
-	protected static final String LONG2J = "(" + LONG_CLASS.getDescriptor() + ")" + LONG_TYPE.getDescriptor();
-	protected static final Type COMPUTATION_ERROR_TYPE = Type.getType( ComputationException.class );
+	private static final Type COMPUTATION_ERROR_TYPE = Type.getType( ComputationException.class );
+	private static final Type NOT_AVAILABLE_ERROR_TYPE = Type.getType( NotAvailableException.class );
+	private static final Type ARITHMETIC_EXCEPTION_TYPE = Type.getType( ArithmeticException.class );
 	protected static final Type FORMULA_ERROR_TYPE = Type.getType( FormulaException.class );
-	protected static final Type NOT_AVAILABLE_ERROR_TYPE = Type.getType( NotAvailableException.class );
-	protected static final Type ARITHMETIC_EXCEPTION_TYPE = Type.getType( ArithmeticException.class );
 
 	protected static final Object TOP_OF_STACK = new Object();
 
@@ -541,15 +534,15 @@ abstract class ExpressionCompiler
 				mv.goTo( handled );
 				final Label endHandling = mv.mark();
 
-				for (int i = 0; i < _handledTypesReturningTrue.length; i++) {
-					mv.catchException( beginHandling, endHandling, _handledTypesReturningTrue[ i ] );
+				for (final Type a_handledTypesReturningTrue : _handledTypesReturningTrue) {
+					mv.catchException( beginHandling, endHandling, a_handledTypesReturningTrue );
 					mv.visitVarInsn( Opcodes.ASTORE, method().newLocal( 1 ) );
 					ec.compileConst( Boolean.TRUE );
 					mv.goTo( handled );
 				}
 
-				for (int i = 0; i < _handledTypesReturningFalse.length; i++) {
-					mv.catchException( beginHandling, endHandling, _handledTypesReturningFalse[ i ] );
+				for (final Type a_handledTypesReturningFalse : _handledTypesReturningFalse) {
+					mv.catchException( beginHandling, endHandling, a_handledTypesReturningFalse );
 					mv.visitVarInsn( Opcodes.ASTORE, method().newLocal( 1 ) );
 					ec.compileConst( Boolean.FALSE );
 					mv.goTo( handled );

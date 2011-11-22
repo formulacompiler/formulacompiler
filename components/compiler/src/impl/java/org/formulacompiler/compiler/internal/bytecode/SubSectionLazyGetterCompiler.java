@@ -76,7 +76,7 @@ final class SubSectionLazyGetterCompiler extends FinalMethodCompiler
 		mv.loadLocal( l_ds );
 		mv.ifNull( isNull );
 
-		int l_di;
+		final int l_di;
 		if (inputContainerClass.isArray()) {
 			l_di = compileInitFromArray( sub, mv, l_ds );
 		}
@@ -86,8 +86,8 @@ final class SubSectionLazyGetterCompiler extends FinalMethodCompiler
 		else if (Iterable.class.isAssignableFrom( inputContainerClass )) {
 			final int l_it = mv.newLocal( ITERATOR_INTF );
 			mv.loadLocal( l_ds );
-			mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, ITERABLE_INTF.getInternalName(), "iterator", "()"
-					+ ITERATOR_INTF.getDescriptor() );
+			mv.visitMethodInsn( Opcodes.INVOKEINTERFACE, ITERABLE_INTF.getInternalName(), "iterator",
+					"()" + ITERATOR_INTF.getDescriptor() );
 			mv.storeLocal( l_it );
 			l_di = compileInitFromIterator( sub, mv, l_it );
 		}
@@ -239,7 +239,7 @@ final class SubSectionLazyGetterCompiler extends FinalMethodCompiler
 
 		final IndexCompiler ic;
 		if (sub.isComputationListenerEnabled()) {
-			int l_i = mv.newLocal( Type.INT_TYPE );
+			final int l_i = mv.newLocal( Type.INT_TYPE );
 			mv.push( 0 );
 			mv.storeLocal( l_i );
 			ic = new IndexCompiler( l_i );

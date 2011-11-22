@@ -118,7 +118,7 @@ abstract class HelperCompilerForFoldApply extends HelperCompilerForFolds
 		mv().visitVarInsn( accuTypes[ _iAccu ].getOpcode( Opcodes.ILOAD ), accuVars[ _iAccu ] );
 	}
 
-	protected static final int NO_VAR = 0;
+	private static final int NO_VAR = 0;
 	private int indexVar = NO_VAR;
 	private int staticCount = 0;
 

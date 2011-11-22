@@ -92,7 +92,7 @@ public class ArrayAccessorForFullDataCompiler extends ArrayAccessorCompiler
 		mv.visitInsn( Opcodes.ARETURN );
 
 		if (section().hasReset()) {
-			GeneratorAdapter reset = section().resetter();
+			final GeneratorAdapter reset = section().resetter();
 			// this.xy$init = false;
 			reset.loadThis();
 			reset.push( false );

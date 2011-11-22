@@ -85,8 +85,8 @@ abstract class ClassCompiler
 
 	protected Type initializeClass( Class _parentClassOrInterface, Type _parentTypeOrInterface, Type _otherInterface )
 	{
-		Type parentType;
-		String[] interfaces;
+		final Type parentType;
+		final String[] interfaces;
 		if (_parentClassOrInterface == null) {
 			parentType = Type.getType( Object.class );
 			interfaces = new String[] { _otherInterface.getInternalName() };
@@ -120,8 +120,8 @@ abstract class ClassCompiler
 
 	GeneratorAdapter newMethod( int _access, String _name, String _descriptor )
 	{
-		MethodVisitor mv = cw().visitMethod( _access, _name, _descriptor, null, null );
-		GeneratorAdapter ma = new GeneratorAdapter( mv, _access, _name, _descriptor );
+		final MethodVisitor mv = cw().visitMethod( _access, _name, _descriptor, null, null );
+		final GeneratorAdapter ma = new GeneratorAdapter( mv, _access, _name, _descriptor );
 		ma.visitCode();
 		return ma;
 	}
@@ -174,7 +174,7 @@ abstract class ClassCompiler
 	private void finalizeStaticInitializer()
 	{
 		if (this.initializer != null) {
-			GeneratorAdapter ma = this.initializer;
+			final GeneratorAdapter ma = this.initializer;
 			ma.visitInsn( Opcodes.RETURN );
 			endMethod( ma );
 			this.initializer = null;
@@ -191,14 +191,6 @@ abstract class ClassCompiler
 	void collectClassNamesAndBytes( Map<String, byte[]> _result )
 	{
 		_result.put( classInternalName().replace( '/', '.' ), getClassBytes() );
-	}
-
-
-	final static String getPackageOf( String _internalName )
-	{
-		int p = _internalName.lastIndexOf( '/' );
-		if (0 <= p) return _internalName.substring( 0, p + 1 );
-		else return "";
 	}
 
 }

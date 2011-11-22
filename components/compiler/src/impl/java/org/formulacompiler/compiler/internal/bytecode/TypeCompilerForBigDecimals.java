@@ -39,19 +39,10 @@ abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 {
 	static final String BNAME = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getInternalName();
 	static final String B = ByteCodeEngineCompiler.BIGDECIMAL_CLASS.getDescriptor();
-	static final String V2B = "()" + B;
-	static final String I2B = "(I)" + B;
-	static final String L2B = "(" + Type.LONG_TYPE.getDescriptor() + ")" + B;
-	static final String LI2B = "(" + Type.LONG_TYPE.getDescriptor() + "I)" + B;
-	static final String D2B = "(D)" + B;
-	static final String S2B = "(Ljava/lang/String;)" + B;
-	static final String B2B = ("(" + B + ")") + B;
-	static final String BB2B = "(" + B + B + ")" + B;
-	static final String BII2B = "(" + B + "II)" + B;
-	static final String N2L = "(" + N + ")" + Type.LONG_TYPE.getDescriptor();
-	static final String N2D = "(" + N + ")D";
+	private static final String LI2B = "(" + Type.LONG_TYPE.getDescriptor() + "I)" + B;
+	private static final String S2B = "(Ljava/lang/String;)" + B;
 
-	protected TypeCompilerForBigDecimals(ByteCodeEngineCompiler _engineCompiler, NumericType _numericType)
+	protected TypeCompilerForBigDecimals( ByteCodeEngineCompiler _engineCompiler, NumericType _numericType )
 	{
 		super( _engineCompiler, _numericType );
 	}
@@ -86,7 +77,7 @@ abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 		_mv.getStatic( runtimeType(), "ONE", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
 		compileAdjustment( _mv );
 	}
-	
+
 	@Override
 	protected void compileMinValue( GeneratorAdapter _mv ) throws CompilerException
 	{
@@ -98,7 +89,7 @@ abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 	{
 		compileExtremum( _mv );
 	}
-	
+
 	private void compileExtremum( GeneratorAdapter _mv )
 	{
 		_mv.getStatic( runtimeType(), "EXTREMUM", ByteCodeEngineCompiler.BIGDECIMAL_CLASS );
@@ -114,7 +105,7 @@ abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 			compileExtremum( _mv );
 		}
 		else if (_value instanceof Number) {
-			String val = _value.toString();
+			final String val = _value.toString();
 			compileStaticConstant( _mv, val );
 		}
 		else if (_value instanceof Boolean) {
@@ -151,7 +142,7 @@ abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 				ci.push( longValue );
 				ci.push( bigValue.scale() );
 				ci.visitMethodInsn( Opcodes.INVOKESTATIC, BNAME, "valueOf", LI2B );
-				if (needsAdjustment( bigValue ) ) {
+				if (needsAdjustment( bigValue )) {
 					compileAdjustment( ci );
 				}
 			}

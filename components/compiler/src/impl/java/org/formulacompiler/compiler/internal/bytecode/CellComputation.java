@@ -49,7 +49,7 @@ final class CellComputation
 		_section.addCellComputation( _cell, this );
 	}
 
-	private static final String cellNameToIdent( String _name )
+	private static String cellNameToIdent( String _name )
 	{
 		String result = _name;
 		final int posOfDot = result.indexOf( '.' );

@@ -32,12 +32,12 @@ import org.objectweb.asm.Opcodes;
 
 abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerForNumbers
 {
-	protected static final String RUNTIME_CONTEXT_DESCRIPTOR = TypeCompilerForScaledLongs.RUNTIME_CONTEXT_DESCRIPTOR;
-	protected static final String RUNTIME_CONTEXT_NAME = TypeCompilerForScaledLongs.RUNTIME_CONTEXT_NAME;
+	private static final String RUNTIME_CONTEXT_DESCRIPTOR = TypeCompilerForScaledLongs.RUNTIME_CONTEXT_DESCRIPTOR;
+	private static final String RUNTIME_CONTEXT_NAME = TypeCompilerForScaledLongs.RUNTIME_CONTEXT_NAME;
 
-	protected final int scale;
-	protected final long one;
-	protected final TypeCompilerForScaledLongs longCompiler = ((TypeCompilerForScaledLongs) typeCompiler());
+	private final int scale;
+	private final long one;
+	private final TypeCompilerForScaledLongs longCompiler = ((TypeCompilerForScaledLongs) typeCompiler());
 
 
 	public ExpressionCompilerForScaledLongs_Base( MethodCompiler _methodCompiler, NumericType _numericType )

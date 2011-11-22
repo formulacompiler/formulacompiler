@@ -75,7 +75,7 @@ final class ArrayAccessorForConstDataCompiler extends ArrayAccessorCompiler
 			if (elt instanceof ExpressionNodeForConstantValue) {
 				mv.visitInsn( Opcodes.DUP );
 				mv.push( i );
-				ExpressionNodeForConstantValue constElt = (ExpressionNodeForConstantValue) elt;
+				final ExpressionNodeForConstantValue constElt = (ExpressionNodeForConstantValue) elt;
 				eltCompiler.compileConst( mv, constElt.value() );
 				mv.arrayStore( eltType );
 			}

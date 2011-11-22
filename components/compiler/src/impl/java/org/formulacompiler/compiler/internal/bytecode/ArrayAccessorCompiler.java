@@ -27,8 +27,8 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayR
 abstract class ArrayAccessorCompiler extends FinalMethodCompiler
 {
 	protected final ExpressionNodeForArrayReference arrayNode;
-	protected final String arrayDescriptor;
-	protected final String elementDescriptor;
+	private final String arrayDescriptor;
+	private final String elementDescriptor;
 
 	protected ArrayAccessorCompiler( SectionCompiler _section, String _name, ExpressionNodeForArrayReference _node )
 	{

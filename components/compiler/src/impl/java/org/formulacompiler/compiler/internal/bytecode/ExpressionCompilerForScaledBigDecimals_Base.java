@@ -36,8 +36,8 @@ abstract class ExpressionCompilerForScaledBigDecimals_Base extends ExpressionCom
 	private static final String B = TypeCompilerForScaledBigDecimals.B;
 	private static final String B2I = "(" + B + ")I";
 
-	protected final int fixedScale;
-	protected final int roundingMode;
+	private final int fixedScale;
+	private final int roundingMode;
 
 
 	public ExpressionCompilerForScaledBigDecimals_Base( MethodCompiler _methodCompiler, NumericType _numericType )

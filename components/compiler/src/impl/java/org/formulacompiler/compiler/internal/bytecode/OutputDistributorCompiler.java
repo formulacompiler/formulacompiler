@@ -135,7 +135,7 @@ final class OutputDistributorCompiler
 
 	private void tryToCallSuper()
 	{
-		Class superClass = this.method.getDeclaringClass();
+		final Class superClass = this.method.getDeclaringClass();
 		if (!Modifier.isInterface( superClass.getModifiers() ) && !Modifier.isAbstract( this.method.getModifiers() )) {
 
 			mv().loadThis();

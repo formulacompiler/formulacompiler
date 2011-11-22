@@ -64,8 +64,8 @@ final class SubSectionOutputAccessorCompiler extends FinalMethodCompiler
 
 		// get$Sect0()
 		mv.loadThis();
-		mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), sub.getterName(), sub
-				.getterDescriptor() );
+		mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), sub.getterName(),
+				sub.getterDescriptor() );
 
 		if (outputContainerClass.isArray()) {
 			mv.visitInsn( Opcodes.ARETURN );
