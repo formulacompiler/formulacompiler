@@ -184,13 +184,6 @@ abstract class ExpressionCompilerForScaledLongs_Base extends ExpressionCompilerF
 	}
 
 	@Override
-	protected void compileConversionToCharacter() throws CompilerException
-	{
-		compileScaleDown();
-		compile_util_toCharacter();
-	}
-
-	@Override
 	protected void compileConversionToBoolean() throws CompilerException
 	{
 		compileScaleDown();

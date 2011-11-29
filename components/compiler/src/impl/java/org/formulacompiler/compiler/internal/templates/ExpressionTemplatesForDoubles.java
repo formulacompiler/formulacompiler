@@ -147,11 +147,6 @@ public final class ExpressionTemplatesForDoubles
 		return RuntimeDouble_v2.booleanFromNum( a );
 	}
 
-	char util_toCharacter( double a )
-	{
-		return (char) Runtime_v2.checkDouble( a );
-	}
-
 	Date util_toDate( double a )
 	{
 		return RuntimeDouble_v2.dateFromNum( a, this.environment.timeZone(), this.computationMode );

@@ -204,11 +204,6 @@ public final class ExpressionTemplatesForScaledLongs
 		return b;
 	}
 
-	char util_toCharacter( long a )
-	{
-		return (char) a;
-	}
-
 	Date util_toDate( long a )
 	{
 		return RuntimeLong_v2.dateFromNum( a, this.context, this.environment.timeZone(), this.computationMode );
