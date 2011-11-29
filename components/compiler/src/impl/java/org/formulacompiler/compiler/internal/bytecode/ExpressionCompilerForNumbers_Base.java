@@ -173,11 +173,6 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		compile_util_toDouble();
 	}
 
-	protected void compileConversionToCharacter() throws CompilerException
-	{
-		compile_util_toCharacter();
-	}
-
 	protected void compileConversionToBoolean() throws CompilerException
 	{
 		compile_util_toBoolean();
@@ -239,10 +234,6 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 			compileConversionToBoolean();
 		}
 
-		else if (_class == Character.TYPE) {
-			compileConversionToCharacter();
-		}
-
 		else if (_class == Double.TYPE) {
 			compileConversionToDouble();
 		}
@@ -281,7 +272,6 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 	protected abstract void compile_util_toBigDecimal() throws CompilerException;
 	protected abstract void compile_util_toBigInteger() throws CompilerException;
 	protected abstract void compile_util_toBoolean() throws CompilerException;
-	protected abstract void compile_util_toCharacter() throws CompilerException;
 	protected abstract void compile_util_toDate() throws CompilerException;
 	protected abstract void compile_util_toString() throws CompilerException;
 	protected abstract void compile_util_toNumber() throws CompilerException;

@@ -167,12 +167,6 @@ abstract class AbstractExpressionTemplatesForBigDecimals
 	}
 
 	@ReturnsAdjustedValue
-	char util_toCharacter( BigDecimal a )
-	{
-		return (char) a.intValue();
-	}
-
-	@ReturnsAdjustedValue
 	Date util_toDate( BigDecimal a )
 	{
 		return RuntimeBigDecimal_v2.dateFromNum( a, this.environment.timeZone(), this.computationMode );
