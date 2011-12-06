@@ -81,7 +81,7 @@ AFC supports a wide range of "automatic data type conversions":type_conversion.h
 
 h5. Hint
 
-Change the data types in your interface to AFC to fix such problems. If this interface is a given (ie. dictated by some other component), then you may have to create a façade on top of an internal interface used for AFC.
+Change the data types in your interface to AFC to fix such problems. If this interface is a given (ie. dictated by some other component), then you may have to create a faÃ§ade on top of an internal interface used for AFC.
 
 h5. Example 1
 
