@@ -67,47 +67,61 @@ public interface Spreadsheet extends Describable
 
 	/**
 	 * Get a cell by its range name.
-	 * 
+	 *
 	 * @param _rangeName is the name of a single-cell range (BasePrice, NumberSold, etc.). Range
 	 *           names are case-insensitive.
 	 * @return The requested cell. The returned reference may specify a cell that is not within the
 	 *         actual bounds of the spreadsheet. In this case, it denotes an empty cell.
-	 * 
+	 *
 	 * @throws SpreadsheetException.NameNotFound if the name is not defined in the spreadsheet.
 	 * @throws IllegalArgumentException if the name identifies a range instead of a single cell.
-	 * 
+	 *
 	 * @see #getRange(String)
 	 */
 	public Cell getCell( String _rangeName ) throws SpreadsheetException.NameNotFound, IllegalArgumentException;
 
 
 	/**
-	 * Get a cell by its A1-style name. Sheet references are not supported.
-	 * 
+	 * Get a cell by its A1-style name.
+	 *
 	 * @param _a1Name is the cell's A1-style name (A1, B5, AA15, etc.).
 	 * @return The requested cell. The returned reference may specify a cell that is not within the
 	 *         actual bounds of the spreadsheet. In this case, it denotes an empty cell.
-	 * 
+	 *
 	 * @throws SpreadsheetException.NameNotFound if the name is not parseable as an A1-style cell
 	 *            reference.
+	 *
+	 * @see #getRangeA1(String)
 	 */
 	public Cell getCellA1( String _a1Name ) throws SpreadsheetException.NameNotFound;
 
 
 	/**
 	 * Get a range by its name.
-	 * 
+	 *
 	 * @param _rangeName is a name in {@link #getRangeNames()} (Items, Employees, etc.). Range names
 	 *           are case-insensitive.
 	 * @return The requested range. Might be a single cell.
-	 * 
+	 *
 	 * @throws SpreadsheetException.NameNotFound if the name is not defined in the spreadsheet.
-	 * @throws IllegalArgumentException if the name identifies a range instead of a single cell.
-	 * 
+	 *
 	 * @see #getRangeNames()
 	 * @see #getCell(String)
 	 */
 	public Range getRange( String _rangeName ) throws SpreadsheetException.NameNotFound, IllegalArgumentException;
+
+
+	/**
+	 * Get a range by its A1-style name.
+	 *
+	 * @param _a1Name is the range's A1-style name (A1, B5:D8, Sheet2!D3:AA15, etc.).
+	 * @return The requested range. Might be a single cell.
+	 * @throws SpreadsheetException.NameNotFound if the name is not parseable as an A1-style range
+	 *            reference.
+	 *
+	 * @see #getCellA1(String)
+	 */
+	public Range getRangeA1( String _a1Name ) throws SpreadsheetException.NameNotFound, IllegalArgumentException;
 
 
 	/**

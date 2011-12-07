@@ -22,6 +22,9 @@ h5. New
 	* @SUMPRODUCT()@ is now "supported":../doc/reference/statisticalfuncs.htm.
 	* @EDATE()@, @EOMONTH()@, @WORKDAY()@, and @YEARFRAC()@ are now "supported":../doc/reference/datefuncs.htm.
 	* @XIRR()@ is now "supported":../doc/reference/financialfuncs.htm
+	* Added new "@Spreadsheet.getRangeA1(String)@":-getrangea1 method.
+
+[-getrangea1]../doc/javadoc/org/formulacompiler/spreadsheet/Spreadsheet.html#getRangeA1(java.lang.String)
 
 h5. Fixed
 
