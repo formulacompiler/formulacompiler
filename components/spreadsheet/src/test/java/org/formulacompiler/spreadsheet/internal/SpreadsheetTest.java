@@ -43,16 +43,13 @@ public class SpreadsheetTest extends AbstractStandardInputsOutputsTestCase
 	public void testGetCellA1() throws Exception
 	{
 		SpreadsheetImpl wb = new SpreadsheetImpl();
-		{
-			SheetImpl sheet = new SheetImpl( wb );
-			RowImpl r1 = new RowImpl( sheet );
-			new CellWithExpression( r1, null );
-			new WorksheetBuilderWithBands( sheet );
-		}
+		new SheetImpl( wb, "Sheet1" );
+		new SheetImpl( wb, "Sheet2" );
+		new SheetImpl( wb, "Sheet3" );
 		assertCell( wb, 0, 0, 0, wb.getCellA1( "A1" ) );
 		assertCell( wb, 0, 0, 1, wb.getCellA1( "A2" ) );
-		assertCell( wb, 0, 1, 0, wb.getCellA1( "B1" ) );
-		assertCell( wb, 0, 1, 1, wb.getCellA1( "B2" ) );
+		assertCell( wb, 1, 1, 0, wb.getCellA1( "Sheet2!B1" ) );
+		assertCell( wb, 2, 1, 1, wb.getCellA1( "Sheet3!B2" ) );
 		assertCell( wb, 0, 25, 499, wb.getCellA1( "Z500" ) );
 		wb.defineModelRangeName( "A1", (CellRange) wb.getCell( 0, 10, 20 ) );
 		assertCell( wb, 0, 0, 0, wb.getCellA1( "A1" ) );
@@ -62,6 +59,30 @@ public class SpreadsheetTest extends AbstractStandardInputsOutputsTestCase
 	{
 		Cell want = _wb.getCell( _sheet, _col, _row );
 		assertEquals( want.describe(), _have.describe() );
+	}
+
+
+	public void testGetRangeA1() throws Exception
+	{
+		SpreadsheetImpl wb = new SpreadsheetImpl();
+		new SheetImpl( wb, "Sheet1" );
+		new SheetImpl( wb, "Sheet2" );
+		new SheetImpl( wb, "Sheet3" );
+		assertRange( wb, 0, 1, 2, 0, 1, 2, wb.getRangeA1( "B3" ) );
+		assertRange( wb, 0, 0, 1, 0, 2, 3, wb.getRangeA1( "A2:C4" ) );
+		assertRange( wb, 1, 1, 0, 1, 3, 1, wb.getRangeA1( "Sheet2!B1:D2" ) );
+		assertRange( wb, 2, 1, 1, 2, 1, 4, wb.getRangeA1( "Sheet3!B2:B5" ) );
+		assertRange( wb, 0, 25, 99, 0, 26, 499, wb.getRangeA1( "Z100:AA500" ) );
+		wb.defineModelRangeName( "A1", (CellRange) wb.getCell( 0, 10, 20 ) );
+		assertRange( wb, 0, 0, 0, 0, 0, 0, wb.getRangeA1( "A1" ) );
+	}
+
+	private void assertRange( BaseSpreadsheet _wb, int _sheetFrom, int _colFrom, int _rowFrom, int _sheetTo, int _colTo, int _rowTo, Range _actual )
+	{
+		final CellIndex from = new CellIndex( _wb, _sheetFrom, _colFrom, _rowFrom );
+		final CellIndex to = new CellIndex( _wb, _sheetTo, _colTo, _rowTo );
+		final CellRange expected = CellRange.getCellRange( from, to );
+		assertEquals( expected.describe(), _actual.describe() );
 	}
 
 

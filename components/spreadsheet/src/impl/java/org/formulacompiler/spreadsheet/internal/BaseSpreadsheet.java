@@ -171,6 +171,15 @@ public abstract class BaseSpreadsheet extends AbstractYamlizable implements Spre
 	}
 
 
+	public Spreadsheet.Range getRangeA1( String _a1Name ) throws SpreadsheetException.NameNotFound
+	{
+		if (0 == getSheetList().size()) {
+			throw new SpreadsheetException.NameNotFound( "The name '" + _a1Name + "' is not defined; workbook is empty." );
+		}
+		return CellRefParser.A1.parseCellRangeA1( _a1Name, new CellIndex( this, 0, 0, 0 ) );
+	}
+
+
 	public Sheet[] getSheets()
 	{
 		final List<? extends BaseSheet> sheetList = getSheetList();
