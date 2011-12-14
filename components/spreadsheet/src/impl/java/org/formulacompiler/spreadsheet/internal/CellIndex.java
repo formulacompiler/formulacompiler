@@ -89,18 +89,6 @@ public final class CellIndex extends CellRange implements Cell
 	}
 
 
-	public static final CellIndex getTopLeft( BaseSpreadsheet _spreadsheet )
-	{
-		return new CellIndex( _spreadsheet, 0, 0, 0 );
-	}
-
-	public static final CellIndex getBottomRight( BaseSpreadsheet _spreadsheet )
-	{
-		final int lastSheetIndex = _spreadsheet.getSheetList().size() - 1;
-		return new CellIndex( _spreadsheet, lastSheetIndex, MAX_INDEX, MAX_INDEX );
-	}
-
-
 	public boolean equals( CellIndex _other )
 	{
 		if (this == _other) return true;
