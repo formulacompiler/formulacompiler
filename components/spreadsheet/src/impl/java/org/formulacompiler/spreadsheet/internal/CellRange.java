@@ -46,7 +46,20 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 
 	public static CellRange getEntireWorkbook( BaseSpreadsheet _spreadsheet )
 	{
-		return getCellRange( CellIndex.getTopLeft( _spreadsheet ), CellIndex.getBottomRight( _spreadsheet ) );
+		return getCellRange( getTopLeft( _spreadsheet ), getBottomRight( _spreadsheet ) );
+	}
+
+
+	private static CellIndex getTopLeft( BaseSpreadsheet _spreadsheet )
+	{
+		return new CellIndex( _spreadsheet, 0, 0, 0 );
+	}
+
+
+	private static CellIndex getBottomRight( BaseSpreadsheet _spreadsheet )
+	{
+		final int lastSheetIndex = _spreadsheet.getSheetList().size() - 1;
+		return new CellIndex( _spreadsheet, lastSheetIndex, CellIndex.MAX_INDEX, CellIndex.MAX_INDEX );
 	}
 
 
@@ -77,7 +90,7 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 	 * This works for single-column and single-row ranges.
 	 * <p>
 	 * If the range consists of only one cell, this cell is returned.
-	 * 
+	 *
 	 * @param _cell base cell.
 	 * @return relative cell in the range.
 	 * @throws SpreadsheetException if range is not unidimensional.
@@ -183,13 +196,13 @@ public abstract class CellRange extends AbstractDescribable implements Spreadshe
 	 * a range "inner". All the tiles are either null, or the respective part of "tiled". The
 	 * resulting array contains the tiles, with the following figure read left-to-right, then
 	 * top-to-bottom:
-	 * 
+	 *
 	 * <pre>
 	 *  TL T  TR
 	 *  L  I  R
 	 *  BL B  BR
 	 * </pre>
-	 * 
+	 *
 	 * where I is the inner intersection, and L, R, T, B are left, right, top, bottom.
 	 */
 	@SuppressWarnings( "unqualified-field-access" )
