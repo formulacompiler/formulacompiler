@@ -28,8 +28,6 @@ import java.util.SortedSet;
 
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.AbstractDescribable;
-import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.Util;
 import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.Resettable;
@@ -39,58 +37,21 @@ import org.formulacompiler.spreadsheet.SpreadsheetException;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.CellRange;
 
-/**
- * Subsections are sorted.
- * <p>
- * Note: this class has a natural ordering that is inconsistent with equals.
- *
- * @author peo
- */
-public class SectionBinding extends ElementBinding implements Comparable<SectionBinding>
+public abstract class SectionBinding extends ElementBinding
 {
 	private final WorkbookBinding workbook;
-	private final SectionBinding section;
-	private final CallFrame callChainToCall;
-	private final CallFrame callToImplement;
-	private final CellRange range;
 	private final Orientation orientation;
 	private final Class inputClass;
 	private final Class outputClass;
 	private final Map<CellIndex, InputCellBinding> inputs = New.map();
 	private final Map<CallFrame, OutputCellBinding> outputs = New.map();
-	private final SortedSet<SectionBinding> sections = New.sortedSet();
+	private final SortedSet<SubSectionBinding> sections = New.sortedSet();
 
 
-	private SectionBinding( SectionBinding _space, CallFrame _callChainToCall, Class _inputClass,
-			CallFrame _callToImplement, Class _outputClass, CellRange _range, Orientation _orientation )
-			throws CompilerException
-	{
-		this.workbook = _space.getWorkbook();
-		this.section = _space;
-		this.callChainToCall = _callChainToCall;
-		this.callToImplement = _callToImplement;
-		this.range = _range;
-		this.orientation = _orientation;
-		this.inputClass = _inputClass;
-		this.outputClass = _outputClass;
-
-		_space.checkChildInSection( this, _range );
-	}
-
-
-	/**
-	 * Constructs the root binding of a workbook, which encompasses the entire workbook, but does not
-	 * constitute a repeating section. Nevertheless, it has a default orientation, vertical, which
-	 * determines the sort order of its subsections.
-	 */
-	public SectionBinding( WorkbookBinding _workbook, Class _inputClass, Class _outputClass )
+	SectionBinding( WorkbookBinding _workbook, Class _inputClass, Class _outputClass, Orientation _orientation )
 	{
 		this.workbook = _workbook;
-		this.section = null;
-		this.callChainToCall = null;
-		this.callToImplement = null;
-		this.range = CellRange.getEntireWorkbook( _workbook.getWorkbook() );
-		this.orientation = Orientation.VERTICAL;
+		this.orientation = _orientation;
 		this.inputClass = _inputClass;
 		this.outputClass = _outputClass;
 	}
@@ -99,30 +60,6 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	public WorkbookBinding getWorkbook()
 	{
 		return this.workbook;
-	}
-
-
-	public SectionBinding getSection()
-	{
-		return this.section;
-	}
-
-
-	public CallFrame getCallChainToCall()
-	{
-		return this.callChainToCall;
-	}
-
-
-	public CallFrame getCallToImplement()
-	{
-		return this.callToImplement;
-	}
-
-
-	public CellRange getRange()
-	{
-		return this.range;
 	}
 
 
@@ -148,7 +85,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	 * The subsections are sorted to enable efficient splitting of aggregated ranges into the parts
 	 * overlapping sections.
 	 */
-	public SortedSet<SectionBinding> getSections()
+	public SortedSet<SubSectionBinding> getSections()
 	{
 		return this.sections;
 	}
@@ -184,7 +121,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	}
 
 
-	public SectionBinding defineRepeatingSection( Spreadsheet.Range _range, Orientation _orientation,
+	public SubSectionBinding defineRepeatingSection( Spreadsheet.Range _range, Orientation _orientation,
 			CallFrame _inputCallChainReturningIterable, Class _inputClass, CallFrame _outputCallToImplementIterable,
 			Class _outputClass ) throws CompilerException
 	{
@@ -199,7 +136,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 
 		final CellRange cellRange = (CellRange) _range;
 		checkSection( cellRange, _orientation );
-		SectionBinding result = new SectionBinding( this, _inputCallChainReturningIterable, _inputClass,
+		final SubSectionBinding result = new SubSectionBinding( this, _inputCallChainReturningIterable, _inputClass,
 				_outputCallToImplementIterable, _outputClass, cellRange, _orientation );
 		this.sections.add( result );
 		return result;
@@ -209,12 +146,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	// ------------------------------------------------ Utils
 
 
-	void checkChildInSection( ElementBinding _child, CellRange _childRange ) throws SpreadsheetException.NotInSection
-	{
-		if (!contains( _childRange.getFrom() ) || !contains( _childRange.getTo() )) {
-			throw new SpreadsheetException.NotInSection( _child.toString(), _childRange.getShortName(), toString(), getRange().getShortName() );
-		}
-	}
+	abstract void checkChildInSection( ElementBinding _child, CellRange _childRange ) throws SpreadsheetException.NotInSection;
 
 
 	protected void validateAccessible( CallFrame _chain )
@@ -234,7 +166,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 
 	protected void checkSection( CellRange _range, Orientation _orientation ) throws CompilerException
 	{
-		for (SectionBinding sub : this.getSections()) {
+		for (SubSectionBinding sub : this.getSections()) {
 			if (sub.getRange().overlaps( _range, _orientation )) {
 				throw new SpreadsheetException.SectionOverlap( "Section '"
 						+ _range.getShortName() + "' overlaps '" + sub.toString() + "'" );
@@ -243,27 +175,12 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	}
 
 
-	public int compareTo( SectionBinding _other )
+	public abstract boolean contains( CellIndex _cellIndex );
+
+
+	public SubSectionBinding getContainingSection( CellIndex _cellIndex )
 	{
-		if (this == _other) return 0;
-
-		int thisFrom = this.getRange().getFrom().getIndex( this.getOrientation() );
-		int otherFrom = _other.getRange().getFrom().getIndex( _other.getOrientation() );
-
-		if (thisFrom < otherFrom) return -1;
-		if (thisFrom > otherFrom) return +1;
-		return 0;
-	}
-
-
-	public boolean contains( CellIndex _cellIndex )
-	{
-		return getRange().contains( _cellIndex );
-	}
-
-	public SectionBinding getContainingSection( CellIndex _cellIndex )
-	{
-		for (SectionBinding section : getSections()) {
+		for (SubSectionBinding section : getSections()) {
 			if (section.contains( _cellIndex )) return section;
 		}
 		return null;
@@ -271,7 +188,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 
 	public SectionBinding getSectionFor( CellIndex _index )
 	{
-		SectionBinding section = getContainingSection( _index );
+		final SubSectionBinding section = getContainingSection( _index );
 		if (null == section) {
 			return this;
 		}
@@ -281,32 +198,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	}
 
 
-	public CellRange getPrototypeRange( CellRange _range ) throws CompilerException
-	{
-		CellIndex from = _range.getFrom();
-		CellIndex to = _range.getTo();
-
-		int wantFrom = this.range.getFrom().getIndex( this.orientation );
-		int wantTo = this.range.getTo().getIndex( this.orientation );
-		int isFrom = from.getIndex( this.orientation );
-		int isTo = to.getIndex( this.orientation );
-
-		if ((isFrom != wantFrom) || (isTo != wantTo)) {
-			throw new SpreadsheetException.SectionExtentNotCovered( _range.getShortName(), this.toString(), this.orientation );
-		}
-		if (!contains( _range.getFrom() ) || !contains( _range.getTo() )) {
-			throw new SpreadsheetException.NotInSection( null, _range.getShortName(), this.toString(), this.getRange()
-					.getShortName() );
-		}
-
-		if (isTo > isFrom) {
-			return CellRange.getCellRange( from, to.setIndex( this.orientation, isFrom ) );
-		}
-		else {
-			return _range;
-		}
-
-	}
+	public abstract CellRange[] tiling( CellRange _range );
 
 
 	public void validate() throws CompilerException
@@ -330,9 +222,9 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 			for (CallFrame cf : SectionBinding.this.outputs.keySet()) {
 				abstractMethods.remove( Util.nameAndSignatureOf( cf.getMethod() ) );
 			}
-			for (SectionBinding sub : SectionBinding.this.sections) {
-				if (sub.callToImplement != null) {
-					abstractMethods.remove( Util.nameAndSignatureOf( sub.callToImplement.getMethod() ) );
+			for (SubSectionBinding sub : SectionBinding.this.sections) {
+				if (sub.getCallToImplement() != null) {
+					abstractMethods.remove( Util.nameAndSignatureOf( sub.getCallToImplement().getMethod() ) );
 				}
 			}
 			if (abstractMethods.size() > 0) {
@@ -341,18 +233,4 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 			}
 		}
 	}
-
-
-	@Override
-	public void describeTo( DescriptionBuilder _to )
-	{
-		getRange().describeTo( _to );
-		if (this.callChainToCall != null) {
-			_to.append( " (which iterates " );
-			((AbstractDescribable) this.callChainToCall).describeTo( _to );
-			_to.append( ")" );
-		}
-	}
-
-
 }

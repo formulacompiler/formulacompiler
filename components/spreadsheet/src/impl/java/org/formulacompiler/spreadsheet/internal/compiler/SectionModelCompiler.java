@@ -58,6 +58,7 @@ import org.formulacompiler.spreadsheet.internal.ExpressionNodeForRangeShape;
 import org.formulacompiler.spreadsheet.internal.binding.CellBinding;
 import org.formulacompiler.spreadsheet.internal.binding.InputCellBinding;
 import org.formulacompiler.spreadsheet.internal.binding.SectionBinding;
+import org.formulacompiler.spreadsheet.internal.binding.SubSectionBinding;
 import org.formulacompiler.spreadsheet.internal.binding.WorkbookBinding;
 
 
@@ -157,7 +158,7 @@ public final class SectionModelCompiler
 	}
 
 
-	SectionModelCompiler getOrCreateSectionCompiler( SectionBinding _sectionDef )
+	SectionModelCompiler getOrCreateSectionCompiler( SubSectionBinding _sectionDef )
 	{
 		SectionModelCompiler result = this.compiler.getSectionCompiler( _sectionDef );
 		if (null == result) {
@@ -167,7 +168,7 @@ public final class SectionModelCompiler
 	}
 
 
-	SectionModelCompiler createSectionCompiler( SectionBinding _sectionDef )
+	SectionModelCompiler createSectionCompiler( SubSectionBinding _sectionDef )
 	{
 		final CellRange range = _sectionDef.getRange();
 		final BaseSpreadsheet spreadsheet = range.getFrom().getSheet().getSpreadsheet();
@@ -297,7 +298,7 @@ public final class SectionModelCompiler
 	ExpressionNode buildExpressionModelForCell( CellIndex _cellIndex ) throws CompilerException
 	{
 		if (this.sectionDef.contains( _cellIndex )) {
-			final SectionBinding containingSection = this.sectionDef.getContainingSection( _cellIndex );
+			final SubSectionBinding containingSection = this.sectionDef.getContainingSection( _cellIndex );
 			if (null != containingSection) {
 				return new RangeExpressionBuilder( _cellIndex, false ).build();
 			}
@@ -390,7 +391,7 @@ public final class SectionModelCompiler
 
 		public ExpressionNode build() throws CompilerException
 		{
-			final CellRange[] tiling = range.tilingAround( sectionDef.getRange(), sectionDef.getOrientation() );
+			final CellRange[] tiling = this.sectionDef.tiling( this.range );
 			switch (tiling.length) {
 				case CellRange.NO_INTERSECTION:
 					return buildOuterRange();
@@ -425,7 +426,7 @@ public final class SectionModelCompiler
 			 * flow order.
 			 */
 			CellRange next = range;
-			for (SectionBinding inner : this.sectionDef.getSections()) {
+			for (SubSectionBinding inner : this.sectionDef.getSections()) {
 				final CellRange innerRange = inner.getRange();
 				final Orientation innerOrient = inner.getOrientation();
 				final CellRange[] tiling = (innerOrient == ownOrient) ? next.tilingAround( innerRange, innerOrient ) : next
@@ -484,7 +485,7 @@ public final class SectionModelCompiler
 			return result;
 		}
 
-		private ExpressionNode buildExpressionModelForInnerRange( SectionBinding _inner, CellRange _range )
+		private ExpressionNode buildExpressionModelForInnerRange( SubSectionBinding _inner, CellRange _range )
 				throws CompilerException
 		{
 			if (this.stepOutOnly) {
