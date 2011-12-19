@@ -42,6 +42,7 @@ import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.binding.InputCellBinding;
 import org.formulacompiler.spreadsheet.internal.binding.OutputCellBinding;
 import org.formulacompiler.spreadsheet.internal.binding.SectionBinding;
+import org.formulacompiler.spreadsheet.internal.binding.SubSectionBinding;
 import org.formulacompiler.spreadsheet.internal.binding.WorkbookBinding;
 
 
@@ -197,7 +198,7 @@ public final class SpreadsheetToModelCompiler
 	{
 		SectionModelCompiler result = getSectionCompiler( _sectionDef );
 		if (null == result) {
-			result = createSectionCompiler( _sectionDef );
+			result = createSectionCompiler( (SubSectionBinding) _sectionDef );
 		}
 		return result;
 	}
@@ -222,7 +223,7 @@ public final class SpreadsheetToModelCompiler
 	}
 
 
-	private SectionModelCompiler createSectionCompiler( SectionBinding _sectionDef )
+	private SectionModelCompiler createSectionCompiler( SubSectionBinding _sectionDef )
 	{
 		SectionModelCompiler parentCompiler = getOrCreateSectionCompiler( _sectionDef.getSection() );
 		return parentCompiler.createSectionCompiler( _sectionDef );

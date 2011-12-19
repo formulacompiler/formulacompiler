@@ -31,6 +31,7 @@ import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionMo
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.spreadsheet.internal.CellIndex;
 import org.formulacompiler.spreadsheet.internal.binding.SectionBinding;
+import org.formulacompiler.spreadsheet.internal.binding.SubSectionBinding;
 
 final class SectionPath
 {
@@ -63,7 +64,7 @@ final class SectionPath
 	}
 
 
-	public void stepInto( SectionBinding _sectionDef )
+	public void stepInto( SubSectionBinding _sectionDef )
 	{
 		SectionModelCompiler sectionCompiler = this.targetSectionCompiler.getOrCreateSectionCompiler( _sectionDef );
 		SectionModel sectionModel = sectionCompiler.getSectionModel();
@@ -100,7 +101,7 @@ final class SectionPath
 
 	public void buildStepsInto( CellIndex _cellIndex )
 	{
-		SectionBinding section;
+		SubSectionBinding section;
 		while (null != (section = this.targetSectionCompiler.getSectionDef().getContainingSection( _cellIndex ))) {
 			stepInto( section );
 		}

@@ -51,7 +51,7 @@ public class WorkbookBinding implements SpreadsheetBinding
 	{
 		super();
 		this.workbook = _workbook;
-		this.root = new SectionBinding( this, _inputClass, _outputClass );
+		this.root = new RootSectionBinding( this, _inputClass, _outputClass );
 		this.environment = Environment.getInstance( _compileTimeConfig );
 	}
 
