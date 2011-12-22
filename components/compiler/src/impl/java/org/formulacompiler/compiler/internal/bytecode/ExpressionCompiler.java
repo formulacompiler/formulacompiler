@@ -560,6 +560,9 @@ abstract class ExpressionCompiler
 		if (_class == Number.class) {
 			compileConversionToNumber();
 		}
+		else if (_class == Object.class) {
+			compileConversionToObject();
+		}
 		else {
 			final Class unboxed = unboxed( _class );
 			if (null == unboxed) {
@@ -693,6 +696,7 @@ abstract class ExpressionCompiler
 	protected abstract void compileConversionToNumber() throws CompilerException;
 	protected abstract void compileConversionToString() throws CompilerException;
 	protected abstract void compileConversionToDate() throws CompilerException;
+	protected abstract void compileConversionToObject() throws CompilerException;
 
 
 	protected final void compileConversionToResultOf( Method _method ) throws CompilerException

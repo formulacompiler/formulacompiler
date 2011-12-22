@@ -202,3 +202,7 @@ sheets:
   - cells:
     - const: "calcstring"
     - expr: =R[-31]C
+  - cells:
+  - cells:
+    - const: "calcobject"
+    - const: 123.0

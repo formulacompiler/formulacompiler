@@ -23,6 +23,7 @@ h5. New
 	* @EDATE()@, @EOMONTH()@, @WORKDAY()@, and @YEARFRAC()@ are now "supported":../doc/reference/datefuncs.htm.
 	* @XIRR()@ is now "supported":../doc/reference/financialfuncs.htm.
 	* Added new "@Spreadsheet.getRangeA1(String)@":-getrangea1 method.
+	* @java.lang.Object@ is supported as an "output type":../doc/tutorial/type_conversion.htm#Outputs.
 
 [-getrangea1]../doc/javadoc/org/formulacompiler/spreadsheet/Spreadsheet.html#getRangeA1(java.lang.String)
 

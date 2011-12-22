@@ -254,6 +254,8 @@ public abstract class NumericTypeImpl implements NumericType
 
 		if (String.class == returnType) return;
 
+		if (Object.class == returnType) return;
+
 		throw new CompilerException.UnsupportedDataType( "The method " + _method + " has an unsupported return type" );
 	}
 

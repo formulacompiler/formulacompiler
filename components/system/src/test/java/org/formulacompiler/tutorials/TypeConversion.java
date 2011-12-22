@@ -140,6 +140,9 @@ public class TypeConversion
 
 		// String
 		assertEquals( "Hello, world!", output.calcString() );
+
+		// Object
+		assertEquals( _numericType.valueOf( 123.0 ), output.calcObject() );
 		// ---- checkAllTypes
 	}
 
@@ -259,6 +262,11 @@ public class TypeConversion
 
 		// Strings are converted according to Java's settings
 		String calcString();
+
+		// Underlying types are returned without a conversion.
+		// Strings are returned as Strings.
+		// Numbers are returned either as Double or as BigDecimal or as Long (internal numeric type of the computation).
+		Object calcObject();
 		// ---- Output
 	}
 
