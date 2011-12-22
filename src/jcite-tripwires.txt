@@ -3735,6 +3735,11 @@ __@@__
 
 		// Strings are converted according to Java's settings
 		String calcString();
+
+		// Underlying types are returned without a conversion.
+		// Strings are returned as Strings.
+		// Numbers are returned either as Double or as BigDecimal or as Long (internal numeric type of the computation).
+		Object calcObject();
 ___@_@___
 jc:org.formulacompiler.tutorials.UsingDouble:---- IO
 __@@__

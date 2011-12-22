@@ -155,6 +155,12 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		compile_util_toDate();
 	}
 
+	@Override
+	protected void compileConversionToObject() throws CompilerException
+	{
+		compile_util_toNumber();
+	}
+
 	protected final void compileInt( ExpressionNode _node ) throws CompilerException
 	{
 		compile( _node );

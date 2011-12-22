@@ -155,6 +155,12 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 	}
 
 	@Override
+	protected void compileConversionToObject() throws CompilerException
+	{
+		// Nothing to do here.
+	}
+
+	@Override
 	protected void compileConversionFrom( final ScaledLong _scale ) throws CompilerException
 	{
 		compile_util_fromScaledLong( _scale.value() );

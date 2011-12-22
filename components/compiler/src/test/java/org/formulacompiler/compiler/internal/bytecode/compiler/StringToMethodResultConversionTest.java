@@ -56,6 +56,7 @@ import org.formulacompiler.tests.utils.types.IntValue;
 import org.formulacompiler.tests.utils.types.LongValue;
 import org.formulacompiler.tests.utils.types.MsSinceUTC1970Value;
 import org.formulacompiler.tests.utils.types.MsValue;
+import org.formulacompiler.tests.utils.types.ObjectValue;
 import org.formulacompiler.tests.utils.types.ScaledLongValue;
 import org.formulacompiler.tests.utils.types.ShortValue;
 import org.formulacompiler.tests.utils.types.StringValue;
@@ -165,6 +166,12 @@ public class StringToMethodResultConversionTest extends AbstractStandardInputsOu
 
 		final BooleanValue outputsFalse = getComputation( "0", BooleanValue.class, Environment.DEFAULT );
 		assertFalse( outputsFalse.get() );
+	}
+
+	public void testConvertStringToObjectMethodResult() throws Exception
+	{
+		final ObjectValue outputs = getComputation( "abc", ObjectValue.class, Environment.DEFAULT );
+		assertEquals( "abc", outputs.get() );
 	}
 
 	public void testConvertStringToDateMethodResult() throws Exception
