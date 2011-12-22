@@ -43,12 +43,13 @@ import org.formulacompiler.spreadsheet.internal.CellRange;
  * Subsections are sorted.
  * <p>
  * Note: this class has a natural ordering that is inconsistent with equals.
- * 
+ *
  * @author peo
  */
 public class SectionBinding extends ElementBinding implements Comparable<SectionBinding>
 {
 	private final WorkbookBinding workbook;
+	private final SectionBinding section;
 	private final CallFrame callChainToCall;
 	private final CallFrame callToImplement;
 	private final CellRange range;
@@ -64,8 +65,8 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 			CallFrame _callToImplement, Class _outputClass, CellRange _range, Orientation _orientation )
 			throws CompilerException
 	{
-		super( _space );
 		this.workbook = _space.getWorkbook();
+		this.section = _space;
 		this.callChainToCall = _callChainToCall;
 		this.callToImplement = _callToImplement;
 		this.range = _range;
@@ -73,9 +74,7 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 		this.inputClass = _inputClass;
 		this.outputClass = _outputClass;
 
-		if (!_space.contains( _range.getFrom() ) || !_space.contains( _range.getTo() )) {
-			notInSection( toString(), _range );
-		}
+		_space.checkChildInSection( this, _range );
 	}
 
 
@@ -86,8 +85,8 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	 */
 	public SectionBinding( WorkbookBinding _workbook, Class _inputClass, Class _outputClass )
 	{
-		super( null );
 		this.workbook = _workbook;
+		this.section = null;
 		this.callChainToCall = null;
 		this.callToImplement = null;
 		this.range = CellRange.getEntireWorkbook( _workbook.getWorkbook() );
@@ -100,6 +99,12 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 	public WorkbookBinding getWorkbook()
 	{
 		return this.workbook;
+	}
+
+
+	public SectionBinding getSection()
+	{
+		return this.section;
 	}
 
 
@@ -202,6 +207,14 @@ public class SectionBinding extends ElementBinding implements Comparable<Section
 
 
 	// ------------------------------------------------ Utils
+
+
+	void checkChildInSection( ElementBinding _child, CellRange _childRange ) throws SpreadsheetException.NotInSection
+	{
+		if (!contains( _childRange.getFrom() ) || !contains( _childRange.getTo() )) {
+			throw new SpreadsheetException.NotInSection( _child.toString(), _childRange.getShortName(), toString(), getRange().getShortName() );
+		}
+	}
 
 
 	protected void validateAccessible( CallFrame _chain )
