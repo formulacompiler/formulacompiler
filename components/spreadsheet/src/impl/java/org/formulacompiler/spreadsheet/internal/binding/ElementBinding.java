@@ -24,34 +24,10 @@ package org.formulacompiler.spreadsheet.internal.binding;
 
 import org.formulacompiler.compiler.internal.AbstractDescribable;
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
-import org.formulacompiler.spreadsheet.SpreadsheetException;
-import org.formulacompiler.spreadsheet.internal.CellRange;
 import org.formulacompiler.spreadsheet.internal.DescribeShortStyle;
 
 public abstract class ElementBinding extends AbstractDescribable
 {
-	private final SectionBinding section;
-
-
-	public ElementBinding( final SectionBinding _section )
-	{
-		super();
-		this.section = _section;
-	}
-
-
-	public SectionBinding getSection()
-	{
-		return this.section;
-	}
-
-
-	protected void notInSection( String _name, CellRange _ref ) throws SpreadsheetException.NotInSection
-	{
-		throw new SpreadsheetException.NotInSection( _name, _ref.getShortName(), getSection().toString(), getSection()
-				.getRange().getShortName() );
-	}
-
 
 	@Override
 	public String toString()

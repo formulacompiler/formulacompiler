@@ -33,11 +33,9 @@ public abstract class CellBinding extends ElementBinding
 
 	public CellBinding( SectionBinding _space, CellIndex _index ) throws CompilerException
 	{
-		super( _space );
 		this.index = _index;
-		if (!_space.contains( _index )) {
-			notInSection( toString(), _index );
-		}
+
+		_space.checkChildInSection( this, _index );
 	}
 
 
