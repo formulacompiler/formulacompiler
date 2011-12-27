@@ -124,7 +124,7 @@ public final class SpreadsheetToModelCompiler
 	private void buildModel() throws CompilerException
 	{
 		for (OutputCellBinding outputDef : getEngineDef().getOutputs()) {
-			CellModel model = getOrCreateCellModel( outputDef.getIndex() );
+			final CellModel model = getOrCreateCellModel( outputDef.getIndex(), outputDef.getSection() );
 			model.makeOutput( outputDef.getCallToImplement() );
 		}
 		for (Entry<CellIndex, InputCellBinding> inputEntry : getEngineDef().getInputs().entrySet()) {
@@ -146,8 +146,8 @@ public final class SpreadsheetToModelCompiler
 		if (null != args) {
 			for (int i = 0; i < args.length; i++) {
 				if (args[ i ] instanceof CellIndex) {
-					CellIndex cell = (CellIndex) args[ i ];
-					CellModel model = getOrCreateCellModel( cell );
+					final CellIndex cell = (CellIndex) args[ i ];
+					final CellModel model = getOrCreateCellModel( cell, getEngineDef().getSectionFor( cell ) );
 					args[ i ] = model;
 					changed = true;
 				}
@@ -175,21 +175,20 @@ public final class SpreadsheetToModelCompiler
 	}
 
 
-	private CellModel getOrCreateCellModel( CellIndex _index ) throws CompilerException
+	private CellModel getOrCreateCellModel( CellIndex _index, SectionBinding _section ) throws CompilerException
 	{
 		CellModel result = getCellModel( _index );
 		if (null == result) {
-			result = createCellModel( _index );
+			result = createCellModel( _index, _section );
 		}
 		return result;
 	}
 
 
-	private CellModel createCellModel( CellIndex _index ) throws CompilerException
+	private CellModel createCellModel( CellIndex _index, SectionBinding _section ) throws CompilerException
 	{
-		SectionBinding sectionDef = getEngineDef().getSectionFor( _index );
-		SectionModelCompiler sectionCompiler = getOrCreateSectionCompiler( sectionDef );
-		CellModel result = sectionCompiler.createCellModel( _index );
+		final SectionModelCompiler sectionCompiler = getOrCreateSectionCompiler( _section );
+		final CellModel result = sectionCompiler.createCellModel( _index );
 		return result;
 	}
 

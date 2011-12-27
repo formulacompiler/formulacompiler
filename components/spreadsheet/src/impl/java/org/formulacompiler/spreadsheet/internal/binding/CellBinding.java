@@ -28,11 +28,13 @@ import org.formulacompiler.spreadsheet.internal.CellIndex;
 
 public abstract class CellBinding extends ElementBinding
 {
+	private final SectionBinding section;
 	private final CellIndex index;
 
 
 	public CellBinding( SectionBinding _space, CellIndex _index ) throws CompilerException
 	{
+		this.section = _space;
 		this.index = _index;
 
 		_space.checkChildInSection( this, _index );
@@ -42,6 +44,12 @@ public abstract class CellBinding extends ElementBinding
 	public CellIndex getIndex()
 	{
 		return this.index;
+	}
+
+
+	public SectionBinding getSection()
+	{
+		return this.section;
 	}
 
 
