@@ -26,7 +26,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 
-public class EvalNonFoldable extends EvalShadow
+public class EvalNonFoldable extends EvalShadow<ExpressionNode>
 {
 
 	public EvalNonFoldable( ExpressionNode _node )

@@ -22,13 +22,13 @@
 
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
+import org.formulacompiler.compiler.internal.model.ExpressionNodeForParentSectionModel;
 
-public class EvalPassthrough extends EvalShadow
+public class EvalPassthrough extends EvalShadow<ExpressionNodeForParentSectionModel>
 {
 
-	public EvalPassthrough( ExpressionNode _node )
+	public EvalPassthrough( ExpressionNodeForParentSectionModel _node )
 	{
 		super( _node, null );
 	}

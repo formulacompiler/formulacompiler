@@ -23,14 +23,14 @@
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 
 
-public class EvalMakeArray extends EvalShadow
+public class EvalMakeArray extends EvalShadow<ExpressionNodeForMakeArray>
 {
 
-	public EvalMakeArray( ExpressionNode _node )
+	public EvalMakeArray( ExpressionNodeForMakeArray _node )
 	{
 		super( _node, null );
 	}

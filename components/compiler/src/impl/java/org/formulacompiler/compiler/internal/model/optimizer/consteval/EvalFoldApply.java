@@ -37,7 +37,7 @@ import org.formulacompiler.runtime.New;
 
 
 @SuppressWarnings( "unqualified-field-access" )
-abstract class EvalFoldApply extends EvalShadow
+abstract class EvalFoldApply extends EvalShadow<ExpressionNodeForFoldApply>
 {
 	protected final ExpressionNodeForFoldDefinition fold;
 	private final boolean notCommutative;
@@ -81,7 +81,7 @@ abstract class EvalFoldApply extends EvalShadow
 	protected TypedResult evaluateToConstOrExprWithConstantArgsFixed( TypedResult[] _args, int _firstFoldedArg )
 			throws CompilerException
 	{
-		final TypedResult[] initialAcc = initials( _args );
+		final TypedResult[] initialAcc = initials();
 		this.acc = initialAcc.clone();
 		if (!fold.isIndexed() && areConstant( acc )) {
 
@@ -101,7 +101,7 @@ abstract class EvalFoldApply extends EvalShadow
 	}
 
 
-	private TypedResult[] initials( TypedResult[] _args ) throws CompilerException
+	private TypedResult[] initials() throws CompilerException
 	{
 		final TypedResult[] result = new TypedResult[ fold.accuCount() ];
 		for (int i = 0; i < result.length; i++) {
@@ -205,8 +205,8 @@ abstract class EvalFoldApply extends EvalShadow
 			final Iterator<ExpressionNode> foldArgs = fold.arguments().iterator();
 			newFold = fold.cloneWithoutArgumentsAndForbidReduce();
 			newFold.setPartiallyFoldedElementCount( partialStepCount );
-			for (int i = 0; i < _initials.length; i++) {
-				newFold.addArgument( valueToNode( _initials[ i ] ) );
+			for (final TypedResult initial : _initials) {
+				newFold.addArgument( valueToNode( initial ) );
 				foldArgs.next();
 			}
 			while (foldArgs.hasNext())

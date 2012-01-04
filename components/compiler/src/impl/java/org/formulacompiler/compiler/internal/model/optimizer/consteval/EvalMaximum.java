@@ -23,18 +23,18 @@
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMaxValue;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-final class EvalExtremum extends EvalShadow
+final class EvalMaximum extends EvalShadow<ExpressionNodeForMaxValue>
 {
 	private final Object value;
 
-	public EvalExtremum( ExpressionNode _node, InterpretedNumericType _type, boolean _isMaximum )
+	public EvalMaximum( ExpressionNodeForMaxValue _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
-		this.value = _isMaximum ? _type.maxValue() : _type.minValue();
+		this.value = _type.maxValue();
 	}
 
 	@Override

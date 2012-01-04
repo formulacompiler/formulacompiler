@@ -27,7 +27,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-final class EvalLetVar extends EvalShadow
+final class EvalLetVar extends EvalShadow<ExpressionNodeForLetVar>
 {
 	static final Object UNDEF = new ConstResult( null, DataType.NULL );
 

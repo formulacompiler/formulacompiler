@@ -28,7 +28,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-final class EvalSwitch extends EvalShadow
+final class EvalSwitch extends EvalShadow<ExpressionNodeForSwitch>
 {
 
 	public EvalSwitch( ExpressionNodeForSwitch _node, InterpretedNumericType _type )
@@ -40,24 +40,23 @@ final class EvalSwitch extends EvalShadow
 	@Override
 	protected TypedResult eval() throws CompilerException
 	{
-		final ExpressionNodeForSwitch switchNode = (ExpressionNodeForSwitch) node();
-		final TypedResult valueArg = evaluateArgument( switchNode.offsetOfValueInArguments() );
+		final TypedResult valueArg = evaluateArgument( node().offsetOfValueInArguments() );
 		if (valueArg.hasConstantValue()) {
 			final int value = type().toInt( valueArg.getConstantValue(), -1 );
 			if (value >= 0) {
-				final Iterable<ExpressionNodeForSwitchCase> cases = switchNode.cases();
+				final Iterable<ExpressionNodeForSwitchCase> cases = node().cases();
 				int iCase = 0;
 				for (ExpressionNodeForSwitchCase caze : cases) {
 					if (value == caze.caseValue()) {
 						final EvalSwitchCase caseEval = (EvalSwitchCase) arguments().get(
-								iCase + switchNode.offsetOfCasesInArguments() );
+								iCase + node().offsetOfCasesInArguments() );
 						final TypedResult caseResult = caseEval.evaluateArgument( 0, context() );
 						return caseResult;
 					}
 					iCase++;
 				}
 			}
-			return evaluateArgument( switchNode.offsetOfDefaultInArguments() );
+			return evaluateArgument( node().offsetOfDefaultInArguments() );
 		}
 		return super.eval();
 	}

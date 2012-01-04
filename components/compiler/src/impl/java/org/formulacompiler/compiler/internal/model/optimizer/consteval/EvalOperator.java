@@ -35,10 +35,10 @@ import org.formulacompiler.compiler.internal.model.interpreter.InterpreterExcept
 import org.formulacompiler.runtime.New;
 
 
-public class EvalOperator extends EvalShadow
+public class EvalOperator extends EvalShadow<ExpressionNodeForOperator>
 {
 
-	EvalOperator( ExpressionNode _node, InterpretedNumericType _type )
+	EvalOperator( ExpressionNodeForOperator _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}
@@ -47,7 +47,7 @@ public class EvalOperator extends EvalShadow
 	@Override
 	protected TypedResult evaluateToConst( TypedResult... _args ) throws InterpreterException
 	{
-		final Operator operator = ((ExpressionNodeForOperator) node()).getOperator();
+		final Operator operator = node().getOperator();
 		return new ConstResult( type().compute( operator, valuesOf( _args ) ), node().getDataType() );
 	}
 

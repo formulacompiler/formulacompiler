@@ -31,14 +31,13 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeShadow;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.logging.Log;
-import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 import org.formulacompiler.runtime.ComputationException;
 import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 
-public abstract class EvalShadow extends ExpressionNodeShadow
+public abstract class EvalShadow<E extends ExpressionNode> extends ExpressionNodeShadow<E, EvalShadow<? extends ExpressionNode>>
 {
 	public static final Log LOG = Settings.LOG_CONSTEVAL;
 
@@ -49,15 +48,15 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return shadow.evalIn( new EvalShadowContext( _cellAddress ) );
 	}
 
-	protected static EvalShadow shadow( ExpressionNode _expr, InterpretedNumericType _type )
+	private static EvalShadow shadow( ExpressionNode _expr, InterpretedNumericType _type )
 	{
-		return (EvalShadow) ExpressionNodeShadow.shadow( _expr, new EvalShadowBuilder( _type ) );
+		return ExpressionNodeShadow.shadow( _expr, new EvalShadowBuilder( _type ) );
 	}
 
 
 	private final InterpretedNumericType type;
 
-	EvalShadow( ExpressionNode _node, InterpretedNumericType _type )
+	EvalShadow( E _node, InterpretedNumericType _type )
 	{
 		super( _node );
 		this.type = _type;
@@ -114,7 +113,7 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected final EvalShadow unsubstitutedArgument( int _index )
 	{
-		return ((EvalShadow) arguments().get( _index )).unsubstituted();
+		return arguments().get( _index ).unsubstituted();
 	}
 
 	protected EvalShadow unsubstituted()
@@ -136,10 +135,10 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 
 	protected final TypedResult evaluateArgument( int _index ) throws CompilerException
 	{
-		return evaluateArgument( (EvalShadow) arguments().get( _index ) );
+		return evaluateArgument( arguments().get( _index ) );
 	}
 
-	protected final TypedResult evaluateArgument( EvalShadow _arg ) throws CompilerException
+	private TypedResult evaluateArgument( EvalShadow _arg ) throws CompilerException
 	{
 		return (_arg == null) ? null : _arg.evalIn( context() );
 	}
@@ -191,11 +190,6 @@ public abstract class EvalShadow extends ExpressionNodeShadow
 		return true;
 	}
 
-
-	protected final boolean isInSubSection( TypedResult _arg )
-	{
-		return (_arg instanceof ExpressionNodeForSubSectionModel);
-	}
 
 	@SuppressWarnings( "unused" )
 	protected TypedResult evaluateToNode( TypedResult... _args ) throws InterpreterException

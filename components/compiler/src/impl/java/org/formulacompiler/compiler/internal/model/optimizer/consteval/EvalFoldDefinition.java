@@ -27,7 +27,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDe
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-final class EvalFoldDefinition extends EvalShadow
+final class EvalFoldDefinition extends EvalShadow<ExpressionNodeForFoldDefinition>
 {
 
 	public EvalFoldDefinition( ExpressionNodeForFoldDefinition _node, InterpretedNumericType _type )

@@ -41,10 +41,10 @@ import org.formulacompiler.runtime.New;
 import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 
-public class EvalFunction extends EvalShadow
+public class EvalFunction extends EvalShadow<ExpressionNodeForFunction>
 {
 
-	EvalFunction( ExpressionNode _node, InterpretedNumericType _type )
+	EvalFunction( ExpressionNodeForFunction _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}
@@ -53,7 +53,7 @@ public class EvalFunction extends EvalShadow
 	@Override
 	protected TypedResult eval() throws CompilerException
 	{
-		final Function function = ((ExpressionNodeForFunction) node()).getFunction();
+		final Function function = node().getFunction();
 		switch (function) {
 
 			case AND:
@@ -81,6 +81,7 @@ public class EvalFunction extends EvalShadow
 						if (subUncountables.size() > 0) {
 							throw new CompilerException.UnsupportedExpression( "COUNT of nested sections not supported" );
 						}
+						i++;
 					}
 					final ExpressionNodeForCount res = new ExpressionNodeForCount( staticValueCount, subs, subCounts );
 					res.setDataType( DataType.NUMERIC );
@@ -154,7 +155,7 @@ public class EvalFunction extends EvalShadow
 	@Override
 	protected TypedResult evaluateToConst( TypedResult... _args ) throws InterpreterException
 	{
-		final Function function = ((ExpressionNodeForFunction) node()).getFunction();
+		final Function function = node().getFunction();
 		if (function.isVolatile()) {
 			return evaluateToNode( _args );
 		}

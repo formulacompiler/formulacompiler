@@ -31,7 +31,7 @@ import org.formulacompiler.compiler.internal.model.ExpressionNodeForCellModel;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
-public class EvalCell extends EvalShadow
+public class EvalCell extends EvalShadow<ExpressionNodeForCellModel>
 {
 
 	public EvalCell( ExpressionNodeForCellModel _node, InterpretedNumericType _type )
@@ -42,7 +42,7 @@ public class EvalCell extends EvalShadow
 	@Override
 	protected final TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException
 	{
-		final CellModel cellModel = ((ExpressionNodeForCellModel) node()).getCellModel();
+		final CellModel cellModel = node().getCellModel();
 		if (null == cellModel) {
 			return ConstResult.NULL;
 		}
