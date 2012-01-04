@@ -25,14 +25,14 @@ package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 public class EvalIndex extends EvalFunction
 {
 
-	public EvalIndex( ExpressionNode _node, InterpretedNumericType _type )
+	public EvalIndex( ExpressionNodeForFunction _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}

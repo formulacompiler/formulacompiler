@@ -22,14 +22,14 @@
 
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-public class EvalConstantValue extends EvalShadow
+public class EvalConstantValue extends EvalShadow<ExpressionNodeForConstantValue>
 {
 
-	EvalConstantValue( ExpressionNode _node, InterpretedNumericType _type )
+	EvalConstantValue( ExpressionNodeForConstantValue _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}

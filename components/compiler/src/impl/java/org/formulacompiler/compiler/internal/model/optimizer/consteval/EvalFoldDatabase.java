@@ -28,7 +28,7 @@ import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
-final class EvalFoldDatabase extends EvalShadow
+final class EvalFoldDatabase extends EvalShadow<ExpressionNodeForFoldDatabase>
 {
 	private final String[] colNames;
 
@@ -61,8 +61,8 @@ final class EvalFoldDatabase extends EvalShadow
 
 	private TypedResult evalFilter() throws CompilerException
 	{
-		for (int iCol = 0; iCol < this.colNames.length; iCol++) {
-			letDict().let( this.colNames[ iCol ], null, EvalLetVar.UNDEF );
+		for (final String colName : this.colNames) {
+			letDict().let( colName, null, EvalLetVar.UNDEF );
 		}
 		try {
 			return evaluateArgument( 1 ); // filter

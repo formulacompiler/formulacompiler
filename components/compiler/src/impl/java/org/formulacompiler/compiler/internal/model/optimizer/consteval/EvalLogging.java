@@ -27,7 +27,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLoggin
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-class EvalLogging extends EvalShadow
+class EvalLogging extends EvalShadow<ExpressionNodeForLogging>
 {
 	EvalLogging( ExpressionNodeForLogging _node, InterpretedNumericType _type )
 	{

@@ -29,10 +29,10 @@ import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
-public class EvalRangeValue extends EvalShadow
+public class EvalRangeValue extends EvalShadow<ExpressionNodeForArrayReference>
 {
 
-	public EvalRangeValue( ExpressionNode _node, InterpretedNumericType _type )
+	public EvalRangeValue( ExpressionNodeForArrayReference _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
 	}
@@ -40,9 +40,8 @@ public class EvalRangeValue extends EvalShadow
 	@Override
 	protected TypedResult evaluateToConst( TypedResult... _args )
 	{
-		final ExpressionNodeForArrayReference rangeNode = (ExpressionNodeForArrayReference) node();
-		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( rangeNode.arrayDescriptor() );
-		result.setDataType( rangeNode.getDataType() );
+		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( node().arrayDescriptor() );
+		result.setDataType( node().getDataType() );
 		for (TypedResult arg : _args) {
 			if (arg instanceof ExpressionNode) {
 				result.addArgument( (ExpressionNode) arg );

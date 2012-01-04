@@ -22,14 +22,14 @@
 
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSubstitution;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpreterException;
 
-public class EvalSubstitution extends EvalShadow
+public class EvalSubstitution extends EvalShadow<ExpressionNodeForSubstitution>
 {
 
-	public EvalSubstitution( ExpressionNode _node )
+	public EvalSubstitution( ExpressionNodeForSubstitution _node )
 	{
 		super( _node, null );
 	}

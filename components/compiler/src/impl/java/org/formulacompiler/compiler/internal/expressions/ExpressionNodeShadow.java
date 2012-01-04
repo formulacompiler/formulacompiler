@@ -27,35 +27,35 @@ import java.util.List;
 import org.formulacompiler.runtime.New;
 
 
-public abstract class ExpressionNodeShadow
+public abstract class ExpressionNodeShadow<E extends ExpressionNode, S extends ExpressionNodeShadow<? extends ExpressionNode, S>>
 {
-	private final ExpressionNode node;
-	private final List<ExpressionNodeShadow> arguments = New.list();
+	private final E node;
+	private final List<S> arguments = New.list();
 
-	public ExpressionNodeShadow( ExpressionNode _node )
+	public ExpressionNodeShadow( E _node )
 	{
 		super();
 		this.node = _node;
 	}
 
-	public ExpressionNode node()
+	public E node()
 	{
 		return this.node;
 	}
 
-	public List<ExpressionNodeShadow> arguments()
+	public List<S> arguments()
 	{
 		return this.arguments;
 	}
 
-	public static ExpressionNodeShadow shadow( ExpressionNode _node, Builder _builder )
+	public static <S extends ExpressionNodeShadow<? extends ExpressionNode, S>> S shadow( ExpressionNode _node, Builder<S> _builder )
 	{
 		if (_node == null) {
 			return null;
 		}
 		else {
-			final ExpressionNodeShadow result = _builder.shadow( _node );
-			final List<ExpressionNodeShadow> resultArgs = result.arguments();
+			final S result = _builder.shadow( _node );
+			final List<S> resultArgs = result.arguments();
 			for (ExpressionNode argNode : _node.arguments()) {
 				resultArgs.add( shadow( argNode, _builder ) );
 			}
@@ -63,9 +63,9 @@ public abstract class ExpressionNodeShadow
 		}
 	}
 
-	public static interface Builder
+	public static interface Builder<S extends ExpressionNodeShadow<? extends ExpressionNode, S>>
 	{
-		ExpressionNodeShadow shadow( ExpressionNode _node );
+		S shadow( ExpressionNode _node );
 	}
 
 }

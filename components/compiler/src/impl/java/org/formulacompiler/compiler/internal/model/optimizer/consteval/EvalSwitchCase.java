@@ -27,7 +27,7 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-final class EvalSwitchCase extends EvalShadow
+final class EvalSwitchCase extends EvalShadow<ExpressionNodeForSwitchCase>
 {
 
 	public EvalSwitchCase( ExpressionNodeForSwitchCase _node, InterpretedNumericType _type )

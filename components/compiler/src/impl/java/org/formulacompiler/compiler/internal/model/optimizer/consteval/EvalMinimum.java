@@ -23,37 +23,24 @@
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMinValue;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
-
-public class EvalIf extends EvalFunction
+final class EvalMinimum extends EvalShadow<ExpressionNodeForMinValue>
 {
+	private final Object value;
 
-	public EvalIf( ExpressionNodeForFunction _node, InterpretedNumericType _type )
+	public EvalMinimum( ExpressionNodeForMinValue _node, InterpretedNumericType _type )
 	{
 		super( _node, _type );
+		this.value = _type.minValue();
 	}
 
-
 	@Override
-	protected TypedResult eval() throws CompilerException
+	protected TypedResult evaluateToConst( TypedResult... _args ) throws CompilerException
 	{
-		final int card = cardinality();
-		if (card > 0) {
-			final TypedResult firstArg = evaluateArgument( 0 );
-			if (firstArg.hasConstantValue()) {
-				final boolean constFirstArg = type().toBoolean( firstArg.getConstantValue() );
-				switch (card) {
-					case 2:
-						return (constFirstArg) ? evaluateArgument( 1 ) : null;
-					case 3:
-						return (constFirstArg) ? evaluateArgument( 1 ) : evaluateArgument( 2 );
-				}
-			}
-		}
-		return super.eval();
+		return new ConstResult( this.value, node().getDataType() );
 	}
 
 }

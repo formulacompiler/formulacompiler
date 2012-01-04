@@ -28,7 +28,7 @@ import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
 
 
-final class EvalLet extends EvalShadow
+final class EvalLet extends EvalShadow<ExpressionNodeForLet>
 {
 	private final String varName;
 	private final boolean mayFold;
