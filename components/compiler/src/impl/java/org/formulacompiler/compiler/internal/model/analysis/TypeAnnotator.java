@@ -38,7 +38,6 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFuncti
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLogging;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSubstitution;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForSwitch;
@@ -148,7 +147,6 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 
 		if (_expr instanceof ExpressionNodeForLet) return typeOf( (ExpressionNodeForLet) _expr );
 		if (_expr instanceof ExpressionNodeForLetVar) return typeOf( (ExpressionNodeForLetVar) _expr );
-		if (_expr instanceof ExpressionNodeForMakeArray) return typeOf( (ExpressionNodeForMakeArray) _expr );
 
 		if (_expr instanceof ExpressionNodeForFoldList) return typeOf( (ExpressionNodeForFoldList) _expr );
 		if (_expr instanceof ExpressionNodeForFoldVectors) return typeOf( (ExpressionNodeForFoldVectors) _expr );
@@ -339,12 +337,6 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 	private DataType typeOf( ExpressionNodeForLetVar _expr )
 	{
 		return letDict().lookupType( _expr.varName() );
-	}
-
-	private DataType typeOf( ExpressionNodeForMakeArray _expr ) throws CompilerException
-	{
-		annotateArgs( _expr );
-		return typeOf( _expr.arguments() );
 	}
 
 	private DataType typeOf( ExpressionNodeForFoldDefinition _expr, DataType... _eltTypes ) throws CompilerException
