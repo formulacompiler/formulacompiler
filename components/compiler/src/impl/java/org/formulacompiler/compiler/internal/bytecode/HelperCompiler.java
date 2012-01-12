@@ -22,10 +22,7 @@
 
 package org.formulacompiler.compiler.internal.bytecode;
 
-import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
 import org.objectweb.asm.Type;
@@ -72,19 +69,6 @@ abstract class HelperCompiler extends ValueMethodCompiler
 	protected final ExpressionNode node()
 	{
 		return this.node;
-	}
-
-
-	protected final ArrayDescriptor arrayDescriptor( ExpressionNode _outerNode, ExpressionNode _rangeNode )
-			throws CompilerException
-	{
-		if (_rangeNode instanceof ExpressionNodeForArrayReference) {
-			return ((ExpressionNodeForArrayReference) _rangeNode).arrayDescriptor();
-		}
-		else {
-			throw new CompilerException.UnsupportedExpression( "Array reference expected in "
-					+ _outerNode.describe() + "." );
-		}
 	}
 
 
