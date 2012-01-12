@@ -33,7 +33,6 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFuncti
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLogging;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMaxValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMinValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
@@ -76,7 +75,6 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder<EvalShado
 		else if (_node instanceof ExpressionNodeForFoldList) return new EvalFoldList( (ExpressionNodeForFoldList) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFoldVectors) return new EvalFoldVectors( (ExpressionNodeForFoldVectors) _node, this.type );
 		else if (_node instanceof ExpressionNodeForFoldDatabase) return new EvalFoldDatabase( (ExpressionNodeForFoldDatabase) _node, this.type );
-		else if (_node instanceof ExpressionNodeForMakeArray) return new EvalMakeArray( (ExpressionNodeForMakeArray) _node );
 		else if (_node instanceof ExpressionNodeForLogging) return new EvalLogging( (ExpressionNodeForLogging) _node, this.type );
 		else return new EvalNonFoldable( _node );
 		// DO NOT REFORMAT ABOVE THIS LINE

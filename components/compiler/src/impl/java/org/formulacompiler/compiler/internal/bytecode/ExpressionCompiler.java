@@ -48,7 +48,6 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFuncti
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLogging;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMaxValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMinValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForOperator;
@@ -267,10 +266,6 @@ abstract class ExpressionCompiler
 
 		else if (_node instanceof ExpressionNodeForLetVar) {
 			compileLetVar( ((ExpressionNodeForLetVar) _node).varName() );
-		}
-
-		else if (_node instanceof ExpressionNodeForMakeArray) {
-			compileMakeArray( (ExpressionNodeForMakeArray) _node );
 		}
 
 		else if (_node instanceof ExpressionNodeForFoldList) {
@@ -1091,7 +1086,7 @@ abstract class ExpressionCompiler
 
 	static boolean isArray( ExpressionNode _node )
 	{
-		return _node instanceof ExpressionNodeForArrayReference || _node instanceof ExpressionNodeForMakeArray;
+		return _node instanceof ExpressionNodeForArrayReference;
 	}
 
 
@@ -1160,12 +1155,6 @@ abstract class ExpressionCompiler
 	protected void compilePop()
 	{
 		mv().visitInsn( Opcodes.POP );
-	}
-
-
-	private final void compileMakeArray( ExpressionNodeForMakeArray _node ) throws CompilerException
-	{
-		compileArray( _node.argument( 0 ) );
 	}
 
 
