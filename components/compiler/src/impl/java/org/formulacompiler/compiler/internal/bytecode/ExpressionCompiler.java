@@ -883,6 +883,8 @@ abstract class ExpressionCompiler
 				}
 
 				mv.mark( handled );
+
+				mv.returnValue();
 			}
 
 		}, closure );

@@ -32,14 +32,14 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-final class IndexerCompiler extends FinalMethodCompiler
+final class IndexerCompiler extends MethodCompiler
 {
 	private final ExpressionNodeForArrayReference node;
 
 
 	IndexerCompiler( SectionCompiler _section, String _name, ExpressionNodeForArrayReference _node )
 	{
-		super( _section, 0, "$idx$" + _name, "(I)"
+		super( _section, Opcodes.ACC_FINAL, "$idx$" + _name, "(I)"
 				+ _section.engineCompiler().typeCompiler( _node.getDataType() ).typeDescriptor() );
 		this.node = _node;
 	}
@@ -50,7 +50,6 @@ final class IndexerCompiler extends FinalMethodCompiler
 	{
 		final ExpressionNodeForArrayReference arrayNode = this.node;
 		final ExpressionCompiler valCompiler = expressionCompiler( arrayNode.getDataType() );
-		final int valReturn = valCompiler.typeCompiler().returnOpcode();
 		final GeneratorAdapter mv = mv();
 
 		final List<ExpressionNode> vals = arrayNode.arguments();
@@ -71,7 +70,7 @@ final class IndexerCompiler extends FinalMethodCompiler
 				{
 					final ExpressionNode val = vals.get( _key );
 					valCompiler.compile( val );
-					mv.visitInsn( valReturn );
+					mv.returnValue();
 				}
 
 			} );

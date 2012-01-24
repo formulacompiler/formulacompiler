@@ -38,14 +38,4 @@ abstract class ValueMethodCompiler extends TypedMethodCompiler
 	{
 		return _section.engineCompiler().typeCompiler( _type ).typeDescriptor();
 	}
-
-
-	@Override
-	protected void endCompilation()
-	{
-		mv().visitInsn( typeCompiler().returnOpcode() );
-		super.endCompilation();
-	}
-
-
 }

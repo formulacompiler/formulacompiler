@@ -28,7 +28,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-final class LinearizerCompiler extends FinalMethodCompiler
+final class LinearizerCompiler extends MethodCompiler
 {
 	private final int rows;
 	private final int cols;
@@ -36,7 +36,7 @@ final class LinearizerCompiler extends FinalMethodCompiler
 
 	LinearizerCompiler( SectionCompiler _section, int _rows, int _cols )
 	{
-		super( _section, 0, "$lin$" + _rows + "$" + _cols, "(II)I" );
+		super( _section, Opcodes.ACC_FINAL, "$lin$" + _rows + "$" + _cols, "(II)I" );
 		this.rows = _rows;
 		this.cols = _cols;
 	}

@@ -53,12 +53,6 @@ abstract class TypeCompilerForBigDecimals extends TypeCompilerForNumbers
 		return ByteCodeEngineCompiler.BIGDECIMAL_CLASS;
 	}
 
-	@Override
-	protected int returnOpcode()
-	{
-		return Opcodes.ARETURN;
-	}
-
 
 	abstract boolean needsAdjustment();
 	abstract boolean needsAdjustment( BigDecimal _value );

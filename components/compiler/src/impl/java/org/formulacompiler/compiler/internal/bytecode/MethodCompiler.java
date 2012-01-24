@@ -181,15 +181,16 @@ abstract class MethodCompiler
 	}
 
 
-	protected void beginCompilation()
+	protected final void beginCompilation()
 	{
 		mv().visitCode();
 	}
 
 
-	protected void endCompilation()
+	protected final void endCompilation()
 	{
-		section().endMethod( mv() );
+		mv().endMethod();
+		mv().visitEnd();
 	}
 
 
@@ -629,7 +630,7 @@ abstract class MethodCompiler
 			this.offset = _offset;
 		}
 
-		public abstract void compileStoreLocal(ExpressionCompiler _exp);
+		public abstract void compileStoreLocal( ExpressionCompiler _exp );
 	}
 
 	static final class LocalValueRef extends LocalRef
