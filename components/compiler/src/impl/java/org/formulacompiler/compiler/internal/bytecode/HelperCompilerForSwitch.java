@@ -56,7 +56,6 @@ final class HelperCompilerForSwitch extends HelperCompiler
 
 			compileTableSwitch( switchValues, new TableSwitchGenerator()
 			{
-				private final int valReturn = expressionCompiler().typeCompiler().returnOpcode();
 				private int switchIndex = 0;
 
 				@Override
@@ -65,7 +64,7 @@ final class HelperCompilerForSwitch extends HelperCompiler
 					final ExpressionNodeForSwitchCase caze = switchValueCases[ this.switchIndex++ ];
 					if (null != caze) {
 						compileExpression( caze.value() );
-						mv().visitInsn( this.valReturn );
+						mv().returnValue();
 					}
 				}
 
@@ -73,6 +72,7 @@ final class HelperCompilerForSwitch extends HelperCompiler
 		}
 
 		compileExpression( switchNode.defaultValue() );
+		mv().returnValue();
 	}
 
 }

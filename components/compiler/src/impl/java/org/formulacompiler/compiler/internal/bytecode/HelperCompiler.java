@@ -25,6 +25,7 @@ package org.formulacompiler.compiler.internal.bytecode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
 import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 
@@ -44,7 +45,7 @@ abstract class HelperCompiler extends ValueMethodCompiler
 
 	HelperCompiler( SectionCompiler _section, ExpressionNode _node, Iterable<LetEntry<Compilable>> _closure )
 	{
-		this( _section, 0, _node, _closure );
+		this( _section, Opcodes.ACC_FINAL, _node, _closure );
 	}
 
 	private static String descriptorOf( Type[] _params )

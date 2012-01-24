@@ -24,7 +24,7 @@ package org.formulacompiler.compiler.internal.bytecode;
 
 import org.formulacompiler.compiler.internal.expressions.DataType;
 
-abstract class TypedMethodCompiler extends FinalMethodCompiler
+abstract class TypedMethodCompiler extends MethodCompiler
 {
 	private final DataType dataType;
 

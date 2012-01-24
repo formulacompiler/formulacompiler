@@ -86,6 +86,8 @@ final class HelperCompilerForFoldChained extends HelperCompilerForFolds
 
 			compileAccumulatorLoad();
 		}
+		mv().returnValue();
+
 		letDict().unlet( accName );
 	}
 

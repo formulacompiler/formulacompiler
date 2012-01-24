@@ -48,30 +48,6 @@ final class OutputMethodCompiler extends TypedMethodCompiler
 	{
 		expressionCompiler().compileCallTo( this.cellMethodCompiler );
 		expressionCompiler().compileConversionToResultOf( this.implementedMethod );
-		compileReturnOf( this.implementedMethod.getReturnType() );
+		mv().returnValue();
 	}
-
-
-	private final void compileReturnOf( Class _returnType )
-	{
-		if (_returnType == Character.TYPE
-				|| _returnType == Byte.TYPE || _returnType == Short.TYPE || _returnType == Integer.TYPE
-				|| _returnType == Boolean.TYPE) {
-			mv().visitInsn( Opcodes.IRETURN );
-		}
-		else if (_returnType == Long.TYPE) {
-			mv().visitInsn( Opcodes.LRETURN );
-		}
-		else if (_returnType == Float.TYPE) {
-			mv().visitInsn( Opcodes.FRETURN );
-		}
-		else if (_returnType == Double.TYPE) {
-			mv().visitInsn( Opcodes.DRETURN );
-		}
-		else {
-			mv().visitInsn( Opcodes.ARETURN );
-		}
-	}
-
-
 }

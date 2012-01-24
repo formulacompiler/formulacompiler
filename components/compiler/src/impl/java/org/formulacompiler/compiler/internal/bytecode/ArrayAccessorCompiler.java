@@ -23,8 +23,9 @@
 package org.formulacompiler.compiler.internal.bytecode;
 
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
+import org.objectweb.asm.Opcodes;
 
-abstract class ArrayAccessorCompiler extends FinalMethodCompiler
+abstract class ArrayAccessorCompiler extends MethodCompiler
 {
 	protected final ExpressionNodeForArrayReference arrayNode;
 	private final String arrayDescriptor;
@@ -38,7 +39,7 @@ abstract class ArrayAccessorCompiler extends FinalMethodCompiler
 	private ArrayAccessorCompiler( SectionCompiler _section, String _name, ExpressionNodeForArrayReference _node,
 			String _elementDescriptor )
 	{
-		super( _section, 0, _name, "()[" + _elementDescriptor );
+		super( _section, Opcodes.ACC_FINAL, _name, "()[" + _elementDescriptor );
 		this.arrayNode = _node;
 		this.arrayDescriptor = "[" + _elementDescriptor;
 		this.elementDescriptor = _elementDescriptor;

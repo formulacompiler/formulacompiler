@@ -106,7 +106,7 @@ final class HelperCompilerForFoldDatabase extends HelperCompilerForFoldApply
 				else {
 					retCompiler.compileZero();
 				}
-				mv().visitInsn( retCompiler.typeCompiler().returnOpcode() );
+				mv().returnValue();
 			}
 
 		} );

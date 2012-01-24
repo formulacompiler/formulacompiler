@@ -70,6 +70,7 @@ abstract class HelperCompilerForFoldApply extends HelperCompilerForFolds
 		compileSetup();
 		compileTraversal();
 		compileMerge();
+		mv().returnValue();
 	}
 
 

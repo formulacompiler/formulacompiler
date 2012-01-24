@@ -34,7 +34,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-final class SubSectionOutputAccessorCompiler extends FinalMethodCompiler
+final class SubSectionOutputAccessorCompiler extends MethodCompiler
 {
 	private static final Type ITERATOR_INTF = Type.getType( Iterator.class );
 	private static final Type ARRAYLIST_CLASS = Type.getType( ArrayList.class );
@@ -45,7 +45,7 @@ final class SubSectionOutputAccessorCompiler extends FinalMethodCompiler
 
 	SubSectionOutputAccessorCompiler( SectionCompiler _section, SubSectionCompiler _sub, CallFrame _callToImplement )
 	{
-		super( _section, Opcodes.ACC_PUBLIC, _callToImplement.getMethod().getName(), Type
+		super( _section, Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL, _callToImplement.getMethod().getName(), Type
 				.getMethodDescriptor( _callToImplement.getMethod() ) );
 		this.sub = _sub;
 		this.callToImplement = _callToImplement;

@@ -63,12 +63,6 @@ final class TypeCompilerForScaledLongs extends TypeCompilerForNumbers
 		return Type.LONG_TYPE;
 	}
 
-	@Override
-	protected int returnOpcode()
-	{
-		return Opcodes.LRETURN;
-	}
-
 
 	private boolean staticContextBuilt = false;
 

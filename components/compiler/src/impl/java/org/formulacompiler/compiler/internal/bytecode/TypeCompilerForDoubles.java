@@ -51,12 +51,6 @@ final class TypeCompilerForDoubles extends TypeCompilerForNumbers
 		return Type.DOUBLE_TYPE;
 	}
 
-	@Override
-	protected int returnOpcode()
-	{
-		return Opcodes.DRETURN;
-	}
-
 
 	@Override
 	protected void compileConst( GeneratorAdapter _mv, Object _value ) throws CompilerException

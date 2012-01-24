@@ -36,14 +36,14 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-final class CellMethodCompiler extends NullaryValueMethodCompiler
+final class CellMethodCompiler extends ValueMethodCompiler
 {
 	private final CellModel cell;
 
 
 	CellMethodCompiler( SectionCompiler _section, CellModel _cell ) throws CompilerException
 	{
-		super( _section, 0, getMethodName( _section, _cell ), _cell.getDataType() );
+		super( _section, Opcodes.ACC_FINAL, getMethodName( _section, _cell ), "", _cell.getDataType() );
 		this.cell = _cell;
 		validate();
 	}
@@ -133,6 +133,8 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 				ec.compileConst( constantValue );
 			}
 		}
+
+		mv().returnValue();
 	}
 
 

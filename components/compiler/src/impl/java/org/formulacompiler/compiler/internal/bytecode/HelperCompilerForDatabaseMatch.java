@@ -26,16 +26,17 @@ import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 
-final class HelperCompilerForDatabaseMatch extends FinalMethodCompiler
+final class HelperCompilerForDatabaseMatch extends MethodCompiler
 {
 	private final ExpressionNode node;
 
 	public HelperCompilerForDatabaseMatch( SectionCompiler _section, ExpressionNode _node, Iterable<LetEntry<Compilable>> _closure )
 	{
-		super( _section, 0, _section.newGetterName(), "(" + descriptorOf( _section, _closure ) + ")Z" );
+		super( _section, Opcodes.ACC_FINAL, _section.newGetterName(), "(" + descriptorOf( _section, _closure ) + ")Z" );
 		this.node = _node;
 		addClosureToLetDict( _closure );
 	}

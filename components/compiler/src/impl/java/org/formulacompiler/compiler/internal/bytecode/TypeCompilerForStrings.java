@@ -59,12 +59,6 @@ final class TypeCompilerForStrings extends TypeCompiler
 		return ByteCodeEngineCompiler.STRING_CLASS;
 	}
 
-	@Override
-	protected int returnOpcode()
-	{
-		return Opcodes.ARETURN;
-	}
-
 
 	@Override
 	protected void compileConst( GeneratorAdapter _mv, Object _value ) throws CompilerException
