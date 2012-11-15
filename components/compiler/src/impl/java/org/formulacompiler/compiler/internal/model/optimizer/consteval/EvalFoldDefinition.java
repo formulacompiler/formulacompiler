@@ -42,7 +42,7 @@ final class EvalFoldDefinition extends EvalShadow<ExpressionNodeForFoldDefinitio
 	}
 
 	@Override
-	protected TypedResult eval() throws CompilerException
+	protected TypedResult eval( EvalShadowContext _context ) throws CompilerException
 	{
 		return node();
 	}

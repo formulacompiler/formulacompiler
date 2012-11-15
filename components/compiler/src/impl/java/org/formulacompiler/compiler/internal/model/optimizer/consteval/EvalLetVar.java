@@ -41,9 +41,9 @@ final class EvalLetVar extends EvalShadow<ExpressionNodeForLetVar>
 
 
 	@Override
-	protected TypedResult eval()
+	protected TypedResult eval( EvalShadowContext _context )
 	{
-		final TypedResult val = letDict().lookup( this.varName );
+		final TypedResult val = _context.letDict.lookup( this.varName );
 		if (val == UNDEF) {
 			if (LOG.e()) LOG.a( "Lookup " ).a( this.varName ).a( " is undefined. " ).lf();
 			return node(); // No need to clone leaf node.

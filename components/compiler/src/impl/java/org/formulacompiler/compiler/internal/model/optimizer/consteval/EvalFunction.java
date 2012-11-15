@@ -51,20 +51,20 @@ public class EvalFunction extends EvalShadow<ExpressionNodeForFunction>
 
 
 	@Override
-	protected TypedResult eval() throws CompilerException
+	protected TypedResult eval( EvalShadowContext _context ) throws CompilerException
 	{
 		final Function function = node().getFunction();
 		switch (function) {
 
 			case AND:
-				return evalBooleanSequence( false );
+				return evalBooleanSequence( _context, false );
 
 			case OR:
-				return evalBooleanSequence( true );
+				return evalBooleanSequence( _context, true );
 
 			case COUNT: {
 				final Collection<ExpressionNode> uncountables = New.collection();
-				final int staticValueCount = node().countArgumentValues( letDict(), uncountables );
+				final int staticValueCount = node().countArgumentValues( _context.letDict, uncountables );
 				final int subCount = uncountables.size();
 				if (subCount == 0) {
 					return new ConstResult( staticValueCount, DataType.NUMERIC );
@@ -77,7 +77,7 @@ public class EvalFunction extends EvalShadow<ExpressionNodeForFunction>
 						final ExpressionNodeForSubSectionModel sub = (ExpressionNodeForSubSectionModel) uncountable;
 						subs[ i ] = sub.getSectionModel();
 						final Collection<ExpressionNode> subUncountables = New.collection();
-						subCounts[ i ] = sub.countArgumentValues( letDict(), subUncountables );
+						subCounts[ i ] = sub.countArgumentValues( _context.letDict, subUncountables );
 						if (subUncountables.size() > 0) {
 							throw new CompilerException.UnsupportedExpression( "COUNT of nested sections not supported" );
 						}
@@ -90,29 +90,29 @@ public class EvalFunction extends EvalShadow<ExpressionNodeForFunction>
 			}
 
 			case COLUMN: {
-				final CellAddress cellAddress = getCellAddress();
+				final CellAddress cellAddress = getCellAddress( _context );
 				return new ConstResult( cellAddress.getColumnIndex() + 1, DataType.NUMERIC );
 			}
 
 			case ROW: {
-				final CellAddress cellAddress = getCellAddress();
+				final CellAddress cellAddress = getCellAddress( _context );
 				return new ConstResult( cellAddress.getRowIndex() + 1, DataType.NUMERIC );
 			}
 
 			default:
-				return super.eval();
+				return super.eval( _context );
 
 		}
 	}
 
 
-	private final TypedResult evalBooleanSequence( boolean _returnThisIfFound ) throws CompilerException
+	private final TypedResult evalBooleanSequence( EvalShadowContext _context, boolean _returnThisIfFound ) throws CompilerException
 	{
 		final InterpretedNumericType type = type();
 		final Collection<ExpressionNode> dynArgs = New.collection();
 		final int n = cardinality();
 		for (int i = 0; i < n; i++) {
-			final TypedResult arg = evaluateArgument( i );
+			final TypedResult arg = evaluateArgument( i, _context );
 			if (arg.hasConstantValue()) {
 				final boolean value = type.toBoolean( arg.getConstantValue() );
 				if (value == _returnThisIfFound) {
@@ -134,10 +134,10 @@ public class EvalFunction extends EvalShadow<ExpressionNodeForFunction>
 	}
 
 
-	private CellAddress getCellAddress() throws CompilerException
+	private CellAddress getCellAddress( EvalShadowContext _context ) throws CompilerException
 	{
 		if (node().arguments() == null || node().arguments().size() == 0) {
-			final CellAddress cellAddress = context().cellAddress;
+			final CellAddress cellAddress = _context.cellAddress;
 			if (cellAddress != null) {
 				return cellAddress;
 			}

@@ -60,15 +60,15 @@ abstract class EvalFoldApply extends EvalShadow<ExpressionNodeForFoldApply>
 	private EvalFoldDefinition foldEval;
 
 	@Override
-	protected final TypedResult eval() throws CompilerException
+	protected final TypedResult eval( EvalShadowContext _context ) throws CompilerException
 	{
 		this.foldEval = (EvalFoldDefinition) arguments().get( 0 );
 		final TypedResult[] args = new TypedResult[ node().arguments().size() ];
-		args[ 0 ] = evaluateArgument( 0 ); // fold
+		args[ 0 ] = evaluateArgument( 0, _context ); // fold
 		for (int i = 1; i < args.length; i++) {
-			args[ i ] = evaluateArgument( i );
+			args[ i ] = evaluateArgument( i, _context );
 		}
-		return evaluateToConstOrExprWithConstantArgsFixed( args, 1 );
+		return evaluateToConstOrExprWithConstantArgsFixed( args, 1, _context );
 	}
 
 
@@ -78,17 +78,17 @@ abstract class EvalFoldApply extends EvalShadow<ExpressionNodeForFoldApply>
 	private int index = 0;
 	private int partialStepCount = 0;
 
-	protected TypedResult evaluateToConstOrExprWithConstantArgsFixed( TypedResult[] _args, int _firstFoldedArg )
+	private TypedResult evaluateToConstOrExprWithConstantArgsFixed( TypedResult[] _args, int _firstFoldedArg, EvalShadowContext _context )
 			throws CompilerException
 	{
-		final TypedResult[] initialAcc = initials();
+		final TypedResult[] initialAcc = initials( _context );
 		this.acc = initialAcc.clone();
 		if (!fold.isIndexed() && areConstant( acc )) {
 
-			traverse( _args, _firstFoldedArg );
+			traverse( _args, _firstFoldedArg, _context );
 
 			if (dynArgs.size() == 0) {
-				return finalize( acc );
+				return finalize( acc, _context );
 			}
 			else {
 				final boolean sameAcc = Arrays.equals( acc, initialAcc );
@@ -101,35 +101,35 @@ abstract class EvalFoldApply extends EvalShadow<ExpressionNodeForFoldApply>
 	}
 
 
-	private TypedResult[] initials() throws CompilerException
+	private TypedResult[] initials( EvalShadowContext _context ) throws CompilerException
 	{
 		final TypedResult[] result = new TypedResult[ fold.accuCount() ];
 		for (int i = 0; i < result.length; i++) {
-			result[ i ] = foldEval.evaluateArgument( i );
+			result[ i ] = foldEval.evaluateArgument( i, _context );
 		}
 		return result;
 	}
 
 
-	private TypedResult finalize( TypedResult[] _acc ) throws CompilerException
+	private TypedResult finalize( TypedResult[] _acc, EvalShadowContext _context ) throws CompilerException
 	{
 		final int nAcc = _acc.length;
 		if (index == 0 && null != fold.whenEmpty()) {
-			return foldEval.evaluateArgument( nAcc * 2 + 1 );
+			return foldEval.evaluateArgument( nAcc * 2 + 1, _context );
 		}
 		else if (null != fold.merge()) {
 			for (int i = 0; i < nAcc; i++) {
-				letDict().let( fold.accuName( i ), fold.accuInit( i ).getDataType(), _acc[ i ] );
+				_context.letDict.let( fold.accuName( i ), fold.accuInit( i ).getDataType(), _acc[ i ] );
 			}
 			final String countName = fold.countName();
 			if (null != countName)
-				letDict().let( countName, DataType.NUMERIC, new ConstResult( this.index, DataType.NUMERIC ) );
+				_context.letDict.let( countName, DataType.NUMERIC, new ConstResult( this.index, DataType.NUMERIC ) );
 			try {
-				return foldEval.evaluateArgument( nAcc * 2 );
+				return foldEval.evaluateArgument( nAcc * 2, _context );
 			}
 			finally {
-				if (null != countName) letDict().unlet( countName );
-				letDict().unlet( nAcc );
+				if (null != countName) _context.letDict.unlet( countName );
+				_context.letDict.unlet( nAcc );
 			}
 		}
 		else {
@@ -138,14 +138,14 @@ abstract class EvalFoldApply extends EvalShadow<ExpressionNodeForFoldApply>
 	}
 
 
-	protected abstract void traverse( TypedResult[] _args, int _firstFoldedArg ) throws CompilerException;
+	protected abstract void traverse( TypedResult[] _args, int _firstFoldedArg, EvalShadowContext _context ) throws CompilerException;
 
 
-	protected final void traverseElements( TypedResult... _elts ) throws CompilerException
+	protected final void traverseElements( EvalShadowContext _context, TypedResult... _elts ) throws CompilerException
 	{
 		index++;
 		if (canStillFold && areConstant( _elts )) {
-			foldElements( _elts );
+			foldElements( _elts, _context );
 		}
 		else {
 			deferElements( _elts );
@@ -153,23 +153,23 @@ abstract class EvalFoldApply extends EvalShadow<ExpressionNodeForFoldApply>
 	}
 
 
-	private void foldElements( TypedResult[] _elts ) throws CompilerException
+	private void foldElements( TypedResult[] _elts, EvalShadowContext _context ) throws CompilerException
 	{
 		final int nAcc = acc.length;
 		for (int i = 0; i < nAcc; i++) {
-			letDict().let( fold.accuName( i ), fold.accuInit( i ).getDataType(), acc[ i ] );
+			_context.letDict.let( fold.accuName( i ), fold.accuInit( i ).getDataType(), acc[ i ] );
 		}
 		final int nElt = fold.eltCount();
 		for (int i = 0; i < nElt; i++) {
-			letDict().let( fold.eltName( i ), _elts[ i ].getDataType(), _elts[ i ] );
+			_context.letDict.let( fold.eltName( i ), _elts[ i ].getDataType(), _elts[ i ] );
 		}
 		final String idxName = fold.indexName();
 		if (null != idxName)
-			letDict().let( idxName, DataType.NUMERIC, new ConstResult( this.index, DataType.NUMERIC ) );
+			_context.letDict.let( idxName, DataType.NUMERIC, new ConstResult( this.index, DataType.NUMERIC ) );
 		try {
 			final TypedResult[] newAcc = new TypedResult[ nAcc ];
 			for (int i = 0; i < nAcc; i++) {
-				newAcc[ i ] = foldEval.evaluateArgument( nAcc + i );
+				newAcc[ i ] = foldEval.evaluateArgument( nAcc + i, _context );
 			}
 			if (areConstant( newAcc )) {
 				partialStepCount++;
@@ -180,9 +180,9 @@ abstract class EvalFoldApply extends EvalShadow<ExpressionNodeForFoldApply>
 			}
 		}
 		finally {
-			if (null != idxName) letDict().unlet( idxName );
-			letDict().unlet( nElt );
-			letDict().unlet( nAcc );
+			if (null != idxName) _context.letDict.unlet( idxName );
+			_context.letDict.unlet( nElt );
+			_context.letDict.unlet( nAcc );
 		}
 	}
 

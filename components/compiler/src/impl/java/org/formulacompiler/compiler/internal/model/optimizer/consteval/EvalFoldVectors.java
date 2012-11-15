@@ -46,23 +46,23 @@ final class EvalFoldVectors extends EvalFoldApply
 
 	@SuppressWarnings( "unchecked" )
 	@Override
-	protected void traverse( TypedResult[] _args, int _firstFoldedArg ) throws CompilerException
+	protected void traverse( TypedResult[] _args, int _firstFoldedArg, EvalShadowContext _context ) throws CompilerException
 	{
 		final int eltCount = fold.eltCount();
 		final Iterator<ExpressionNode>[] vectors = new Iterator[ eltCount ];
 		for (int i = 0; i < eltCount; i++) {
 			vectors[ i ] = ((ExpressionNode) _args[ i + _firstFoldedArg ]).arguments().iterator();
 		}
-		traverse( vectors );
+		traverse( vectors, _context );
 	}
 
-	private void traverse( Iterator<ExpressionNode>[] _vectors ) throws CompilerException
+	private void traverse( Iterator<ExpressionNode>[] _vectors, EvalShadowContext _context ) throws CompilerException
 	{
 		final TypedResult[] elts = new TypedResult[ _vectors.length ];
 		while (_vectors[ 0 ].hasNext()) {
 			for (int i = 0; i < _vectors.length; i++)
 				elts[ i ] = _vectors[ i ].next();
-			traverseElements( elts );
+			traverseElements( _context, elts );
 		}
 	}
 

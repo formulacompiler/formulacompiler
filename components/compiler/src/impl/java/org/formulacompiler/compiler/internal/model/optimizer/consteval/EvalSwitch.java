@@ -38,9 +38,9 @@ final class EvalSwitch extends EvalShadow<ExpressionNodeForSwitch>
 
 
 	@Override
-	protected TypedResult eval() throws CompilerException
+	protected TypedResult eval( EvalShadowContext _context ) throws CompilerException
 	{
-		final TypedResult valueArg = evaluateArgument( node().offsetOfValueInArguments() );
+		final TypedResult valueArg = evaluateArgument( node().offsetOfValueInArguments(), _context );
 		if (valueArg.hasConstantValue()) {
 			final int value = type().toInt( valueArg.getConstantValue(), -1 );
 			if (value >= 0) {
@@ -50,15 +50,15 @@ final class EvalSwitch extends EvalShadow<ExpressionNodeForSwitch>
 					if (value == caze.caseValue()) {
 						final EvalSwitchCase caseEval = (EvalSwitchCase) arguments().get(
 								iCase + node().offsetOfCasesInArguments() );
-						final TypedResult caseResult = caseEval.evaluateArgument( 0, context() );
+						final TypedResult caseResult = caseEval.evaluateArgument( 0, _context );
 						return caseResult;
 					}
 					iCase++;
 				}
 			}
-			return evaluateArgument( node().offsetOfDefaultInArguments() );
+			return evaluateArgument( node().offsetOfDefaultInArguments(), _context );
 		}
-		return super.eval();
+		return super.eval( _context );
 	}
 
 

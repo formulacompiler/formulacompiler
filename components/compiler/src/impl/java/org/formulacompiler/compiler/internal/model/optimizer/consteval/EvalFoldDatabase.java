@@ -41,12 +41,12 @@ final class EvalFoldDatabase extends EvalShadow<ExpressionNodeForFoldDatabase>
 
 
 	@Override
-	protected TypedResult eval() throws CompilerException
+	protected TypedResult eval( EvalShadowContext _context ) throws CompilerException
 	{
 		final int card = cardinality();
 		final TypedResult[] argValues = new TypedResult[ card ];
 		for (int iArg = 0; iArg < card; iArg++) {
-			argValues[ iArg ] = (iArg == 1) ? evalFilter() : evaluateArgument( iArg );
+			argValues[ iArg ] = (iArg == 1) ? evalFilter( _context ) : evaluateArgument( iArg, _context );
 		}
 		return evaluateToConstOrExprWithConstantArgsFixed( argValues );
 	}
@@ -59,16 +59,16 @@ final class EvalFoldDatabase extends EvalShadow<ExpressionNodeForFoldDatabase>
 	}
 
 
-	private TypedResult evalFilter() throws CompilerException
+	private TypedResult evalFilter( EvalShadowContext _context ) throws CompilerException
 	{
 		for (final String colName : this.colNames) {
-			letDict().let( colName, null, EvalLetVar.UNDEF );
+			_context.letDict.let( colName, null, EvalLetVar.UNDEF );
 		}
 		try {
-			return evaluateArgument( 1 ); // filter
+			return evaluateArgument( 1, _context ); // filter
 		}
 		finally {
-			letDict().unlet( this.colNames.length );
+			_context.letDict.unlet( this.colNames.length );
 		}
 	}
 

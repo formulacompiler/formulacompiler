@@ -22,12 +22,12 @@
 
 package org.formulacompiler.compiler.internal.model.optimizer.consteval;
 
-import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.*;
-
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFunction;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
+
+import static org.formulacompiler.compiler.internal.expressions.ExpressionBuilder.err;
 
 public class EvalIndex extends EvalFunction
 {
@@ -39,13 +39,13 @@ public class EvalIndex extends EvalFunction
 
 
 	@Override
-	protected TypedResult eval() throws CompilerException
+	protected TypedResult eval( EvalShadowContext _context ) throws CompilerException
 	{
 		final int card = cardinality();
 		switch (card) {
 
 			case 2: { // one-dimensional lookup
-				final TypedResult indexArg = evaluateArgument( 1 );
+				final TypedResult indexArg = evaluateArgument( 1, _context );
 				if (indexArg.hasConstantValue()) {
 					final int index = type().toInt( indexArg.getConstantValue(), 0 ) - 1;
 					if (index < 0) {
@@ -55,14 +55,14 @@ public class EvalIndex extends EvalFunction
 					if (index >= range.arguments().size()) {
 						return err( "#REF! because index is out of range in INDEX", this.node().getDataType() );
 					}
-					return range.evaluateArgument( index );
+					return range.evaluateArgument( index, _context );
 				}
 				break;
 			}
 
 		}
 
-		return super.eval();
+		return super.eval( _context );
 	}
 
 }
