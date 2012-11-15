@@ -22,15 +22,14 @@
 
 package org.formulacompiler.spreadsheet.internal;
 
-import java.util.Collection;
-
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForScalar;
 import org.formulacompiler.runtime.spreadsheet.CellAddress;
 
 
-public final class ExpressionNodeForCell extends ExpressionNode
+public final class ExpressionNodeForCell extends ExpressionNodeForScalar
 {
 	private final CellIndex cellIndex;
 	private final String name;
@@ -78,13 +77,6 @@ public final class ExpressionNodeForCell extends ExpressionNode
 	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForCell( this.cellIndex, this.name );
-	}
-
-
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		return 1;
 	}
 
 

@@ -27,6 +27,7 @@ import java.util.Collection;
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 
 
 public class ExpressionNodeForSubSectionModel extends ExpressionNodeForSectionModel
@@ -47,7 +48,7 @@ public class ExpressionNodeForSubSectionModel extends ExpressionNodeForSectionMo
 
 
 	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	protected int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		_uncountables.add( this );
 		return 0;

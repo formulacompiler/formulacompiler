@@ -27,7 +27,7 @@ import java.util.Iterator;
 
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
-public abstract class ExpressionNodeForFoldApply extends ExpressionNode
+public abstract class ExpressionNodeForFoldApply extends ExpressionNodeForScalar
 {
 
 	protected ExpressionNodeForFoldApply()
@@ -78,12 +78,6 @@ public abstract class ExpressionNodeForFoldApply extends ExpressionNode
 		}
 	}
 
-
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		return 1;
-	}
 
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )

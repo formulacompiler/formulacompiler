@@ -28,7 +28,7 @@ import java.util.Iterator;
 
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
-public final class ExpressionNodeForSwitch extends ExpressionNode
+public final class ExpressionNodeForSwitch extends ExpressionNodeForScalar
 {
 
 	public ExpressionNodeForSwitch( ExpressionNode _value, ExpressionNode _default,
@@ -116,12 +116,6 @@ public final class ExpressionNodeForSwitch extends ExpressionNode
 		return arguments().size() - offsetOfCasesInArguments();
 	}
 
-
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		return 1;
-	}
 
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )

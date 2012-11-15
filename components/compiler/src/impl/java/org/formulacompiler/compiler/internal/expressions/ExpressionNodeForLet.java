@@ -90,9 +90,9 @@ public final class ExpressionNodeForLet extends ExpressionNode
 
 
 	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	protected int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
-		throw new IllegalStateException( "COUNT not supported over _LET" );
+		throw new UnsupportedOperationException( "COUNT not supported over _LET" );
 	}
 
 

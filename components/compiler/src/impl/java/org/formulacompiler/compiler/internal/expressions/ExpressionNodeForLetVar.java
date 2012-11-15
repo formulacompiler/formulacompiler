@@ -52,7 +52,7 @@ public final class ExpressionNodeForLetVar extends ExpressionNode
 
 
 	@Override
-	protected int countValuesCore( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
+	protected int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		final Object val = _letDict.lookup( varName() );
 		if (val instanceof ExpressionNode) {
@@ -64,12 +64,6 @@ public final class ExpressionNodeForLetVar extends ExpressionNode
 		else {
 			return 1;
 		}
-	}
-
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		throw new AbstractMethodError();
 	}
 
 

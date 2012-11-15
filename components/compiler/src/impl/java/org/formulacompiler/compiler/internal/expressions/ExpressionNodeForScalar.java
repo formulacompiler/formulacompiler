@@ -24,47 +24,29 @@ package org.formulacompiler.compiler.internal.expressions;
 
 import java.util.Collection;
 
-import org.formulacompiler.compiler.Function;
-import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
-
-public class ExpressionNodeForFunction extends ExpressionNodeForScalar
+public abstract class ExpressionNodeForScalar extends ExpressionNode
 {
-	private final Function function;
 
+	protected ExpressionNodeForScalar()
+	{
+		super();
+	}
 
-	public ExpressionNodeForFunction( Function _function, ExpressionNode... _args )
+	protected ExpressionNodeForScalar( ExpressionNode... _args )
 	{
 		super( _args );
-		this.function = _function;
 	}
 
-
-	public ExpressionNodeForFunction( Function _function, Collection<ExpressionNode> _args )
+	protected ExpressionNodeForScalar( Collection<ExpressionNode> _args )
 	{
 		super( _args );
-		this.function = _function;
 	}
-
-
-	public Function getFunction()
-	{
-		return this.function;
-	}
-
 
 	@Override
-	public ExpressionNode innerCloneWithoutArguments()
+	protected int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
-		return new ExpressionNodeForFunction( this.function );
-	}
-
-
-	@Override
-	public void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )
-	{
-		_to.append( this.function.getName() );
-		describeArgumentListTo( _to, _cfg );
+		return 1;
 	}
 
 }

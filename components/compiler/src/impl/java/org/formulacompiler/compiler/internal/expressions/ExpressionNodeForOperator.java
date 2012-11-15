@@ -28,7 +28,7 @@ import org.formulacompiler.compiler.Operator;
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 
-public class ExpressionNodeForOperator extends ExpressionNode
+public class ExpressionNodeForOperator extends ExpressionNodeForScalar
 {
 	private final Operator operator;
 
@@ -56,13 +56,6 @@ public class ExpressionNodeForOperator extends ExpressionNode
 	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForOperator( this.operator );
-	}
-
-
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		return 1;
 	}
 
 

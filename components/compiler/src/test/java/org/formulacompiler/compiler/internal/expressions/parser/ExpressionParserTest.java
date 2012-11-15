@@ -30,6 +30,7 @@ import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
+import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 import org.formulacompiler.runtime.New;
 
 import junit.framework.TestCase;
@@ -418,7 +419,7 @@ public class ExpressionParserTest extends TestCase
 			}
 
 			@Override
-			protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+			protected int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 			{
 				throw new UnsupportedOperationException();
 			}

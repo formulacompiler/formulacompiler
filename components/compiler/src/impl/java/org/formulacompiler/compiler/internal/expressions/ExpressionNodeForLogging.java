@@ -22,14 +22,12 @@
 
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.util.Collection;
-
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 /**
  * @author Vladimir Korenev
  */
-public class ExpressionNodeForLogging extends ExpressionNode
+public class ExpressionNodeForLogging extends ExpressionNodeForScalar
 {
 	private final Object source;
 	private final String definedName;
@@ -85,11 +83,5 @@ public class ExpressionNodeForLogging extends ExpressionNode
 	{
 		_to.append( "Logging" );
 		describeArgumentListTo( _to, _cfg );
-	}
-
-	@Override
-	protected int countValuesCore( final Collection<ExpressionNode> _uncountables )
-	{
-		return 1;
 	}
 }

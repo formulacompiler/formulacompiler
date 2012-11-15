@@ -22,14 +22,13 @@
 
 package org.formulacompiler.compiler.internal.model;
 
-import java.util.Collection;
-
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForScalar;
 
 
-public class ExpressionNodeForCellModel extends ExpressionNode
+public class ExpressionNodeForCellModel extends ExpressionNodeForScalar
 {
 	private CellModel cellModel;
 
@@ -58,13 +57,6 @@ public class ExpressionNodeForCellModel extends ExpressionNode
 	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForCellModel( this.cellModel );
-	}
-
-
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		return 1;
 	}
 
 
