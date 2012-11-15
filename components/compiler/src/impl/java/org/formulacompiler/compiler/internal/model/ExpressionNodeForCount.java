@@ -27,6 +27,7 @@ import java.util.Collection;
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
+import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 
 
 public final class ExpressionNodeForCount extends ExpressionNode
@@ -64,9 +65,9 @@ public final class ExpressionNodeForCount extends ExpressionNode
 
 
 	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	protected int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
-		throw new AbstractMethodError();
+		throw new UnsupportedOperationException();
 	}
 
 

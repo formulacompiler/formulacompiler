@@ -22,11 +22,9 @@
 
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.util.Collection;
-
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
-public final class ExpressionNodeForSwitchCase extends ExpressionNode
+public final class ExpressionNodeForSwitchCase extends ExpressionNodeForScalar
 {
 	private final int caseValue;
 
@@ -53,12 +51,6 @@ public final class ExpressionNodeForSwitchCase extends ExpressionNode
 		return argument( 0 );
 	}
 
-
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		return 1;
-	}
 
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )

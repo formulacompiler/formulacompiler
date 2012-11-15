@@ -66,7 +66,7 @@ public final class ExpressionNodeForArrayReference extends ExpressionNode
 
 
 	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
+	protected int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		return arrayDescriptor().numberOfElements();
 	}

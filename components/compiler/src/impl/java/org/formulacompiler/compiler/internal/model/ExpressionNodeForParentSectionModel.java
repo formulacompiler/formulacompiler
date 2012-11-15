@@ -48,15 +48,9 @@ public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectio
 
 
 	@Override
-	protected int countValuesCore( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
+	protected int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		return countArgumentValues( _letDict, _uncountables );
-	}
-
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		throw new AbstractMethodError();
 	}
 
 

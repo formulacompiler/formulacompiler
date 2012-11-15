@@ -22,12 +22,10 @@
 
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.util.Collection;
-
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.runtime.New;
 
-public final class ExpressionNodeForFoldDefinition extends ExpressionNode
+public final class ExpressionNodeForFoldDefinition extends ExpressionNodeForScalar
 {
 	private final String[] accuNames;
 	private final String indexName;
@@ -179,12 +177,6 @@ public final class ExpressionNodeForFoldDefinition extends ExpressionNode
 		this.partiallyFoldedElementCount = _value;
 	}
 
-
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		return 1;
-	}
 
 	@Override
 	protected void describeToWithConfig( DescriptionBuilder _to, ExpressionDescriptionConfig _cfg )

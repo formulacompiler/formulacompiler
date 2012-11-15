@@ -22,12 +22,10 @@
 
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.util.Collection;
-
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
 
-public final class ExpressionNodeForConstantValue extends ExpressionNode
+public final class ExpressionNodeForConstantValue extends ExpressionNodeForScalar
 {
 	private final Object value;
 
@@ -70,13 +68,6 @@ public final class ExpressionNodeForConstantValue extends ExpressionNode
 	public ExpressionNode innerCloneWithoutArguments()
 	{
 		return new ExpressionNodeForConstantValue( this.value );
-	}
-
-
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		return 1;
 	}
 
 

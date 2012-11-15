@@ -22,23 +22,15 @@
 
 package org.formulacompiler.compiler.internal.expressions;
 
-import java.util.Collection;
-
 import org.formulacompiler.compiler.internal.DescriptionBuilder;
 
-public final class ExpressionNodeForMaxValue extends ExpressionNode
+public final class ExpressionNodeForMaxValue extends ExpressionNodeForScalar
 {
 
 	public ExpressionNodeForMaxValue()
 	{
 		super();
 		setDataType( DataType.NUMERIC );
-	}
-
-	@Override
-	protected int countValuesCore( Collection<ExpressionNode> _uncountables )
-	{
-		return 1;
 	}
 
 	@Override
