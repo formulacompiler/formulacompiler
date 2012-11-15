@@ -43,27 +43,27 @@ final class EvalFoldList extends EvalFoldApply
 
 
 	@Override
-	protected void traverse( TypedResult[] _args, int _firstFoldedArg, EvalShadowContext _context ) throws CompilerException
+	protected void traverse( TypedResult[] _args, int _firstFoldedArg, EvalFoldContext _foldContext, EvalShadowContext _context ) throws CompilerException
 	{
 		for (int i = _args.length - 1; i >= _firstFoldedArg; i--) {
 			final TypedResult xi = _args[ i ];
 			if (isNesting( xi )) {
-				traverse( ((ExpressionNode) xi).arguments(), _context );
+				traverse( ((ExpressionNode) xi).arguments(), _foldContext, _context );
 			}
 			else {
-				traverseElements( _context, xi );
+				traverseElements( _context, _foldContext, xi );
 			}
 		}
 	}
 
-	private void traverse( Iterable<ExpressionNode> _nodes, EvalShadowContext _context ) throws CompilerException
+	private void traverse( Iterable<ExpressionNode> _nodes, EvalFoldContext _foldContext, EvalShadowContext _context ) throws CompilerException
 	{
 		for (final ExpressionNode node : _nodes) {
 			if (isNesting( node )) {
-				traverse( node.arguments(), _context );
+				traverse( node.arguments(), _foldContext, _context );
 			}
 			else {
-				traverseElements( _context, node );
+				traverseElements( _context, _foldContext, node );
 			}
 		}
 	}

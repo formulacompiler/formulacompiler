@@ -151,6 +151,12 @@ public abstract class AbstractOptimizerTest extends AbstractStandardInputsOutput
 	}
 
 
+	protected ExpressionNode _if( ExpressionNode... _args )
+	{
+		return new ExpressionNodeForFunction( Function.IF, _args );
+	}
+
+
 	protected ExpressionNode plus( ExpressionNode _a, ExpressionNode _b )
 	{
 		return new ExpressionNodeForOperator( Operator.PLUS, _a, _b );

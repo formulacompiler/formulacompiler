@@ -115,6 +115,20 @@ public class ConstantSubExpressionEliminatorTest extends AbstractOptimizerTest
 	}
 
 
+	public void testPartialAggregationInIf() throws Exception
+	{
+		makeConstCellInput();
+
+		CellModel sumOverInputsAndConsts = new CellModel( root, "SumOverInputsAndConsts" );
+		sumOverInputsAndConsts.setExpression( _if( sum( ref( constCell ), ref( constExpr ), ref( constSum ) ), cst( 10 ), cst( 20 ) ) );
+
+		optimize( FormulaCompiler.DOUBLE );
+
+		assertExpr( "IF( apply (fold with s__1 = 5.0 each xi__2 as s__1 = (s__1 + xi__2)) to list {Inputs.getOne()}, 10.0, 20.0 )",
+				sumOverInputsAndConsts );
+	}
+
+
 	public void testPartialMultiAccuAggregationInExprs() throws Exception
 	{
 		makeConstCellInput();
