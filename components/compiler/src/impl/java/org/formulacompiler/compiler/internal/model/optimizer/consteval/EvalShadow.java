@@ -28,7 +28,6 @@ import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeShadow;
-import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 import org.formulacompiler.compiler.internal.expressions.TypedResult;
 import org.formulacompiler.compiler.internal.logging.Log;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
@@ -68,35 +67,21 @@ public abstract class EvalShadow<E extends ExpressionNode> extends ExpressionNod
 	}
 
 
-	private EvalShadowContext context;
-
 	protected final TypedResult evalIn( EvalShadowContext _context ) throws CompilerException
 	{
-		this.context = _context;
-
 		if (LOG.e()) LOG.a( "Eval " ).a( node() ).lf().i();
 
-		final TypedResult res = eval();
+		final TypedResult res = eval( _context );
 
 		if (LOG.e()) LOG.o().a( "Got " ).a( res ).lf();
 
 		return res;
 	}
 
-	protected final EvalShadowContext context()
-	{
-		return this.context;
-	}
 
-	protected final LetDictionary<TypedResult> letDict()
+	protected TypedResult eval( EvalShadowContext _context ) throws CompilerException
 	{
-		return this.context.letDict;
-	}
-
-
-	protected TypedResult eval() throws CompilerException
-	{
-		final TypedResult[] argValues = evaluateArguments();
+		final TypedResult[] argValues = evaluateArguments( _context );
 		return evaluateToConstOrExprWithConstantArgsFixed( argValues );
 	}
 
@@ -122,31 +107,21 @@ public abstract class EvalShadow<E extends ExpressionNode> extends ExpressionNod
 	}
 
 
-	private final TypedResult[] evaluateArguments() throws CompilerException
+	private final TypedResult[] evaluateArguments( EvalShadowContext _context ) throws CompilerException
 	{
 		final int card = cardinality();
 		final TypedResult[] argValues = new TypedResult[ card ];
 		for (int iArg = 0; iArg < card; iArg++) {
-			argValues[ iArg ] = evaluateArgument( iArg );
+			argValues[ iArg ] = evaluateArgument( iArg, _context );
 		}
 		return argValues;
 	}
 
 
-	protected final TypedResult evaluateArgument( int _index ) throws CompilerException
-	{
-		return evaluateArgument( arguments().get( _index ) );
-	}
-
-	private TypedResult evaluateArgument( EvalShadow _arg ) throws CompilerException
-	{
-		return (_arg == null) ? null : _arg.evalIn( context() );
-	}
-
 	protected final TypedResult evaluateArgument( int _index, EvalShadowContext _context ) throws CompilerException
 	{
-		this.context = _context;
-		return evaluateArgument( _index );
+		final EvalShadow arg = arguments().get( _index );
+		return (arg == null) ? null : arg.evalIn( _context );
 	}
 
 

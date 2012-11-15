@@ -42,34 +42,34 @@ final class EvalLet extends EvalShadow<ExpressionNodeForLet>
 
 
 	@Override
-	protected TypedResult eval() throws CompilerException
+	protected TypedResult eval( EvalShadowContext _context ) throws CompilerException
 	{
 		if (this.mayFold) {
-			final TypedResult val = evaluateArgument( 0 );
-			letDict().let( this.varName, null, val );
+			final TypedResult val = evaluateArgument( 0, _context );
+			_context.letDict.let( this.varName, null, val );
 			try {
-				final TypedResult result = evaluateArgument( 1 );
+				final TypedResult result = evaluateArgument( 1, _context );
 				if (result.isConstant()) {
 					return result;
 				}
 				return evaluateToNode( val, result );
 			}
 			finally {
-				letDict().unlet( this.varName );
+				_context.letDict.unlet( this.varName );
 			}
 		}
 		else {
-			letDict().let( this.varName, null, EvalLetVar.UNDEF );
+			_context.letDict.let( this.varName, null, EvalLetVar.UNDEF );
 			try {
-				final TypedResult result = evaluateArgument( 1 );
+				final TypedResult result = evaluateArgument( 1, _context );
 				if (result.isConstant()) {
 					return result;
 				}
-				final TypedResult val = evaluateArgument( 0 );
+				final TypedResult val = evaluateArgument( 0, _context );
 				return evaluateToNode( val, result );
 			}
 			finally {
-				letDict().unlet( this.varName );
+				_context.letDict.unlet( this.varName );
 			}
 		}
 	}

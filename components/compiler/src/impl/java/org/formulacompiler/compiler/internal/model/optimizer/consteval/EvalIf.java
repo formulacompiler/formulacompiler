@@ -38,22 +38,22 @@ public class EvalIf extends EvalFunction
 
 
 	@Override
-	protected TypedResult eval() throws CompilerException
+	protected TypedResult eval( EvalShadowContext _context ) throws CompilerException
 	{
 		final int card = cardinality();
 		if (card > 0) {
-			final TypedResult firstArg = evaluateArgument( 0 );
+			final TypedResult firstArg = evaluateArgument( 0, _context );
 			if (firstArg.hasConstantValue()) {
 				final boolean constFirstArg = type().toBoolean( firstArg.getConstantValue() );
 				switch (card) {
 					case 2:
-						return (constFirstArg) ? evaluateArgument( 1 ) : null;
+						return (constFirstArg) ? evaluateArgument( 1, _context ) : null;
 					case 3:
-						return (constFirstArg) ? evaluateArgument( 1 ) : evaluateArgument( 2 );
+						return (constFirstArg) ? evaluateArgument( 1, _context ) : evaluateArgument( 2, _context );
 				}
 			}
 		}
-		return super.eval();
+		return super.eval( _context );
 	}
 
 }
