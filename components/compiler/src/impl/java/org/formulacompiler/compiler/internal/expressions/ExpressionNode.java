@@ -333,21 +333,15 @@ public abstract class ExpressionNode extends AbstractDescribable implements Type
 	}
 
 
-	public final int countArgumentValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
-	{
-		return countValuesIn( _letDict, arguments(), _uncountables );
-	}
-
-	protected final int countValuesIn( LetDictionary _letDict, Iterable<ExpressionNode> _in,
-			Collection<ExpressionNode> _uncountables )
+	public final int countArgumentValues( LetDictionary<TypedResult> _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		int result = 0;
-		for (ExpressionNode arg : _in) {
+		for (ExpressionNode arg : arguments()) {
 			result += arg.countValues( _letDict, _uncountables );
 		}
 		return result;
 	}
 
-	protected abstract int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables );
+	protected abstract int countValues( LetDictionary<TypedResult> _letDict, Collection<ExpressionNode> _uncountables );
 
 }

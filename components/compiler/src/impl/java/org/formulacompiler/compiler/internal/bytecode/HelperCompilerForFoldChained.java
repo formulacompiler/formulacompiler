@@ -37,11 +37,24 @@ import org.objectweb.asm.Type;
 @SuppressWarnings( "unqualified-field-access" )
 final class HelperCompilerForFoldChained extends HelperCompilerForFolds
 {
+	static final Compilable TOP_OF_STACK = new Compilable()
+	{
+		public void compile( final ExpressionCompiler _exp ) throws CompilerException
+		{
+			// Nothing to do here.
+		}
+
+		public boolean isArray()
+		{
+			return false;
+		}
+	};
+
 	private final ChainedFoldCompiler chainedCompiler;
 
 
 	public HelperCompilerForFoldChained( SectionCompiler _section, ExpressionNodeForFoldApply _applyNode,
-			Iterable<LetEntry> _closure )
+			Iterable<LetEntry<Compilable>> _closure )
 	{
 		super( _section, _applyNode, _closure );
 		this.chainedCompiler = new ChainedFoldCompiler( expressionCompiler(), _applyNode );
@@ -61,7 +74,7 @@ final class HelperCompilerForFoldChained extends HelperCompilerForFolds
 		expressionCompiler().compile( initial );
 
 		final String accName = fold.accuName( 0 );
-		letDict().let( accName, initType, expressionCompiler().TOP_OF_STACK );
+		letDict().let( accName, initType, TOP_OF_STACK );
 
 		chainedCompiler.compileFoldOverLocalValues( elts, initialElt );
 

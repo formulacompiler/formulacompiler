@@ -23,22 +23,11 @@
 package org.formulacompiler.compiler.internal.bytecode;
 
 import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
 
 
-final class HelperCompilerForSubExpr extends HelperCompiler
+interface Compilable
 {
+	void compile( ExpressionCompiler _exp ) throws CompilerException;
 
-	HelperCompilerForSubExpr( SectionCompiler _section, ExpressionNode _node, Iterable<LetEntry> _closure )
-	{
-		super( _section, 0, _node, _closure );
-	}
-
-	@Override
-	protected void compileBody() throws CompilerException
-	{
-		compileExpression( node() );
-	}
-
+	boolean isArray();
 }

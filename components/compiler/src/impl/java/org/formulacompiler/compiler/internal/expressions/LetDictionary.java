@@ -28,11 +28,11 @@ import org.formulacompiler.compiler.internal.Settings;
 import org.formulacompiler.compiler.internal.logging.Log;
 
 
-public final class LetDictionary
+public final class LetDictionary<T>
 {
 	public static final Log LOG = Settings.LOG_LETVARS;
 
-	private final Stack<LetEntry> stack = new Stack<LetEntry>();
+	private final Stack<LetEntry<T>> stack = new Stack<LetEntry<T>>();
 
 	public LetDictionary()
 	{
@@ -46,20 +46,20 @@ public final class LetDictionary
 	}
 
 
-	public final void let( String _name, DataType _type, Object _value )
+	public final void let( String _name, DataType _type, T _value )
 	{
-		this.stack.push( new LetEntry( _name, _type, _value ) );
+		this.stack.push( new LetEntry<T>( _name, _type, _value ) );
 		if (LOG.e()) LOG.a( "Letting " ).a( _name ).a( " = " ).a( _value ).lf().i();
 	}
 
-	public final void set( String _name, Object _value )
+	public final void set( String _name, T _value )
 	{
 		if (LOG.e()) LOG.a( "Reletting " ).a( _name ).a( " = " ).a( _value ).lf();
 
 		for (int i = this.stack.size() - 1; i >= 0; i--) {
-			final LetEntry entry = this.stack.get( i );
+			final LetEntry<T> entry = this.stack.get( i );
 			if (_name.equals( entry.name )) {
-				this.stack.set( i, new LetEntry( _name, entry.type, _value ) );
+				this.stack.set( i, new LetEntry<T>( _name, entry.type, _value ) );
 				return;
 			}
 		}
@@ -68,7 +68,7 @@ public final class LetDictionary
 
 	public final void unlet( String _name )
 	{
-		final LetEntry was = this.stack.pop();
+		final LetEntry<T> was = this.stack.pop();
 		if (was.name != _name) throw new IllegalArgumentException( "Name mismatch - unbalanced let/unlet?" );
 
 		if (LOG.e()) LOG.o().a( "Unletting " ).a( _name ).lf();
@@ -77,28 +77,28 @@ public final class LetDictionary
 	public final void unlet( int _numberOfUnlets )
 	{
 		for (int i = 0; i < _numberOfUnlets; i++) {
-			final LetEntry was = this.stack.pop();
+			final LetEntry<T> was = this.stack.pop();
 			if (LOG.e()) LOG.o().a( "Unletting " ).a( was.name ).lf();
 		}
 	}
 
 
-	public final Object lookup( String _name )
+	public final T lookup( String _name )
 	{
-		final LetEntry found = find( _name );
+		final LetEntry<T> found = find( _name );
 		return (null != found) ? found.value : null;
 	}
 
 	public DataType lookupType( String _name )
 	{
-		final LetEntry found = find( _name );
+		final LetEntry<T> found = find( _name );
 		return (null != found) ? found.type : null;
 	}
 
-	public final LetEntry find( String _name )
+	public final LetEntry<T> find( String _name )
 	{
 		for (int i = this.stack.size() - 1; i >= 0; i--) {
-			final LetEntry entry = this.stack.get( i );
+			final LetEntry<T> entry = this.stack.get( i );
 			if (_name.equals( entry.name )) {
 				return entry;
 			}
@@ -107,19 +107,13 @@ public final class LetDictionary
 	}
 
 
-	public final Iterable<LetEntry> entries()
-	{
-		return this.stack;
-	}
-
-
-	public static final class LetEntry
+	public static final class LetEntry<T>
 	{
 		public final String name;
 		public final DataType type;
-		public final Object value;
+		public final T value;
 
-		public LetEntry( String _name, DataType _type, Object _value )
+		public LetEntry( String _name, DataType _type, T _value )
 		{
 			super();
 			this.name = _name;

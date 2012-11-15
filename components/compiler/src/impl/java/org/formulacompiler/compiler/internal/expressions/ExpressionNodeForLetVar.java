@@ -52,14 +52,11 @@ public final class ExpressionNodeForLetVar extends ExpressionNode
 
 
 	@Override
-	protected int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
+	protected int countValues( LetDictionary<TypedResult> _letDict, Collection<ExpressionNode> _uncountables )
 	{
-		final Object val = _letDict.lookup( varName() );
+		final TypedResult val = _letDict.lookup( varName() );
 		if (val instanceof ExpressionNode) {
 			return ((ExpressionNode) val).countValues( _letDict, _uncountables );
-		}
-		else if (val instanceof ArrayDescriptor) {
-			return ((ArrayDescriptor) val).numberOfElements();
 		}
 		else {
 			return 1;

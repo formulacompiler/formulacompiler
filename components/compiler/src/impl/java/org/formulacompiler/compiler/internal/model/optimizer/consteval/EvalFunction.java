@@ -64,7 +64,7 @@ public class EvalFunction extends EvalShadow<ExpressionNodeForFunction>
 
 			case COUNT: {
 				final Collection<ExpressionNode> uncountables = New.collection();
-				final int staticValueCount = node().countArgumentValues( context().letDict, uncountables );
+				final int staticValueCount = node().countArgumentValues( letDict(), uncountables );
 				final int subCount = uncountables.size();
 				if (subCount == 0) {
 					return new ConstResult( staticValueCount, DataType.NUMERIC );
@@ -77,7 +77,7 @@ public class EvalFunction extends EvalShadow<ExpressionNodeForFunction>
 						final ExpressionNodeForSubSectionModel sub = (ExpressionNodeForSubSectionModel) uncountable;
 						subs[ i ] = sub.getSectionModel();
 						final Collection<ExpressionNode> subUncountables = New.collection();
-						subCounts[ i ] = sub.countArgumentValues( context().letDict, subUncountables );
+						subCounts[ i ] = sub.countArgumentValues( letDict(), subUncountables );
 						if (subUncountables.size() > 0) {
 							throw new CompilerException.UnsupportedExpression( "COUNT of nested sections not supported" );
 						}

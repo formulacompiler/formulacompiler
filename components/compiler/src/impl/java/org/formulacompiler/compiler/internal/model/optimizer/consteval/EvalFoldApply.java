@@ -164,7 +164,8 @@ abstract class EvalFoldApply extends EvalShadow<ExpressionNodeForFoldApply>
 			letDict().let( fold.eltName( i ), _elts[ i ].getDataType(), _elts[ i ] );
 		}
 		final String idxName = fold.indexName();
-		if (null != idxName) letDict().let( idxName, DataType.NUMERIC, this.index );
+		if (null != idxName)
+			letDict().let( idxName, DataType.NUMERIC, new ConstResult( this.index, DataType.NUMERIC ) );
 		try {
 			final TypedResult[] newAcc = new TypedResult[ nAcc ];
 			for (int i = 0; i < nAcc; i++) {

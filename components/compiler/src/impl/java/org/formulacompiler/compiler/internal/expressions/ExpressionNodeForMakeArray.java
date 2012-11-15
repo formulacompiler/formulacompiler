@@ -54,7 +54,7 @@ public final class ExpressionNodeForMakeArray extends ExpressionNode
 
 
 	@Override
-	protected int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
+	protected int countValues( LetDictionary<TypedResult> _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		return countArgumentValues( _letDict, _uncountables );
 	}

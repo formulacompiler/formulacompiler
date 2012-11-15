@@ -33,7 +33,7 @@ final class HelperCompilerForDatabaseMatch extends FinalMethodCompiler
 {
 	private final ExpressionNode node;
 
-	public HelperCompilerForDatabaseMatch( SectionCompiler _section, ExpressionNode _node, Iterable<LetEntry> _closure )
+	public HelperCompilerForDatabaseMatch( SectionCompiler _section, ExpressionNode _node, Iterable<LetEntry<Compilable>> _closure )
 	{
 		super( _section, 0, _section.newGetterName(), "(" + descriptorOf( _section, _closure ) + ")Z" );
 		this.node = _node;

@@ -20,20 +20,28 @@
  * along with AFC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.formulacompiler.compiler.internal.model.optimizer.consteval;
+package org.formulacompiler.compiler.internal.bytecode;
 
-import org.formulacompiler.compiler.internal.expressions.LetDictionary;
-import org.formulacompiler.compiler.internal.expressions.TypedResult;
-import org.formulacompiler.runtime.spreadsheet.CellAddress;
+import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
-final class EvalShadowContext
+
+class CompilableExpressionNode implements Compilable
 {
-	public final LetDictionary<TypedResult> letDict = new LetDictionary<TypedResult>();
+	private final ExpressionNode exp;
 
-	public final CellAddress cellAddress;
-
-	public EvalShadowContext( final CellAddress _cellAddress )
+	CompilableExpressionNode( final ExpressionNode _exp )
 	{
-		this.cellAddress = _cellAddress;
+		this.exp = _exp;
+	}
+
+	public void compile( final ExpressionCompiler _exp ) throws CompilerException
+	{
+		_exp.compile( this.exp );
+	}
+
+	public boolean isArray()
+	{
+		return ExpressionCompiler.isArray( this.exp );
 	}
 }

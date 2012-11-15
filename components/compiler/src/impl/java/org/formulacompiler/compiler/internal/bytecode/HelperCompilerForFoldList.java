@@ -36,7 +36,7 @@ final class HelperCompilerForFoldList extends HelperCompilerForFoldApply
 {
 
 	public HelperCompilerForFoldList( SectionCompiler _section, ExpressionNodeForFoldApply _applyNode,
-			Iterable<LetEntry> _closure )
+			Iterable<LetEntry<Compilable>> _closure )
 	{
 		super( _section, _applyNode, _closure );
 	}
@@ -75,7 +75,7 @@ final class HelperCompilerForFoldList extends HelperCompilerForFoldApply
 
 			}
 			else {
-				letDict().let( eltName, elt.getDataType(), elt );
+				letDict().let( eltName, elt.getDataType(), new CompilableExpressionNode( elt ) );
 
 				compileFoldStepsWithEltsBound();
 

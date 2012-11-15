@@ -32,7 +32,6 @@ import java.util.Set;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.Function;
 import org.formulacompiler.compiler.Operator;
-import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.GeneratedRef;
 import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalArrayRef;
 import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalRef;
 import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalValueRef;
@@ -82,8 +81,6 @@ abstract class ExpressionCompiler
 	private static final Type NOT_AVAILABLE_ERROR_TYPE = Type.getType( NotAvailableException.class );
 	private static final Type ARITHMETIC_EXCEPTION_TYPE = Type.getType( ArithmeticException.class );
 	protected static final Type FORMULA_ERROR_TYPE = Type.getType( FormulaException.class );
-
-	protected static final Object TOP_OF_STACK = new Object();
 
 	private final MethodCompiler methodCompiler;
 	private final GeneratorAdapter mv;
@@ -137,12 +134,12 @@ abstract class ExpressionCompiler
 		return this.mv;
 	}
 
-	protected final LetDictionary letDict()
+	protected final LetDictionary<Compilable> letDict()
 	{
 		return method().letDict();
 	}
 
-	protected final Iterable<LetEntry> closureOf( ExpressionNode _node )
+	protected final Iterable<LetEntry<Compilable>> closureOf( ExpressionNode _node )
 	{
 		return method().closureOf( _node );
 	}
@@ -867,7 +864,7 @@ abstract class ExpressionCompiler
 		/*
 		 * Move the handler into its own method because exception handlers clobber the stack.
 		 */
-		final Iterable<LetEntry> closure = closureOf( _node );
+		final Iterable<LetEntry<Compilable>> closure = closureOf( _node );
 		compileHelpedExpr( new HelperCompiler( section(), _node, closure )
 		{
 
@@ -967,7 +964,7 @@ abstract class ExpressionCompiler
 
 	private void compileSwitch( ExpressionNodeForSwitch _node ) throws CompilerException
 	{
-		final Iterable<LetEntry> closure = closureOf( _node );
+		final Iterable<LetEntry<Compilable>> closure = closureOf( _node );
 		compileHelpedExpr( new HelperCompilerForSwitch( sectionInContext(), _node, closure ), closure );
 	}
 
@@ -1059,7 +1056,7 @@ abstract class ExpressionCompiler
 				 * evaluation. Otherwise it could get reused when the first evaluation is within a local
 				 * scope.
 				 */
-				final LocalRef local = compileNewLocal( method().isArray( _node.value() ) );
+				final LocalRef local = compileNewLocal( isArray( _node.value() ) );
 				letDict().let( varName, _node.value().getDataType(),
 						new DelayedLet( varName, local, _node.value(), method().letTrackingNestingLevel() ) );
 				try {
@@ -1076,7 +1073,7 @@ abstract class ExpressionCompiler
 				 * methods by wrapping the construct in a series of LETs. The closure then automatically
 				 * declares the parameters and passes the values to them.
 				 */
-				letDict().let( varName, _node.value().getDataType(), _node.value() );
+				letDict().let( varName, _node.value().getDataType(), new CompilableExpressionNode( _node.value() ) );
 				try {
 					compile( _node.in() );
 				}
@@ -1092,64 +1089,48 @@ abstract class ExpressionCompiler
 	}
 
 
+	static boolean isArray( ExpressionNode _node )
+	{
+		return _node instanceof ExpressionNodeForArrayReference || _node instanceof ExpressionNodeForMakeArray;
+	}
+
+
 	private final void compileLetVar( String _varName ) throws CompilerException
 	{
 		if (this.forbiddenLetVars.contains( _varName )) {
 			throw new IllegalArgumentException( "Cannot compile a letvar named "
 					+ _varName + " when already compiling one of that name - rewriter bug?" );
 		}
-		final Object val = letDict().lookup( _varName );
+		final Compilable val = letDict().lookup( _varName );
 		compileLetValue( _varName, val );
 	}
 
-	final void compileLetValue( String _name, Object _value ) throws CompilerException
+	final void compileLetValue( String _name, Compilable _value ) throws CompilerException
 	{
-		if (_value == TOP_OF_STACK) {
-			// ignore
-		}
-		else if (_value instanceof ExpressionNode) {
-			compile( (ExpressionNode) _value );
-		}
-		else if (_value instanceof DelayedLet) {
-			final DelayedLet letDef = (DelayedLet) _value;
-			this.forbiddenLetVars.add( letDef.name );
-			try {
-				compile( letDef.node );
-			}
-			finally {
-				this.forbiddenLetVars.remove( letDef.name );
-			}
-			compileDup( letDef.local.isArray() );
-			compileStoreLocal( letDef.local );
-			letDict().set( _name, letDef.local );
-			method().trackSetOfLet( letDef );
-		}
-		else if (_value instanceof LocalRef) {
-			compileLoadLocal( (LocalRef) _value );
-		}
-		else if (_value instanceof GeneratedRef) {
-			((GeneratedRef) _value).compile( this );
+		if (_value != null) {
+			_value.compile( this );
 		}
 		else {
 			throw new CompilerException.NameNotFound( "The variable " + _name + " is not bound in this context." );
 		}
 	}
 
+	void compileDelayedLet( DelayedLet _letDef ) throws CompilerException
+	{
+		this.forbiddenLetVars.add( _letDef.name );
+		try {
+			compile( _letDef.node );
+		}
+		finally {
+			this.forbiddenLetVars.remove( _letDef.name );
+		}
+		compileDup( _letDef.isArray() );
+		_letDef.local.compileStoreLocal( this );
+		letDict().set( _letDef.name, _letDef.local );
+		method().trackSetOfLet( _letDef );
+	}
+
 	private final Set<String> forbiddenLetVars = New.set();
-
-
-	protected final LocalRef compileStoreToNewLocal( boolean _isArray )
-	{
-		final LocalRef local = compileNewLocal( _isArray );
-		compileStoreLocal( local );
-		return local;
-	}
-
-	protected final LocalRef compileDupAndStoreToNewLocal( boolean _isArray )
-	{
-		compileDup( _isArray );
-		return compileStoreToNewLocal( _isArray );
-	}
 
 	protected final LocalRef compileNewLocal( boolean _isArray )
 	{
@@ -1161,7 +1142,7 @@ abstract class ExpressionCompiler
 		}
 	}
 
-	protected final void compileDup( boolean _isArray )
+	private void compileDup( boolean _isArray )
 	{
 		if (_isArray) {
 			mv().visitInsn( Opcodes.DUP );
@@ -1181,26 +1162,6 @@ abstract class ExpressionCompiler
 		mv().visitInsn( Opcodes.POP );
 	}
 
-	protected final void compileStoreLocal( LocalRef _local )
-	{
-		if (_local.isArray()) {
-			mv().visitVarInsn( Opcodes.ASTORE, _local.offset );
-		}
-		else {
-			mv().visitVarInsn( type().getOpcode( Opcodes.ISTORE ), _local.offset );
-		}
-	}
-
-	protected final void compileLoadLocal( LocalRef _localRef )
-	{
-		if (_localRef instanceof LocalArrayRef) {
-			mv().visitVarInsn( Opcodes.ALOAD, _localRef.offset );
-		}
-		else {
-			mv().visitVarInsn( type().getOpcode( Opcodes.ILOAD ), _localRef.offset );
-		}
-	}
-
 
 	private final void compileMakeArray( ExpressionNodeForMakeArray _node ) throws CompilerException
 	{
@@ -1208,7 +1169,7 @@ abstract class ExpressionCompiler
 	}
 
 
-	final void compileHelpedExpr( HelperCompiler _compiler, Iterable<LetEntry> _closure ) throws CompilerException
+	final void compileHelpedExpr( HelperCompiler _compiler, Iterable<LetEntry<Compilable>> _closure ) throws CompilerException
 	{
 		_compiler.compile();
 		method().compileCalleeAndClosure( _closure );
@@ -1277,24 +1238,24 @@ abstract class ExpressionCompiler
 				return;
 			}
 			if (!_node.fold().isSpecialWhenEmpty()) {
-				final Iterable<LetEntry> closure = closureOf( _node );
+				final Iterable<LetEntry<Compilable>> closure = closureOf( _node );
 				compileHelpedExpr( new HelperCompilerForFoldChained( sectionInContext(), _node, closure ), closure );
 				return;
 			}
 		}
-		final Iterable<LetEntry> closure = closureOf( _node );
+		final Iterable<LetEntry<Compilable>> closure = closureOf( _node );
 		compileHelpedExpr( new HelperCompilerForFoldList( sectionInContext(), _node, closure ), closure );
 	}
 
 	private final void compileFoldVectors( ExpressionNodeForFoldVectors _node ) throws CompilerException
 	{
-		final Iterable<LetEntry> closure = closureOf( _node );
+		final Iterable<LetEntry<Compilable>> closure = closureOf( _node );
 		compileHelpedExpr( new HelperCompilerForFoldVectors( sectionInContext(), _node, closure ), closure );
 	}
 
 	private final void compileFoldDatabase( ExpressionNodeForFoldDatabase _node ) throws CompilerException
 	{
-		final Iterable<LetEntry> closure = closureOf( _node );
+		final Iterable<LetEntry<Compilable>> closure = closureOf( _node );
 		compileHelpedExpr( new HelperCompilerForFoldDatabase( sectionInContext(), _node, closure ), closure );
 	}
 

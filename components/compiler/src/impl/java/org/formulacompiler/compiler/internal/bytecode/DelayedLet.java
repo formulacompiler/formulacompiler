@@ -22,10 +22,11 @@
 
 package org.formulacompiler.compiler.internal.bytecode;
 
+import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.bytecode.MethodCompiler.LocalRef;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 
-final class DelayedLet
+final class DelayedLet implements Compilable
 {
 	final String name;
 	final ExpressionNode node;
@@ -44,6 +45,11 @@ final class DelayedLet
 	public boolean isArray()
 	{
 		return this.local.isArray();
+	}
+
+	public void compile( final ExpressionCompiler _exp ) throws CompilerException
+	{
+		_exp.compileDelayedLet( this );
 	}
 
 	@Override

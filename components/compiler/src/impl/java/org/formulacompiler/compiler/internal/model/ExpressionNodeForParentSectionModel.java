@@ -28,6 +28,7 @@ import org.formulacompiler.compiler.internal.DescriptionBuilder;
 import org.formulacompiler.compiler.internal.expressions.ExpressionDescriptionConfig;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
+import org.formulacompiler.compiler.internal.expressions.TypedResult;
 
 
 public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectionModel
@@ -48,7 +49,7 @@ public class ExpressionNodeForParentSectionModel extends ExpressionNodeForSectio
 
 
 	@Override
-	protected int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
+	protected int countValues( LetDictionary<TypedResult> _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		return countArgumentValues( _letDict, _uncountables );
 	}

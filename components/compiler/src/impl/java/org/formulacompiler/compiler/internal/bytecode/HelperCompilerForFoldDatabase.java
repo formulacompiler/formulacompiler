@@ -47,7 +47,7 @@ final class HelperCompilerForFoldDatabase extends HelperCompilerForFoldApply
 	private final ExpressionNode filterExpr;
 
 	public HelperCompilerForFoldDatabase( SectionCompiler _section, ExpressionNodeForFoldDatabase _applyNode,
-			Iterable<LetEntry> _closure )
+			Iterable<LetEntry<Compilable>> _closure )
 	{
 		super( _section, _applyNode, _closure );
 		this.db = _applyNode;
@@ -170,7 +170,7 @@ final class HelperCompilerForFoldDatabase extends HelperCompilerForFoldApply
 	private void compileElementFold( ExpressionNode _foldedElt ) throws CompilerException
 	{
 		final String eltName = this.db.fold().eltName( 0 );
-		letDict().let( eltName, _foldedElt.getDataType(), _foldedElt );
+		letDict().let( eltName, _foldedElt.getDataType(), new CompilableExpressionNode( _foldedElt ) );
 		try {
 			compileFoldStepsWithEltsBound();
 		}
@@ -188,9 +188,9 @@ final class HelperCompilerForFoldDatabase extends HelperCompilerForFoldApply
 		try {
 			for (int iCol = 0; iCol < nCols; iCol++) {
 				final ExpressionNode elt = _elts.get( _iElt + iCol );
-				letDict().let( this.colNames[ iCol ], this.colTypes[ iCol ], elt );
+				letDict().let( this.colNames[ iCol ], this.colTypes[ iCol ], new CompilableExpressionNode( elt ) );
 			}
-			final Iterable<LetEntry> closure = closureOf( this.filterExpr );
+			final Iterable<LetEntry<Compilable>> closure = closureOf( this.filterExpr );
 			if (this.matcher == null) {
 				this.matcher = new HelperCompilerForDatabaseMatch( section(), this.filterExpr, closure );
 				this.matcher.compile();

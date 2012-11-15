@@ -31,7 +31,7 @@ import org.objectweb.asm.Label;
 final class HelperCompilerForSwitch extends HelperCompiler
 {
 
-	public HelperCompilerForSwitch( SectionCompiler _section, ExpressionNodeForSwitch _node, Iterable<LetEntry> _closure )
+	public HelperCompilerForSwitch( SectionCompiler _section, ExpressionNodeForSwitch _node, Iterable<LetEntry<Compilable>> _closure )
 	{
 		super( _section, _node, _closure );
 	}

@@ -34,7 +34,6 @@ import org.formulacompiler.compiler.internal.expressions.ArrayDescriptor;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForConstantValue;
-import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.compiler.internal.model.SectionModel;
 import org.formulacompiler.runtime.New;
@@ -197,16 +196,6 @@ abstract class SectionCompiler extends ClassCompiler
 	public void compileCallToGetterFor( GeneratorAdapter _mv, SubSectionCompiler _sub )
 	{
 		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, classInternalName(), _sub.getterName(), _sub.getterDescriptor() );
-	}
-
-
-	public HelperCompiler compileMethodForExpression( ExpressionNode _node, Iterable<LetEntry> _closure )
-			throws CompilerException
-	{
-		beginCompilation();
-		final HelperCompilerForSubExpr result = new HelperCompilerForSubExpr( this, _node, _closure );
-		result.compile();
-		return result;
 	}
 
 
