@@ -44,7 +44,7 @@ public abstract class ExpressionNodeForScalar extends ExpressionNode
 	}
 
 	@Override
-	protected int countValues( LetDictionary _letDict, Collection<ExpressionNode> _uncountables )
+	protected int countValues( LetDictionary<TypedResult> _letDict, Collection<ExpressionNode> _uncountables )
 	{
 		return 1;
 	}

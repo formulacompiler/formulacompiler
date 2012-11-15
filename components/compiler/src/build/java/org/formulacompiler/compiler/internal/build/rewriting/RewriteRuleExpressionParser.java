@@ -143,14 +143,14 @@ final class RewriteRuleExpressionParser extends ExpressionParser
 	}
 
 
-	private final LetDictionary letDict = new LetDictionary();
+	private final LetDictionary<Void> letDict = new LetDictionary<Void>();
 
 	@Override
 	protected void let( Token... _names )
 	{
 		checkInRewrite();
-		for (int i = 0; i < _names.length; i++)
-			this.letDict.let( _names[ i ].image, null, null );
+		for (final Token _name : _names)
+			this.letDict.let( _name.image, null, null );
 	}
 
 	@Override

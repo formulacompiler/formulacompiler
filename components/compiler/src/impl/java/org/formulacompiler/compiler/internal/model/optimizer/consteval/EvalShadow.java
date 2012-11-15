@@ -88,7 +88,7 @@ public abstract class EvalShadow<E extends ExpressionNode> extends ExpressionNod
 		return this.context;
 	}
 
-	protected final LetDictionary letDict()
+	protected final LetDictionary<TypedResult> letDict()
 	{
 		return this.context.letDict;
 	}

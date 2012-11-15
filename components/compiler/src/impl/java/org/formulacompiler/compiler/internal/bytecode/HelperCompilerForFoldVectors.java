@@ -37,7 +37,7 @@ final class HelperCompilerForFoldVectors extends HelperCompilerForFoldApply
 {
 
 	public HelperCompilerForFoldVectors( SectionCompiler _section, ExpressionNodeForFoldApply _applyNode,
-			Iterable<LetEntry> _closure )
+			Iterable<LetEntry<Compilable>> _closure )
 	{
 		super( _section, _applyNode, _closure );
 	}
@@ -90,7 +90,7 @@ final class HelperCompilerForFoldVectors extends HelperCompilerForFoldApply
 			else {
 				for (int iVec = 0; iVec < eltCount; iVec++) {
 					final ExpressionNode elt = elts[ iVec ];
-					letDict().let( fold.eltName( iVec ), elt.getDataType(), elt );
+					letDict().let( fold.eltName( iVec ), elt.getDataType(), new CompilableExpressionNode( elt ) );
 				}
 
 				compileFoldStepsWithEltsBound();

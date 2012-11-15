@@ -39,7 +39,7 @@ abstract class HelperCompilerForFolds extends HelperCompiler
 	protected final ExpressionNodeForFoldDefinition fold;
 
 	public HelperCompilerForFolds( SectionCompiler _section, ExpressionNodeForFoldApply _applyNode,
-			Iterable<LetEntry> _closure )
+			Iterable<LetEntry<Compilable>> _closure )
 	{
 		super( _section, _applyNode, _closure );
 		this.apply = _applyNode;

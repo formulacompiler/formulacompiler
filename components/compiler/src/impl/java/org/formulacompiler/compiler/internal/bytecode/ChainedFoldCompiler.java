@@ -36,7 +36,7 @@ import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionMo
 final class ChainedFoldCompiler
 {
 	private final ExpressionCompiler expc;
-	private final LetDictionary letDict;
+	private final LetDictionary<Compilable> letDict;
 	private final ExpressionNodeForFoldApply apply;
 	private final ExpressionNodeForFoldDefinition fold;
 
@@ -62,7 +62,7 @@ final class ChainedFoldCompiler
 			final ExpressionNode initial = fold.mayReduce() ? elts.iterator().next() : fold.accuInit( 0 );
 			expc.compile( initial );
 			final String accName = fold.accuName( 0 );
-			letDict.let( accName, fold.accuInit( 0 ).getDataType(), expc.TOP_OF_STACK );
+			letDict.let( accName, fold.accuInit( 0 ).getDataType(), HelperCompilerForFoldChained.TOP_OF_STACK );
 			compileFoldOverLocalValues( elts, initial );
 			letDict.unlet( accName );
 			return true;
@@ -79,7 +79,7 @@ final class ChainedFoldCompiler
 		for (final ExpressionNode elt : _elts) {
 			if ((elt != _except) && !(elt instanceof ExpressionNodeForSubSectionModel)) {
 				final String eltName = fold.eltName( 0 );
-				letDict.let( eltName, elt.getDataType(), elt );
+				letDict.let( eltName, elt.getDataType(), new CompilableExpressionNode( elt ) );
 				expc.resetLocalsTo( reuseLocalsAt );
 				expc.compile( fold.accuStep( 0 ) );
 				letDict.unlet( eltName );

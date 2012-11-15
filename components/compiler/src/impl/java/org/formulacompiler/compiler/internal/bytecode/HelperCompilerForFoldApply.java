@@ -40,7 +40,7 @@ abstract class HelperCompilerForFoldApply extends HelperCompilerForFolds
 	private final boolean mustCount;
 
 	public HelperCompilerForFoldApply( SectionCompiler _section, ExpressionNodeForFoldApply _applyNode,
-			Iterable<LetEntry> _closure )
+			Iterable<LetEntry<Compilable>> _closure )
 	{
 		super( _section, _applyNode, _closure );
 
@@ -96,7 +96,7 @@ abstract class HelperCompilerForFoldApply extends HelperCompilerForFolds
 			accuVars[ i ] = accuVar;
 			expressionCompiler().compile( initNode );
 			compileAccumulatorStore( i );
-			letDict().let( fold.accuName( i ), initType, new GeneratedRef()
+			letDict().let( fold.accuName( i ), initType, new Compilable()
 			{
 
 				public void compile( ExpressionCompiler _exp ) throws CompilerException
@@ -104,6 +104,10 @@ abstract class HelperCompilerForFoldApply extends HelperCompilerForFolds
 					mv().visitVarInsn( accuType.getOpcode( Opcodes.ILOAD ), accuVar );
 				}
 
+				public boolean isArray()
+				{
+					return false;
+				}
 			} );
 		}
 	}
@@ -136,7 +140,7 @@ abstract class HelperCompilerForFoldApply extends HelperCompilerForFolds
 	private void letIndexVarAs( String _nameOrNull )
 	{
 		if (null != _nameOrNull) {
-			letDict().let( _nameOrNull, numericCompiler().dataType(), new GeneratedRef()
+			letDict().let( _nameOrNull, numericCompiler().dataType(), new Compilable()
 			{
 
 				public void compile( ExpressionCompiler _exp ) throws CompilerException
@@ -145,6 +149,10 @@ abstract class HelperCompilerForFoldApply extends HelperCompilerForFolds
 					_exp.compileConversionFrom( Integer.TYPE );
 				}
 
+				public boolean isArray()
+				{
+					return false;
+				}
 			} );
 		}
 	}
@@ -191,8 +199,8 @@ abstract class HelperCompilerForFoldApply extends HelperCompilerForFolds
 				letIndexVarAs( fold.countName() );
 			}
 			else if (fold.isCounted()) {
-				letDict().let( fold.countName(), DataType.NUMERIC,
-						new ExpressionNodeForConstantValue( staticCount, DataType.NUMERIC ) );
+				letDict().let( fold.countName(), DataType.NUMERIC, new CompilableExpressionNode(
+						new ExpressionNodeForConstantValue( staticCount, DataType.NUMERIC ) ) );
 			}
 			expressionCompiler().compile( fold.merge() );
 		}

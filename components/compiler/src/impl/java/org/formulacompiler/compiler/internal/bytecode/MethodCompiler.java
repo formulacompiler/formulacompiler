@@ -33,11 +33,9 @@ import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
 import org.formulacompiler.compiler.internal.expressions.DataType;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForArrayReference;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLet;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForLetVar;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForMakeArray;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
 import org.formulacompiler.compiler.internal.model.CellModel;
@@ -54,7 +52,7 @@ abstract class MethodCompiler
 	private final String methodName;
 	private final String methodDescriptor;
 	private final GeneratorAdapter mv;
-	private final LetDictionary letDict = new LetDictionary();
+	private final LetDictionary<Compilable> letDict = new LetDictionary<Compilable>();
 
 	private ExpressionCompilerForStrings stringCompiler;
 	private ExpressionCompilerForNumbers numericCompiler;
@@ -83,11 +81,11 @@ abstract class MethodCompiler
 		return result;
 	}
 
-	protected static final String descriptorOf( SectionCompiler _section, Iterable<LetEntry> _closure )
+	static String descriptorOf( SectionCompiler _section, Iterable<LetEntry<Compilable>> _closure )
 	{
 		final StringBuilder b = new StringBuilder();
-		for (LetEntry entry : _closure) {
-			if (isArray( entry )) {
+		for (LetEntry<Compilable> entry : _closure) {
+			if (entry.value.isArray()) {
 				b.append( '[' ).append( _section.engineCompiler().typeCompiler( entry.type ).typeDescriptor() );
 			}
 			else {
@@ -103,7 +101,7 @@ abstract class MethodCompiler
 		return this.section;
 	}
 
-	final LetDictionary letDict()
+	final LetDictionary<Compilable> letDict()
 	{
 		return this.letDict;
 	}
@@ -344,37 +342,41 @@ abstract class MethodCompiler
 	}
 
 
-	protected final Iterable<LetEntry> closureOf( Iterable<ExpressionNode> _nodes )
+	protected final Iterable<LetEntry<Compilable>> closureOf( ExpressionNode _node )
 	{
 		// Using sorted map to make engines reproducible.
-		final Map<String, LetEntry> closure = New.sortedMap();
-		addToClosure( closure, _nodes );
-		return closure.values();
-	}
-
-	protected final Iterable<LetEntry> closureOf( ExpressionNode _node )
-	{
-		final Map<String, LetEntry> closure = New.sortedMap();
+		final Map<String, LetEntry<Compilable>> closure = New.sortedMap();
 		addToClosure( closure, _node );
 		return closure.values();
 	}
 
-	private void addToClosure( Map<String, LetEntry> _closure, Iterable<ExpressionNode> _nodes )
+	private void addToClosure( Map<String, LetEntry<Compilable>> _closure, Iterable<ExpressionNode> _nodes )
 	{
 		for (ExpressionNode node : _nodes)
 			addToClosure( _closure, node );
 	}
 
-	private static final Object INNER_DEF = new Object();
+	private static final Compilable INNER_DEF = new Compilable()
+	{
+		public void compile( final ExpressionCompiler _exp ) throws CompilerException
+		{
+			throw new UnsupportedOperationException();
+		}
 
-	private final void addToClosure( Map<String, LetEntry> _closure, ExpressionNode _node )
+		public boolean isArray()
+		{
+			throw new UnsupportedOperationException();
+		}
+	};
+
+	private final void addToClosure( Map<String, LetEntry<Compilable>> _closure, ExpressionNode _node )
 	{
 		if (null == _node) {
 			// ignore
 		}
 		else if (_node instanceof ExpressionNodeForLetVar) {
 			final ExpressionNodeForLetVar letVar = (ExpressionNodeForLetVar) _node;
-			final LetEntry found = letDict().find( letVar.varName() );
+			final LetEntry<Compilable> found = letDict().find( letVar.varName() );
 			if (null != found && INNER_DEF != found.value) {
 				// Don't treat repeated occurrences separately.
 				_closure.put( found.name, found );
@@ -418,7 +420,7 @@ abstract class MethodCompiler
 		}
 	}
 
-	private void addToClosureWithInnerDefs( Map<String, LetEntry> _closure, ExpressionNode _node, String... _names )
+	private void addToClosureWithInnerDefs( Map<String, LetEntry<Compilable>> _closure, ExpressionNode _node, String... _names )
 	{
 		for (final String _name : _names) {
 			letInnerDef( _name );
@@ -444,11 +446,11 @@ abstract class MethodCompiler
 	}
 
 
-	final void addClosureToLetDict( Iterable<LetEntry> _closure, int _leadingParamSize )
+	final void addClosureToLetDict( Iterable<LetEntry<Compilable>> _closure, int _leadingParamSize )
 	{
 		int iArg = 1 + _leadingParamSize; // 0 is "this"
-		for (LetEntry entry : _closure) {
-			if (isArray( entry )) {
+		for (LetEntry<Compilable> entry : _closure) {
+			if (entry.value.isArray()) {
 				letDict().let( entry.name, entry.type, new LocalArrayRef( iArg ) );
 				iArg++;
 			}
@@ -459,20 +461,20 @@ abstract class MethodCompiler
 		}
 	}
 
-	final void addClosureToLetDict( Iterable<LetEntry> _closure )
+	final void addClosureToLetDict( Iterable<LetEntry<Compilable>> _closure )
 	{
 		addClosureToLetDict( _closure, 0 );
 	}
 
 
-	final void compileClosure( Iterable<LetEntry> _closure ) throws CompilerException
+	final void compileClosure( Iterable<LetEntry<Compilable>> _closure ) throws CompilerException
 	{
-		for (LetEntry entry : _closure) {
+		for (LetEntry<Compilable> entry : _closure) {
 			expressionCompiler( entry.type ).compileLetValue( entry.name, entry.value );
 		}
 	}
 
-	final void compileCalleeAndClosure( Iterable<LetEntry> _closure ) throws CompilerException
+	final void compileCalleeAndClosure( Iterable<LetEntry<Compilable>> _closure ) throws CompilerException
 	{
 		mv().visitVarInsn( Opcodes.ALOAD, objectInContext() );
 		compileClosure( _closure );
@@ -610,31 +612,9 @@ abstract class MethodCompiler
 	}
 
 
-	protected final static boolean isArray( ExpressionNode _node )
-	{
-		return _node instanceof ExpressionNodeForArrayReference || _node instanceof ExpressionNodeForMakeArray;
-	}
-
-	private static boolean isArray( LetDictionary.LetEntry _e )
-	{
-		if (_e.value instanceof DelayedLet) {
-			return ((DelayedLet) _e.value).isArray();
-		}
-		else if (_e.value instanceof LocalRef) {
-			return ((LocalRef) _e.value).isArray();
-		}
-		else if (_e.value instanceof ExpressionNode) {
-			return isArray( (ExpressionNode) _e.value );
-		}
-		else {
-			return false;
-		}
-	}
-
-
 	// LATER Might convert constructors to static getters reusing values.
 
-	static abstract class LocalRef
+	static abstract class LocalRef implements Compilable
 	{
 		final int offset;
 
@@ -643,7 +623,7 @@ abstract class MethodCompiler
 			this.offset = _offset;
 		}
 
-		public abstract boolean isArray();
+		public abstract void compileStoreLocal(ExpressionCompiler _exp);
 	}
 
 	static final class LocalValueRef extends LocalRef
@@ -660,12 +640,21 @@ abstract class MethodCompiler
 			return "local_val(" + this.offset + ")";
 		}
 
-		@Override
 		public boolean isArray()
 		{
 			return false;
 		}
 
+		public void compile( ExpressionCompiler _exp ) throws CompilerException
+		{
+			_exp.mv().visitVarInsn( _exp.type().getOpcode( Opcodes.ILOAD ), this.offset );
+		}
+
+		@Override
+		public void compileStoreLocal( ExpressionCompiler _exp )
+		{
+			_exp.mv().visitVarInsn( _exp.type().getOpcode( Opcodes.ISTORE ), this.offset );
+		}
 	}
 
 	static final class LocalArrayRef extends LocalRef
@@ -682,17 +671,21 @@ abstract class MethodCompiler
 			return "local_array(" + this.offset + ")";
 		}
 
-		@Override
 		public boolean isArray()
 		{
 			return true;
 		}
 
-	}
+		public void compile( ExpressionCompiler _exp ) throws CompilerException
+		{
+			_exp.mv().visitVarInsn( Opcodes.ALOAD, this.offset );
+		}
 
-	static interface GeneratedRef
-	{
-		void compile( ExpressionCompiler _exp ) throws CompilerException;
+		@Override
+		public void compileStoreLocal( ExpressionCompiler _exp )
+		{
+			_exp.mv().visitVarInsn( Opcodes.ASTORE, this.offset );
+		}
 	}
 
 }

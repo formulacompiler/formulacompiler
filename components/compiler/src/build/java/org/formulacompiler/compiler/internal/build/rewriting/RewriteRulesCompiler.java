@@ -289,7 +289,7 @@ public final class RewriteRulesCompiler
 			this.def = _def;
 		}
 
-		private final LetDictionary letDict = new LetDictionary();
+		private final LetDictionary<String> letDict = new LetDictionary<String>();
 		private final Set<String> letVars = New.set();
 		private char nextLetVarSuffix = 'a';
 
@@ -563,7 +563,7 @@ public final class RewriteRulesCompiler
 		private void compileLetVar( ExpressionNodeForLetVar _node, DescriptionBuilder _b )
 		{
 			final String letName = _node.varName();
-			final String varName = (String) this.letDict.lookup( letName );
+			final String varName = this.letDict.lookup( letName );
 			_b.append( (null == varName) ? letName : varName );
 		}
 

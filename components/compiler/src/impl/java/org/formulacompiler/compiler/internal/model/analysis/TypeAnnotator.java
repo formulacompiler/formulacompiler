@@ -62,9 +62,9 @@ public final class TypeAnnotator extends AbstractComputationModelVisitor
 	}
 
 
-	private final LetDictionary letDict = new LetDictionary();
+	private final LetDictionary<Void> letDict = new LetDictionary<Void>();
 
-	private LetDictionary letDict()
+	private LetDictionary<Void> letDict()
 	{
 		return this.letDict;
 	}
