@@ -59,43 +59,25 @@ public class EvalShadowBuilder implements ExpressionNodeShadow.Builder<EvalShado
 	public EvalShadow<? extends ExpressionNode> shadow( ExpressionNode _node )
 	{
 		// DO NOT REFORMAT BELOW THIS LINE
-		if (_node instanceof ExpressionNodeForConstantValue)
-			return new EvalConstantValue( (ExpressionNodeForConstantValue) _node, this.type );
-		else if (_node instanceof ExpressionNodeForMinValue)
-			return new EvalMinimum( (ExpressionNodeForMinValue) _node, this.type );
-		else if (_node instanceof ExpressionNodeForMaxValue)
-			return new EvalMaximum( (ExpressionNodeForMaxValue) _node, this.type );
-		else if (_node instanceof ExpressionNodeForArrayReference)
-			return new EvalRangeValue( (ExpressionNodeForArrayReference) _node, this.type );
-		else if (_node instanceof ExpressionNodeForOperator)
-			return new EvalOperator( (ExpressionNodeForOperator) _node, this.type );
-		else if (_node instanceof ExpressionNodeForFunction)
-			return newEvalFunction( (ExpressionNodeForFunction) _node );
-		else if (_node instanceof ExpressionNodeForCellModel)
-			return new EvalCell( (ExpressionNodeForCellModel) _node, this.type );
-		else if (_node instanceof ExpressionNodeForParentSectionModel)
-			return new EvalPassthrough( (ExpressionNodeForParentSectionModel) _node );
-		else if (_node instanceof ExpressionNodeForSubstitution)
-			return new EvalSubstitution( (ExpressionNodeForSubstitution) _node );
+		if (_node instanceof ExpressionNodeForConstantValue) return new EvalConstantValue( (ExpressionNodeForConstantValue) _node, this.type );
+		else if (_node instanceof ExpressionNodeForMinValue) return new EvalMinimum( (ExpressionNodeForMinValue) _node, this.type );
+		else if (_node instanceof ExpressionNodeForMaxValue) return new EvalMaximum( (ExpressionNodeForMaxValue) _node, this.type );
+		else if (_node instanceof ExpressionNodeForArrayReference) return new EvalRangeValue( (ExpressionNodeForArrayReference) _node, this.type );
+		else if (_node instanceof ExpressionNodeForOperator) return new EvalOperator( (ExpressionNodeForOperator) _node, this.type );
+		else if (_node instanceof ExpressionNodeForFunction) return newEvalFunction( (ExpressionNodeForFunction) _node );
+		else if (_node instanceof ExpressionNodeForCellModel) return new EvalCell( (ExpressionNodeForCellModel) _node, this.type );
+		else if (_node instanceof ExpressionNodeForParentSectionModel) return new EvalPassthrough( (ExpressionNodeForParentSectionModel) _node );
+		else if (_node instanceof ExpressionNodeForSubstitution) return new EvalSubstitution( (ExpressionNodeForSubstitution) _node );
 		else if (_node instanceof ExpressionNodeForLet) return new EvalLet( (ExpressionNodeForLet) _node, this.type );
-		else if (_node instanceof ExpressionNodeForSwitch)
-			return new EvalSwitch( (ExpressionNodeForSwitch) _node, this.type );
-		else if (_node instanceof ExpressionNodeForSwitchCase)
-			return new EvalSwitchCase( (ExpressionNodeForSwitchCase) _node, this.type );
-		else if (_node instanceof ExpressionNodeForLetVar)
-			return new EvalLetVar( (ExpressionNodeForLetVar) _node, this.type );
-		else if (_node instanceof ExpressionNodeForFoldDefinition)
-			return new EvalFoldDefinition( (ExpressionNodeForFoldDefinition) _node, this.type );
-		else if (_node instanceof ExpressionNodeForFoldList)
-			return new EvalFoldList( (ExpressionNodeForFoldList) _node, this.type );
-		else if (_node instanceof ExpressionNodeForFoldVectors)
-			return new EvalFoldVectors( (ExpressionNodeForFoldVectors) _node, this.type );
-		else if (_node instanceof ExpressionNodeForFoldDatabase)
-			return new EvalFoldDatabase( (ExpressionNodeForFoldDatabase) _node, this.type );
-		else if (_node instanceof ExpressionNodeForMakeArray)
-			return new EvalMakeArray( (ExpressionNodeForMakeArray) _node );
-		else if (_node instanceof ExpressionNodeForLogging)
-			return new EvalLogging( (ExpressionNodeForLogging) _node, this.type );
+		else if (_node instanceof ExpressionNodeForSwitch) return new EvalSwitch( (ExpressionNodeForSwitch) _node, this.type );
+		else if (_node instanceof ExpressionNodeForSwitchCase) return new EvalSwitchCase( (ExpressionNodeForSwitchCase) _node, this.type );
+		else if (_node instanceof ExpressionNodeForLetVar) return new EvalLetVar( (ExpressionNodeForLetVar) _node, this.type );
+		else if (_node instanceof ExpressionNodeForFoldDefinition) return new EvalFoldDefinition( (ExpressionNodeForFoldDefinition) _node, this.type );
+		else if (_node instanceof ExpressionNodeForFoldList) return new EvalFoldList( (ExpressionNodeForFoldList) _node, this.type );
+		else if (_node instanceof ExpressionNodeForFoldVectors) return new EvalFoldVectors( (ExpressionNodeForFoldVectors) _node, this.type );
+		else if (_node instanceof ExpressionNodeForFoldDatabase) return new EvalFoldDatabase( (ExpressionNodeForFoldDatabase) _node, this.type );
+		else if (_node instanceof ExpressionNodeForMakeArray) return new EvalMakeArray( (ExpressionNodeForMakeArray) _node );
+		else if (_node instanceof ExpressionNodeForLogging) return new EvalLogging( (ExpressionNodeForLogging) _node, this.type );
 		else return new EvalNonFoldable( _node );
 		// DO NOT REFORMAT ABOVE THIS LINE
 	}
