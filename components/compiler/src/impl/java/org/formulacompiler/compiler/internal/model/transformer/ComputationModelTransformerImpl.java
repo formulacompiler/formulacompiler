@@ -28,6 +28,7 @@ import org.formulacompiler.compiler.internal.model.ComputationModel;
 import org.formulacompiler.compiler.internal.model.ComputationModelTransformer;
 import org.formulacompiler.compiler.internal.model.ConstantExpressionCellListenerSupport;
 import org.formulacompiler.compiler.internal.model.LoggingVisitor;
+import org.formulacompiler.compiler.internal.model.analysis.CircularReferencesChecker;
 import org.formulacompiler.compiler.internal.model.analysis.ModelIsTypedChecker;
 import org.formulacompiler.compiler.internal.model.analysis.TypeAnnotator;
 import org.formulacompiler.compiler.internal.model.interpreter.InterpretedNumericType;
@@ -77,6 +78,8 @@ public final class ComputationModelTransformerImpl implements ComputationModelTr
 
 	public ComputationModel destructiveTransform() throws CompilerException, EngineException
 	{
+		checkNoCircularReferences();
+
 		rewriteExpressions();
 
 		if (this.computationListenerEnabled) insertLoggingNodes();
@@ -94,6 +97,12 @@ public final class ComputationModelTransformerImpl implements ComputationModelTr
 		assert modelIsFullyTyped(): "Substitution inlining should leave the model fully typed";
 
 		return getModel();
+	}
+
+
+	private void checkNoCircularReferences() throws CompilerException
+	{
+		this.model.traverse( new CircularReferencesChecker() );
 	}
 
 
