@@ -23,6 +23,7 @@
 package org.formulacompiler.compiler;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
 
 import org.formulacompiler.runtime.FormulaCompilerException;
 
@@ -90,6 +91,32 @@ public class CompilerException extends FormulaCompilerException
 		public BrokenReference( String _message )
 		{
 			super( _message );
+		}
+
+	}
+
+
+	/**
+	 * The model being compiled contains cells that directly or indirectly reference themselves.
+	 *
+	 * @author Vladimir Korenev
+	 */
+	public static final class CyclicReferenceException extends CompilerException
+	{
+
+		public CyclicReferenceException( final Collection<Object> _path )
+		{
+			super( getMessage( _path ) );
+		}
+
+		private static String getMessage( final Collection<Object> _path )
+		{
+			final StringBuilder sb = new StringBuilder( "Cyclic reference: " );
+			for (Object cell : _path) {
+				sb.append( cell ).append( " -> " );
+			}
+			sb.append( "..." );
+			return sb.toString();
 		}
 
 	}

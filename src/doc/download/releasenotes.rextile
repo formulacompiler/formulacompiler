@@ -36,6 +36,7 @@ h5. Fixed
 	* Fixed loading date values from cells with formulas in .xls files.
 	* Fixed saving expressions with boolean constants.
 	* Fixed invalid calculation of aggregator functions in some cases ("issue 36":http://code.google.com/p/formulacompiler/issues/detail?id=36).
+	* A clear error message is provided if a spreadsheet being compiled contains a cyclic reference ("issue 37":http://code.google.com/p/formulacompiler/issues/detail?id=37).
 
 
 h2. Release 1.4

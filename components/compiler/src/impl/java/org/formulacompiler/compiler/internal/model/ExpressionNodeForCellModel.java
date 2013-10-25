@@ -30,26 +30,18 @@ import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForScalar
 
 public class ExpressionNodeForCellModel extends ExpressionNodeForScalar
 {
-	private CellModel cellModel;
+	private final CellModel cellModel;
 
 
 	public ExpressionNodeForCellModel( CellModel _cellModel )
 	{
-		super();
-		setCellModel( _cellModel );
+		this.cellModel = _cellModel;
 	}
 
 
 	public CellModel getCellModel()
 	{
 		return this.cellModel;
-	}
-
-
-	public void setCellModel( CellModel _cellModel )
-	{
-		if (_cellModel == this.cellModel) return;
-		this.cellModel = _cellModel;
 	}
 
 
