@@ -76,16 +76,18 @@ final class HelperCompilerForFoldVectors extends HelperCompilerForFoldApply
 			}
 			if (elts[ 0 ] instanceof ExpressionNodeForSubSectionModel) {
 				verifyAllElementsReferenceTheSameSubSection( elts );
-				compileSubSectionTraversal( (ExpressionNodeForSubSectionModel) elts[ 0 ], new SubSectionTraversal()
-				{
+				expressionCompiler().compileSubSectionTraversal( (ExpressionNodeForSubSectionModel) elts[ 0 ],
+						new ExpressionCompiler.SubSectionTraversal()
+						{
 
-					public void compile( Collection<ExpressionNode> _elements ) throws CompilerException
-					{
-						final Iterator<ExpressionNode>[] subVecs = getVectorArray( elts, eltCount );
-						compileTraversalOf( subVecs );
-					}
+							public void compile( Collection<ExpressionNode> _elements, int _indexLocalOffset )
+									throws CompilerException
+							{
+								final Iterator<ExpressionNode>[] subVecs = getVectorArray( elts, eltCount );
+								compileTraversalOf( subVecs );
+							}
 
-				} );
+						} );
 			}
 			else {
 				for (int iVec = 0; iVec < eltCount; iVec++) {

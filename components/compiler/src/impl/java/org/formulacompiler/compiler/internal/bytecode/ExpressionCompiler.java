@@ -25,6 +25,7 @@ package org.formulacompiler.compiler.internal.bytecode;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -1006,6 +1007,38 @@ abstract class ExpressionCompiler
 	}
 
 
+	final void compileSubSectionTraversal( final ExpressionNodeForSubSectionModel _sub,
+			final SubSectionTraversal _traversal ) throws CompilerException
+	{
+		final SubSectionCompiler subSection = sectionInContext().subSectionCompiler( _sub.getSectionModel() );
+		final GeneratorAdapter mv = mv();
+		method().compileObjectInContext();
+		sectionInContext().compileCallToGetterFor( mv, subSection );
+		compileScanArray( new ForEachElementCompilation()
+		{
+
+			public void compile( int _objectLocalOffset, int _indexLocalOffset ) throws CompilerException
+			{
+				final SectionCompiler oldSection = sectionInContext();
+				final int oldObject = method().objectInContext();
+				try {
+					method().setObjectInContext( subSection, _objectLocalOffset );
+					_traversal.compile( _sub.arguments(), _indexLocalOffset );
+				}
+				finally {
+					method().setObjectInContext( oldSection, oldObject );
+				}
+			}
+
+		} );
+	}
+
+	protected static interface SubSectionTraversal
+	{
+		void compile( Collection<ExpressionNode> _elements, int _indexLocalOffset ) throws CompilerException;
+	}
+
+
 	private final void compileRef( ExpressionNodeForSubSectionModel _node ) throws CompilerException
 	{
 		throw new CompilerException.ReferenceToInnerCellNotAggregated();
@@ -1173,12 +1206,53 @@ abstract class ExpressionCompiler
 	}
 
 
-	protected static interface ForEachElementCompilation
+	private static interface ForEachElementCompilation
 	{
-		void compile( int _xi ) throws CompilerException;
+		void compile( int _objectLocalOffset, int _indexLocalOffset ) throws CompilerException;
 	}
 
-	protected abstract void compile_scanArray( ForEachElementCompilation _forElement ) throws CompilerException;
+
+	private void compileScanArray( ForEachElementCompilation _forElement ) throws CompilerException
+	{
+		final GeneratorAdapter mv = mv();
+		final int loc = localsOffset();
+		incLocalsOffset( 4 );
+
+		// store array
+		mv.visitVarInsn( Opcodes.ASTORE, loc );
+
+		// store array length
+		mv.visitVarInsn( Opcodes.ALOAD, loc );
+		mv.arrayLength();
+		mv.visitVarInsn( Opcodes.ISTORE, 1 + loc );
+
+		// loop index
+		mv.push( 0 );
+		mv.visitVarInsn( Opcodes.ISTORE, 2 + loc );
+
+		// loop start
+		final Label l0 = mv.mark();
+
+		// check loop condition
+		mv.visitVarInsn( Opcodes.ILOAD, 2 + loc );
+		mv.visitVarInsn( Opcodes.ILOAD, 1 + loc );
+		final Label l1 = new Label();
+		mv.ifICmp( GeneratorAdapter.GE, l1 );
+
+		// loop body
+		mv.visitVarInsn( Opcodes.ALOAD, loc );
+		mv.visitVarInsn( Opcodes.ILOAD, 2 + loc );
+		mv.visitInsn( Opcodes.AALOAD );
+		mv.visitVarInsn( Opcodes.ASTORE, 3 + loc );
+		_forElement.compile( 3 + loc, 2 + loc );
+
+
+		// inc loop index
+		mv.visitIincInsn( 2 + loc, 1 );
+
+		mv.goTo( l0 );
+		mv.visitLabel( l1 );
+	}
 
 
 	protected final void compileArray( ExpressionNode _arrayNode ) throws CompilerException

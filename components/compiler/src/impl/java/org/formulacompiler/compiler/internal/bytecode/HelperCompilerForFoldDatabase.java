@@ -155,10 +155,10 @@ final class HelperCompilerForFoldDatabase extends HelperCompilerForFoldApply
 	private void compileSubSectionTraversal( final int _foldedCol, final ExpressionNodeForSubSectionModel _sub )
 			throws CompilerException
 	{
-		compileSubSectionTraversal( _sub, new SubSectionTraversal()
+		expressionCompiler().compileSubSectionTraversal( _sub, new ExpressionCompiler.SubSectionTraversal()
 		{
 
-			public void compile( Collection<ExpressionNode> _elements ) throws CompilerException
+			public void compile( Collection<ExpressionNode> _elements, int _indexLocalOffset ) throws CompilerException
 			{
 				compileRowTraversal( _foldedCol, _sub.arguments(), 0 );
 			}
