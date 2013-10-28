@@ -197,8 +197,7 @@ final class HelperCompilerForFoldDatabase extends HelperCompilerForFoldApply
 			}
 			mv().loadThis();
 			compileClosure( closure );
-			mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), this.matcher.methodName(),
-					this.matcher.methodDescriptor() );
+			this.matcher.compileCall( mv );
 		}
 		finally {
 			letDict().unlet( nCols );

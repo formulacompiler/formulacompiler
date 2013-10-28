@@ -26,6 +26,7 @@ import java.lang.reflect.Method;
 
 import org.formulacompiler.compiler.CallFrame;
 import org.formulacompiler.compiler.CompilerException;
+import org.formulacompiler.compiler.internal.NumericTypeImpl;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.runtime.spreadsheet.CellAddress;
@@ -37,40 +38,88 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 
 final class CellMethodCompiler extends NullaryValueMethodCompiler
 {
-	private final CellComputation cellComputation;
+	private final CellModel cell;
 
 
-	CellMethodCompiler( CellComputation _computation )
+	CellMethodCompiler( SectionCompiler _section, CellModel _cell ) throws CompilerException
 	{
-		super( _computation.getSection(), 0, _computation.getMethodName(), _computation.getCell().getDataType() );
-		this.cellComputation = _computation;
+		super( _section, 0, getMethodName( _section, _cell ), _cell.getDataType() );
+		this.cell = _cell;
+		validate();
 	}
 
+	private static String getMethodName( SectionCompiler _section, CellModel _cell )
+	{
+		if (_section.engineCompiler().getCompileToReadableCode()) {
+			return _section.newGetterName( cellNameToIdent( _cell.getShortName() ) );
+		}
+		else {
+			return _section.newGetterName();
+		}
+	}
+
+	private static String cellNameToIdent( String _name )
+	{
+		String result = _name;
+		final int posOfDot = result.indexOf( '.' );
+		if (posOfDot >= 0) {
+			result = result.substring( posOfDot + 1 );
+		}
+		if (result.endsWith( "()" )) {
+			result = result.substring( 0, result.length() - 2 );
+		}
+		// Replace all non-word characters by underscores.
+		result = result.replaceAll( "\\W", "_" );
+		return result;
+	}
+
+	void validate() throws CompilerException
+	{
+		validateInputType();
+		validateOutputTypes();
+	}
+
+	private void validateInputType() throws CompilerException
+	{
+		if (this.cell.isInput()) {
+			((NumericTypeImpl) section().engineCompiler().getNumericType()).validateReturnTypeForCell( this.cell
+					.getCallChainToCall().getMethod() );
+		}
+	}
+
+	private void validateOutputTypes() throws CompilerException
+	{
+		for (CallFrame frame : this.cell.getCallsToImplement()) {
+			if (frame.getHead() != frame) {
+				throw new CompilerException.UnsupportedDataType( "The output method " + frame + " cannot be chained." );
+			}
+			((NumericTypeImpl) section().engineCompiler().getNumericType()).validateReturnTypeForCell( frame
+					.getMethod() );
+		}
+	}
 
 	@Override
 	protected void compileBody() throws CompilerException
 	{
-		final CellModel cell = this.cellComputation.getCell();
-
-		if (cell.isOutput()) {
+		if (this.cell.isOutput()) {
 			compileOutputGetter();
 		}
 
-		if (cell.isInput()) {
-			if (shouldCache( cell )) {
+		if (this.cell.isInput()) {
+			if (shouldCache( this.cell )) {
 				compileCacheBegin();
-				compileInput( cell.getCallChainToCall() );
+				compileInput( this.cell.getCallChainToCall() );
 				compileCacheEnd();
 			}
 			else {
-				compileInput( cell.getCallChainToCall() );
+				compileInput( this.cell.getCallChainToCall() );
 			}
 		}
 		else {
-			final ExpressionNode cellExpr = cell.getExpression();
+			final ExpressionNode cellExpr = this.cell.getExpression();
 			final ExpressionCompiler ec = expressionCompiler();
 			if (null != cellExpr) {
-				if (shouldCache( cell )) {
+				if (shouldCache( this.cell )) {
 					compileCacheBegin();
 					compileExpression( cellExpr );
 					compileCacheEnd();
@@ -80,7 +129,7 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 				}
 			}
 			else {
-				final Object constantValue = cell.getConstantValue();
+				final Object constantValue = this.cell.getConstantValue();
 				ec.compileConst( constantValue );
 			}
 		}
@@ -93,12 +142,11 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 		expressionCompiler().compileConversionFromResultOf( _callChainToCall.getMethod() );
 
 		if (section().isComputationListenerEnabled()) {
-			final CellModel cellModel = this.cellComputation.getCell();
-			final Object source = cellModel.getSource();
+			final Object source = this.cell.getSource();
 			if (source instanceof CellAddress) {
 				final CellAddress cellAddress = (CellAddress) source;
-				final String name = cellModel.getName();
-				expressionCompiler().compileLogging( cellAddress, name, true, cellModel.isOutput() );
+				final String name = this.cell.getName();
+				expressionCompiler().compileLogging( cellAddress, name, true, this.cell.isOutput() );
 			}
 		}
 	}
@@ -168,29 +216,28 @@ final class CellMethodCompiler extends NullaryValueMethodCompiler
 
 	private final void compileOutputGetter() throws CompilerException
 	{
-		final CellModel cell = this.cellComputation.getCell();
-		for (CallFrame callFrame : cell.getCallsToImplement()) {
+		for (CallFrame callFrame : this.cell.getCallsToImplement()) {
 
 			if (callFrame.getHead() != callFrame) throw new IllegalArgumentException();
 
 			final Method method = callFrame.getMethod();
 			if (0 == callFrame.getArgs().length) {
-				compileOutputMethod( cell, method.getName(), method );
+				compileOutputMethod( method.getName(), method );
 			}
 			else {
 				final OutputDistributorCompiler dist = this.section().getOutputDistributorFor( method );
 				final String caseName = dist.compileCase( callFrame );
-				compileOutputMethod( cell, caseName, method );
+				compileOutputMethod( caseName, method );
 			}
 		}
 	}
 
 
-	private final void compileOutputMethod( CellModel _cell, String _name, Method _method ) throws CompilerException
+	private final void compileOutputMethod( String _name, Method _method ) throws CompilerException
 	{
 		final Type returnType = Type.getReturnType( _method );
 		final String sig = "()" + returnType.getDescriptor();
-		new OutputMethodCompiler( section(), _name, sig, this.cellComputation, _method ).compile();
+		new OutputMethodCompiler( section(), _name, sig, this, _method ).compile();
 	}
 
 

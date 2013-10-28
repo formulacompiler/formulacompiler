@@ -183,7 +183,10 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 		@Override
 		protected void visitTargetCell( CellModel _cell ) throws CompilerException
 		{
-			new CellComputation( getSection(), _cell ).validate();
+			final SectionCompiler section = getSection();
+			final CellMethodCompiler cellMethodCompiler = new CellMethodCompiler( section, _cell );
+			cellMethodCompiler.validate();
+			section.addCellMethodCompiler( _cell, cellMethodCompiler );
 		}
 
 	}
@@ -223,7 +226,7 @@ public class ByteCodeEngineCompiler extends AbstractOptimizedModelToEngineCompil
 		@Override
 		protected void visitTargetCell( CellModel _cell ) throws CompilerException
 		{
-			getSection().cellComputation( _cell ).compile();
+			getSection().cellMethodCompiler( _cell ).compile();
 		}
 
 	}

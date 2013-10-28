@@ -11,12 +11,6 @@ final class $Root extends Basics.RebateComputation implements Computation
     private final Basics.RebateInputs $inputs;
     final Environment $environment;
     
-    $Root(Basics.RebateInputs rebateinputs, Environment environment) {
-        super(rebateinputs);
-        $environment = environment;
-        $inputs = rebateinputs;
-    }
-    
     final double get$0() {
         return (get$1() == 1.0 ? get$2() + get$3()
                 : RuntimeDouble_v2.max(get$2(), get$3()));
@@ -36,6 +30,12 @@ final class $Root extends Basics.RebateComputation implements Computation
     
     final double get$3() {
         return $inputs.getArticleRebate();
+    }
+    
+    $Root(Basics.RebateInputs rebateinputs, Environment environment) {
+        super(rebateinputs);
+        $environment = environment;
+        $inputs = rebateinputs;
     }
 }
 ___@_@___
@@ -79,11 +79,6 @@ final class $Root implements Computation, Outputs
     private final Inputs $inputs;
     final Environment $environment;
     
-    $Root(Inputs inputs, Environment environment) {
-        $environment = environment;
-        $inputs = inputs;
-    }
-    
     final double get$0() {
         return get$1() * get$2();
     }
@@ -99,6 +94,11 @@ final class $Root implements Computation, Outputs
     final double get$2() {
         return $inputs.getB();
     }
+    
+    $Root(Inputs inputs, Environment environment) {
+        $environment = environment;
+        $inputs = inputs;
+    }
 }
 ___@_@___
 jc:binding/org.formulacompiler.gen.$Root
@@ -113,11 +113,6 @@ final class $Root implements Computation, BindingCells.Output
 {
     private final BindingCells.Input $inputs;
     final Environment $environment;
-    
-    $Root(BindingCells.Input input, Environment environment) {
-        $environment = environment;
-        $inputs = input;
-    }
     
     final double get$0() {
         return get$1() + get$2() + get$3();
@@ -162,6 +157,11 @@ final class $Root implements Computation, BindingCells.Output
     final double get$8() {
         return (double) $inputs.getDecade();
     }
+    
+    $Root(BindingCells.Input input, Environment environment) {
+        $environment = environment;
+        $inputs = input;
+    }
 }
 ___@_@___
 jc:bonusPerEmployee/org.formulacompiler.gen.$Root
@@ -177,11 +177,6 @@ final class $Root extends BonusPerEmployee.BonusComputationDefaults
     private final BonusPerEmployee.BonusData $inputs;
     final Environment $environment;
     private $Sect0[] get$Sect0;
-    
-    $Root(BonusPerEmployee.BonusData bonusdata, Environment environment) {
-        $environment = environment;
-        $inputs = bonusdata;
-    }
     
     public final void reset() {
         get$Sect0 = null;
@@ -228,6 +223,11 @@ final class $Root extends BonusPerEmployee.BonusComputationDefaults
     
     public final BonusPerEmployee.EmployeeBonusComputation[] employees() {
         return get$Sect0();
+    }
+    
+    $Root(BonusPerEmployee.BonusData bonusdata, Environment environment) {
+        $environment = environment;
+        $inputs = bonusdata;
     }
 }
 ___@_@___
@@ -303,11 +303,6 @@ final class $Root implements Computation, Caching.Output
     private boolean h$get$2;
     private BigDecimal c$get$2;
     
-    $Root(Caching.Input input, Environment environment) {
-        $environment = environment;
-        $inputs = input;
-    }
-    
     public final void reset() {
         h$get$0 = false;
         h$get$1 = false;
@@ -346,6 +341,11 @@ final class $Root implements Computation, Caching.Output
     public final BigDecimal getVolume() {
         return get$2();
     }
+    
+    $Root(Caching.Input input, Environment environment) {
+        $environment = environment;
+        $inputs = input;
+    }
 }
 ___@_@___
 jc:caching/plain/org.formulacompiler.gen.$Root
@@ -362,11 +362,6 @@ final class $Root implements Computation, Caching.Output
 {
     private final Caching.Input $inputs;
     final Environment $environment;
-    
-    $Root(Caching.Input input, Environment environment) {
-        $environment = environment;
-        $inputs = input;
-    }
     
     public final void reset() {
         /* empty */
@@ -391,6 +386,11 @@ final class $Root implements Computation, Caching.Output
     public final BigDecimal getVolume() {
         return get$2();
     }
+    
+    $Root(Caching.Input input, Environment environment) {
+        $environment = environment;
+        $inputs = input;
+    }
 }
 ___@_@___
 jc:customerRatingWithOrders/org.formulacompiler.gen.$Root
@@ -409,12 +409,6 @@ final class $Root
     final Environment $environment;
     private double[] $constarr$0;
     private $Sect0[] get$Sect0;
-    
-    $Root(CustomerRatingWithOrders.CustomerData customerdata,
-          Environment environment) {
-        $environment = environment;
-        $inputs = customerdata;
-    }
     
     final String get$0() {
         return $idx$0(RuntimeDouble_v2.fun_MATCH_Ascending(get$1(),
@@ -476,6 +470,12 @@ final class $Root
         }
         return get$Sect0;
     }
+    
+    $Root(CustomerRatingWithOrders.CustomerData customerdata,
+          Environment environment) {
+        $environment = environment;
+        $inputs = customerdata;
+    }
 }
 ___@_@___
 jc:customerRatingWithOrders/org.formulacompiler.gen.$Sect0
@@ -515,11 +515,6 @@ final class $Root implements Computation, Exceptions.Outputs
     private final Exceptions.Inputs $inputs;
     final Environment $environment;
     
-    $Root(Exceptions.Inputs inputs, Environment environment) {
-        $environment = environment;
-        $inputs = inputs;
-    }
-    
     final double get$0() {
         return 1.0 + (get$3() != 0.0 ? 4711.0 : get$1());
     }
@@ -551,6 +546,11 @@ final class $Root implements Computation, Exceptions.Outputs
     final double get$2() {
         return $inputs.value();
     }
+    
+    $Root(Exceptions.Inputs inputs, Environment environment) {
+        $environment = environment;
+        $inputs = inputs;
+    }
 }
 ___@_@___
 jc:exceptions/isna/org.formulacompiler.gen.$Root
@@ -567,11 +567,6 @@ final class $Root implements Computation, Exceptions.Outputs
 {
     private final Exceptions.Inputs $inputs;
     final Environment $environment;
-    
-    $Root(Exceptions.Inputs inputs, Environment environment) {
-        $environment = environment;
-        $inputs = inputs;
-    }
     
     final double get$0() {
         return 1.0 + (get$3() != 0.0 ? 4711.0 : get$1());
@@ -608,6 +603,11 @@ final class $Root implements Computation, Exceptions.Outputs
     
     final double get$2() {
         return $inputs.value();
+    }
+    
+    $Root(Exceptions.Inputs inputs, Environment environment) {
+        $environment = environment;
+        $inputs = inputs;
     }
 }
 ___@_@___
@@ -790,11 +790,6 @@ final class $Root implements Computation, AbstractUsingBigDecimalTest.Output
     private final AbstractUsingBigDecimalTest.Input $inputs;
     final Environment $environment;
     
-    $Root(AbstractUsingBigDecimalTest.Input input, Environment environment) {
-        $environment = environment;
-        $inputs = input;
-    }
-    
     final BigDecimal get$0() {
         return get$1().divide(get$2()).add(get$1());
     }
@@ -818,6 +813,11 @@ final class $Root implements Computation, AbstractUsingBigDecimalTest.Output
     public final BigDecimal getNegated() {
         return get$3();
     }
+    
+    $Root(AbstractUsingBigDecimalTest.Input input, Environment environment) {
+        $environment = environment;
+        $inputs = input;
+    }
 }
 ___@_@___
 jc:numeric_type/bigdecimal_prec34/org.formulacompiler.gen.$Root
@@ -836,11 +836,6 @@ final class $Root implements Computation, AbstractUsingBigDecimalTest.Output
     private final AbstractUsingBigDecimalTest.Input $inputs;
     final Environment $environment;
     static final MathContext mathContext = MathContext.DECIMAL128;
-    
-    $Root(AbstractUsingBigDecimalTest.Input input, Environment environment) {
-        $environment = environment;
-        $inputs = input;
-    }
     
     final BigDecimal get$0() {
         return get$1().divide(get$2(), mathContext).add(get$1(), mathContext);
@@ -865,6 +860,11 @@ final class $Root implements Computation, AbstractUsingBigDecimalTest.Output
     public final BigDecimal getNegated() {
         return get$3();
     }
+    
+    $Root(AbstractUsingBigDecimalTest.Input input, Environment environment) {
+        $environment = environment;
+        $inputs = input;
+    }
 }
 ___@_@___
 jc:numeric_type/bigdecimal_scale4/org.formulacompiler.gen.$Root
@@ -881,11 +881,6 @@ final class $Root implements Computation, AbstractUsingBigDecimalTest.Output
 {
     private final AbstractUsingBigDecimalTest.Input $inputs;
     final Environment $environment;
-    
-    $Root(AbstractUsingBigDecimalTest.Input input, Environment environment) {
-        $environment = environment;
-        $inputs = input;
-    }
     
     final BigDecimal get$0() {
         return get$1().divide(get$2(), 4, 0).add(get$1());
@@ -910,6 +905,11 @@ final class $Root implements Computation, AbstractUsingBigDecimalTest.Output
     public final BigDecimal getNegated() {
         return get$3();
     }
+    
+    $Root(AbstractUsingBigDecimalTest.Input input, Environment environment) {
+        $environment = environment;
+        $inputs = input;
+    }
 }
 ___@_@___
 jc:numeric_type/double/org.formulacompiler.gen.$Root
@@ -923,11 +923,6 @@ final class $Root implements Computation, UsingDouble.Output
 {
     private final UsingDouble.Input $inputs;
     final Environment $environment;
-    
-    $Root(UsingDouble.Input input, Environment environment) {
-        $environment = environment;
-        $inputs = input;
-    }
     
     final double get$0() {
         return get$1() / get$2() + get$1();
@@ -952,6 +947,11 @@ final class $Root implements Computation, UsingDouble.Output
     public final double getNegated() {
         return get$3();
     }
+    
+    $Root(UsingDouble.Input input, Environment environment) {
+        $environment = environment;
+        $inputs = input;
+    }
 }
 ___@_@___
 jc:numeric_type/long/org.formulacompiler.gen.$Root
@@ -965,11 +965,6 @@ final class $Root implements Computation, UsingScaledLong.Output0
 {
     private final UsingScaledLong.Input $inputs;
     final Environment $environment;
-    
-    $Root(UsingScaledLong.Input input, Environment environment) {
-        $environment = environment;
-        $inputs = input;
-    }
     
     final long get$0() {
         return get$1() / get$2() + get$1();
@@ -994,6 +989,11 @@ final class $Root implements Computation, UsingScaledLong.Output0
     public final long getNegated() {
         return get$3();
     }
+    
+    $Root(UsingScaledLong.Input input, Environment environment) {
+        $environment = environment;
+        $inputs = input;
+    }
 }
 ___@_@___
 jc:numeric_type/scaledlong3/org.formulacompiler.gen.$Root
@@ -1007,11 +1007,6 @@ final class $Root implements Computation, UsingScaledLong.Output
 {
     private final UsingScaledLong.Input $inputs;
     final Environment $environment;
-    
-    $Root(UsingScaledLong.Input input, Environment environment) {
-        $environment = environment;
-        $inputs = input;
-    }
     
     final long get$0() {
         return get$1() * 1000L / get$2() + get$1();
@@ -1035,6 +1030,11 @@ final class $Root implements Computation, UsingScaledLong.Output
     
     public final long getNegated() {
         return get$3();
+    }
+    
+    $Root(UsingScaledLong.Input input, Environment environment) {
+        $environment = environment;
+        $inputs = input;
     }
 }
 ___@_@___
@@ -4111,11 +4111,6 @@ final class $Root implements Computation, Decompilation.MyOutputs
     private final Decompilation.MyInputs $inputs;
     final Environment $environment;
     
-    $Root(Decompilation.MyInputs myinputs, Environment environment) {
-        $environment = environment;
-        $inputs = myinputs;
-    }
-    
     final double get$Rebate() {
         return RuntimeDouble_v2.max(get$CustomerRebate(), get$ArticleRebate());
     }
@@ -4130,6 +4125,11 @@ final class $Root implements Computation, Decompilation.MyOutputs
     
     final double get$ArticleRebate() {
         return $inputs.articleRebate();
+    }
+    
+    $Root(Decompilation.MyInputs myinputs, Environment environment) {
+        $environment = environment;
+        $inputs = myinputs;
     }
 }
 ___@_@___
@@ -4173,11 +4173,6 @@ final class $Root implements Computation, Decompilation.MyOutputs
     private final Decompilation.MyInputs $inputs;
     final Environment $environment;
     
-    $Root(Decompilation.MyInputs myinputs, Environment environment) {
-        $environment = environment;
-        $inputs = myinputs;
-    }
-    
     final double get$0() {
         return RuntimeDouble_v2.max(get$1(), get$2());
     }
@@ -4192,6 +4187,11 @@ final class $Root implements Computation, Decompilation.MyOutputs
     
     final double get$2() {
         return $inputs.articleRebate();
+    }
+    
+    $Root(Decompilation.MyInputs myinputs, Environment environment) {
+        $environment = environment;
+        $inputs = myinputs;
     }
 }
 ___@_@___
@@ -4240,11 +4240,6 @@ final class $Root implements Computation, QuickStart.PriceFinder
     final Environment $environment;
     private String[] $constarr$0;
     
-    $Root(QuickStart.LineItem lineitem, Environment environment) {
-        $environment = environment;
-        $inputs = lineitem;
-    }
-    
     final double get$0() {
         return (get$1() * get$2()
                 * (1.0 - $idx$0(Runtime_v2.fun_MATCH_Ascending(get$3(),
@@ -4289,6 +4284,11 @@ final class $Root implements Computation, QuickStart.PriceFinder
     
     final String get$3() {
         return Runtime_v2.stringFromString($inputs.getCustomerCategory());
+    }
+    
+    $Root(QuickStart.LineItem lineitem, Environment environment) {
+        $environment = environment;
+        $inputs = lineitem;
     }
 }
 ___@_@___

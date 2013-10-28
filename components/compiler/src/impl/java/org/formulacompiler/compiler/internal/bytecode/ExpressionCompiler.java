@@ -82,13 +82,11 @@ abstract class ExpressionCompiler
 	protected static final Type FORMULA_ERROR_TYPE = Type.getType( FormulaException.class );
 
 	private final MethodCompiler methodCompiler;
-	private final GeneratorAdapter mv;
 
 	ExpressionCompiler( MethodCompiler _methodCompiler )
 	{
 		super();
 		this.methodCompiler = _methodCompiler;
-		this.mv = _methodCompiler.mv();
 	}
 
 	protected final MethodCompiler method()
@@ -113,24 +111,14 @@ abstract class ExpressionCompiler
 		return typeCompiler().dataType();
 	}
 
-	protected final Type runtimeType()
-	{
-		return typeCompiler().runtimeType();
-	}
-
 	protected final Type type()
 	{
 		return typeCompiler().type();
 	}
 
-	protected final String typeDescriptor()
-	{
-		return typeCompiler().typeDescriptor();
-	}
-
 	protected final GeneratorAdapter mv()
 	{
-		return this.mv;
+		return method().mv();
 	}
 
 	protected final LetDictionary<Compilable> letDict()
@@ -815,7 +803,7 @@ abstract class ExpressionCompiler
 		final ExpressionCompilerForNumbers numCompiler = mtd.numericCompiler();
 
 		// Push receiver for index switch method.
-		mtd.mv().visitVarInsn( Opcodes.ALOAD, mtd.objectInContext() );
+		mtd.compileObjectInContext();
 
 		// Compute index value.
 		final ArrayDescriptor desc = _array.arrayDescriptor();
@@ -836,7 +824,7 @@ abstract class ExpressionCompiler
 			}
 			else {
 				// Push receiver for linearizer method.
-				mtd.mv().visitVarInsn( Opcodes.ALOAD, mtd.objectInContext() );
+				mtd.compileObjectInContext();
 				numCompiler.compileInt( _row );
 				numCompiler.compileInt( _col );
 				section().getLinearizerFor( rows, cols ).compileCall( mv );
@@ -864,7 +852,7 @@ abstract class ExpressionCompiler
 		 * Move the handler into its own method because exception handlers clobber the stack.
 		 */
 		final Iterable<LetEntry<Compilable>> closure = closureOf( _node );
-		compileHelpedExpr( new HelperCompiler( section(), _node, closure )
+		compileHelpedExpr( new HelperCompiler( sectionInContext(), _node, closure )
 		{
 
 			@Override
@@ -968,29 +956,16 @@ abstract class ExpressionCompiler
 	}
 
 
-	final void compileRef( CellComputation _cell )
+	final void compileCallTo( MethodCompiler _methodCompiler )
 	{
-		compileRef( _cell.getMethodName() );
-	}
-
-
-	private final void compileRef( String _getterName, SectionCompiler _section, int _localThis )
-	{
-		final GeneratorAdapter mv = mv();
-		mv.visitVarInsn( Opcodes.ALOAD, _localThis );
-		mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, _section.classInternalName(), _getterName, typeCompiler()
-				.typeGetterDesc() );
-	}
-
-	private final void compileRef( String _getterName )
-	{
-		compileRef( _getterName, method().sectionInContext(), method().objectInContext() );
+		method().compileObjectInContext();
+		_methodCompiler.compileCall( mv() );
 	}
 
 
 	final void compileRef( CellModel _cell )
 	{
-		compileRef( sectionInContext().cellComputation( _cell ) );
+		compileCallTo( sectionInContext().cellMethodCompiler( _cell ) );
 	}
 
 
@@ -1000,7 +975,7 @@ abstract class ExpressionCompiler
 		final SectionCompiler parent = section.parentSectionCompiler();
 		final int parentObject = method().newLocal( 1 ); // Object
 		final GeneratorAdapter mv = mv();
-		mv.visitVarInsn( Opcodes.ALOAD, method().objectInContext() );
+		method().compileObjectInContext();
 		mv.getField( section.classType(), ByteCodeEngineCompiler.PARENT_MEMBER_NAME, parent.classType() );
 		mv().visitVarInsn( Opcodes.ASTORE, parentObject );
 		compileInContextOfObject( parent, parentObject, _node );
@@ -1166,8 +1141,7 @@ abstract class ExpressionCompiler
 	{
 		_compiler.compile();
 		method().compileCalleeAndClosure( _closure );
-		mv().visitMethodInsn( Opcodes.INVOKEVIRTUAL, sectionInContext().classInternalName(), _compiler.methodName(),
-				_compiler.methodDescriptor() );
+		_compiler.compileCall( mv() );
 	}
 
 

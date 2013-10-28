@@ -326,7 +326,7 @@ abstract class ExpressionCompilerForNumbers_Base extends ExpressionCompilerForAl
 		final int[] cnts = _node.subSectionStaticValueCounts();
 		for (int i = 0; i < subs.length; i++) {
 			final SubSectionCompiler sub = sectionInContext().subSectionCompiler( subs[ i ] );
-			mv.visitVarInsn( Opcodes.ALOAD, method().objectInContext() );
+			method().compileObjectInContext();
 			sectionInContext().compileCallToGetterFor( mv, sub );
 			mv.arrayLength();
 			if (cnts[ i ] != 1) {
