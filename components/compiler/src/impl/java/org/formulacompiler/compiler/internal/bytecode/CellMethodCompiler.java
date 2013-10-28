@@ -30,10 +30,8 @@ import org.formulacompiler.compiler.internal.NumericTypeImpl;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.model.CellModel;
 import org.formulacompiler.runtime.spreadsheet.CellAddress;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.GeneratorAdapter;
 
 
 final class CellMethodCompiler extends ValueMethodCompiler
@@ -107,9 +105,14 @@ final class CellMethodCompiler extends ValueMethodCompiler
 
 		if (this.cell.isInput()) {
 			if (shouldCache( this.cell )) {
-				compileCacheBegin();
-				compileInput( this.cell.getCallChainToCall() );
-				compileCacheEnd();
+				new CacheCompiler( section(), mv(), methodName(), returnType() )
+				{
+					@Override
+					void compileValue() throws CompilerException
+					{
+						compileInput( CellMethodCompiler.this.cell.getCallChainToCall() );
+					}
+				}.compile();
 			}
 			else {
 				compileInput( this.cell.getCallChainToCall() );
@@ -120,9 +123,14 @@ final class CellMethodCompiler extends ValueMethodCompiler
 			final ExpressionCompiler ec = expressionCompiler();
 			if (null != cellExpr) {
 				if (shouldCache( this.cell )) {
-					compileCacheBegin();
-					compileExpression( cellExpr );
-					compileCacheEnd();
+					new CacheCompiler( section(), mv(), methodName(), returnType() )
+					{
+						@Override
+						void compileValue() throws CompilerException
+						{
+							compileExpression( cellExpr );
+						}
+					}.compile();
 				}
 				else {
 					compileExpression( cellExpr );
@@ -160,62 +168,6 @@ final class CellMethodCompiler extends ValueMethodCompiler
 	}
 
 
-	private final String cachedIndicatorName = "h$" + methodName();
-	private final String cacheName = "c$" + methodName();
-	private Label skipCachedComputation;
-
-
-	private final void compileCacheBegin()
-	{
-		// private boolean h$<x>
-		cw().visitField( Opcodes.ACC_PRIVATE, this.cachedIndicatorName, Type.BOOLEAN_TYPE.getDescriptor(), null, null )
-				.visitEnd();
-
-		// private <type> c$<x>
-		cw().visitField( Opcodes.ACC_PRIVATE, this.cacheName, typeCompiler().typeDescriptor(), null, null ).visitEnd();
-
-		// if (!h$<x>) {
-		this.skipCachedComputation = mv().newLabel();
-		mv().loadThis();
-		mv().getField( classType(), this.cachedIndicatorName, Type.BOOLEAN_TYPE );
-		mv().visitJumpInsn( Opcodes.IFNE, this.skipCachedComputation );
-
-		// c$<x> = ...
-		mv().loadThis();
-	}
-
-
-	private final void compileCacheEnd()
-	{
-		final String cachedIndicatorName = "h$" + methodName();
-		final String cacheName = "c$" + methodName();
-
-		// this and computed value is on stack, so
-		// c$<x> = <value>;
-		mv().putField( classType(), cacheName, typeCompiler().type() );
-
-		// h$<x> = true;
-		mv().loadThis();
-		mv().push( true );
-		mv().putField( classType(), cachedIndicatorName, Type.BOOLEAN_TYPE );
-
-		// }
-		// return c$<x>;
-		mv().mark( this.skipCachedComputation );
-		mv().loadThis();
-		mv().getField( classType(), cacheName, typeCompiler().type() );
-
-		// In reset(), do:
-		if (section().hasReset()) {
-			// h$<x> = false;
-			final GeneratorAdapter r = section().resetter();
-			r.loadThis();
-			r.push( false );
-			r.putField( classType(), cachedIndicatorName, Type.BOOLEAN_TYPE );
-		}
-	}
-
-
 	private final void compileOutputGetter() throws CompilerException
 	{
 		for (CallFrame callFrame : this.cell.getCallsToImplement()) {
@@ -241,11 +193,4 @@ final class CellMethodCompiler extends ValueMethodCompiler
 		final String sig = "()" + returnType.getDescriptor();
 		new OutputMethodCompiler( section(), _name, sig, this, _method ).compile();
 	}
-
-
-	private final Type classType()
-	{
-		return section().classType();
-	}
-
 }

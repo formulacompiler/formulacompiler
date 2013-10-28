@@ -159,6 +159,10 @@ abstract class MethodCompiler
 		return this.methodName;
 	}
 
+	final Type returnType() {
+		return Type.getReturnType( this.methodDescriptor );
+	}
+
 	final ClassWriter cw()
 	{
 		return section().cw();
