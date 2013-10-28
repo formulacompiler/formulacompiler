@@ -63,15 +63,17 @@ final class HelperCompilerForFoldList extends HelperCompilerForFoldApply
 			resetLocalsTo( reuseLocalsAt );
 			if (elt instanceof ExpressionNodeForSubSectionModel) {
 
-				compileSubSectionTraversal( (ExpressionNodeForSubSectionModel) elt, new SubSectionTraversal()
-				{
+				expressionCompiler().compileSubSectionTraversal( (ExpressionNodeForSubSectionModel) elt,
+						new ExpressionCompiler.SubSectionTraversal()
+						{
 
-					public void compile( Collection<ExpressionNode> _elements ) throws CompilerException
-					{
-						compileTraversalOf( _elements );
-					}
+							public void compile( Collection<ExpressionNode> _elements, int _indexLocalOffset )
+									throws CompilerException
+							{
+								compileTraversalOf( _elements );
+							}
 
-				} );
+						} );
 
 			}
 			else {

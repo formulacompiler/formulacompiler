@@ -99,20 +99,22 @@ final class HelperCompilerForFoldChained extends HelperCompilerForFolds
 			if (elt instanceof ExpressionNodeForSubSectionModel) {
 				resetLocalsTo( reuseLocalsAt );
 
-				compileSubSectionTraversal( (ExpressionNodeForSubSectionModel) elt, new SubSectionTraversal()
-				{
+				expressionCompiler().compileSubSectionTraversal( (ExpressionNodeForSubSectionModel) elt,
+						new ExpressionCompiler.SubSectionTraversal()
+						{
 
-					public void compile( Collection<ExpressionNode> _elements ) throws CompilerException
-					{
-						if (null != firstLocalElementIn( _elements )) {
-							compileAccumulatorLoad();
-							chainedCompiler.compileFoldOverLocalValues( _elements, null );
-							compileAccumulatorStore();
-						}
-						compileFoldOverSubSections( _elements );
-					}
+							public void compile( Collection<ExpressionNode> _elements, int _indexLocalOffset )
+									throws CompilerException
+							{
+								if (null != firstLocalElementIn( _elements )) {
+									compileAccumulatorLoad();
+									chainedCompiler.compileFoldOverLocalValues( _elements, null );
+									compileAccumulatorStore();
+								}
+								compileFoldOverSubSections( _elements );
+							}
 
-				} );
+						} );
 
 			}
 		}

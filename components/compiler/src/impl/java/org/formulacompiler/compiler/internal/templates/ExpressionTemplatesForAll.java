@@ -156,22 +156,4 @@ public abstract class ExpressionTemplatesForAll
 		listener.cellCalculated( event );
 	}
 
-
-	// ------------------------------------------------ Array Access
-
-
-	/**
-	 * Used for _FOLDL. Scans the internal array of section objects for a section, returning each in
-	 * turn. {@code scanElement()} marks the position where we compile in the actual folding step.
-	 */
-	void scanArray( Object[] xs )
-	{
-		for (Object x : xs) {
-			scanElement( x );
-		}
-	}
-
-	abstract void scanElement( Object x );
-
-
 }

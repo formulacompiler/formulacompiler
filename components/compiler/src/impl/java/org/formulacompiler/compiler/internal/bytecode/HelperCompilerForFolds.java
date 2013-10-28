@@ -22,16 +22,9 @@
 
 package org.formulacompiler.compiler.internal.bytecode;
 
-import java.util.Collection;
-
-import org.formulacompiler.compiler.CompilerException;
-import org.formulacompiler.compiler.internal.expressions.ExpressionNode;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldApply;
 import org.formulacompiler.compiler.internal.expressions.ExpressionNodeForFoldDefinition;
 import org.formulacompiler.compiler.internal.expressions.LetDictionary.LetEntry;
-import org.formulacompiler.compiler.internal.model.ExpressionNodeForSubSectionModel;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.commons.GeneratorAdapter;
 
 abstract class HelperCompilerForFolds extends HelperCompiler
 {
@@ -45,38 +38,4 @@ abstract class HelperCompilerForFolds extends HelperCompiler
 		this.apply = _applyNode;
 		this.fold = _applyNode.fold();
 	}
-
-
-	protected static interface SubSectionTraversal
-	{
-		void compile( Collection<ExpressionNode> _elements ) throws CompilerException;
-	}
-
-	protected final void compileSubSectionTraversal( final ExpressionNodeForSubSectionModel _sub,
-			final SubSectionTraversal _traversal ) throws CompilerException
-	{
-		final SubSectionCompiler subSection = sectionInContext().subSectionCompiler( _sub.getSectionModel() );
-		final GeneratorAdapter mv = mv();
-		compileObjectInContext();
-		sectionInContext().compileCallToGetterFor( mv, subSection );
-		expressionCompiler().compile_scanArray( new ExpressionCompiler.ForEachElementCompilation()
-		{
-
-			public void compile( int _xi ) throws CompilerException
-			{
-				final SectionCompiler oldSection = sectionInContext();
-				final int oldObject = objectInContext();
-				try {
-					setObjectInContext( subSection, _xi );
-					_traversal.compile( _sub.arguments() );
-				}
-				finally {
-					setObjectInContext( oldSection, oldObject );
-				}
-			}
-
-		} );
-
-	}
-
 }
