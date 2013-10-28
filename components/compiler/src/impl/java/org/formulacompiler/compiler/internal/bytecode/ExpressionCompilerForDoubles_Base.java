@@ -83,19 +83,6 @@ abstract class ExpressionCompilerForDoubles_Base extends ExpressionCompilerForNu
 	}
 
 
-	@Override
-	protected void compileNewArray()
-	{
-		mv().visitIntInsn( Opcodes.NEWARRAY, Opcodes.T_DOUBLE );
-	}
-
-	@Override
-	protected int arrayStoreOpcode()
-	{
-		return Opcodes.DASTORE;
-	}
-
-
 	protected abstract void compile_util_fromScaledLong( long _scale ) throws CompilerException;
 	protected abstract void compile_util_toScaledLong( long _scale ) throws CompilerException;
 	protected abstract void compile_util_testForErrors() throws CompilerException;

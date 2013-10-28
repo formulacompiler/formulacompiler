@@ -91,19 +91,6 @@ abstract class ExpressionCompilerForScaledBigDecimals_Base extends ExpressionCom
 	}
 
 
-	@Override
-	protected void compileNewArray()
-	{
-		mv().visitTypeInsn( Opcodes.ANEWARRAY, BNAME );
-	}
-
-	@Override
-	protected int arrayStoreOpcode()
-	{
-		return Opcodes.AASTORE;
-	}
-
-
 	protected abstract void compile_util_adjustValue() throws CompilerException;
 	protected abstract void compile_util_fromScaledLong( int _b ) throws CompilerException;
 	protected abstract void compile_util_toScaledLong( int _b ) throws CompilerException;
