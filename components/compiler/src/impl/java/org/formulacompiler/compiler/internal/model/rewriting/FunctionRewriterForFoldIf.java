@@ -90,8 +90,8 @@ final class FunctionRewriterForFoldIf extends AbstractFunctionRewriterForConditi
 			assert desc.numberOfRows() == 1;
 			final ArrayDescriptor newDesc = new ArrayDescriptor( desc.origin(), new ArrayDescriptor.Point( 1, desc
 					.numberOfColumns(), 1 ) );
-			final ExpressionNodeForArrayReference newVector = new ExpressionNodeForArrayReference( newDesc );
-			newVector.arguments().addAll( _vector.arguments() );
+			final ExpressionNodeForArrayReference newVector = new ExpressionNodeForArrayReference( newDesc,
+					_vector.arguments() );
 			return newVector;
 		}
 	}
