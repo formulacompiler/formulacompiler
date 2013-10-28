@@ -242,19 +242,6 @@ abstract class ExpressionCompilerForStrings_Base extends ExpressionCompilerForAl
 
 
 	@Override
-	protected void compileNewArray()
-	{
-		mv().visitTypeInsn( Opcodes.ANEWARRAY, SNAME );
-	}
-
-	@Override
-	protected int arrayStoreOpcode()
-	{
-		return Opcodes.AASTORE;
-	}
-
-
-	@Override
 	protected void compileCount( ExpressionNodeForCount _node ) throws CompilerException
 	{
 		throw new AbstractMethodError();

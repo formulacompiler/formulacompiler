@@ -1186,18 +1186,15 @@ abstract class ExpressionCompiler
 		final GeneratorAdapter mv = mv();
 		final ExpressionNodeForArrayReference arr = (ExpressionNodeForArrayReference) _arrayNode;
 		mv.push( arr.arrayDescriptor().numberOfElements() );
-		compileNewArray();
+		mv.newArray( type() );
 		int i = 0;
 		for (ExpressionNode arg : arr.arguments()) {
 			mv.visitInsn( Opcodes.DUP );
 			mv.push( i++ );
 			compile( arg );
-			mv.visitInsn( arrayStoreOpcode() );
+			mv.arrayStore( type() );
 		}
 	}
-
-	protected abstract void compileNewArray();
-	protected abstract int arrayStoreOpcode();
 
 
 	private final void compileFoldList( ExpressionNodeForFoldList _node ) throws CompilerException
