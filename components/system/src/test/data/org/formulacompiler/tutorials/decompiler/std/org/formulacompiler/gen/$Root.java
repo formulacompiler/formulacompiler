@@ -9,11 +9,6 @@ final class $Root implements Computation, Decompilation.MyOutputs
     private final Decompilation.MyInputs $inputs;
     final Environment $environment;
     
-    $Root(Decompilation.MyInputs myinputs, Environment environment) {
-        $environment = environment;
-        $inputs = myinputs;
-    }
-    
     final double get$0() {
         return RuntimeDouble_v2.max(get$1(), get$2());
     }
@@ -28,5 +23,10 @@ final class $Root implements Computation, Decompilation.MyOutputs
     
     final double get$2() {
         return $inputs.articleRebate();
+    }
+    
+    $Root(Decompilation.MyInputs myinputs, Environment environment) {
+        $environment = environment;
+        $inputs = myinputs;
     }
 }

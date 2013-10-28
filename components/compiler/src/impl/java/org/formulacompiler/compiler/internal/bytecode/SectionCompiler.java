@@ -45,7 +45,7 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 abstract class SectionCompiler extends ClassCompiler
 {
 	private final Map<SectionModel, SubSectionCompiler> subSectionCompilers = New.map();
-	private final Map<CellModel, CellComputation> cellComputations = New.map();
+	private final Map<CellModel, CellMethodCompiler> cellMethodCompilers = New.map();
 	private final SectionModel model;
 	private final Type inputs;
 	private final Type outputs;
@@ -84,14 +84,14 @@ abstract class SectionCompiler extends ClassCompiler
 		this.subSectionCompilers.put( _section, _compiler );
 	}
 
-	CellComputation cellComputation( CellModel _cell )
+	CellMethodCompiler cellMethodCompiler( CellModel _cell )
 	{
-		return this.cellComputations.get( _cell );
+		return this.cellMethodCompilers.get( _cell );
 	}
 
-	void addCellComputation( CellModel _cell, CellComputation _compiler )
+	void addCellMethodCompiler( CellModel _cell, CellMethodCompiler _compiler )
 	{
-		this.cellComputations.put( _cell, _compiler );
+		this.cellMethodCompilers.put( _cell, _compiler );
 	}
 
 	SectionModel model()

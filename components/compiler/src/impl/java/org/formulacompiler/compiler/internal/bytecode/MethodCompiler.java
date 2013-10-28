@@ -49,11 +49,12 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 abstract class MethodCompiler
 {
 	private final SectionCompiler section;
+	private final int access;
 	private final String methodName;
 	private final String methodDescriptor;
-	private final GeneratorAdapter mv;
 	private final LetDictionary<Compilable> letDict = new LetDictionary<Compilable>();
 
+	private GeneratorAdapter mv;
 	private ExpressionCompilerForStrings stringCompiler;
 	private ExpressionCompilerForNumbers numericCompiler;
 
@@ -65,9 +66,9 @@ abstract class MethodCompiler
 	{
 		super();
 		this.section = _section;
+		this.access = _access;
 		this.methodName = _methodName;
 		this.methodDescriptor = _descriptor;
-		this.mv = section().newMethod( _access, _methodName, _descriptor );
 		this.localsOffset = 1 + totalSizeOf( Type.getArgumentTypes( _descriptor ) );
 		this.sectionInContext = _section;
 		this.objectInContext = 0; // "this"
@@ -158,11 +159,6 @@ abstract class MethodCompiler
 		return this.methodName;
 	}
 
-	final String methodDescriptor()
-	{
-		return this.methodDescriptor;
-	}
-
 	final ClassWriter cw()
 	{
 		return section().cw();
@@ -170,15 +166,18 @@ abstract class MethodCompiler
 
 	final GeneratorAdapter mv()
 	{
+		if (this.mv == null) throw new IllegalStateException( "Trying to generate code outside the compile() method" );
 		return this.mv;
 	}
 
 
 	final void compile() throws CompilerException
 	{
+		this.mv = section().newMethod( this.access, methodName(), this.methodDescriptor );
 		beginCompilation();
 		compileBody();
 		endCompilation();
+		this.mv = null;
 	}
 
 
@@ -199,7 +198,8 @@ abstract class MethodCompiler
 
 	final void compileCall( GeneratorAdapter _mv )
 	{
-		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, section().classInternalName(), methodName(), methodDescriptor() );
+		_mv.visitMethodInsn( Opcodes.INVOKEVIRTUAL, sectionInContext().classInternalName(), methodName(),
+				this.methodDescriptor );
 	}
 
 
@@ -233,9 +233,10 @@ abstract class MethodCompiler
 					}
 				}
 			}
-			int opcode = Opcodes.INVOKEVIRTUAL;
+			final int opcode;
 			if (contextClass.isInterface()) opcode = Opcodes.INVOKEINTERFACE;
 			else if (isStatic) opcode = Opcodes.INVOKESTATIC;
+			else opcode = Opcodes.INVOKEVIRTUAL;
 
 			mv().visitMethodInsn( opcode, Type.getType( contextClass ).getInternalName(), method.getName(),
 					Type.getMethodDescriptor( method ) );
@@ -476,8 +477,13 @@ abstract class MethodCompiler
 
 	final void compileCalleeAndClosure( Iterable<LetEntry<Compilable>> _closure ) throws CompilerException
 	{
-		mv().visitVarInsn( Opcodes.ALOAD, objectInContext() );
+		compileObjectInContext();
 		compileClosure( _closure );
+	}
+
+	final void compileObjectInContext()
+	{
+		mv().visitVarInsn( Opcodes.ALOAD, objectInContext() );
 	}
 
 
@@ -546,7 +552,7 @@ abstract class MethodCompiler
 
 		/**
 		 * Generates the code for a switch case.
-		 * 
+		 *
 		 * @param key the switch case key.
 		 * @param end a label that corresponds to the end of the switch statement.
 		 */

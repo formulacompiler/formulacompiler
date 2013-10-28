@@ -57,7 +57,7 @@ abstract class HelperCompilerForFolds extends HelperCompiler
 	{
 		final SubSectionCompiler subSection = sectionInContext().subSectionCompiler( _sub.getSectionModel() );
 		final GeneratorAdapter mv = mv();
-		mv.visitVarInsn( Opcodes.ALOAD, objectInContext() );
+		compileObjectInContext();
 		sectionInContext().compileCallToGetterFor( mv, subSection );
 		expressionCompiler().compile_scanArray( new ExpressionCompiler.ForEachElementCompilation()
 		{

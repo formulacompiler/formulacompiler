@@ -30,24 +30,23 @@ import org.objectweb.asm.Opcodes;
 
 final class OutputMethodCompiler extends TypedMethodCompiler
 {
-	private final CellComputation computation;
 	private final Method implementedMethod;
+	private final CellMethodCompiler cellMethodCompiler;
 
 
 	public OutputMethodCompiler( SectionCompiler _section, String _methodName, String _methodSignature,
-			CellComputation _computation, Method _implements )
+			CellMethodCompiler _cellMethodCompiler, Method _implements )
 	{
-		super( _section, Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL, _methodName, _methodSignature, _computation.getCell()
-				.getDataType() );
-		this.computation = _computation;
+		super( _section, Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL, _methodName, _methodSignature, _cellMethodCompiler.dataType() );
 		this.implementedMethod = _implements;
+		this.cellMethodCompiler = _cellMethodCompiler;
 	}
 
 
 	@Override
 	protected void compileBody() throws CompilerException
 	{
-		expressionCompiler().compileRef( this.computation );
+		expressionCompiler().compileCallTo( this.cellMethodCompiler );
 		expressionCompiler().compileConversionToResultOf( this.implementedMethod );
 		compileReturnOf( this.implementedMethod.getReturnType() );
 	}
