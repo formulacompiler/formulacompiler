@@ -38,6 +38,12 @@ public final class ExpressionNodeForArrayReference extends ExpressionNode
 		this.arrayDescriptor = _descriptor;
 	}
 
+	public ExpressionNodeForArrayReference( ArrayDescriptor _descriptor, Collection<ExpressionNode> _args )
+	{
+		super( _args );
+		this.arrayDescriptor = _descriptor;
+	}
+
 
 	public ArrayDescriptor arrayDescriptor()
 	{

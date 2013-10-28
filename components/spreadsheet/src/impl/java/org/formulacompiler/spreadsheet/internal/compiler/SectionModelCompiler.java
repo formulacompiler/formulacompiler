@@ -469,20 +469,18 @@ public final class SectionModelCompiler
 				if (null == next) break;
 			}
 			if (null != next) {
-				if (0 == elts.size() || !shaped) {
-					buildExpressionModelsForLocalRangeCells( next, elts );
+				if (shaped && !elts.isEmpty()) {
+					elts.add( buildExpressionModelForLocalRange( next ) );
 				}
 				else {
-					elts.add( buildExpressionModelForLocalRange( next ) );
+					buildExpressionModelsForLocalRangeCells( next, elts );
 				}
 			}
 
 			final CellIndex from = range.getFrom();
-			final ExpressionNode result = (shaped) ? new ExpressionNodeForArrayReference( new ArrayDescriptor(
-					from.getSheetIndex(), from.getRowIndex(), from.getColumnIndex(), sheets, rows, cols ) )
-					: new ExpressionNodeForSubstitution();
-			result.arguments().addAll( elts );
-			return result;
+			return shaped ? new ExpressionNodeForArrayReference( new ArrayDescriptor(
+					from.getSheetIndex(), from.getRowIndex(), from.getColumnIndex(), sheets, rows, cols ), elts )
+					: new ExpressionNodeForSubstitution( elts );
 		}
 
 		private ExpressionNode buildExpressionModelForInnerRange( SubSectionBinding _inner, CellRange _range )
@@ -514,10 +512,10 @@ public final class SectionModelCompiler
 			final int sheets = to.getSheetIndex() - from.getSheetIndex() + 1;
 			final int rows = to.getRowIndex() - from.getRowIndex() + 1;
 			final int cols = to.getColumnIndex() - from.getColumnIndex() + 1;
-			final ExpressionNode result = new ExpressionNodeForArrayReference( new ArrayDescriptor( from.getSheetIndex(),
-					from.getRowIndex(), from.getColumnIndex(), sheets, rows, cols ) );
-			buildExpressionModelsForLocalRangeCells( _range, result.arguments() );
-			return result;
+			final Collection<ExpressionNode> elts = New.collection();
+			buildExpressionModelsForLocalRangeCells( _range, elts );
+			return new ExpressionNodeForArrayReference( new ArrayDescriptor( from.getSheetIndex(),
+					from.getRowIndex(), from.getColumnIndex(), sheets, rows, cols ), elts );
 		}
 
 		private void buildExpressionModelsForLocalRangeCells( CellRange _range, Collection<ExpressionNode> _elts )

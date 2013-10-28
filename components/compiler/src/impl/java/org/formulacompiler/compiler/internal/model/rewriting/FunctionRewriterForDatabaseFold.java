@@ -213,9 +213,7 @@ final class FunctionRewriterForDatabaseFold extends AbstractFunctionRewriterForC
 			List<ExpressionNode> _tableElements )
 	{
 		final ArrayDescriptor dd = new ArrayDescriptor( _tableDesc, +1, 0, -1, 0 );
-		final ExpressionNodeForArrayReference result = new ExpressionNodeForArrayReference( dd );
-		result.arguments().addAll( _tableElements );
-		return result;
+		return new ExpressionNodeForArrayReference( dd, _tableElements );
 	}
 
 	private int[] getFoldableColumnKeys( DataType[] _colTypes )
